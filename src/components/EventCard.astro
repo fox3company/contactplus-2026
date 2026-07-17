@@ -1,0 +1,66 @@
+---
+import { getLocalized, type Locale } from '../lib/locales';
+import { getProgramCategoryLabel, getProgramFilterGroup } from '../lib/program';
+
+interface Props {
+  event: any;
+  lang: Locale;
+}
+
+const { event, lang } = Astro.props;
+const title = getLocalized(event.data.title, lang);
+const category = getProgramCategoryLabel(getLocalized(event.data.meta?.category, lang), event.data.program_line);
+const format = getLocalized(event.data.meta?.format, lang);
+const accentGroup = getProgramFilterGroup(event);
+---
+
+<article class={`card program-accent program-accent--${accentGroup}`}>
+  <div class="content">
+    <p class="program-meta">
+      <span class="program-meta__category">{category || event.data.program_line}</span>
+      {format && <span class="program-meta__divider" aria-hidden="true"></span>}
+      {format && <span class="program-meta__format">{format}</span>}
+    </p>
+    <h2><a href={`/${lang}/program/${event.slug}`}>{title}</a></h2>
+    <p class="time">{event.data.schedule.date_display} · {event.data.schedule.time_display}</p>
+    <p class="summary">{getLocalized(event.data.summary, lang)}</p>
+  </div>
+</article>
+
+<style>
+  .card {
+    padding: clamp(26px, 5vw, 44px) 0;
+    border-top: 1px solid var(--line);
+    border-left: 2px solid var(--program-accent);
+    padding-left: 16px;
+    background: transparent;
+  }
+
+  h2 {
+    max-width: 620px;
+    margin: 0 0 10px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 2.45vw, 2.18rem);
+    font-weight: 400;
+    line-height: 1.1;
+  }
+
+  h2 a {
+    text-decoration: none;
+  }
+
+  h2 a:hover {
+    color: var(--program-accent);
+  }
+
+  .time {
+    margin-bottom: 18px;
+    color: var(--muted);
+  }
+
+  .summary {
+    max-width: 680px;
+    margin-bottom: 0;
+    color: var(--ink);
+  }
+</style>

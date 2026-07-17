@@ -1,0 +1,334 @@
+---
+import { getCollection } from 'astro:content';
+import PersonCard from '../../../components/PersonCard.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import { isPublicPerson } from '../../../lib/content';
+import { getLocalized, isLocale } from '../../../lib/locales';
+import { getFestivalRelationSummary } from '../../../lib/people';
+
+export async function getStaticPaths() {
+  return ['en', 'ro', 'ru'].map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props;
+if (!isLocale(lang)) {
+  return Astro.redirect('/en/artists');
+}
+
+const people = await getCollection('people', isPublicPerson);
+const events = await getCollection('events');
+const publicEventsBySlug = new Map(events.filter((event) => event.data.visibility === 'public_page').map((event) => [event.slug, event]));
+const pageTitle = getLocalized({ en: 'Teachers & Artists', ro: 'Profesori și artiști', ru: 'Преподаватели и артисты' }, lang);
+const intro = getLocalized({
+  en: 'Meet the teachers, performers, facilitators and dance companies shaping the festival program.',
+  ro: 'Cunoaște profesorii, performerii, facilitatorii și companiile de dans care conturează programul festivalului.',
+  ru: 'Познакомьтесь с преподавателями, перформерами, фасилитаторами и танцевальными компаниями фестиваля.',
+}, lang);
+const artistNavLabel = getLocalized({ en: 'Teachers and artists sections', ro: 'Secțiuni profesori și artiști', ru: 'Разделы преподавателей и артистов' }, lang);
+const groupLabels = {
+  teachers: getLocalized({
+    en: 'Teaching & facilitation',
+    ro: 'Profesori și facilitatori',
+    ru: 'Преподавание и фасилитация',
+  }, lang),
+  performers: getLocalized({
+    en: 'Performance & artistic work',
+    ro: 'Performance și lucru artistic',
+    ru: 'Перформанс и художественная работа',
+  }, lang),
+  production: getLocalized({
+    en: 'Companies & production context',
+    ro: 'Context de producție',
+    ru: 'Компании и production context',
+  }, lang),
+};
+
+function getPublicFestivalEvents(person: typeof people[number]) {
+  return (person.data.festival_events || [])
+    .filter((event) => event.relation !== 'credit_only')
+    .filter((event) => publicEventsBySlug.has(event.event_id))
+}
+
+function getPublicEventCount(person: typeof people[number]) {
+  return getPublicFestivalEvents(person).length;
+}
+
+function getPublicRelationSummary(person: typeof people[number]) {
+  return getFestivalRelationSummary(getPublicFestivalEvents(person).map((event) => event.relation), lang);
+}
+
+function getPersonGroup(person: typeof people[number]) {
+  if (person.data.participation_status === 'production_company') return 'production';
+  if (person.data.entity_type !== 'person') return 'performers';
+  if (person.data.participation_status.includes('teacher')) return 'teachers';
+  return 'performers';
+}
+
+const groupedPeople = [
+  {
+    key: 'teachers',
+    title: groupLabels.teachers,
+    people: people.filter((person) => getPersonGroup(person) === 'teachers'),
+  },
+  {
+    key: 'performers',
+    title: groupLabels.performers,
+    people: people.filter((person) => getPersonGroup(person) === 'performers'),
+  },
+  {
+    key: 'companies',
+    title: groupLabels.production,
+    people: people.filter((person) => getPersonGroup(person) === 'production'),
+  },
+].filter((group) => group.people.length > 0);
+---
+<BaseLayout lang={lang} title={`${pageTitle} · Contact+ 2026`}>
+  <main class="artists-page">
+    <PageHero title={pageTitle} description={intro} />
+    <nav class="artist-section-nav" aria-label={artistNavLabel}>
+      {groupedPeople.map((group) => (
+        <a class={`artist-section-nav__link artist-section-nav__link--${group.key}`} href={`#artist-group-${group.key}`}>{group.title}</a>
+      ))}
+    </nav>
+    <div class="artist-groups">
+      {groupedPeople.map((group) => (
+        <section class={`artist-group artist-group--${group.key}`} id={`artist-group-${group.key}`} aria-labelledby={`artist-group-title-${group.key}`}>
+          <header class="artist-group__head">
+            <h2 id={`artist-group-title-${group.key}`}>{group.title}</h2>
+          </header>
+          <div class="listing">
+            {group.people.map((person) => (
+              <PersonCard
+                person={person}
+                lang={lang}
+                eventCount={getPublicEventCount(person)}
+                relationSummary={getPublicRelationSummary(person)}
+              />
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  :global(.artist-section-nav) {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 900px;
+    margin: 0 0 clamp(28px, 4vw, 38px);
+    padding: 10px;
+    border: 1px solid rgba(222, 214, 203, 0.72);
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(251, 250, 247, 0.78), rgba(242, 238, 231, 0.36));
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  :global(.artist-section-nav::-webkit-scrollbar) {
+    display: none;
+  }
+
+  :global(.artist-section-nav a) {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.1;
+    text-decoration: none;
+    text-transform: none;
+    white-space: nowrap;
+  }
+
+  :global(.artist-section-nav__link) {
+    gap: 7px;
+  }
+
+  :global(.artist-section-nav__link::before) {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--accent-muted);
+    opacity: 0.82;
+  }
+
+  :global(.artist-section-nav__link--teachers::before) {
+    background: #738b5f;
+  }
+
+  :global(.artist-section-nav__link--performers::before) {
+    background: #8d4f67;
+  }
+
+  :global(.artist-section-nav__link--companies::before) {
+    background: #736e96;
+  }
+
+  :global(.artist-section-nav a:hover),
+  :global(.artist-section-nav a:focus-visible) {
+    border-color: rgba(222, 214, 203, 0.78);
+    background: rgba(240, 235, 227, 0.4);
+    color: var(--ink);
+    outline: 0;
+  }
+
+  :global(.artist-group__head) {
+    position: sticky;
+    top: 88px;
+    align-self: start;
+    max-width: 220px;
+    padding: 2px 0 14px 16px;
+    border-left: 3px solid var(--artist-accent, var(--accent-muted));
+    background: var(--paper);
+  }
+
+  :global(.artist-group__head > h2) {
+    margin: 0;
+    color: var(--artist-accent, var(--accent-muted));
+    font-family: var(--font-serif);
+    font-size: clamp(1.24rem, 1.9vw, 1.68rem);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.08;
+    text-transform: none;
+  }
+
+  :global(.artist-group--teachers) {
+    --artist-accent: #738b5f;
+    --artist-tint: rgba(115, 139, 95, 0.13);
+  }
+
+  :global(.artist-group--performers) {
+    --artist-accent: #8d4f67;
+    --artist-tint: rgba(141, 79, 103, 0.13);
+  }
+
+  :global(.artist-group--companies) {
+    --artist-accent: #736e96;
+    --artist-tint: rgba(115, 110, 150, 0.12);
+  }
+
+  :global(.artist-group [data-artist-card]) {
+    position: relative;
+    padding-left: 16px;
+    border-left: 0;
+    background: transparent;
+    transition: background 0.16s ease;
+  }
+
+  :global(.artist-group [data-artist-card]::before) {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 22px;
+    bottom: 22px;
+    width: 2px;
+    background: color-mix(in srgb, var(--artist-accent, var(--accent-muted)) 72%, var(--line-strong));
+  }
+
+  :global(.artist-group [data-artist-card]:hover) {
+    background: linear-gradient(90deg, var(--artist-tint, rgba(143, 132, 117, 0.1)), rgba(255, 255, 255, 0) 52%);
+  }
+
+  :global(.artist-group [data-artist-card] .person-meta__country) {
+    color: var(--artist-accent, var(--accent-muted));
+  }
+
+  :global(.artist-group [data-artist-card] h2 a:hover) {
+    color: var(--artist-accent, var(--accent-muted));
+  }
+
+  :global(.artists-page .listing) {
+    max-width: 760px;
+  }
+
+  :global(.artist-group) {
+    scroll-margin-top: 132px;
+    display: grid;
+    grid-template-columns: minmax(220px, 0.32fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 64px);
+    padding-top: clamp(18px, 2.8vw, 26px);
+    border-top: 1px solid rgba(222, 214, 203, 0.3);
+  }
+
+  :global(.artist-group:first-child) {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  :global(.artist-group + .artist-group) {
+    margin-top: clamp(28px, 4vw, 42px);
+  }
+
+  @media (max-width: 860px) {
+    :global(.artist-group) {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    :global(.artist-group__head) {
+      position: static;
+      max-width: 640px;
+      padding: 22px 0 8px;
+      border-left: 0;
+      border-bottom: 0;
+      background: transparent;
+    }
+
+    :global(.artist-group__head::before) {
+      content: "";
+      display: block;
+      width: 54px;
+      height: 2px;
+      margin-bottom: 18px;
+      background: var(--artist-accent, var(--accent-muted));
+      opacity: 0.78;
+    }
+  }
+
+  @media (max-width: 640px) {
+    :global(.artist-section-nav) {
+      margin-left: -14px;
+      margin-right: -14px;
+      margin-bottom: 34px;
+      padding: 8px 14px;
+      border-left: 0;
+      border-right: 0;
+      border-radius: 0;
+      gap: 6px;
+    }
+
+    :global(.artist-section-nav a) {
+      min-height: 32px;
+      padding: 7px 11px;
+      font-size: 0.78rem;
+    }
+
+    :global(.artist-group__head > h2) {
+      font-size: clamp(1.28rem, 8vw, 1.82rem);
+      line-height: 1.08;
+    }
+
+    :global(.artist-group__head) {
+      width: min(100%, 340px);
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    :global(.artist-group__head::before) {
+      margin-inline: auto;
+    }
+  }
+</style>

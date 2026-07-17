@@ -1,0 +1,1165 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import {
+  getLocalizedDateLabel,
+  getLocalizedDayRangeLabel,
+} from '../../../lib/festivalDates';
+import { getLocalized, isLocale, type Locale } from '../../../lib/locales';
+import { locations } from '../../../lib/locations';
+import {
+  filterProgramEvents,
+  getProgramCategoryLabel,
+  getProgramFilterGroup,
+  getProgramOccurrences,
+  isPublicDetailEvent,
+  isClickableProgramEvent,
+  type ProgramEvent,
+  type ProgramFilterGroup,
+} from '../../../lib/program';
+import { isPublicPerson } from '../../../lib/content';
+
+export async function getStaticPaths() {
+  return ['en', 'ro', 'ru'].map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props;
+if (!isLocale(lang)) {
+  return Astro.redirect('/en/program');
+}
+
+const pageTitle = getLocalized({ en: 'Program Lines', ro: 'Linii de program', ru: 'Линии программы' }, lang);
+const intro = getLocalized({
+  en: 'Explore the festival by practice lines: classes, laboratories, performances, family work and shared dancing spaces.',
+  ro: 'Explorează festivalul pe linii de practică: clase, laboratoare, performance-uri, lucru cu familii și spații comune de dans.',
+  ru: 'Посмотрите фестиваль по линиям практики: классы, лаборатории, перформансы, семейная программа и общие пространства танца.',
+}, lang);
+const scheduleLinkLabel = getLocalized({ en: 'Open schedule', ro: 'Deschide orarul', ru: 'Открыть расписание' }, lang);
+const lineNavLabel = getLocalized({ en: 'Program lines', ro: 'Linii de program', ru: 'Линии программы' }, lang);
+const labels = {
+  close: getLocalized({ en: 'Close', ro: 'Închide', ru: 'Закрыть' }, lang),
+  date: getLocalized({ en: 'Date', ro: 'Dată', ru: 'Дата' }, lang),
+  time: getLocalized({ en: 'Time', ro: 'Oră', ru: 'Время' }, lang),
+  place: getLocalized({ en: 'Place', ro: 'Loc', ru: 'Место' }, lang),
+  with: getLocalized({ en: 'With', ro: 'Cu', ru: 'С кем' }, lang),
+  by: getLocalized({ en: 'By', ro: 'De', ru: 'От' }, lang),
+  fullPage: getLocalized({ en: 'Full event page', ro: 'Pagina completă', ru: 'Полная страница события' }, lang),
+  openDetails: getLocalized({ en: 'Open details', ro: 'Deschide detalii', ru: 'Открыть детали' }, lang),
+};
+
+const lineDefinitions: {
+  key: string;
+  title: string;
+  description: string;
+  filters: Exclude<ProgramFilterGroup, 'all'>[];
+}[] = [
+  {
+    key: 'ci',
+    title: getLocalized({ en: 'Contact Improvisation', ro: 'Improvizație de contact', ru: 'Контактная импровизация' }, lang),
+    description: getLocalized({
+      en: 'Intensives, classes and embodied practice spaces around contact, listening, weight and relation.',
+      ro: 'Intensive, clase și spații de practică corporală despre contact, ascultare, greutate și relație.',
+      ru: 'Интенсивы, классы и телесные практики про контакт, слушание, вес и отношение.',
+    }, lang),
+    filters: ['ci'],
+  },
+  {
+    key: 'performance-labs',
+    title: getLocalized({ en: 'Performance Labs', ro: 'Laboratoare performative', ru: 'Перформанс-лаборатории' }, lang),
+    description: getLocalized({
+      en: 'Laboratory formats where movement becomes research, composition and performance material.',
+      ro: 'Formate de laborator în care mișcarea devine cercetare, compoziție și material performativ.',
+      ru: 'Лабораторные форматы, где движение становится исследованием, композицией и перформанс-материалом.',
+    }, lang),
+    filters: ['performance_labs'],
+  },
+  {
+    key: 'performances',
+    title: getLocalized({ en: 'Performances & Film', ro: 'Performance-uri și film', ru: 'Перформансы и фильм' }, lang),
+    description: getLocalized({
+      en: 'Stage works, showings and film / presentation moments inside the festival frame.',
+      ro: 'Lucrări scenice, showing-uri și momente de film / prezentare în cadrul festivalului.',
+      ru: 'Сценические работы, показы, фильм и презентация в рамках фестиваля.',
+    }, lang),
+    filters: ['performances'],
+  },
+  {
+    key: 'family-youth',
+    title: getLocalized({ en: 'Family & Youth', ro: 'Familie și copii', ru: 'Семья и дети' }, lang),
+    description: getLocalized({
+      en: 'Classes and conversations for children, parents, young people and family participation.',
+      ro: 'Clase și conversații pentru copii, părinți, tineri și participare familială.',
+      ru: 'Классы и встречи для детей, родителей, подростков и семейного участия.',
+    }, lang),
+    filters: ['family_youth'],
+  },
+  {
+    key: 'jams',
+    title: getLocalized({ en: 'Jams & Gatherings', ro: 'Jam-uri și întâlniri', ru: 'Джемы и встречи' }, lang),
+    description: getLocalized({
+      en: 'Open dancing and gathering spaces that hold the festival socially and physically.',
+      ro: 'Spații deschise de dans și întâlnire care susțin festivalul social și corporal.',
+      ru: 'Открытые пространства танца и встречи, которые держат фестиваль социально и телесно.',
+    }, lang),
+    filters: ['jams_gatherings'],
+  },
+];
+
+const allProgramEvents = filterProgramEvents(await getCollection('events'), {
+  viewMode: 'full_festival',
+  includeScheduleOnly: true,
+}).filter((event) => getProgramFilterGroup(event) !== 'breaks');
+const allPeople = await getCollection('people');
+const peopleById = new Map(allPeople.map((person) => [person.data.id || person.slug, person]));
+
+const lineOverrides: Record<string, { include?: string[]; exclude?: string[] }> = {
+  ci: {
+    include: ['bodywork-as-dialogue'],
+    exclude: ['morning-practice', 'dancing-in-the-city'],
+  },
+  jams: {
+    include: ['bodywork-as-dialogue', 'dancing-in-the-city', 'national-wine-day-in-chisinau'],
+  },
+};
+
+function getEventsForLine(line: typeof lineDefinitions[number]) {
+  const overrides = lineOverrides[line.key] || {};
+  const include = new Set(overrides.include || []);
+  const exclude = new Set(overrides.exclude || []);
+
+  return allProgramEvents.filter((event) => {
+    if (exclude.has(event.slug)) return false;
+    if (include.has(event.slug)) return true;
+
+    return line.filters.includes(getProgramFilterGroup(event));
+  });
+}
+
+function formatPersonName(personId: string) {
+  return peopleById.get(personId)?.data.name || personId.split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+}
+
+function getPersonLabel(person: { public_label?: Partial<Record<typeof lang, string>> }, eventPeopleLabel?: string) {
+  return getLocalized(person.public_label, lang)
+    || (eventPeopleLabel === 'By' ? labels.by : labels.with);
+}
+
+function getDayRangeLabel(dateLabel: string) {
+  return getLocalizedDayRangeLabel(dateLabel, lang);
+}
+
+function getEventDateLines(event: ProgramEvent) {
+  return event.data.schedule.date_display
+    .split(/,\s*(?=[A-Z][a-z]{2}\s+\d)/)
+    .filter(Boolean)
+    .map(getDayRangeLabel);
+}
+
+function getOccurrenceLocationFacts(event: ProgramEvent) {
+  const grouped = new Map<string, { dateLabels: string[]; name: string; address: string; href: string }>();
+
+  getProgramOccurrences([event]).forEach((occurrence) => {
+    const locationRef = occurrence.locationRef || event.data.location_ref;
+    if (!locationRef) return;
+    const location = locations[locationRef];
+    const key = locationRef;
+    const fact = grouped.get(key) || {
+      dateLabels: [],
+      name: location?.name || locationRef,
+      address: location?.address || '',
+      href: location?.href || '',
+    };
+
+    if (occurrence.dateLabel && !fact.dateLabels.includes(occurrence.dateLabel)) {
+      fact.dateLabels.push(occurrence.dateLabel);
+    }
+
+    grouped.set(key, fact);
+  });
+
+  return [...grouped.values()].map((fact) => ({
+    ...fact,
+    dateLabel: fact.dateLabels.join(' — '),
+    localizedDateLabel: getLocalizedDateLabel(fact.dateLabels.join(' — '), lang),
+  }));
+}
+
+const programLines = lineDefinitions
+  .map((line) => ({ ...line, events: getEventsForLine(line) }))
+  .filter((line) => line.events.length > 0);
+const detailEventsBySlug = new Map(programLines.flatMap((line) => line.events.map((event) => [event.slug, event])));
+const eventDetails = Object.fromEntries([...detailEventsBySlug.values()].map((event) => {
+  const visiblePeople = (event.data.people || []).filter((person) => person.public_visibility === 'visible');
+  const people = visiblePeople.map((person) => {
+    const profile = peopleById.get(person.person_id);
+    return {
+      label: getPersonLabel(person, event.data.people_label),
+      name: formatPersonName(person.person_id),
+      country: profile?.data.country_display || '',
+      href: profile && isPublicPerson(profile) ? `/${lang}/artists/${profile.slug}` : '',
+    };
+  });
+  const category = getProgramCategoryLabel(getLocalized(event.data.meta?.category, lang), event.data.program_line);
+  const format = getLocalized(event.data.meta?.format, lang);
+  const places = getOccurrenceLocationFacts(event);
+  const firstPlace = places[0];
+
+  return [
+    event.slug,
+    {
+      title: getLocalized(event.data.title, lang),
+      category: category || event.data.program_line,
+      format,
+      dateLines: getEventDateLines(event),
+      time: event.data.schedule.time_display,
+      place: firstPlace?.name || event.data.location_ref || '',
+      placeAddress: firstPlace?.address || '',
+      placeHref: firstPlace?.href || '',
+      places,
+      people,
+      description: getLocalized(event.data.body, lang) || getLocalized(event.data.summary, lang),
+      focusLabel: getLocalized(event.data.focus_label, lang),
+      focus: getLocalized(event.data.focus, lang),
+      fullPageHref: isPublicDetailEvent(event) ? `/${lang}/program/${event.slug}` : '',
+    },
+  ];
+}));
+---
+<BaseLayout lang={lang} title={`${pageTitle} · Contact+ 2026`} description={intro}>
+  <main class="program-lines-page">
+    <PageHero title={pageTitle} description={intro} />
+
+    <nav class="program-line-nav" aria-label={lineNavLabel}>
+      <a class="program-line-nav__schedule" href={`/${lang}/schedule`}>{scheduleLinkLabel}</a>
+      <span class="program-line-nav__links">
+        {programLines.map((line) => (
+          <a class={`program-line-nav__link program-accent program-accent--${line.filters[0]}`} href={`#program-line-${line.key}`}>{line.title}</a>
+        ))}
+      </span>
+    </nav>
+
+    <div class="program-lines">
+      {programLines.map((line) => (
+        <section class={`program-line program-accent program-accent--${line.filters[0]}`} id={`program-line-${line.key}`} aria-labelledby={`program-line-title-${line.key}`}>
+          <header class="program-line__head">
+            <h2 id={`program-line-title-${line.key}`}>{line.title}</h2>
+            <p>{line.description}</p>
+          </header>
+
+          <div class="program-line__events">
+            {line.events.map((event) => {
+              const title = getLocalized(event.data.title, lang);
+              const category = getProgramCategoryLabel(getLocalized(event.data.meta?.category, lang), event.data.program_line);
+              const format = getLocalized(event.data.meta?.format, lang);
+              const href = isClickableProgramEvent(event) ? `/${lang}/program/${event.slug}` : '';
+              const accentGroup = getProgramFilterGroup(event);
+
+              return (
+                <article
+                  class={`program-line-card program-accent program-accent--${accentGroup} ${href ? 'program-line-card--linked' : ''}`}
+                  data-program-detail-key={event.slug}
+                  data-program-accent={accentGroup}
+                  role="button"
+                  tabindex="0"
+                  aria-label={`${labels.openDetails}: ${title}`}
+                >
+                  <p class="program-meta program-line-card__meta">
+                    <span class="program-meta__category">{category}</span>
+                    {format && <span class="program-meta__divider" aria-hidden="true"></span>}
+                    {format && <span class="program-meta__format">{format}</span>}
+                  </p>
+                  <h3>
+                    {title}
+                  </h3>
+                  <p class="program-line-card__schedule">
+                    {event.data.schedule.date_display} · {event.data.schedule.time_display}
+                  </p>
+                  <p class="program-line-card__summary">{getLocalized(event.data.summary, lang)}</p>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <div class="detail-overlay" data-detail-overlay hidden></div>
+    <aside class="detail-panel" data-detail-panel aria-hidden="true" aria-modal="true" role="dialog" aria-labelledby="program-detail-title">
+      <button class="detail-close" type="button" data-detail-close aria-label={labels.close}>×</button>
+      <p class="program-meta detail-kicker">
+        <span class="program-meta__category" data-detail-category></span>
+        <span class="program-meta__divider" data-detail-format-divider aria-hidden="true"></span>
+        <span class="program-meta__format" data-detail-format></span>
+      </p>
+      <h2 id="program-detail-title" data-detail-title></h2>
+      <dl class="detail-facts">
+        <div class="detail-fact">
+          <dt>{labels.date}</dt>
+          <dd data-detail-date></dd>
+        </div>
+        <div class="detail-fact">
+          <dt>{labels.time}</dt>
+          <dd data-detail-time></dd>
+        </div>
+        <div class="detail-fact detail-fact--wide" data-detail-place-wrap>
+          <dt>{labels.place}</dt>
+          <dd data-detail-place-list>
+            <a class="detail-place-link" href="#" data-detail-place-link rel="noopener" target="_blank">
+              <span data-detail-place></span>
+              <small data-detail-place-address></small>
+            </a>
+          </dd>
+        </div>
+        <div class="detail-fact detail-fact--wide detail-people" data-detail-people-wrap>
+          <dt data-detail-people-label>{labels.with}</dt>
+          <dd data-detail-people></dd>
+        </div>
+      </dl>
+      <div class="detail-description" data-detail-description></div>
+      <section class="detail-focus" data-detail-focus-wrap hidden>
+        <h3 data-detail-focus-label></h3>
+        <p data-detail-focus></p>
+      </section>
+      <a class="detail-full-link" href="#" data-detail-full-page>{labels.fullPage}</a>
+    </aside>
+  </main>
+</BaseLayout>
+
+<script type="application/json" id="program-detail-data" set:html={JSON.stringify(eventDetails)}></script>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    const cards = [...document.querySelectorAll('[data-program-detail-key]')];
+    const detailData = JSON.parse(document.getElementById('program-detail-data')?.textContent || '{}');
+    const detailOverlay = document.querySelector('[data-detail-overlay]');
+    const detailPanel = document.querySelector('[data-detail-panel]');
+    const detailClose = document.querySelector('[data-detail-close]');
+    const detailFullPage = document.querySelector('[data-detail-full-page]');
+    let lastFocusedCard = null;
+
+    function setText(selector, value) {
+      const element = document.querySelector(selector);
+      if (element) element.textContent = value || '';
+    }
+
+    function openDetail(key, trigger) {
+      const data = detailData[key];
+      if (!data || !detailPanel || !detailOverlay) return;
+
+      lastFocusedCard = trigger;
+      detailPanel.setAttribute('data-accent', trigger?.getAttribute('data-program-accent') || '');
+      setText('[data-detail-category]', data.category);
+      setText('[data-detail-format]', data.format);
+      const formatDivider = document.querySelector('[data-detail-format-divider]');
+      const formatLabel = document.querySelector('[data-detail-format]');
+      if (formatDivider) formatDivider.hidden = !data.format;
+      if (formatLabel) formatLabel.hidden = !data.format;
+      setText('[data-detail-title]', data.title);
+      setText('[data-detail-time]', data.time);
+      setText('[data-detail-place]', data.place);
+      setText('[data-detail-place-address]', data.placeAddress);
+      setText('[data-detail-description]', data.description);
+
+      const dateList = document.querySelector('[data-detail-date]');
+      if (dateList) {
+        dateList.innerHTML = '';
+        (data.dateLines || []).forEach((dateLine) => {
+          const item = document.createElement('span');
+          item.className = 'detail-date-line';
+          const [dateValue, dayValue] = dateLine.split(' · ');
+
+          const dateText = document.createElement('span');
+          dateText.className = 'detail-date-value';
+          dateText.textContent = dateValue;
+          item.appendChild(dateText);
+
+          if (dayValue) {
+            const dayText = document.createElement('span');
+            dayText.className = 'detail-date-days';
+            dayText.textContent = ` · ${dayValue}`;
+            item.appendChild(dayText);
+          }
+
+          dateList.appendChild(item);
+        });
+      }
+
+      const placeWrap = document.querySelector('[data-detail-place-wrap]');
+      const placeList = document.querySelector('[data-detail-place-list]');
+      const places = data.places?.length ? data.places : (data.place ? [{
+        name: data.place,
+        address: data.placeAddress,
+        href: data.placeHref,
+        localizedDateLabel: '',
+      }] : []);
+      if (placeWrap) placeWrap.hidden = !places.length;
+      if (placeList) {
+        placeList.innerHTML = '';
+        places.forEach((place) => {
+          const placeElement = place.href ? document.createElement('a') : document.createElement('span');
+          placeElement.className = 'detail-place-link';
+          if (place.href) {
+            placeElement.setAttribute('href', place.href);
+            placeElement.setAttribute('rel', 'noopener');
+            placeElement.setAttribute('target', '_blank');
+          }
+
+          if ((place.localizedDateLabel || place.dateLabel) && places.length > 1) {
+            const date = document.createElement('small');
+            date.className = 'detail-place-date';
+            date.textContent = place.localizedDateLabel || place.dateLabel;
+            placeElement.appendChild(date);
+          }
+
+          const name = document.createElement('span');
+          name.textContent = place.name;
+          placeElement.appendChild(name);
+
+          if (place.address) {
+            const address = document.createElement('small');
+            address.textContent = place.address;
+            placeElement.appendChild(address);
+          }
+
+          placeList.appendChild(placeElement);
+        });
+      }
+
+      const peopleWrap = document.querySelector('[data-detail-people-wrap]');
+      const peopleLabel = document.querySelector('[data-detail-people-label]');
+      const peopleList = document.querySelector('[data-detail-people]');
+      if (peopleWrap && peopleList) {
+        peopleWrap.hidden = !data.people?.length;
+        peopleList.innerHTML = '';
+        if (data.people?.length) {
+          if (peopleLabel) peopleLabel.textContent = data.people[0].label || peopleLabel.textContent;
+          data.people.forEach((person) => {
+            const row = document.createElement('span');
+            row.className = 'detail-person-row';
+
+            const nameWrap = person.href ? document.createElement('a') : document.createElement('span');
+            nameWrap.className = 'detail-person-name-link';
+            if (person.href) nameWrap.setAttribute('href', person.href);
+
+            const name = document.createElement('span');
+            name.className = 'detail-person-name';
+            name.textContent = person.name;
+            nameWrap.appendChild(name);
+            row.appendChild(nameWrap);
+
+            if (person.country) {
+              const separator = document.createElement('span');
+              separator.className = 'detail-person-separator';
+              separator.setAttribute('aria-hidden', 'true');
+              separator.textContent = ' · ';
+              row.appendChild(separator);
+
+              const country = document.createElement('span');
+              country.className = 'detail-person-country';
+              country.textContent = person.country;
+              row.appendChild(country);
+            }
+
+            peopleList.appendChild(row);
+          });
+        }
+      }
+
+      const focusWrap = document.querySelector('[data-detail-focus-wrap]');
+      if (focusWrap) {
+        focusWrap.hidden = !data.focus;
+        setText('[data-detail-focus-label]', data.focusLabel);
+        setText('[data-detail-focus]', data.focus);
+      }
+
+      if (detailFullPage) {
+        detailFullPage.hidden = !data.fullPageHref;
+        detailFullPage.setAttribute('href', data.fullPageHref || '#');
+      }
+
+      detailOverlay.hidden = false;
+      detailPanel.classList.add('open');
+      detailOverlay.classList.add('open');
+      detailPanel.setAttribute('aria-hidden', 'false');
+      detailClose?.focus();
+    }
+
+    function closeDetail() {
+      if (!detailPanel || !detailOverlay) return;
+      detailPanel.classList.remove('open');
+      detailOverlay.classList.remove('open');
+      detailPanel.setAttribute('aria-hidden', 'true');
+      detailOverlay.hidden = true;
+      lastFocusedCard?.focus?.();
+    }
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => openDetail(card.getAttribute('data-program-detail-key'), card));
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openDetail(card.getAttribute('data-program-detail-key'), card);
+        }
+      });
+    });
+
+    detailClose?.addEventListener('click', closeDetail);
+    detailOverlay?.addEventListener('click', closeDetail);
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeDetail();
+    });
+  });
+</script>
+
+<style>
+  :global(.program-lines-page) {
+    max-width: 1180px;
+  }
+
+  .program-line-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 1080px;
+    margin: 0 0 clamp(34px, 4.6vw, 54px);
+    padding: 10px;
+    border: 1px solid rgba(222, 214, 203, 0.72);
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(251, 250, 247, 0.78), rgba(242, 238, 231, 0.36));
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .program-line-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .program-line-nav__links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .program-line-nav a {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.1;
+    text-decoration: none;
+    text-transform: none;
+    white-space: nowrap;
+  }
+
+  .program-line-nav__link {
+    gap: 7px;
+  }
+
+  .program-line-nav__link::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--program-accent);
+    opacity: 0.88;
+  }
+
+  .program-line-nav__schedule {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 34px !important;
+    padding: 8px 13px !important;
+    border: 1px solid rgba(200, 189, 176, 0.82) !important;
+    border-radius: 999px !important;
+    background: rgba(240, 235, 227, 0.66);
+    color: var(--accent-muted) !important;
+    font-size: 0.82rem !important;
+    font-weight: 650 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+  }
+
+  .program-line-nav a:hover,
+  .program-line-nav a:focus-visible {
+    border-color: rgba(222, 214, 203, 0.78);
+    background: rgba(240, 235, 227, 0.4);
+    color: var(--ink);
+    outline: 0;
+  }
+
+  .program-line-nav__schedule:hover,
+  .program-line-nav__schedule:focus-visible {
+    background: var(--paper-deep);
+  }
+
+  .program-lines {
+    display: grid;
+    gap: clamp(36px, 5vw, 56px);
+  }
+
+  .program-line {
+    scroll-margin-top: 132px;
+    display: grid;
+    grid-template-columns: minmax(220px, 0.32fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 64px);
+    padding-top: clamp(22px, 3.4vw, 32px);
+    border-top: 1px solid rgba(222, 214, 203, 0.36);
+  }
+
+  .program-line:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .program-line__head {
+    position: sticky;
+    top: 88px;
+    max-width: 310px;
+    align-self: start;
+    padding-left: 16px;
+    padding-bottom: 16px;
+    border-left: 3px solid var(--program-accent);
+    background: var(--paper);
+  }
+
+  .program-line__head h2 {
+    margin: 0 0 10px;
+    color: var(--program-accent);
+    font-family: var(--font-serif);
+    font-size: clamp(1.34rem, 2.1vw, 1.9rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+
+  .program-line__head p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.96rem;
+    line-height: 1.55;
+  }
+
+  .program-line__events {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(24px, 3.5vw, 34px) clamp(28px, 4vw, 44px);
+    align-items: stretch;
+  }
+
+  .program-line-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 20px 0 22px 14px;
+    border-left: 2px solid color-mix(in srgb, var(--program-accent) 70%, var(--line-strong));
+    background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 34%, transparent), rgba(255, 255, 255, 0) 72%);
+    cursor: pointer;
+    transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+  }
+
+  .program-line-card:focus-visible {
+    outline: 1px solid var(--line-strong);
+    outline-offset: 8px;
+  }
+
+  .program-line-card:hover h3 {
+    color: var(--program-accent);
+  }
+
+  .program-line-card:hover {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 54%, transparent), rgba(255, 255, 255, 0.22) 76%);
+  }
+
+  .program-line-card__meta {
+    margin: 0 0 10px;
+    font-size: 0.7rem;
+  }
+
+  .program-line-card h3 {
+    margin: 0 0 10px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2.1vw, 1.78rem);
+    font-weight: 400;
+    line-height: 1.12;
+  }
+
+  .program-line-card__schedule {
+    margin: 0 0 14px;
+    color: var(--soft);
+    font-size: 0.88rem;
+    line-height: 1.35;
+  }
+
+  .program-line-card__summary {
+    max-width: 460px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.96rem;
+    line-height: 1.52;
+  }
+
+  .detail-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: rgba(36, 32, 28, 0.16);
+  }
+
+  .detail-overlay.open {
+    display: block;
+  }
+
+  .detail-panel {
+    --program-accent: var(--accent-muted);
+    --program-tint: rgba(143, 132, 117, 0.16);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: min(500px, calc(100% - 28px));
+    height: 100vh;
+    padding: clamp(24px, 3.6vw, 38px);
+    border-left: 1px solid var(--line);
+    background: rgba(251, 250, 247, 0.98);
+    box-shadow: -18px 0 60px rgba(47, 39, 33, 0.12);
+    overflow-y: auto;
+    transform: translateX(102%);
+    transition: transform 220ms ease;
+  }
+
+  .detail-panel[data-accent="ci"] {
+    --program-accent: #738b5f;
+    --program-tint: rgba(115, 139, 95, 0.2);
+  }
+
+  .detail-panel[data-accent="performance_labs"] {
+    --program-accent: #a06f42;
+    --program-tint: rgba(160, 111, 66, 0.2);
+  }
+
+  .detail-panel[data-accent="performances"] {
+    --program-accent: #8d4f67;
+    --program-tint: rgba(141, 79, 103, 0.2);
+  }
+
+  .detail-panel[data-accent="family_youth"] {
+    --program-accent: #62869a;
+    --program-tint: rgba(98, 134, 154, 0.2);
+  }
+
+  .detail-panel[data-accent="jams_gatherings"] {
+    --program-accent: #736e96;
+    --program-tint: rgba(115, 110, 150, 0.2);
+  }
+
+  .detail-panel[data-accent="breaks"] {
+    --program-accent: #9f917d;
+    --program-tint: rgba(159, 145, 125, 0.18);
+  }
+
+  .detail-panel .program-meta__category {
+    color: var(--program-accent);
+  }
+
+  .detail-panel .program-meta__divider {
+    background: color-mix(in srgb, var(--program-accent) 52%, var(--line-strong));
+  }
+
+  .detail-panel.open {
+    transform: translateX(0);
+  }
+
+  .detail-close {
+    align-self: flex-end;
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .detail-close:hover,
+  .detail-close:focus-visible {
+    border-color: var(--line-strong);
+    color: var(--ink);
+    outline: 0;
+  }
+
+  .detail-kicker {
+    margin: 0 0 2px;
+    font-size: 0.78rem;
+  }
+
+  .detail-panel h2 {
+    max-width: 400px;
+    margin: 0 0 4px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.62rem, 2.45vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .detail-facts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 0;
+    padding: 2px 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .detail-fact {
+    min-width: 0;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .detail-facts dt,
+  .detail-focus h3 {
+    margin: 0 0 7px;
+    color: var(--soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .detail-facts dd {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    font-weight: 500;
+    line-height: 1.34;
+  }
+
+  :global(.detail-date-line) {
+    display: block;
+  }
+
+  :global(.detail-date-value) {
+    color: var(--muted);
+  }
+
+  :global(.detail-date-days) {
+    color: var(--soft);
+    font-size: 0.82rem;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .detail-facts a,
+  :global(.detail-place-link) {
+    color: inherit;
+    text-decoration: none !important;
+    border-bottom: 0;
+  }
+
+  :global(.detail-place-link) {
+    display: grid;
+    gap: 2px;
+    width: fit-content;
+    max-width: 100%;
+    border-radius: 6px;
+    line-height: 1.25;
+  }
+
+  :global([data-detail-place-list]) {
+    display: grid;
+    gap: 8px;
+  }
+
+  :global([data-detail-place-list] .detail-place-link + .detail-place-link) {
+    padding-top: 7px;
+    border-top: 1px solid rgba(222, 214, 203, 0.42);
+  }
+
+  :global(.detail-place-link span),
+  :global(.detail-place-link small) {
+    display: block;
+  }
+
+  :global(.detail-place-link span) {
+    color: color-mix(in srgb, var(--muted) 84%, var(--soft));
+    font-size: 0.88rem;
+    font-weight: 540;
+  }
+
+  :global(.detail-place-link small) {
+    color: var(--soft);
+    max-width: 36ch;
+    font-size: 0.68rem;
+    font-weight: 400;
+    line-height: 1.32;
+  }
+
+  :global(.detail-place-link .detail-place-date) {
+    color: color-mix(in srgb, var(--accent-muted) 58%, var(--soft));
+    font-size: 0.58rem;
+    font-weight: 650;
+    letter-spacing: 0.07em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  :global(.detail-place-link:hover span),
+  :global(.detail-person-name-link:hover .detail-person-name) {
+    color: var(--ink);
+  }
+
+  .detail-people dd {
+    display: grid;
+    gap: 8px;
+  }
+
+  :global(.detail-person-row) {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    width: fit-content;
+    max-width: 100%;
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 0.94rem;
+  }
+
+  :global(.detail-person-name-link),
+  :global(.detail-person-name-link:visited),
+  :global(.detail-person-name-link:hover),
+  :global(.detail-person-name-link:active) {
+    color: inherit;
+    text-decoration: none !important;
+  }
+
+  :global(.detail-person-name-link:focus-visible) {
+    outline: 1px solid var(--line-strong);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  :global(.detail-person-name) {
+    color: inherit;
+    text-decoration: none !important;
+    overflow-wrap: anywhere;
+  }
+
+  :global(.detail-person-separator) {
+    color: var(--line-strong);
+    font-size: 0.76rem;
+    font-weight: 400;
+    line-height: 1.35;
+    white-space: pre;
+  }
+
+  :global(.detail-person-row .detail-person-country) {
+    color: var(--soft);
+    font-size: 0.76rem;
+    font-weight: 400 !important;
+    line-height: 1.35;
+    white-space: nowrap;
+  }
+
+  .detail-description {
+    max-width: 400px;
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.56;
+    white-space: pre-line;
+  }
+
+  .detail-focus {
+    max-width: 400px;
+    margin: 2px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+
+  .detail-focus p {
+    margin: 0;
+    color: var(--accent-muted);
+    font-size: 0.86rem;
+    line-height: 1.48;
+  }
+
+  .detail-full-link {
+    align-self: flex-start;
+    color: var(--soft);
+    margin-top: -4px;
+    padding: 7px 0 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .detail-full-link:hover {
+    color: var(--accent-muted);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 0.24em;
+  }
+
+  @media (max-width: 860px) {
+    .program-line {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      border-top: 0;
+    }
+
+    .program-line__head {
+      position: static;
+      max-width: none;
+      padding: 26px 0 10px;
+      border-top: 0;
+      border-right: 0;
+      border-bottom: 0;
+      border-left: 0;
+      background: transparent;
+    }
+
+    .program-line__head::before {
+      content: '';
+      display: block;
+      width: 54px;
+      height: 2px;
+      margin-bottom: 18px;
+      background: var(--program-accent);
+      opacity: 0.78;
+    }
+
+    .program-line__head h2 {
+      max-width: 560px;
+      margin-bottom: 10px;
+      font-size: clamp(1.56rem, 6vw, 2.06rem);
+      line-height: 1.08;
+    }
+
+    .program-line__head p {
+      max-width: 620px;
+      color: color-mix(in srgb, var(--muted) 88%, var(--ink));
+      font-size: 0.94rem;
+      line-height: 1.58;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .program-lines-page {
+      width: min(100% - 28px, 1180px);
+    }
+
+    .program-line-nav {
+      margin-left: -14px;
+      margin-right: -14px;
+      margin-bottom: 34px;
+      padding: 8px 14px;
+      border-left: 0;
+      border-right: 0;
+      border-radius: 0;
+      flex-wrap: nowrap;
+      gap: 8px;
+    }
+
+    .program-line-nav a {
+      min-height: 32px;
+      padding: 7px 11px;
+      font-size: 0.78rem;
+    }
+
+    .program-line-nav__schedule {
+      min-height: 32px !important;
+      padding: 7px 12px !important;
+      font-size: 0.78rem !important;
+    }
+
+    .program-line-nav__links {
+      flex-wrap: nowrap;
+      gap: 6px;
+    }
+
+    .program-lines {
+      gap: 54px;
+    }
+
+    .program-line {
+      scroll-margin-top: 88px;
+      gap: 28px;
+      padding-top: 26px;
+    }
+
+    .program-line__head {
+      width: min(100%, 340px);
+      margin-inline: auto;
+      padding: 22px 0 8px;
+      text-align: center;
+    }
+
+    .program-line__head::before {
+      width: 42px;
+      height: 2px;
+      margin: 0 auto 16px;
+    }
+
+    .program-line__head h2 {
+      margin-inline: auto;
+      margin-bottom: 10px;
+      font-size: clamp(1.56rem, 8.8vw, 1.98rem);
+      line-height: 1.08;
+    }
+
+    .program-line__head p {
+      margin-inline: auto;
+      max-width: 31rem;
+      font-size: 0.91rem;
+      line-height: 1.56;
+    }
+
+    .program-line__events {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .program-line-card {
+      min-height: 0;
+      padding: 20px 0 22px 14px;
+    }
+
+    .detail-panel {
+      top: auto;
+      bottom: 0;
+      width: 100%;
+      height: min(86vh, 760px);
+      border-top: 1px solid var(--line);
+      border-left: 0;
+      border-radius: 22px 22px 0 0;
+      box-shadow: 0 -18px 60px rgba(47, 39, 33, 0.14);
+      transform: translateY(104%);
+    }
+
+    .detail-panel.open {
+      transform: translateY(0);
+    }
+  }
+</style>

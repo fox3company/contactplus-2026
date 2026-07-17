@@ -1,0 +1,34 @@
+---
+entity_type: person
+participation_status: attending_teacher
+public_listing: true
+name: Sebastian Flegiel
+country_display: Poland
+role_summary:
+  en: Contact Improvisation teacher.
+  ro: Profesor de Contact Improvisation.
+  ru: Преподаватель Contact Improvisation.
+short_profile:
+  en: Contact Improvisation teacher and movement practitioner combining technical precision, athletic intelligence, play and embodied presence.
+  ro: Profesor de Contact Improvisation și practician al mișcării, combinând precizia tehnică, inteligența atletică, jocul și prezența corporală.
+  ru: Преподаватель Contact Improvisation и практик движения, соединяющий техническую точность, спортивный интеллект, игру и телесное присутствие.
+extended_profile:
+  en: His teaching works with weight-sharing, rolling point of contact, spirals, momentum, gravity and flow, grounded in deep listening.
+  ro: Predarea lui lucrează cu greutatea împărtășită, punctul de contact, spiralele, impulsul, gravitația și flow-ul, având ca bază ascultarea profundă.
+  ru: Его преподавание работает с общим весом, rolling point, спиралями, импульсом, гравитацией и flow, опираясь на глубокое слушание.
+festival_events:
+  - event_id: ci-as-artsport
+    relation: teacher
+source_confidence: confirmed
+localization_status:
+  en: ready_for_review
+  ro: native_edit_needed
+  ru: ready_for_review
+links:
+  instagram: "https://www.instagram.com/sebastianflegiel/"
+media:
+  portrait: sebastian-flegiel-portrait-placeholder
+  gallery: []
+---
+
+# Sebastian Flegiel

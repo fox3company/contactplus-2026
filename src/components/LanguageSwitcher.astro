@@ -1,0 +1,163 @@
+---
+import { localeLabels, locales, type Locale } from '../lib/locales';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const pathname = Astro.url.pathname;
+
+function localizedPath(locale: Locale) {
+  const match = pathname.match(/^\/(en|ro|ru)(\/.*)?$/);
+  return match ? `/${locale}${match[2] || ''}` : `/${locale}/program`;
+}
+---
+
+<nav class="language-switcher" aria-label="Languages">
+  <details>
+    <summary aria-label="Change language">
+      <span>{localeLabels[lang]}</span>
+      <span class="chevron" aria-hidden="true"></span>
+    </summary>
+    <div class="menu">
+      {locales.map((locale) => (
+        <a href={localizedPath(locale)} aria-current={locale === lang ? 'page' : undefined}>
+          {localeLabels[locale]}
+        </a>
+      ))}
+    </div>
+  </details>
+</nav>
+
+<style>
+  .language-switcher {
+    position: relative;
+    z-index: 20;
+  }
+
+  details {
+    position: relative;
+  }
+
+  summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-width: 54px;
+    min-height: 36px;
+    padding: 0 12px 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: color-mix(in srgb, var(--ink) 58%, var(--accent-muted));
+    background: color-mix(in srgb, var(--paper) 88%, var(--paper-deep));
+    font-size: 0.82rem;
+    font-weight: 560;
+    letter-spacing: 0.035em;
+    line-height: 1;
+    list-style: none;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(47, 39, 33, 0.025);
+    transition: border-color 160ms ease, background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--accent-muted) 42%, transparent);
+    outline-offset: 3px;
+  }
+
+  summary:hover {
+    border-color: var(--line-strong);
+    color: var(--accent-muted);
+    background: var(--paper-deep);
+    box-shadow: 0 8px 22px rgba(47, 39, 33, 0.045);
+  }
+
+  details[open] summary {
+    border-color: var(--line-strong);
+    color: var(--accent-muted);
+    background: var(--paper-deep);
+    box-shadow: 0 8px 22px rgba(47, 39, 33, 0.045);
+  }
+
+  .chevron {
+    width: 5px;
+    height: 5px;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform 160ms ease;
+  }
+
+  details[open] .chevron {
+    transform: translateY(1px) rotate(225deg);
+  }
+
+  .menu {
+    position: absolute;
+    top: calc(100% + 7px);
+    right: 0;
+    min-width: 60px;
+    padding: 5px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: var(--paper);
+    box-shadow: 0 14px 32px rgba(33, 31, 29, 0.09);
+  }
+
+  .menu a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    padding: 0 9px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-decoration: none;
+    transition: color 140ms ease, background 140ms ease, border-color 140ms ease;
+  }
+
+  .menu a:hover {
+    color: var(--ink);
+    background: var(--paper-deep);
+  }
+
+  .menu a[aria-current="page"] {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+
+  @media (max-width: 720px) {
+    summary {
+      min-width: 50px;
+      min-height: 32px;
+      padding: 0 9px 0 11px;
+      color: color-mix(in srgb, var(--accent-muted) 78%, var(--ink));
+      font-size: 0.78rem;
+      font-weight: 520;
+      letter-spacing: 0.035em;
+      background: rgba(251, 250, 247, 0.72);
+      box-shadow: none;
+    }
+
+    summary:hover,
+    details[open] summary {
+      border-color: var(--line-strong);
+      background: rgba(240, 235, 227, 0.48);
+      box-shadow: none;
+    }
+
+    .chevron {
+      opacity: 0.72;
+    }
+  }
+</style>

@@ -1,0 +1,1485 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import { isPublicPerson } from '../../../lib/content';
+import {
+  getLocalizedDateLabel,
+  getLocalizedDayName,
+  getLocalizedDayRangeLabel,
+  getLocalizedDayTheme,
+} from '../../../lib/festivalDates';
+import { getLocalized, isLocale } from '../../../lib/locales';
+import { locations } from '../../../lib/locations';
+import {
+  filterProgramEvents,
+  getProgramCategoryLabel,
+  getProgramFilterGroup,
+  getProgramOccurrences,
+  groupProgramEventsByDay,
+  isPublicDetailEvent,
+  isVisibleInProgramView,
+  type ProgramFilterGroup,
+} from '../../../lib/program';
+
+export async function getStaticPaths() {
+  return ['en', 'ro', 'ru'].map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props;
+if (!isLocale(lang)) {
+  return Astro.redirect('/en/schedule/horizontal');
+}
+
+const allEvents = filterProgramEvents(await getCollection('events'), {
+  viewMode: 'full_festival',
+  includeScheduleOnly: true,
+});
+const dayGroups = groupProgramEventsByDay(allEvents);
+const allPeople = await getCollection('people');
+const peopleById = new Map(allPeople.map((person) => [person.data.id || person.slug, person]));
+
+const timeBands = [
+  { key: 'morning', label: { en: 'Morning', ro: 'Dimineață', ru: 'Утро' }, range: 'Before 10:00', start: 0, end: 600 },
+  { key: 'late-morning', label: { en: 'Late morning', ro: 'Dimineață târziu', ru: 'Позднее утро' }, range: '10:00 — 13:30', start: 600, end: 810 },
+  { key: 'afternoon', label: { en: 'Afternoon', ro: 'După-amiază', ru: 'День' }, range: '13:30 — 18:30', start: 810, end: 1110 },
+  { key: 'evening', label: { en: 'Evening', ro: 'Seară', ru: 'Вечер' }, range: '18:30 — 21:30', start: 1110, end: 1290 },
+  { key: 'late-evening', label: { en: 'Late evening', ro: 'Seară târziu', ru: 'Поздний вечер' }, range: 'After 21:30', start: 1290, end: 1600 },
+];
+
+const pageTitle = getLocalized({ en: 'Horizontal Schedule', ro: 'Orar orizontal', ru: 'Горизонтальное расписание' }, lang);
+const intro = getLocalized({
+  en: 'A wide overview of the festival composition across days and time bands.',
+  ro: 'O vedere largă asupra compoziției festivalului pe zile și intervale de timp.',
+  ru: 'Широкий обзор композиции фестиваля по дням и временным блокам.',
+}, lang);
+const labels = {
+  vertical: getLocalized({ en: 'Vertical', ro: 'Vertical', ru: 'Вертикально' }, lang),
+  horizontal: getLocalized({ en: 'Horizontal', ro: 'Orizontal', ru: 'Горизонтально' }, lang),
+  full: getLocalized({ en: 'Full festival', ro: 'Festival complet', ru: 'Весь фестиваль' }, lang),
+  classes: getLocalized({ en: 'Classes & performances only', ro: 'Doar clase și performance-uri', ru: 'Только классы и перформансы' }, lang),
+  all: getLocalized({ en: 'All', ro: 'Toate', ru: 'Все' }, lang),
+  ci: getLocalized({ en: 'CI', ro: 'CI', ru: 'КИ' }, lang),
+  performanceLabs: getLocalized({ en: 'Perf Labs', ro: 'Perf Labs', ru: 'Перформанс-лабы' }, lang),
+  family: getLocalized({ en: 'Family & Youth', ro: 'Familie și copii', ru: 'Семья и дети' }, lang),
+  performances: getLocalized({ en: 'Perf', ro: 'Perf', ru: 'Перформансы' }, lang),
+  jams: getLocalized({ en: 'Jams & gatherings', ro: 'Jam-uri și întâlniri', ru: 'Джемы и встречи' }, lang),
+  breaks: getLocalized({ en: 'Breaks', ro: 'Pauze', ru: 'Паузы' }, lang),
+  focus: getLocalized({ en: 'Focus', ro: 'Focus', ru: 'Фокус' }, lang),
+  mode: getLocalized({ en: 'Mode', ro: 'Mod', ru: 'Режим' }, lang),
+  view: getLocalized({ en: 'View', ro: 'Vedere', ru: 'Вид' }, lang),
+  close: getLocalized({ en: 'Close', ro: 'Închide', ru: 'Закрыть' }, lang),
+  date: getLocalized({ en: 'Date', ro: 'Dată', ru: 'Дата' }, lang),
+  time: getLocalized({ en: 'Time', ro: 'Oră', ru: 'Время' }, lang),
+  place: getLocalized({ en: 'Place', ro: 'Loc', ru: 'Место' }, lang),
+  with: getLocalized({ en: 'With', ro: 'Cu', ru: 'С кем' }, lang),
+  by: getLocalized({ en: 'By', ro: 'De', ru: 'От' }, lang),
+  fullPage: getLocalized({ en: 'Open full event page', ro: 'Deschide pagina completă', ru: 'Открыть полную страницу' }, lang),
+  openDetails: getLocalized({ en: 'Open details', ro: 'Deschide detalii', ru: 'Открыть подробности' }, lang),
+  empty: getLocalized({ en: 'No events in this view.', ro: 'Nu există evenimente în această vedere.', ru: 'В этом виде нет событий.' }, lang),
+  more: getLocalized({ en: 'more', ro: 'în plus', ru: 'ещё' }, lang),
+  parallel: getLocalized({ en: 'Parallel', ro: 'Paralel', ru: 'Параллельно' }, lang),
+  sequence: getLocalized({ en: 'Sequence', ro: 'Secvență', ru: 'Последовательно' }, lang),
+  closingFlow: getLocalized({ en: 'Closing flow', ro: 'Flux de închidere', ru: 'Финальный поток' }, lang),
+  festivalContext: getLocalized({
+    en: 'Sep 26 — Oct 4 · Chișinău',
+    ro: '26 sept — 4 oct · Chișinău',
+    ru: '26 сентября — 4 октября · Кишинёв',
+  }, lang),
+};
+
+function getMinutes(timeDisplay: string) {
+  if (timeDisplay === 'Daytime') return 810;
+  const match = timeDisplay.match(/\b(\d{1,2}):(\d{2})\b/);
+  if (!match) return 1439;
+  return Number(match[1]) * 60 + Number(match[2]);
+}
+
+function getBandKey(timeDisplay: string) {
+  const minutes = getMinutes(timeDisplay);
+  return timeBands.find((band) => minutes >= band.start && minutes < band.end)?.key || 'late-evening';
+}
+
+function getPersonLabel(person: { public_label?: Partial<Record<typeof lang, string>> }, eventPeopleLabel?: string) {
+  return getLocalized(person.public_label, lang)
+    || (eventPeopleLabel === 'By' ? labels.by : labels.with);
+}
+
+function formatPersonName(personId: string) {
+  return peopleById.get(personId)?.data.name || personId.split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+}
+
+function formatPersonCountry(personId: string) {
+  return peopleById.get(personId)?.data.country_display || '';
+}
+
+function getEventDetailKey(eventSlug: string, occurrenceDate: string, occurrenceDateLabel: string) {
+  return `${eventSlug}--${occurrenceDate || occurrenceDateLabel.toLowerCase().replace(/\s+/g, '-')}`;
+}
+
+function getDayRangeLabel(dateLabel: string) {
+  return getLocalizedDayRangeLabel(dateLabel, lang);
+}
+
+function getEventDateLines(event: typeof allEvents[number]) {
+  return event.data.schedule.date_display
+    .split(/,\s*(?=[A-Z][a-z]{2}\s+\d)/)
+    .filter(Boolean)
+    .map(getDayRangeLabel);
+}
+
+function getOccurrenceLocationFacts(event: typeof allEvents[number]) {
+  const grouped = new Map<string, { dateLabels: string[]; name: string; address: string; href: string }>();
+
+  getProgramOccurrences([event]).forEach((occurrence) => {
+    const locationRef = occurrence.locationRef || event.data.location_ref;
+    if (!locationRef) return;
+    const location = locations[locationRef];
+    const fact = grouped.get(locationRef) || {
+      dateLabels: [],
+      name: location?.name || locationRef,
+      address: location?.address || '',
+      href: location?.href || '',
+    };
+
+    if (occurrence.dateLabel && !fact.dateLabels.includes(occurrence.dateLabel)) {
+      fact.dateLabels.push(occurrence.dateLabel);
+    }
+
+    grouped.set(locationRef, fact);
+  });
+
+  return [...grouped.values()].map((fact) => ({
+    ...fact,
+    dateLabel: fact.dateLabels.join(' — '),
+    localizedDateLabel: getLocalizedDateLabel(fact.dateLabels.join(' — '), lang),
+  }));
+}
+
+function getCellOccurrences(day: string, bandKey: string) {
+  const dayGroup = dayGroups.find((group) => group.day === day);
+  if (!dayGroup) return [];
+  return dayGroup.occurrences.filter((occurrence) => getBandKey(occurrence.timeDisplay) === bandKey);
+}
+
+function isSequentialPerformanceGroup(occurrences: ReturnType<typeof getCellOccurrences>) {
+  return occurrences.length > 1 && occurrences.every((occurrence) => getProgramFilterGroup(occurrence.event) === 'performances');
+}
+
+function getCellOccurrenceGroups(day: string, bandKey: string) {
+  const groups = new Map<string, ReturnType<typeof getCellOccurrences>>();
+
+  for (const occurrence of getCellOccurrences(day, bandKey)) {
+    const groupKey = occurrence.timeDisplay || occurrence.event.data.schedule.time_display;
+    groups.set(groupKey, [...(groups.get(groupKey) || []), occurrence]);
+  }
+
+  return [...groups.entries()].map(([timeDisplay, occurrences]) => {
+    const isClosingFlow = day === 'Oct 4' && (timeDisplay === 'Daytime' || timeDisplay === 'Afterwards');
+    const groupType = isClosingFlow
+      ? 'closing'
+      : isSequentialPerformanceGroup(occurrences)
+        ? 'sequence'
+        : occurrences.length > 1
+          ? 'parallel'
+          : 'single';
+
+    return {
+      timeDisplay,
+      occurrences,
+      groupType,
+    };
+  });
+}
+
+function getDayOccurrenceGroups(day: string) {
+  const dayGroup = dayGroups.find((group) => group.day === day);
+  if (!dayGroup) return [];
+  const groups = new Map<string, typeof dayGroup.occurrences>();
+
+  for (const occurrence of dayGroup.occurrences) {
+    const groupKey = occurrence.timeDisplay || occurrence.event.data.schedule.time_display;
+    groups.set(groupKey, [...(groups.get(groupKey) || []), occurrence]);
+  }
+
+  return [...groups.entries()].map(([timeDisplay, occurrences]) => ({
+    timeDisplay,
+    occurrences,
+    groupType: day === 'Oct 4' && (timeDisplay === 'Daytime' || timeDisplay === 'Afterwards')
+      ? 'closing'
+      : isSequentialPerformanceGroup(occurrences)
+        ? 'sequence'
+        : occurrences.length > 1
+          ? 'parallel'
+          : 'single',
+  }));
+}
+
+function getCompactCardNote(event: typeof allEvents[number], summary: string) {
+  if (event.slug === 'youth-dance-class') {
+    return getLocalized({
+      en: 'Play, coordination and imagination.',
+      ro: 'Joc, coordonare și imaginație.',
+      ru: 'Игра, координация и воображение.',
+    }, lang);
+  }
+
+  if (event.slug === 'performative-space') {
+    return getLocalized({
+      en: 'Open platform for short artistic encounters.',
+      ro: 'Platformă deschisă pentru întâlniri artistice scurte.',
+      ru: 'Открытая платформа для коротких художественных встреч.',
+    }, lang);
+  }
+
+  return event.data.visibility === 'schedule_only' ? summary : '';
+}
+
+const filterLabels: { key: ProgramFilterGroup; label: string }[] = [
+  { key: 'all', label: labels.all },
+  { key: 'ci', label: labels.ci },
+  { key: 'performance_labs', label: labels.performanceLabs },
+  { key: 'family_youth', label: labels.family },
+  { key: 'performances', label: labels.performances },
+  { key: 'jams_gatherings', label: labels.jams },
+  { key: 'breaks', label: labels.breaks },
+];
+
+const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
+  occurrences.map(({ event, date, dateLabel, timeDisplay, locationRef }) => {
+    const visiblePeople = (event.data.people || []).filter((person) => person.public_visibility === 'visible');
+    const people = visiblePeople.map((person) => {
+      const profile = peopleById.get(person.person_id);
+      return {
+        label: getPersonLabel(person, event.data.people_label),
+        name: formatPersonName(person.person_id),
+        country: profile?.data.country_display || '',
+        href: profile && isPublicPerson(profile) ? `/${lang}/artists/${profile.slug}` : '',
+      };
+    });
+    const category = getProgramCategoryLabel(getLocalized(event.data.meta?.category, lang), event.data.program_line);
+    const format = getLocalized(event.data.meta?.format, lang);
+    const location = locationRef ? locations[locationRef] : undefined;
+    const places = getOccurrenceLocationFacts(event);
+    const firstPlace = places[0];
+
+    return [
+      getEventDetailKey(event.slug, date, dateLabel),
+      {
+        title: getLocalized(event.data.title, lang),
+        category: category || event.data.program_line,
+        format,
+        dateLines: getEventDateLines(event),
+        time: timeDisplay || event.data.schedule.time_display,
+        place: firstPlace?.name || location?.name || locationRef || '',
+        placeAddress: firstPlace?.address || location?.address || '',
+        placeHref: firstPlace?.href || location?.href || '',
+        places,
+        people,
+        description: getLocalized(event.data.body, lang) || getLocalized(event.data.summary, lang),
+        focusLabel: getLocalized(event.data.focus_label, lang),
+        focus: getLocalized(event.data.focus, lang),
+        fullPageHref: isPublicDetailEvent(event) ? `/${lang}/program/${event.slug}` : '',
+      },
+    ];
+  })
+)));
+---
+
+<BaseLayout lang={lang} title={`${pageTitle} · Contact+ 2026`} description={intro}>
+  <main class="horizontal-page">
+    <PageHero title={pageTitle} description={intro} context={labels.festivalContext} />
+
+    <section class="horizontal-controls" aria-label={pageTitle}>
+      <div class="control-row">
+        <span>{labels.view}</span>
+        <a href={`/${lang}/schedule`}>{labels.vertical}</a>
+        <a class="active" href={`/${lang}/schedule/horizontal`}>{labels.horizontal}</a>
+      </div>
+      <div class="control-row" data-mode-controls>
+        <span>{labels.mode}</span>
+        <button class="active" type="button" data-view-mode="full_festival">{labels.full}</button>
+        <button type="button" data-view-mode="classes_performances">{labels.classes}</button>
+      </div>
+      <div class="control-row" data-filter-controls>
+        <span>{labels.focus}</span>
+        {filterLabels.map((filter) => (
+          <button class={filter.key === 'all' ? 'active' : ''} type="button" data-filter={filter.key}>
+            {filter.label}<span class="filter-x" aria-hidden="true">×</span>
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <section class="horizontal-board" aria-label={pageTitle}>
+      <div class="schedule-grid">
+        <div class="grid-corner">Time</div>
+        {dayGroups.map(({ day }) => (
+          <div class="grid-day">
+            <p>{getLocalizedDayName(day, lang)}</p>
+            <h2>{getLocalizedDateLabel(day, lang)}</h2>
+            <span>{getLocalizedDayTheme(day, lang)}</span>
+          </div>
+        ))}
+
+        {timeBands.map((band, bandIndex) => (
+          <>
+            <div class="grid-time">
+              <strong>{getLocalized(band.label, lang)}</strong>
+              <span>{band.range}</span>
+            </div>
+            {dayGroups.map(({ day }) => {
+              if (day === 'Oct 4' && bandIndex > 0) return null;
+              const occurrenceGroups = day === 'Oct 4' ? getDayOccurrenceGroups(day) : getCellOccurrenceGroups(day, band.key);
+              return (
+                <div
+                  class={`grid-cell ${occurrenceGroups.length ? '' : 'grid-cell--empty'} ${day === 'Oct 4' ? 'grid-cell--closing-day grid-cell--closing-merged' : ''}`}
+                  data-grid-cell
+                >
+                  {day === 'Oct 4' && <p class="closing-day-title">{labels.closingFlow}</p>}
+                  {occurrenceGroups.map(({ timeDisplay, occurrences, groupType }) => (
+                    <div class={`horizontal-time-group horizontal-time-group--${groupType}`} data-time-group>
+                      <div class="horizontal-time-group__head">
+                        <span>{timeDisplay}</span>
+                        {groupType === 'parallel' && <em>{labels.parallel}</em>}
+                      </div>
+                      <div class="horizontal-time-group__cards">
+                        {occurrences.map(({ event, date, dateLabel }) => {
+                          const category = getProgramCategoryLabel(getLocalized(event.data.meta?.category, lang), event.data.program_line) || event.data.program_line;
+                          const format = getLocalized(event.data.meta?.format, lang);
+                          const title = getLocalized(event.data.title, lang);
+                          const summary = getLocalized(event.data.summary, lang);
+                          const compactNote = getCompactCardNote(event, summary);
+                          const filterGroup = getProgramFilterGroup(event);
+                          const detailKey = getEventDetailKey(event.slug, date, dateLabel);
+                          const visiblePeople = (event.data.people || []).filter((person) => person.public_visibility === 'visible');
+                          const compactPeople = event.slug === 'choice-as-bodily-experience'
+                            ? visiblePeople.filter((person) => !['alexandra-soshnicova', 'sergey-golovnea'].includes(person.person_id)).slice(0, 2)
+                            : visiblePeople.slice(0, 2);
+                          const cardPeople = compactPeople.map((person) => ({
+                            name: formatPersonName(person.person_id),
+                            country: formatPersonCountry(person.person_id),
+                          }));
+                          const hiddenPeopleCount = Math.max(0, visiblePeople.length - cardPeople.length);
+                          const isSecondary = filterGroup === 'breaks' || filterGroup === 'org';
+
+                          return (
+                            <article
+                              class={`horizontal-card horizontal-card--${filterGroup}`}
+                              data-horizontal-card
+                              data-filter-group={filterGroup}
+                              data-card-kind={event.data.visibility === 'schedule_only' ? 'schedule-only' : 'detail'}
+                              data-card-note={compactNote ? 'true' : 'false'}
+                              data-density={isSecondary ? 'secondary' : 'primary'}
+                              data-view-classes={isVisibleInProgramView(event, 'classes_performances') ? 'true' : 'false'}
+                              data-detail-key={detailKey}
+                              role="button"
+                              tabindex="0"
+                              aria-label={`${labels.openDetails}: ${title}`}
+                            >
+                              <p class="horizontal-card__meta">
+                                <span class="horizontal-card__meta-primary">{category}</span>
+                                {format && <span class="horizontal-card__meta-secondary">{format}</span>}
+                              </p>
+                              <h3>{title}</h3>
+                              {cardPeople.length > 0 && (
+                                <span class="horizontal-card__people" aria-label={cardPeople.map((person) => person.name).join(', ')}>
+                                  {cardPeople.map((person) => (
+                                    <span class="horizontal-card__person">
+                                      <span>{person.name}</span>
+                                      {person.country && <small>{person.country}</small>}
+                                    </span>
+                                  ))}
+                                  {hiddenPeopleCount > 0 && (
+                                    <span class="horizontal-card__person horizontal-card__person--more">
+                                      +{hiddenPeopleCount} {labels.more}
+                                    </span>
+                                  )}
+                                </span>
+                              )}
+                              {!cardPeople.length && compactNote && <p class="horizontal-card__summary">{compactNote}</p>}
+                            </article>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })}
+          </>
+        ))}
+      </div>
+      <p class="empty-message" data-empty-message hidden>{labels.empty}</p>
+    </section>
+
+    <div class="detail-overlay" data-detail-overlay hidden></div>
+    <aside class="detail-panel" data-detail-panel aria-hidden="true" aria-modal="true" role="dialog" aria-labelledby="horizontal-detail-title">
+      <button class="detail-close" type="button" data-detail-close aria-label={labels.close}>×</button>
+      <p class="program-meta detail-kicker">
+        <span class="program-meta__category" data-detail-category></span>
+        <span class="program-meta__divider" data-detail-format-divider aria-hidden="true"></span>
+        <span class="program-meta__format" data-detail-format></span>
+      </p>
+      <h2 id="horizontal-detail-title" data-detail-title></h2>
+      <dl class="detail-facts">
+        <div class="detail-fact">
+          <dt>{labels.date}</dt>
+          <dd data-detail-date></dd>
+        </div>
+        <div class="detail-fact">
+          <dt>{labels.time}</dt>
+          <dd data-detail-time></dd>
+        </div>
+        <div class="detail-fact detail-fact--wide" data-detail-place-wrap>
+          <dt>{labels.place}</dt>
+          <dd data-detail-place-list>
+            <a class="detail-place-link" href="#" data-detail-place-link rel="noopener" target="_blank">
+              <span data-detail-place></span>
+              <small data-detail-place-address></small>
+            </a>
+          </dd>
+        </div>
+        <div class="detail-fact detail-fact--wide detail-people" data-detail-people-wrap>
+          <dt data-detail-people-label>{labels.with}</dt>
+          <dd data-detail-people></dd>
+        </div>
+      </dl>
+      <div class="detail-description" data-detail-description></div>
+      <section class="detail-focus" data-detail-focus-wrap hidden>
+        <h3 data-detail-focus-label></h3>
+        <p data-detail-focus></p>
+      </section>
+      <a class="detail-full-link" href="#" data-detail-full-page>{labels.fullPage}</a>
+    </aside>
+  </main>
+</BaseLayout>
+
+<script type="application/json" id="horizontal-detail-data" set:html={JSON.stringify(eventDetails)}></script>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    const cards = [...document.querySelectorAll('[data-horizontal-card]')];
+    const cells = [...document.querySelectorAll('[data-grid-cell]')];
+    const timeGroups = [...document.querySelectorAll('[data-time-group]')];
+    const filterButtons = [...document.querySelectorAll('[data-filter]')];
+    const viewButtons = [...document.querySelectorAll('[data-view-mode]')];
+    const emptyMessage = document.querySelector('[data-empty-message]');
+    const detailData = JSON.parse(document.getElementById('horizontal-detail-data')?.textContent || '{}');
+    const detailOverlay = document.querySelector('[data-detail-overlay]');
+    const detailPanel = document.querySelector('[data-detail-panel]');
+    const detailClose = document.querySelector('[data-detail-close]');
+    const detailFullPage = document.querySelector('[data-detail-full-page]');
+    let activeViewMode = 'full_festival';
+    let activeFilters = new Set(['all']);
+    let lastFocusedCard = null;
+
+    function setText(selector, value) {
+      const element = document.querySelector(selector);
+      if (element) element.textContent = value || '';
+    }
+
+    function passesFilters(card) {
+      const filterGroup = card.getAttribute('data-filter-group');
+      const viewMatch = activeViewMode === 'full_festival' || card.getAttribute('data-view-classes') === 'true';
+      const filterMatch = activeFilters.has('all') || activeFilters.has(filterGroup);
+      return viewMatch && filterMatch;
+    }
+
+    function renderBoard() {
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const visible = passesFilters(card);
+        card.classList.toggle('is-hidden', !visible);
+        if (visible) visibleCount += 1;
+      });
+      timeGroups.forEach((group) => {
+        const visibleCards = [...group.querySelectorAll('[data-horizontal-card]')].filter((card) => !card.classList.contains('is-hidden'));
+        group.classList.toggle('is-hidden', visibleCards.length === 0);
+      });
+      cells.forEach((cell) => {
+        const visibleCards = [...cell.querySelectorAll('[data-horizontal-card]')].filter((card) => !card.classList.contains('is-hidden'));
+        cell.classList.toggle('grid-cell--filtered-empty', visibleCards.length === 0 && !cell.classList.contains('grid-cell--empty'));
+      });
+      filterButtons.forEach((button) => {
+        const filter = button.getAttribute('data-filter');
+        button.classList.toggle('active', activeFilters.has(filter));
+      });
+      viewButtons.forEach((button) => {
+        button.classList.toggle('active', button.getAttribute('data-view-mode') === activeViewMode);
+      });
+      if (emptyMessage) emptyMessage.hidden = visibleCount > 0;
+    }
+
+    function openDetail(key, trigger) {
+      const data = detailData[key];
+      if (!data || !detailPanel || !detailOverlay) return;
+      lastFocusedCard = trigger;
+      detailPanel.setAttribute('data-accent', trigger?.getAttribute('data-filter-group') || '');
+      setText('[data-detail-category]', data.category);
+      setText('[data-detail-format]', data.format);
+      const formatDivider = document.querySelector('[data-detail-format-divider]');
+      const formatLabel = document.querySelector('[data-detail-format]');
+      if (formatDivider) formatDivider.hidden = !data.format;
+      if (formatLabel) formatLabel.hidden = !data.format;
+      setText('[data-detail-title]', data.title);
+      setText('[data-detail-time]', data.time);
+      setText('[data-detail-place]', data.place);
+      setText('[data-detail-place-address]', data.placeAddress);
+      setText('[data-detail-description]', data.description);
+
+      const dateList = document.querySelector('[data-detail-date]');
+      if (dateList) {
+        dateList.innerHTML = '';
+        (data.dateLines || []).forEach((dateLine) => {
+          const item = document.createElement('span');
+          item.className = 'detail-date-line';
+          const [dateValue, dayValue] = dateLine.split(' · ');
+          const dateText = document.createElement('span');
+          dateText.className = 'detail-date-value';
+          dateText.textContent = dateValue;
+          item.appendChild(dateText);
+          if (dayValue) {
+            const dayText = document.createElement('span');
+            dayText.className = 'detail-date-days';
+            dayText.textContent = ` · ${dayValue}`;
+            item.appendChild(dayText);
+          }
+          dateList.appendChild(item);
+        });
+      }
+
+      const placeWrap = document.querySelector('[data-detail-place-wrap]');
+      const placeList = document.querySelector('[data-detail-place-list]');
+      const places = data.places?.length ? data.places : (data.place ? [{
+        name: data.place,
+        address: data.placeAddress,
+        href: data.placeHref,
+        localizedDateLabel: '',
+      }] : []);
+      if (placeWrap) placeWrap.hidden = !places.length;
+      if (placeList) {
+        placeList.innerHTML = '';
+        places.forEach((place) => {
+          const placeElement = place.href ? document.createElement('a') : document.createElement('span');
+          placeElement.className = 'detail-place-link';
+          if (place.href) {
+            placeElement.setAttribute('href', place.href);
+            placeElement.setAttribute('rel', 'noopener');
+            placeElement.setAttribute('target', '_blank');
+          }
+
+          if ((place.localizedDateLabel || place.dateLabel) && places.length > 1) {
+            const date = document.createElement('small');
+            date.className = 'detail-place-date';
+            date.textContent = place.localizedDateLabel || place.dateLabel;
+            placeElement.appendChild(date);
+          }
+
+          const name = document.createElement('span');
+          name.textContent = place.name;
+          placeElement.appendChild(name);
+
+          if (place.address) {
+            const address = document.createElement('small');
+            address.textContent = place.address;
+            placeElement.appendChild(address);
+          }
+
+          placeList.appendChild(placeElement);
+        });
+      }
+
+      const peopleWrap = document.querySelector('[data-detail-people-wrap]');
+      const peopleLabel = document.querySelector('[data-detail-people-label]');
+      const peopleList = document.querySelector('[data-detail-people]');
+      if (peopleWrap && peopleList) {
+        peopleWrap.hidden = !data.people?.length;
+        peopleList.innerHTML = '';
+        if (data.people?.length) {
+          if (peopleLabel) peopleLabel.textContent = data.people[0].label || peopleLabel.textContent;
+          data.people.forEach((person) => {
+            const row = document.createElement('span');
+            row.className = 'detail-person-row';
+            const nameWrap = person.href ? document.createElement('a') : document.createElement('span');
+            nameWrap.className = 'detail-person-name-link';
+            if (person.href) nameWrap.setAttribute('href', person.href);
+            const name = document.createElement('span');
+            name.className = 'detail-person-name';
+            name.textContent = person.name;
+            nameWrap.appendChild(name);
+            row.appendChild(nameWrap);
+            if (person.country) {
+              const separator = document.createElement('span');
+              separator.className = 'detail-person-separator';
+              separator.setAttribute('aria-hidden', 'true');
+              separator.textContent = ' · ';
+              row.appendChild(separator);
+              const country = document.createElement('span');
+              country.className = 'detail-person-country';
+              country.textContent = person.country;
+              row.appendChild(country);
+            }
+            peopleList.appendChild(row);
+          });
+        }
+      }
+
+      const focusWrap = document.querySelector('[data-detail-focus-wrap]');
+      if (focusWrap) {
+        focusWrap.hidden = !data.focus;
+        setText('[data-detail-focus-label]', data.focusLabel);
+        setText('[data-detail-focus]', data.focus);
+      }
+
+      if (detailFullPage) {
+        detailFullPage.hidden = !data.fullPageHref;
+        detailFullPage.setAttribute('href', data.fullPageHref || '#');
+      }
+
+      detailOverlay.hidden = false;
+      detailPanel.classList.add('open');
+      detailOverlay.classList.add('open');
+      detailPanel.setAttribute('aria-hidden', 'false');
+      detailClose?.focus();
+    }
+
+    function closeDetail() {
+      if (!detailPanel || !detailOverlay) return;
+      detailPanel.classList.remove('open');
+      detailOverlay.classList.remove('open');
+      detailPanel.setAttribute('aria-hidden', 'true');
+      detailOverlay.hidden = true;
+      lastFocusedCard?.focus?.();
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.getAttribute('data-filter');
+        if (filter === 'all') {
+          activeFilters = new Set(['all']);
+        } else {
+          activeFilters.delete('all');
+          activeFilters.has(filter) ? activeFilters.delete(filter) : activeFilters.add(filter);
+          if (activeFilters.size === 0) activeFilters.add('all');
+        }
+        renderBoard();
+      });
+    });
+
+    viewButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeViewMode = button.getAttribute('data-view-mode') || 'full_festival';
+        renderBoard();
+      });
+    });
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => openDetail(card.getAttribute('data-detail-key'), card));
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openDetail(card.getAttribute('data-detail-key'), card);
+        }
+      });
+    });
+
+    detailClose?.addEventListener('click', closeDetail);
+    detailOverlay?.addEventListener('click', closeDetail);
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeDetail();
+    });
+    renderBoard();
+  });
+</script>
+
+<style>
+  :global(.horizontal-page) {
+    width: min(100% - 40px, 1880px);
+  }
+
+  :global(.horizontal-page > .page-hero) {
+    width: min(100%, var(--page-hero-default-width));
+    margin-inline: auto;
+  }
+
+  .horizontal-controls {
+    display: grid;
+    gap: 12px;
+    width: min(100%, 1040px);
+    margin-inline: auto;
+    margin-bottom: 28px;
+    padding: 16px 18px;
+    border: 1px solid rgba(222, 214, 203, 0.72);
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(251, 250, 247, 0.78), rgba(242, 238, 231, 0.36));
+  }
+
+  .control-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .control-row > span {
+    width: 72px;
+    color: var(--soft);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .control-row a,
+  .control-row button {
+    --filter-accent: var(--line-strong);
+    --filter-tint: rgba(240, 235, 227, 0.58);
+    min-height: 36px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    padding: 8px 12px;
+    font: inherit;
+    font-size: 0.84rem;
+    line-height: 1.1;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .control-row button[data-filter] {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .control-row button[data-filter]:not([data-filter="all"])::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: var(--filter-accent);
+    opacity: 0.96;
+  }
+
+  .control-row button[data-filter="ci"] {
+    --filter-accent: #738b5f;
+    --filter-tint: rgba(115, 139, 95, 0.25);
+  }
+
+  .control-row button[data-filter="performance_labs"] {
+    --filter-accent: #a06f42;
+    --filter-tint: rgba(160, 111, 66, 0.26);
+  }
+
+  .control-row button[data-filter="performances"] {
+    --filter-accent: #8d4f67;
+    --filter-tint: rgba(141, 79, 103, 0.26);
+  }
+
+  .control-row button[data-filter="family_youth"] {
+    --filter-accent: #62869a;
+    --filter-tint: rgba(98, 134, 154, 0.25);
+  }
+
+  .control-row button[data-filter="jams_gatherings"] {
+    --filter-accent: #736e96;
+    --filter-tint: rgba(115, 110, 150, 0.25);
+  }
+
+  .control-row button[data-filter="breaks"] {
+    --filter-accent: #9f917d;
+    --filter-tint: rgba(159, 145, 125, 0.27);
+  }
+
+  .control-row a:hover,
+  .control-row button:hover,
+  .control-row .active {
+    border-color: color-mix(in srgb, var(--filter-accent) 52%, var(--line-strong));
+    background: var(--filter-tint);
+    color: var(--ink);
+  }
+
+  .filter-x {
+    display: none;
+    margin-left: 6px;
+    color: var(--soft);
+  }
+
+  .control-row button.active .filter-x {
+    display: inline;
+  }
+
+  .control-row button[data-filter="all"] .filter-x {
+    display: none;
+  }
+
+  .horizontal-board {
+    overflow: auto;
+    border: 1px solid var(--line);
+    border-right-color: rgba(222, 214, 203, 0.58);
+    background: rgba(251, 250, 247, 0.62);
+    scrollbar-gutter: stable;
+  }
+
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: 126px repeat(9, minmax(210px, 1fr));
+    min-width: 2100px;
+  }
+
+  .grid-corner,
+  .grid-day,
+  .grid-time,
+  .grid-cell {
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .grid-corner,
+  .grid-day {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: rgba(251, 250, 247, 0.96);
+  }
+
+  .grid-corner,
+  .grid-time {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    background: rgba(251, 250, 247, 0.98);
+  }
+
+  .grid-corner {
+    display: grid;
+    place-items: center;
+    color: var(--soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .grid-day {
+    padding: 15px 14px 16px;
+  }
+
+  .grid-day p {
+    margin: 0 0 5px;
+    color: var(--soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .grid-day h2 {
+    margin: 0 0 7px;
+    color: var(--accent-muted);
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    font-weight: 400;
+    line-height: 1.05;
+  }
+
+  .grid-day span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.25;
+  }
+
+  .grid-time {
+    padding: 16px 12px;
+  }
+
+  .grid-time strong,
+  .grid-time span {
+    display: block;
+  }
+
+  .grid-time strong {
+    color: var(--accent-muted);
+    font-size: 0.9rem;
+    line-height: 1.2;
+  }
+
+  .grid-time span {
+    margin-top: 4px;
+    color: var(--soft);
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+
+  .grid-cell {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    min-height: 128px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.28);
+  }
+
+  .grid-cell--empty {
+    background: rgba(240, 235, 227, 0.34);
+  }
+
+  .grid-cell--filtered-empty {
+    background: rgba(251, 250, 247, 0.24);
+  }
+
+  .grid-cell--closing-day {
+    background: linear-gradient(180deg, rgba(251, 250, 247, 0.9), rgba(244, 239, 231, 0.48));
+  }
+
+  .grid-cell--closing-merged {
+    grid-row: span 5;
+    align-content: start;
+    padding: 12px;
+  }
+
+  .closing-day-title {
+    margin: 0 0 10px;
+    color: var(--soft);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .horizontal-time-group {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .horizontal-time-group__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 20px;
+    color: var(--soft);
+    font-size: 0.66rem;
+    font-weight: 650;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+  }
+
+  .horizontal-time-group__head em {
+    flex: 0 0 auto;
+    border: 1px solid rgba(158, 147, 133, 0.18);
+    border-radius: 999px;
+    padding: 1px 6px 2px;
+    color: color-mix(in srgb, var(--soft) 82%, var(--muted));
+    font-style: normal;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.065em;
+    text-transform: uppercase;
+    background: rgba(251, 250, 247, 0.34);
+  }
+
+  .horizontal-time-group__cards {
+    display: grid;
+    gap: 7px;
+  }
+
+  .horizontal-time-group--parallel {
+    padding: 5px 0 1px;
+    border: 0;
+    background: linear-gradient(180deg, rgba(251, 250, 247, 0.24), rgba(251, 250, 247, 0.04));
+  }
+
+  .horizontal-time-group--parallel .horizontal-time-group__cards {
+    gap: 6px;
+  }
+
+  .horizontal-time-group--sequence {
+    padding-top: 2px;
+  }
+
+  .horizontal-time-group--sequence .horizontal-card + .horizontal-card,
+  .horizontal-time-group--closing .horizontal-card + .horizontal-card {
+    margin-top: 2px;
+  }
+
+  .horizontal-time-group--closing {
+    padding: 6px 0 2px;
+    border: 0;
+    background: linear-gradient(180deg, rgba(251, 250, 247, 0.42), rgba(251, 250, 247, 0.08));
+  }
+
+  .horizontal-card {
+    --card-accent: var(--line-strong);
+    --card-tint: rgba(251, 250, 247, 0.72);
+    min-width: 0;
+    padding: 8px 10px 9px 11px;
+    border-left: 2px solid var(--card-accent);
+    border-radius: 0;
+    background: linear-gradient(90deg, var(--card-tint), rgba(251, 250, 247, 0.9) 72%, rgba(251, 250, 247, 0.48));
+    cursor: pointer;
+    transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+  }
+
+  .horizontal-card.is-hidden,
+  .horizontal-time-group.is-hidden {
+    display: none !important;
+  }
+
+  .horizontal-time-group:not(:has(.horizontal-card:not(.is-hidden))) {
+    display: none !important;
+  }
+
+  .horizontal-card:hover,
+  .horizontal-card:focus-visible {
+    background: linear-gradient(90deg, var(--card-tint), rgba(255, 255, 255, 0.84) 72%, rgba(255, 255, 255, 0.48));
+    outline: 0;
+    transform: translateY(-1px);
+  }
+
+  .horizontal-time-group--sequence .horizontal-card {
+    padding-left: 10px;
+  }
+
+  .horizontal-time-group--closing .horizontal-card {
+    padding-left: 10px;
+  }
+
+  .horizontal-card--ci {
+    --card-accent: #738b5f;
+    --card-tint: rgba(115, 139, 95, 0.23);
+  }
+
+  .horizontal-card--performance_labs {
+    --card-accent: #a06f42;
+    --card-tint: rgba(160, 111, 66, 0.22);
+  }
+
+  .horizontal-card--performances {
+    --card-accent: #8d4f67;
+    --card-tint: rgba(141, 79, 103, 0.22);
+  }
+
+  .horizontal-card--family_youth {
+    --card-accent: #62869a;
+    --card-tint: rgba(98, 134, 154, 0.22);
+  }
+
+  .horizontal-card--jams_gatherings {
+    --card-accent: #736e96;
+    --card-tint: rgba(115, 110, 150, 0.22);
+  }
+
+  .horizontal-card--breaks {
+    --card-accent: #9f917d;
+    --card-tint: rgba(159, 145, 125, 0.22);
+  }
+
+  .horizontal-card--org {
+    --card-accent: #958876;
+    --card-tint: rgba(149, 136, 118, 0.18);
+  }
+
+  .horizontal-card[data-density="secondary"] {
+    opacity: 0.78;
+    border-left-width: 2px;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--card-tint) 72%, transparent), rgba(251, 250, 247, 0.42) 72%, rgba(251, 250, 247, 0.18));
+  }
+
+  .horizontal-card[data-card-kind="detail"] .horizontal-card__summary {
+    display: none;
+  }
+
+  .horizontal-card[data-card-note="true"] .horizontal-card__summary {
+    display: -webkit-box;
+  }
+
+  .horizontal-card[data-density="secondary"] h3 {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 560;
+    line-height: 1.18;
+  }
+
+  .horizontal-card[data-density="secondary"] .horizontal-card__meta {
+    margin-bottom: 4px;
+  }
+
+  .horizontal-card__meta {
+    margin: 0 0 5px;
+    color: currentColor;
+    line-height: 1.16;
+  }
+
+  .horizontal-card__meta-primary,
+  .horizontal-card__meta-secondary {
+    display: block;
+    color: currentColor;
+  }
+
+  .horizontal-card__meta-primary {
+    opacity: 0.72;
+    font-size: 0.58rem;
+    font-weight: 620;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+  }
+
+  .horizontal-card__meta-secondary {
+    opacity: 0.48;
+    font-size: 0.56rem;
+    font-weight: 400;
+  }
+
+  .horizontal-card__meta-secondary::before {
+    content: "";
+  }
+
+  .horizontal-card h3 {
+    margin: 0 0 4px;
+    font-family: var(--font-serif);
+    font-size: 0.86rem;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.15;
+  }
+
+  .horizontal-card__people,
+  .horizontal-card__summary {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.64rem;
+    line-height: 1.28;
+  }
+
+  .horizontal-card__people {
+    display: grid;
+    gap: 2px;
+    color: currentColor;
+    opacity: 0.58;
+  }
+
+  .horizontal-card__person {
+    display: grid;
+    gap: 1px;
+  }
+
+  .horizontal-card__person > span {
+    overflow: hidden;
+    font-size: 0.64rem;
+    line-height: 1.18;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .horizontal-card__person small {
+    color: currentColor;
+    font-size: 0.58rem;
+    font-weight: 400;
+    line-height: 1.15;
+    opacity: 0.55;
+  }
+
+  .horizontal-card__person--more {
+    margin-top: 1px;
+    opacity: 0.7;
+  }
+
+  .horizontal-card__person--more > span {
+    font-size: 0.58rem;
+    font-weight: 500;
+  }
+
+  .horizontal-card__summary {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .empty-message {
+    margin: 0;
+    padding: 20px;
+    color: var(--muted);
+  }
+
+  .detail-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: rgba(36, 32, 28, 0.16);
+  }
+
+  .detail-panel {
+    --program-accent: var(--accent-muted);
+    --program-tint: rgba(143, 132, 117, 0.16);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: min(500px, calc(100% - 28px));
+    height: 100vh;
+    padding: clamp(24px, 3.6vw, 38px);
+    border-left: 1px solid var(--line);
+    background: rgba(251, 250, 247, 0.98);
+    box-shadow: -18px 0 60px rgba(47, 39, 33, 0.12);
+    overflow-y: auto;
+    transform: translateX(102%);
+    transition: transform 220ms ease;
+  }
+
+  .detail-panel[data-accent="ci"] {
+    --program-accent: #738b5f;
+    --program-tint: rgba(115, 139, 95, 0.2);
+  }
+
+  .detail-panel[data-accent="performance_labs"] {
+    --program-accent: #a06f42;
+    --program-tint: rgba(160, 111, 66, 0.2);
+  }
+
+  .detail-panel[data-accent="performances"] {
+    --program-accent: #8d4f67;
+    --program-tint: rgba(141, 79, 103, 0.2);
+  }
+
+  .detail-panel[data-accent="family_youth"] {
+    --program-accent: #62869a;
+    --program-tint: rgba(98, 134, 154, 0.2);
+  }
+
+  .detail-panel[data-accent="jams_gatherings"] {
+    --program-accent: #736e96;
+    --program-tint: rgba(115, 110, 150, 0.2);
+  }
+
+  .detail-panel[data-accent="breaks"] {
+    --program-accent: #9f917d;
+    --program-tint: rgba(159, 145, 125, 0.18);
+  }
+
+  .detail-panel .program-meta__category {
+    color: var(--program-accent);
+  }
+
+  .detail-panel .program-meta__divider {
+    background: color-mix(in srgb, var(--program-accent) 52%, var(--line-strong));
+  }
+
+  .detail-panel.open {
+    transform: translateX(0);
+  }
+
+  .detail-overlay.open {
+    display: block;
+  }
+
+  .detail-close {
+    align-self: flex-end;
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .detail-panel h2 {
+    max-width: 400px;
+    margin: 0 0 4px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.62rem, 2.45vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.08;
+  }
+
+  .detail-facts {
+    display: grid;
+    margin: 0;
+    padding: 2px 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .detail-fact {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .detail-facts dt,
+  .detail-focus h3 {
+    margin: 0 0 7px;
+    color: var(--soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .detail-facts dd {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    font-weight: 500;
+    line-height: 1.34;
+  }
+
+  :global(.detail-date-line),
+  :global(.detail-person-row) {
+    display: block;
+  }
+
+  :global(.detail-date-days),
+  :global(.detail-person-country),
+  :global(.detail-place-link small) {
+    color: var(--soft);
+    font-size: 0.76rem;
+    font-weight: 400;
+  }
+
+  .detail-facts a,
+  :global(.detail-place-link),
+  :global(.detail-person-name-link) {
+    color: inherit;
+    text-decoration: none !important;
+  }
+
+  :global(.detail-place-link) {
+    display: grid;
+    gap: 2px;
+    width: fit-content;
+    max-width: 100%;
+    border-bottom: 0;
+    line-height: 1.25;
+  }
+
+  :global([data-detail-place-list]) {
+    display: grid;
+    gap: 8px;
+  }
+
+  :global([data-detail-place-list] .detail-place-link + .detail-place-link) {
+    padding-top: 7px;
+    border-top: 1px solid rgba(222, 214, 203, 0.42);
+  }
+
+  :global(.detail-place-link span),
+  :global(.detail-place-link small) {
+    display: block;
+  }
+
+  :global(.detail-place-link span) {
+    color: color-mix(in srgb, var(--muted) 84%, var(--soft));
+    font-size: 0.88rem;
+    font-weight: 540;
+  }
+
+  :global(.detail-place-link small) {
+    max-width: 36ch;
+    font-size: 0.68rem;
+    line-height: 1.32;
+  }
+
+  :global(.detail-place-link .detail-place-date) {
+    color: color-mix(in srgb, var(--accent-muted) 58%, var(--soft));
+    font-size: 0.58rem;
+    font-weight: 650;
+    letter-spacing: 0.07em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  :global(.detail-place-link:hover span) {
+    color: var(--ink);
+  }
+
+  .detail-description {
+    max-width: 400px;
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.56;
+    white-space: pre-line;
+  }
+
+  .detail-focus {
+    max-width: 400px;
+    margin: 2px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+
+  .detail-focus p {
+    margin: 0;
+    color: var(--accent-muted);
+    font-size: 0.86rem;
+    line-height: 1.48;
+  }
+
+  .detail-full-link {
+    align-self: flex-start;
+    color: var(--soft);
+    margin-top: -4px;
+    padding: 7px 0 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .detail-full-link:hover {
+    color: var(--accent-muted);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 0.24em;
+  }
+
+  @media (max-width: 720px) {
+    :global(.horizontal-page) {
+      width: min(100% - 28px, 1500px);
+    }
+
+    .horizontal-controls {
+      margin-left: -14px;
+      margin-right: -14px;
+      padding-left: 14px;
+      padding-right: 14px;
+      overflow-x: auto;
+    }
+
+    .control-row {
+      flex-wrap: nowrap;
+      min-width: max-content;
+    }
+
+    .detail-panel {
+      top: auto;
+      bottom: 0;
+      width: 100%;
+      height: min(86vh, 760px);
+      border-top: 1px solid var(--line);
+      border-left: 0;
+      border-radius: 22px 22px 0 0;
+      box-shadow: 0 -18px 60px rgba(47, 39, 33, 0.14);
+      transform: translateY(104%);
+    }
+
+    .detail-panel.open {
+      transform: translateY(0);
+    }
+  }
+</style>

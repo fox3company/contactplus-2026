@@ -1,0 +1,2200 @@
+<!DOCTYPE html>
+<!-- Contact+ 2026 v49: Dinner Break Detail View time formatting aligned with Lunch Break -->
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><title>Contact+ 2026 — Full Festival Overview</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><style>
+:root{--bg:#f5f5f7;--surface:#fff;--surface-2:#fbfbfd;--text:#1d1d1f;--muted:#6e6e73;--line:rgba(29,29,31,.10);--soft-line:rgba(29,29,31,.06);--gap:#eff1f4;--ci:#edf5ea;--ci-text:#496344;--performance:#f7ede9;--performance-text:#8a5942;--jam:#efeff8;--jam-text:#55517a;--meal:#f8f4ea;--meal-text:#806942;--family:#e9f2fb;--family-text:#4d6f89;--gathering:#f2f2f2;--gathering-text:#5d5d62}*{box-sizing:border-box}html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}.page{width:min(100% - 32px,1800px);margin:0 auto;padding:34px 0 50px}.header{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;margin-bottom:22px}.eyebrow{color:var(--muted);font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px}h1{margin:0;font-size:clamp(34px,4vw,58px);line-height:.98;letter-spacing:-.055em;font-weight:620}.subtitle{margin-top:12px;color:var(--muted);font-size:15px;max-width:810px}.header-card{background:var(--surface);border:1px solid var(--soft-line);border-radius:24px;padding:18px 20px;min-width:300px;box-shadow:0 12px 34px rgba(0,0,0,.04)}.header-card-row{display:flex;justify-content:space-between;gap:18px;padding:6px 0;border-bottom:1px solid var(--soft-line);font-size:13px}.header-card-row:last-child{border-bottom:0}.header-card-label{color:var(--muted)}.header-card-value{font-weight:500;text-align:right}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:18px 0 16px}.legend{display:flex;flex-wrap:wrap;gap:8px}.legend span{border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:12px;background:var(--surface)}.legend .ci{background:var(--ci);color:var(--ci-text)}.legend .performance{background:var(--performance);color:var(--performance-text)}.legend .jam{background:var(--jam);color:var(--jam-text)}.legend .meal{background:var(--meal);color:var(--meal-text)}.legend .family{background:var(--family);color:var(--family-text)}.legend .gathering{background:var(--gathering);color:var(--gathering-text)}.toggle-wrap{display:flex;gap:8px}.toggle{appearance:none;border:1px solid var(--line);border-radius:999px;padding:10px 14px;background:var(--surface);font-size:13px;cursor:pointer}.toggle.active{background:#1d1d1f;color:#fff;border-color:#1d1d1f}.board-wrap{overflow:auto;border:1px solid var(--line);border-radius:26px;background:var(--surface);box-shadow:0 18px 55px rgba(0,0,0,.06)}table{border-collapse:separate;border-spacing:0;min-width:2100px;width:100%}th,td{border-right:1px solid var(--soft-line);border-bottom:1px solid var(--soft-line);vertical-align:top}thead th{position:sticky;top:0;z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(14px)}.corner{position:sticky;left:0;z-index:4;width:130px;min-width:130px;background:rgba(255,255,255,.96)}.day-head{min-width:220px;width:220px;padding:16px 14px;text-align:left}.last-day-head{min-width:260px;width:260px}.day-label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:500}.day-date{font-size:22px;letter-spacing:-.04em;font-weight:600;margin-top:3px}.day-theme{color:var(--muted);font-size:12px;margin-top:4px;line-height:1.25}.time-cell{position:sticky;left:0;z-index:1;width:130px;min-width:130px;background:#fbfbfd;padding:16px 13px;text-align:left}.band-name{color:#a06c4a;font-size:13px;font-weight:600}.band-time{margin-top:4px;color:var(--muted);font-size:11.5px}.cell{min-width:220px;padding:8px;background:#fff}.gap-cell{background:linear-gradient(180deg,var(--gap),#f7f7f9)}.gap-fill{min-height:80px;border-radius:12px}.events{display:grid;gap:8px;align-content:start}.time-group{display:grid;gap:6px;padding:6px;border-radius:12px;background:var(--surface-2);border:1px solid var(--soft-line)}.group-time{font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}.group-events{display:grid;gap:6px}.event{border-radius:14px;padding:9px 10px 10px;border:1px solid transparent;min-height:92px}.event-meta{font-size:10.5px;margin-bottom:4px;opacity:.78}.event-meta span{display:inline-flex;align-items:center;border:1px solid rgba(0,0,0,.055);background:rgba(255,255,255,.46);border-radius:999px;padding:3px 6px;margin-right:4px;margin-bottom:3px}@media(max-width:700px){}.event-title{font-size:13px;line-height:1.2;font-weight:600;letter-spacing:-.015em}.event-sub{margin-top:3px;color:currentColor;opacity:.74;font-size:11.5px;line-height:1.25}.event-sub .sub-line{display:block;margin-bottom:3px}.event-sub .role-line{display:block;margin-bottom:3px;opacity:.82}.event-sub .teacher-line{display:block;margin-top:2px;color:currentColor;opacity:.94}.event-sub .country-line{display:block;margin-top:1px;color:currentColor;opacity:.68;font-size:10.8px;line-height:1.18}.event-sub .teacher-list-label{display:block;margin-bottom:2px;opacity:.72}.event.ci{background:var(--ci);color:var(--ci-text);border-color:rgba(73,99,68,.12)}.event.performance{background:var(--performance);color:var(--performance-text);border-color:rgba(138,89,66,.12)}.event.jam{background:var(--jam);color:var(--jam-text);border-color:rgba(85,81,122,.12)}.event.meal{background:var(--meal);color:var(--meal-text);border-color:rgba(128,105,66,.12)}.event.family{background:var(--family);color:var(--family-text);border-color:rgba(77,111,137,.12)}.event.gathering{background:var(--gathering);color:var(--gathering-text);border-color:rgba(93,93,98,.12)}.merged-last{background:linear-gradient(180deg,#fff,#fcfcfd)}.merged-last-wrap{min-height:100%;display:grid;align-content:start;gap:10px}.merged-last-title{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:3px 2px 2px}.note{margin:16px auto 0;color:var(--muted);font-size:13px;line-height:1.45;text-align:center;max-width:980px}.footer-credit{margin:18px auto 0;padding-top:10px;border-top:1px solid var(--soft-line);color:var(--muted);font-size:11.5px;line-height:1.35;display:flex;flex-wrap:wrap;gap:5px;align-items:center;justify-content:center;text-align:center;max-width:760px;opacity:.82}.footer-credit a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(110,110,115,.22)}.footer-credit a:hover{color:var(--text);border-bottom-color:rgba(29,29,31,.38)}.hide-family .event[data-program="family"],.hide-family .time-group.family-only{display:none!important}@media print{@page{size:A3 landscape;margin:8mm}body{background:#fff}.page{width:100%;padding:0}.board-wrap{box-shadow:none;overflow:visible}.toggle-wrap{display:none}table{min-width:0;font-size:9px}.day-head{min-width:0;width:auto;padding:8px 7px}.cell{min-width:0;padding:4px}.time-cell,.corner{width:84px;min-width:84px}.time-group{padding:4px;gap:4px}.event{padding:5px 6px;border-radius:8px;min-height:auto}.event-title{font-size:9px}.event-sub,.event-meta,.group-time{font-size:7.5px}}
+
+.header-card{box-shadow:0 10px 30px rgba(0,0,0,.035)}
+.subtitle{max-width:880px}
+.toolbar{align-items:flex-end;padding:14px;border:1px solid var(--soft-line);border-radius:22px;background:rgba(255,255,255,.62);box-shadow:0 10px 30px rgba(0,0,0,.025)}
+.legend{align-items:center}
+.filter-pill{appearance:none;border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:12px;line-height:1.1;background:var(--surface);color:var(--muted);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease,color .16s ease;display:inline-flex;align-items:center;gap:6px}
+.filter-pill:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(0,0,0,.045);color:var(--text)}
+.filter-pill .filter-x{display:none;font-size:13px;line-height:1;opacity:.7}
+.filter-pill.active .filter-x{display:inline}
+.filter-pill.active{border-color:rgba(29,29,31,.20);box-shadow:inset 0 0 0 1px rgba(29,29,31,.07),0 8px 20px rgba(0,0,0,.04);color:var(--text)}
+.filter-pill.ci{background:var(--ci);color:var(--ci-text)}
+.filter-pill.performance{background:var(--performance);color:var(--performance-text)}
+.filter-pill.jam{background:var(--jam);color:var(--jam-text)}
+.filter-pill.meal{background:var(--meal);color:var(--meal-text)}
+.filter-pill.family{background:var(--family);color:var(--family-text)}
+.filter-pill.gathering{background:var(--gathering);color:var(--gathering-text)}
+.filter-pill.active.ci{border-color:rgba(73,99,68,.35)}
+.filter-pill.active.performance{border-color:rgba(138,89,66,.35)}
+.filter-pill.active.jam{border-color:rgba(85,81,122,.35)}
+.filter-pill.active.meal{border-color:rgba(128,105,66,.35)}
+.filter-pill.active.family{border-color:rgba(77,111,137,.35)}
+.filter-pill.active.gathering{border-color:rgba(93,93,98,.35)}
+.toggle{transition:background .16s ease,color .16s ease,box-shadow .16s ease,transform .16s ease}
+.toggle:hover{transform:translateY(-1px);box-shadow:0 7px 18px rgba(0,0,0,.045)}
+.board-wrap{box-shadow:0 16px 44px rgba(0,0,0,.045)}
+.cell{background:#fffdfb}
+.time-group{background:rgba(255,255,255,.54)}
+.event{min-height:86px;box-shadow:0 1px 0 rgba(255,255,255,.48) inset}
+.event-title{font-weight:610}
+.event-sub{opacity:.76}
+.event.is-hidden-by-filter,.time-group.is-hidden-by-filter{display:none!important}
+@media(max-width:900px){.toolbar{padding:12px}.filter-pill{padding:8px 10px}}
+
+
+.corner{
+  text-align:center!important;
+  vertical-align:middle!important;
+  color:var(--muted);
+  font-size:11.5px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:560;
+  background:rgba(255,255,255,.97)!important;
+}
+.corner::after{
+  content:"";
+  display:block;
+  width:34px;
+  height:1px;
+  margin:7px auto 0;
+  background:rgba(29,29,31,.14);
+}
+
+
+.hero-copy{
+  max-width:900px;
+}
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:#8a6a4d!important;
+  font-size:11px!important;
+  letter-spacing:.18em!important;
+  text-transform:uppercase;
+  font-weight:650!important;
+  margin-bottom:11px!important;
+}
+.eyebrow::before{
+  content:"";
+  width:24px;
+  height:1px;
+  background:rgba(160,108,74,.44);
+  display:inline-block;
+}
+h1{
+  font-size:clamp(42px,5vw,72px)!important;
+  line-height:.92!important;
+  letter-spacing:-.065em!important;
+  font-weight:640!important;
+}
+.hero-title-note{
+  margin-top:12px;
+  font-size:clamp(18px,2vw,28px);
+  line-height:1.08;
+  letter-spacing:-.035em;
+  font-weight:520;
+  color:#3b352f;
+}
+.subtitle{
+  margin-top:14px!important;
+  max-width:760px!important;
+  color:var(--muted)!important;
+  font-size:15px!important;
+  line-height:1.55!important;
+}
+.header{
+  align-items:center!important;
+  margin-bottom:24px!important;
+}
+.header-card{
+  align-self:center;
+}
+@media(max-width:900px){
+  .header{
+    grid-template-columns:1fr!important;
+    align-items:start!important;
+  }
+  h1{
+    font-size:44px!important;
+  }
+  .hero-title-note{
+    font-size:21px;
+  }
+}
+
+
+.header-card-row{
+  font-size:12.5px!important;
+}
+.header-card-label{
+  letter-spacing:.02em;
+}
+.header-card-value{
+  font-weight:560!important;
+}
+
+
+.event-title-split{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.event-title-split .title-main{
+  display:block;
+  font-weight:680;
+  letter-spacing:-.012em;
+}
+.event-title-split .title-sub{
+  display:block;
+  font-weight:520;
+  color:currentColor;
+  opacity:.68;
+  line-height:1.18;
+}
+
+
+
+
+
+/* V30 editorial refinement */
+
+/* Header and controls */
+.header-card{
+  box-shadow:0 8px 24px rgba(0,0,0,.026)!important;
+  border-color:rgba(29,29,31,.075)!important;
+  border-radius:22px!important;
+}
+.toolbar{
+  box-shadow:none!important;
+  background:rgba(255,255,255,.50)!important;
+  border-color:rgba(29,29,31,.075)!important;
+}
+.filter-pill{
+  padding:6.5px 9.5px!important;
+  font-size:11.7px!important;
+  background:rgba(255,255,255,.44)!important;
+  border-color:rgba(29,29,31,.075)!important;
+  color:var(--muted)!important;
+  box-shadow:none!important;
+}
+.filter-pill:hover{
+  transform:translateY(-1px);
+  box-shadow:0 5px 14px rgba(0,0,0,.026)!important;
+  color:var(--text)!important;
+}
+.filter-pill.active{
+  color:var(--text)!important;
+  background:rgba(255,255,255,.70)!important;
+  border-color:rgba(29,29,31,.18)!important;
+  box-shadow:inset 0 0 0 1px rgba(29,29,31,.045)!important;
+}
+.filter-pill.ci,.filter-pill.performance,.filter-pill.jam,.filter-pill.meal,.filter-pill.family,.filter-pill.gathering{
+  background:rgba(255,255,255,.46)!important;
+}
+.toggle{
+  box-shadow:none!important;
+  border-color:rgba(29,29,31,.09)!important;
+}
+.interaction-note{
+  margin:4px 2px 14px!important;
+  color:var(--muted);
+  font-size:11.8px!important;
+  line-height:1.35;
+  letter-spacing:.002em!important;
+  display:block!important;
+  opacity:.68!important;
+}
+.interaction-note::before{display:none!important}
+
+/* Day headers and board */
+.board-wrap{
+  box-shadow:0 14px 42px rgba(0,0,0,.045)!important;
+  border-color:rgba(29,29,31,.085)!important;
+}
+.day-head{
+  padding:18px 14px 17px!important;
+}
+.day-label{
+  font-size:11.2px!important;
+  letter-spacing:.075em!important;
+  opacity:.78;
+}
+.day-date{
+  margin-top:4px!important;
+  font-weight:610!important;
+}
+.day-theme{
+  margin-top:5px!important;
+  opacity:.72;
+}
+
+/* Event cards: editorial hierarchy */
+.event{
+  padding:10px 10px 11px!important;
+  border-radius:14px!important;
+}
+.event[data-detail]{
+  padding-right:10px!important;
+  cursor:pointer;
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .16s ease;
+}
+.event[data-detail]:hover{
+  transform:translateY(-1px);
+  box-shadow:0 7px 16px rgba(0,0,0,.035)!important;
+  border-color:rgba(29,29,31,.135)!important;
+}
+.event[data-detail]:focus-visible{
+  outline:2px solid rgba(29,29,31,.22);
+  outline-offset:2px;
+}
+.details-icon{display:none!important}
+
+/* Meta is plain text, not badge/label */
+.event-meta{
+  display:block!important;
+  margin:0 0 7px 0!important;
+  padding:0!important;
+  border:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  color:currentColor!important;
+  opacity:.72!important;
+  text-transform:none!important;
+  letter-spacing:0!important;
+}
+.event-meta span,
+.event-meta div{
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:none!important;
+  box-shadow:none!important;
+  color:currentColor!important;
+}
+.meta-primary{
+  font-size:11px!important;
+  line-height:1.17!important;
+  font-weight:500!important;
+  opacity:.74!important;
+}
+.meta-secondary{
+  margin-top:1px!important;
+  font-size:10.55px!important;
+  line-height:1.16!important;
+  font-weight:390!important;
+  opacity:.57!important;
+}
+.event-title{
+  margin-top:0!important;
+  font-size:13.15px!important;
+  line-height:1.14!important;
+  font-weight:660!important;
+  letter-spacing:-.018em!important;
+}
+.event-sub{
+  margin-top:8px!important;
+  color:currentColor!important;
+  opacity:.68!important;
+  font-size:10.85px!important;
+  line-height:1.24!important;
+}
+.event-sub .teacher-line{
+  display:block!important;
+  margin-top:0!important;
+  opacity:.92!important;
+}
+.event-sub .country-line{
+  display:block!important;
+  margin-top:1px!important;
+  opacity:.52!important;
+  font-size:10.35px!important;
+  line-height:1.18!important;
+}
+.event-sub .role-line,
+.event-sub .sub-line,
+.event-sub .teacher-list-label{
+  display:block!important;
+  opacity:.62!important;
+  font-size:10.35px!important;
+}
+
+/* Details panel: same hierarchy as cards */
+.detail-overlay{
+  position:fixed;
+  inset:0;
+  z-index:50;
+  display:none;
+  background:rgba(32,28,24,.16);
+  backdrop-filter:blur(10px);
+}
+.detail-overlay.open{display:block}
+.detail-panel{
+  position:fixed;
+  top:22px;
+  right:22px;
+  bottom:22px;
+  width:min(440px, calc(100vw - 44px));
+  z-index:51;
+  display:none;
+  overflow:auto;
+  border:1px solid rgba(29,29,31,.085);
+  border-radius:26px;
+  background:rgba(255,253,250,.95);
+  box-shadow:0 26px 72px rgba(0,0,0,.14);
+  padding:24px;
+}
+.detail-panel.open{
+  display:block;
+  animation:detailIn .18s ease-out;
+}
+@keyframes detailIn{
+  from{opacity:0;transform:translateX(10px)}
+  to{opacity:1;transform:translateX(0)}
+}
+.detail-close{
+  position:absolute;
+  top:16px;
+  right:16px;
+  width:32px;
+  height:32px;
+  border:1px solid rgba(29,29,31,.09);
+  border-radius:999px;
+  background:rgba(255,255,255,.68);
+  color:var(--muted);
+  cursor:pointer;
+  font-size:18px;
+  line-height:1;
+}
+.detail-close:hover{
+  color:var(--text);
+  background:#fff;
+}
+.detail-kicker{
+  max-width:calc(100% - 46px);
+  margin-bottom:14px;
+  color:#8a6a4d;
+  text-transform:none!important;
+  letter-spacing:0!important;
+  white-space:normal;
+}
+.detail-kicker-primary{
+  display:block;
+  font-size:12px;
+  line-height:1.22;
+  font-weight:520;
+  opacity:.78;
+}
+.detail-kicker-secondary{
+  display:block;
+  margin-top:2px;
+  font-size:11.35px;
+  line-height:1.2;
+  font-weight:400;
+  opacity:.62;
+}
+.detail-title{
+  max-width:calc(100% - 46px);
+  margin:0;
+  font-size:34px;
+  line-height:.98;
+  letter-spacing:-.052em;
+  font-weight:650;
+}
+.detail-person{
+  margin-top:14px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.45;
+}
+.detail-meta{
+  margin-top:16px;
+  display:inline-flex;
+  border:1px solid rgba(29,29,31,.085);
+  border-radius:999px;
+  padding:7px 10px;
+  color:var(--muted);
+  background:rgba(255,255,255,.50);
+  font-size:12px;
+}
+.detail-description{
+  margin-top:24px;
+  color:#393633;
+  font-size:15px;
+  line-height:1.58;
+}
+.detail-info-grid{
+  margin-top:22px;
+  display:grid;
+  gap:10px;
+}
+.detail-info{
+  border-top:1px solid rgba(29,29,31,.075);
+  padding-top:11px;
+}
+.detail-info-label{
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:5px;
+}
+.detail-info-value{
+  color:#393633;
+  font-size:13px;
+  line-height:1.45;
+}
+@media(max-width:720px){
+  .detail-panel{
+    top:auto;
+    left:10px;
+    right:10px;
+    bottom:10px;
+    width:auto;
+    max-height:86vh;
+    border-radius:24px;
+    padding:22px;
+  }
+  .detail-title{font-size:30px}
+  .interaction-note{font-size:11.8px}
+}
+@media print{
+  .detail-overlay,.detail-panel,.details-icon,.interaction-note{display:none!important}
+}
+
+
+/* V31 filter colors + inline CI meta */
+.filter-pill.ci{
+  background:var(--ci)!important;
+  color:var(--ci-text)!important;
+}
+.filter-pill.performance{
+  background:var(--performance)!important;
+  color:var(--performance-text)!important;
+}
+.filter-pill.jam{
+  background:var(--jam)!important;
+  color:var(--jam-text)!important;
+}
+.filter-pill.meal{
+  background:var(--meal)!important;
+  color:var(--meal-text)!important;
+}
+.filter-pill.family{
+  background:var(--family)!important;
+  color:var(--family-text)!important;
+}
+.filter-pill.gathering{
+  background:var(--gathering)!important;
+  color:var(--gathering-text)!important;
+}
+.filter-pill.active.ci{border-color:rgba(73,99,68,.35)!important}
+.filter-pill.active.performance{border-color:rgba(138,89,66,.35)!important}
+.filter-pill.active.jam{border-color:rgba(85,81,122,.35)!important}
+.filter-pill.active.meal{border-color:rgba(128,105,66,.35)!important}
+.filter-pill.active.family{border-color:rgba(77,111,137,.35)!important}
+.filter-pill.active.gathering{border-color:rgba(93,93,98,.35)!important}
+
+.meta-main{
+  font:inherit;
+}
+.meta-inline-secondary{
+  font-size:10.55px;
+  line-height:1.16;
+  font-weight:390;
+  opacity:.77;
+}
+.detail-kicker-primary .meta-inline-secondary{
+  font-size:11.35px;
+  line-height:1.2;
+  font-weight:400;
+  opacity:.78;
+}
+
+
+/* V32 details panel refinement */
+.detail-panel{
+  width:min(480px, calc(100vw - 44px))!important;
+  padding:26px!important;
+}
+.detail-kicker{
+  max-width:calc(100% - 46px);
+  margin-bottom:14px!important;
+  color:#8a6a4d;
+  text-transform:none!important;
+  letter-spacing:0!important;
+  white-space:normal;
+}
+.detail-kicker-primary{
+  display:block;
+  font-size:12px;
+  line-height:1.22;
+  font-weight:520;
+  opacity:.82;
+}
+.detail-kicker-secondary{
+  display:block;
+  margin-top:2px;
+  font-size:11.35px;
+  line-height:1.2;
+  font-weight:400;
+  opacity:.64;
+}
+.detail-kicker-primary .meta-inline-secondary{
+  font-size:11.35px;
+  line-height:1.2;
+  font-weight:400;
+  opacity:.78;
+}
+.detail-title{
+  max-width:calc(100% - 46px);
+  margin:0!important;
+  font-size:34px!important;
+  line-height:.98!important;
+  letter-spacing:-.052em!important;
+  font-weight:650!important;
+}
+.detail-context-grid{
+  margin-top:20px;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+}
+.detail-context-item{
+  display:block;
+  text-decoration:none;
+  color:inherit;
+  border:1px solid rgba(29,29,31,.075);
+  border-radius:17px;
+  background:rgba(255,255,255,.46);
+  padding:11px 12px 10px;
+}
+.detail-location-link{
+  cursor:pointer;
+  transition:border-color .16s ease, background .16s ease, transform .16s ease;
+}
+.detail-location-link:hover{
+  border-color:rgba(29,29,31,.14);
+  background:rgba(255,255,255,.68);
+  transform:translateY(-1px);
+}
+.detail-context-label{
+  color:var(--muted);
+  font-size:10.7px;
+  line-height:1.1;
+  letter-spacing:.075em;
+  text-transform:uppercase;
+  margin-bottom:5px;
+}
+.detail-context-value{
+  color:#35322f;
+  font-size:13.15px;
+  line-height:1.35;
+  font-weight:520;
+}
+.detail-context-note{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:12.1px;
+  line-height:1.35;
+}
+.detail-section{
+  margin-top:22px;
+  border-top:1px solid rgba(29,29,31,.075);
+  padding-top:13px;
+}
+.detail-section-label{
+  color:var(--muted);
+  font-size:10.8px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+.detail-people-list{
+  display:grid;
+  gap:8px;
+}
+.detail-person-row{
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) auto;
+  column-gap:12px;
+  row-gap:2px;
+  align-items:baseline;
+}
+.detail-person-role{
+  grid-column:1 / -1;
+  color:var(--muted);
+  font-size:11.6px;
+  line-height:1.25;
+  margin-bottom:1px;
+}
+.detail-person-name{
+  color:#393633;
+  font-size:13.45px;
+  line-height:1.28;
+  font-weight:520;
+}
+.detail-person-country{
+  color:var(--muted);
+  font-size:12.15px;
+  line-height:1.28;
+  text-align:right;
+  white-space:nowrap;
+}
+.detail-person-note{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.35;
+}
+.detail-description{
+  margin-top:24px!important;
+  color:#393633;
+  font-size:15px!important;
+  line-height:1.58!important;
+}
+.detail-info-grid{
+  margin-top:22px!important;
+  display:grid;
+  gap:10px;
+}
+.detail-info{
+  border-top:1px solid rgba(29,29,31,.075)!important;
+  padding-top:11px!important;
+}
+.detail-info-label{
+  color:var(--muted);
+  font-size:10.8px!important;
+  letter-spacing:.08em!important;
+  text-transform:uppercase;
+  margin-bottom:5px;
+}
+.detail-info-value{
+  color:#393633;
+  font-size:13px!important;
+  line-height:1.45!important;
+}
+@media(max-width:720px){
+  .detail-panel{
+    top:auto!important;
+    left:10px!important;
+    right:10px!important;
+    bottom:10px!important;
+    width:auto!important;
+    max-height:86vh!important;
+    border-radius:24px!important;
+    padding:22px!important;
+  }
+  .detail-title{font-size:30px!important}
+  .detail-person-row{
+    grid-template-columns:1fr;
+  }
+  .detail-person-country{
+    text-align:left;
+    white-space:normal;
+  }
+}
+
+
+/* V33 visibility and alignment fixes */
+.toolbar{
+  align-items:center!important;
+}
+.legend{
+  display:flex!important;
+  align-items:center!important;
+  align-content:center!important;
+}
+.toggle-wrap{
+  display:flex!important;
+  align-items:center!important;
+}
+.filter-pill,
+.toggle{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:34px!important;
+  line-height:1!important;
+}
+.event-meta span.meta-main,
+.event-meta span.meta-inline-secondary,
+.detail-kicker-primary span.meta-main,
+.detail-kicker-primary span.meta-inline-secondary{
+  display:inline!important;
+  align-items:baseline!important;
+  border:0!important;
+  background:none!important;
+  border-radius:0!important;
+  padding:0!important;
+  margin:0!important;
+  box-shadow:none!important;
+}
+.meta-inline-secondary{
+  font-size:10.55px!important;
+  line-height:1.16!important;
+  font-weight:390!important;
+  opacity:.77!important;
+}
+.detail-kicker-primary .meta-inline-secondary{
+  font-size:11.35px!important;
+  line-height:1.2!important;
+  font-weight:400!important;
+  opacity:.78!important;
+}
+.detail-panel{
+  width:min(480px, calc(100vw - 44px))!important;
+  padding:26px!important;
+}
+.detail-context-grid{
+  margin-top:20px!important;
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  gap:8px!important;
+}
+.detail-context-item{
+  display:block!important;
+  text-decoration:none!important;
+  color:inherit!important;
+  border:1px solid rgba(29,29,31,.075)!important;
+  border-radius:17px!important;
+  background:rgba(255,255,255,.46)!important;
+  padding:11px 12px 10px!important;
+}
+.detail-location-link{
+  cursor:pointer!important;
+  transition:border-color .16s ease, background .16s ease, transform .16s ease!important;
+}
+.detail-location-link:hover{
+  border-color:rgba(29,29,31,.14)!important;
+  background:rgba(255,255,255,.68)!important;
+  transform:translateY(-1px)!important;
+}
+.detail-context-label{
+  color:var(--muted)!important;
+  font-size:10.7px!important;
+  line-height:1.1!important;
+  letter-spacing:.075em!important;
+  text-transform:uppercase!important;
+  margin-bottom:5px!important;
+}
+.detail-context-value{
+  color:#35322f!important;
+  font-size:13.15px!important;
+  line-height:1.35!important;
+  font-weight:520!important;
+}
+.detail-context-note{
+  margin-top:3px!important;
+  color:var(--muted)!important;
+  font-size:12.1px!important;
+  line-height:1.35!important;
+}
+.detail-section{
+  margin-top:22px!important;
+  border-top:1px solid rgba(29,29,31,.075)!important;
+  padding-top:13px!important;
+}
+.detail-section-label{
+  color:var(--muted)!important;
+  font-size:10.8px!important;
+  letter-spacing:.08em!important;
+  text-transform:uppercase!important;
+  margin-bottom:10px!important;
+}
+.detail-people-list{
+  display:grid!important;
+  gap:8px!important;
+}
+.detail-person-row{
+  display:grid!important;
+  grid-template-columns:minmax(0, 1fr) auto!important;
+  column-gap:12px!important;
+  row-gap:2px!important;
+  align-items:baseline!important;
+}
+.detail-person-role{
+  grid-column:1 / -1!important;
+  color:var(--muted)!important;
+  font-size:11.6px!important;
+  line-height:1.25!important;
+  margin-bottom:1px!important;
+}
+.detail-person-name{
+  color:#393633!important;
+  font-size:13.45px!important;
+  line-height:1.28!important;
+  font-weight:520!important;
+}
+.detail-person-country{
+  color:var(--muted)!important;
+  font-size:12.15px!important;
+  line-height:1.28!important;
+  text-align:right!important;
+  white-space:nowrap!important;
+}
+.detail-person-note{
+  color:var(--muted)!important;
+  font-size:13px!important;
+  line-height:1.35!important;
+}
+@media(max-width:720px){
+  .detail-person-row{
+    grid-template-columns:1fr!important;
+  }
+  .detail-person-country{
+    text-align:left!important;
+    white-space:normal!important;
+  }
+}
+
+
+/* V35 content + people links */
+.event-meta .meta-primary,
+.event-meta .meta-primary .meta-main,
+.event-meta .meta-primary .meta-inline-secondary{
+  font-size:11px!important;
+  line-height:1.17!important;
+  font-weight:500!important;
+  opacity:.74!important;
+  letter-spacing:0!important;
+}
+.event-meta .meta-primary .meta-main,
+.event-meta .meta-primary .meta-inline-secondary{
+  display:inline!important;
+}
+.detail-kicker-primary,
+.detail-kicker-primary .meta-main,
+.detail-kicker-primary .meta-inline-secondary{
+  font-size:12px!important;
+  line-height:1.22!important;
+  font-weight:520!important;
+  opacity:.82!important;
+  letter-spacing:0!important;
+}
+.detail-person-name{
+  color:#393633!important;
+  text-decoration:none!important;
+  border-bottom:1px solid transparent;
+  transition:border-color .16s ease, color .16s ease;
+}
+a.detail-person-name:hover{
+  color:#111!important;
+  border-bottom-color:rgba(29,29,31,.25);
+}
+
+
+/* V37 fixed details + performance content */
+.detail-context-value{white-space:pre-line!important;}
+.event-meta .meta-primary,
+.event-meta .meta-primary .meta-main,
+.event-meta .meta-primary .meta-inline-secondary{
+  font-size:11px!important;line-height:1.17!important;font-weight:500!important;opacity:.74!important;letter-spacing:0!important;
+}
+.event-meta .meta-primary .meta-main,
+.event-meta .meta-primary .meta-inline-secondary,
+.detail-kicker-primary .meta-main,
+.detail-kicker-primary .meta-inline-secondary{
+  display:inline!important;border:0!important;background:none!important;border-radius:0!important;padding:0!important;margin:0!important;box-shadow:none!important;
+}
+.detail-kicker-primary,
+.detail-kicker-primary .meta-main,
+.detail-kicker-primary .meta-inline-secondary{
+  font-size:12px!important;line-height:1.22!important;font-weight:520!important;opacity:.82!important;letter-spacing:0!important;
+}
+.detail-person-name{color:#393633!important;text-decoration:none!important;border-bottom:1px solid transparent;transition:border-color .16s ease,color .16s ease;}
+a.detail-person-name:hover{color:#111!important;border-bottom-color:rgba(29,29,31,.25);}
+
+
+/* V39 reduced detail view */
+.detail-description{
+  margin-top:24px!important;
+  font-size:15.3px!important;
+  line-height:1.62!important;
+  color:#363330!important;
+}
+.detail-info-grid{
+  margin-top:24px!important;
+  display:grid!important;
+  gap:0!important;
+}
+.detail-info{
+  border-top:1px solid rgba(29,29,31,.075)!important;
+  padding-top:13px!important;
+}
+.detail-info-label{
+  color:var(--muted)!important;
+  font-size:10.8px!important;
+  line-height:1.1!important;
+  letter-spacing:.08em!important;
+  text-transform:uppercase!important;
+  margin-bottom:7px!important;
+}
+.detail-info-value{
+  color:#393633!important;
+  font-size:13.25px!important;
+  line-height:1.48!important;
+}
+.detail-context-grid{
+  margin-top:20px!important;
+}
+.detail-section{
+  margin-top:22px!important;
+}
+.detail-person-row{
+  padding:0!important;
+}
+.detail-panel{
+  padding-bottom:28px!important;
+}
+
+.site-backbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px clamp(20px,5vw,64px);background:rgba(251,250,247,.94);backdrop-filter:blur(14px);border-bottom:1px solid #ded6cb;font-size:15px}.site-backbar__title{color:#8a655c;font-family:Georgia,"Times New Roman",serif;font-size:1.08rem;font-weight:400}.site-backbar__links{display:flex;align-items:center;gap:16px;flex-wrap:wrap}.site-backbar a{color:#746d64;text-decoration:none}.site-backbar a:hover,.site-backbar a[aria-current="page"]{color:#24211f}.site-backbar a[aria-current="page"]{font-weight:600}@media(max-width:720px){.site-backbar{align-items:flex-start;flex-direction:column;gap:10px}.site-backbar__links{gap:14px}}@media print{.site-backbar{display:none}}
+</style></head><body><nav class="site-backbar" aria-label="Contact+ site navigation"><a class="site-backbar__title" href="/en/program">Contact+ 2026</a><span class="site-backbar__links"><a href="/en/program">Program Lines</a><a href="/schedule.html" aria-current="page">Schedule</a><a href="/en/artists">Teachers &amp; Artists</a></span></nav><div class="page" id="page"><header class="header"><div class="hero-copy"><div class="eyebrow">Full festival overview</div><h1>Contact+ 2026</h1><div class="hero-title-note">Full Program Overview</div><div class="subtitle">A horizontal view of the festival program — classes, laboratories, theatre performances, jams and shared festival time. Use the filters to focus on one or several program lines.</div></div><div class="header-card"><div class="header-card-row"><span class="header-card-label">Dates</span><span class="header-card-value">Sep 26 — Oct 4, 2026</span></div><div class="header-card-row"><span class="header-card-label">Location</span><span class="header-card-value">Chișinău, Moldova</span></div><div class="header-card-row"><span class="header-card-label">Focus</span><span class="header-card-value">CI · Performance · Festival Life</span></div></div></header><div class="toolbar">
+<div aria-label="Program filters" class="legend">
+<button class="filter-pill ci" data-filter="ci" type="button">CI / body practice <span class="filter-x">×</span></button>
+<button class="filter-pill performance" data-filter="performance" type="button">Performance / theatre / labs <span class="filter-x">×</span></button>
+<button class="filter-pill jam" data-filter="jam" type="button">JAM / evening gathering <span class="filter-x">×</span></button>
+<button class="filter-pill meal" data-filter="meal" type="button">Break / meals <span class="filter-x">×</span></button>
+<button class="filter-pill family" data-filter="family" type="button">Family &amp; Youth <span class="filter-x">×</span></button>
+<button class="filter-pill gathering" data-filter="gathering" type="button">Gathering events <span class="filter-x">×</span></button>
+</div>
+<div class="toggle-wrap"><button class="toggle active" id="showAll">Show all</button><button class="toggle" id="showMain">Main festival only</button></div></div>
+<div aria-label="Interaction hint" class="interaction-note">Event cards open detailed descriptions</div>
+<div class="board-wrap"><table><thead><tr><th class="corner">Time band</th><th class="day-head"><div class="day-label">Saturday</div><div class="day-date">Sep 26</div><div class="day-theme">Arrival / First Meetings</div></th><th class="day-head"><div class="day-label">Sunday</div><div class="day-date">Sep 27</div><div class="day-theme">Festival Opening</div></th><th class="day-head"><div class="day-label">Monday</div><div class="day-date">Sep 28</div><div class="day-theme">Deepening the Practice</div></th><th class="day-head"><div class="day-label">Tuesday</div><div class="day-date">Sep 29</div><div class="day-theme">Practice / Performance / Jam</div></th><th class="day-head"><div class="day-label">Wednesday</div><div class="day-date">Sep 30</div><div class="day-theme">Bodywork / Theatre Evening</div></th><th class="day-head"><div class="day-label">Thursday</div><div class="day-date">Oct 1</div><div class="day-theme">New Intensives / Theatre Evening</div></th><th class="day-head"><div class="day-label">Friday</div><div class="day-date">Oct 2</div><div class="day-theme">Lab Showings / Teachers Performance</div></th><th class="day-head"><div class="day-label">Saturday</div><div class="day-date">Oct 3</div><div class="day-theme">Film / Showings / Celebration</div></th><th class="day-head last-day-head"><div class="day-label">Sunday</div><div class="day-date">Oct 4</div><div class="day-theme">Closing Day / Dancing in the City</div></th></tr></thead><tbody><tr><th class="time-cell"><div class="band-name">Morning</div><div class="band-time">Before 10:00</div></th><td class="cell gap-cell"><div class="gap-fill"></div></td><td class="cell gap-cell"><div class="gap-fill"></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">09:00 — 10:00</div><div class="group-events"><div aria-label="Open details: Morning Practice" class="event ci" data-detail="morning-practice" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI</div></div><div class="event-title">Morning Practice</div><div class="event-sub">Morning body practice</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">09:00 — 10:00</div><div class="group-events"><div aria-label="Open details: Morning Practice" class="event ci" data-detail="morning-practice" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI</div></div><div class="event-title">Morning Practice</div><div class="event-sub">Morning body practice</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">09:00 — 10:00</div><div class="group-events"><div aria-label="Open details: Morning Practice" class="event ci" data-detail="morning-practice" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI</div></div><div class="event-title">Morning Practice</div><div class="event-sub">Morning body practice</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">09:00 — 10:00</div><div class="group-events"><div aria-label="Open details: Morning Practice" class="event ci" data-detail="morning-practice" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI</div></div><div class="event-title">Morning Practice</div><div class="event-sub">Morning body practice</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">09:00 — 10:00</div><div class="group-events"><div aria-label="Open details: Morning Practice" class="event ci" data-detail="morning-practice" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI</div></div><div class="event-title">Morning Practice</div><div class="event-sub">Morning body practice</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">09:00 — 10:00</div><div class="group-events"><div aria-label="Open details: Morning Practice" class="event ci" data-detail="morning-practice" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI</div></div><div class="event-title">Morning Practice</div><div class="event-sub">Morning body practice</div></div></div></div></div></td><td class="cell merged-last" rowspan="6"><div class="merged-last-wrap"><div class="merged-last-title">Closing day flow</div><div class="events"><div class="time-group main-or-mixed"><div class="group-time">Daytime</div><div class="group-events"><div aria-label="Open details: Dancing in the City" class="event ci" data-detail="dancing-in-the-city" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI</div></div><div class="event-title">Dancing in the City</div><div class="event-sub">Outdoor / city movement</div></div><div aria-label="Open details: Farewell JAM" class="event jam" data-detail="farewell-jam" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">JAM</div></div><div class="event-title">Farewell JAM</div><div class="event-sub">Final jam</div></div><div aria-label="Open details: Discussions" class="event gathering" data-detail="discussions" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Gathering</div></div><div class="event-title">Discussions</div><div class="event-sub">Reflection and exchange</div></div><div aria-label="Open details: Closing Circle" class="event gathering" data-detail="closing-circle" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Gathering</div></div><div class="event-title">Closing Circle</div><div class="event-sub">Festival closing</div></div></div></div><div class="time-group main-or-mixed"><div class="group-time">Afterwards</div><div class="group-events"><div aria-label="Open details: National Wine Day in Chișinău" class="event gathering" data-detail="national-wine-day-in-chi-in-u" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Gathering</div></div><div class="event-title">National Wine Day in Chișinău</div><div class="event-sub">Optional city celebration</div></div></div></div></div></div></td></tr><tr><th class="time-cell"><div class="band-name">Late morning</div><div class="band-time">10:00–13:00</div></th><td class="cell"><div class="events"><div class="time-group family-only"><div class="group-time">10:00 — 11:30</div><div class="group-events"><div aria-label="Open details: Little Curiosity: Family + Baby (&lt;6)" class="event family" data-detail="little-curiosity-family-baby-6" data-program="family" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Family &amp; Youth</div><div class="meta-secondary">Class for parents &amp; children</div></div><div class="event-title">Little Curiosity: Family + Baby (&lt;6)</div><div class="event-sub"><span class="teacher-line">Olek Wójcik</span><span class="country-line">Poland / Spain</span><span class="teacher-line">Laura Vlad</span><span class="country-line">Romania / Spain</span></div></div><div aria-label="Open details: Youth Dance Class" class="event family" data-detail="youth-dance-class" data-program="family" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Family &amp; Youth</div></div><div class="event-title">Youth Dance Class</div><div class="event-sub">For young movers</div></div></div></div><div class="time-group main-or-mixed"><div class="group-time">10:00 — 14:00</div><div class="group-events"><div aria-label="Open details: Registration" class="event gathering" data-detail="registration" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Gathering</div></div><div class="event-title">Registration</div><div class="event-sub">Festival check-in and arrival</div></div></div></div><div class="time-group main-or-mixed"><div class="group-time">12:00 — 14:30</div><div class="group-events"><div aria-label="Open details: Arriving into the Touch" class="event ci" data-detail="arriving-into-the-touch" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">CI base</div><div class="meta-secondary">2-day intensive</div></div><div class="event-title">Arriving into the Touch</div><div class="event-sub"><span class="teacher-line">Virginia Negru</span><span class="country-line">Romania</span></div></div><div aria-label="Open details: Shared Awareness" class="event performance ci" data-detail="shared-awareness" data-program="main" data-tags="ci performance" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">CI &amp; Performance class</div><div class="meta-secondary">2-day intensive</div></div><div class="event-title">Shared Awareness</div><div class="event-sub"><span class="teacher-line">Daniel Rojasanta</span><span class="country-line">Colombia</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group family-only"><div class="group-time">10:00 — 11:30</div><div class="group-events"><div aria-label="Open details: Little Curiosity: Family + Kids (6+)" class="event family" data-detail="little-curiosity-family-kids-6" data-program="family" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Family &amp; Youth</div><div class="meta-secondary">Class for parents &amp; children</div></div><div class="event-title">Little Curiosity: Family + Kids (6+)</div><div class="event-sub"><span class="teacher-line">Olek Wójcik</span><span class="country-line">Poland / Spain</span><span class="teacher-line">Laura Vlad</span><span class="country-line">Romania / Spain</span></div></div><div aria-label="Open details: Youth Dance Class" class="event family" data-detail="youth-dance-class" data-program="family" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Family &amp; Youth</div></div><div class="event-title">Youth Dance Class</div><div class="event-sub">For young movers</div></div></div></div><div class="time-group family-only"><div class="group-time">11:30 — 13:00</div><div class="group-events"><div aria-label="Open details: Family Time &amp; Discussion" class="event family" data-detail="family-time-discussion" data-program="family" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Family &amp; Youth</div></div><div class="event-title">Family Time &amp; Discussion</div><div class="event-sub"><span class="role-line">Facilitated by</span><span class="teacher-line">Laura Vlad</span><span class="country-line">Romania / Spain</span></div></div></div></div><div class="time-group main-or-mixed"><div class="group-time">12:00 — 14:30</div><div class="group-events"><div aria-label="Open details: Arriving into the Touch" class="event ci" data-detail="arriving-into-the-touch" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">CI base</div><div class="meta-secondary">2-day intensive</div></div><div class="event-title">Arriving into the Touch</div><div class="event-sub"><span class="teacher-line">Virginia Negru</span><span class="country-line">Romania</span></div></div><div aria-label="Open details: Shared Awareness" class="event performance ci" data-detail="shared-awareness" data-program="main" data-tags="ci performance" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">CI &amp; Performance class</div><div class="meta-secondary">2-day intensive</div></div><div class="event-title">Shared Awareness</div><div class="event-sub"><span class="teacher-line">Daniel Rojasanta</span><span class="country-line">Colombia</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">10:30 — 13:30</div><div class="group-events"><div aria-label="Open details: CI as ArtSport" class="event ci" data-detail="ci-as-artsport" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI 3-day intensive</div></div><div class="event-title">CI as ArtSport</div><div class="event-sub"><span class="teacher-line">Sebastian Flegiel</span><span class="country-line">Poland</span></div></div><div aria-label="Open details: Dynamic Flying" class="event ci" data-detail="dynamic-flying" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI 3-day intensive</div></div><div class="event-title">Dynamic Flying</div><div class="event-sub"><span class="teacher-line">Mirva Mäkinen</span><span class="country-line">Finland</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">10:30 — 13:30</div><div class="group-events"><div aria-label="Open details: CI as ArtSport" class="event ci" data-detail="ci-as-artsport" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI 3-day intensive</div></div><div class="event-title">CI as ArtSport</div><div class="event-sub"><span class="teacher-line">Sebastian Flegiel</span><span class="country-line">Poland</span></div></div><div aria-label="Open details: Dynamic Flying" class="event ci" data-detail="dynamic-flying" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI 3-day intensive</div></div><div class="event-title">Dynamic Flying</div><div class="event-sub"><span class="teacher-line">Mirva Mäkinen</span><span class="country-line">Finland</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">10:30 — 13:30</div><div class="group-events"><div aria-label="Open details: CI as ArtSport" class="event ci" data-detail="ci-as-artsport" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI 3-day intensive</div></div><div class="event-title">CI as ArtSport</div><div class="event-sub"><span class="teacher-line">Sebastian Flegiel</span><span class="country-line">Poland</span></div></div><div aria-label="Open details: Dynamic Flying" class="event ci" data-detail="dynamic-flying" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI 3-day intensive</div></div><div class="event-title">Dynamic Flying</div><div class="event-sub"><span class="teacher-line">Mirva Mäkinen</span><span class="country-line">Finland</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">10:00 — 13:30</div><div class="group-events"><div aria-label="Open details: Seeing and being seen" class="event performance" data-detail="seeing-and-being-seen" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Performance lab</div><div class="meta-secondary">3-day laboratory</div></div><div class="event-title">Seeing and being seen</div><div class="event-sub"><span class="teacher-line">Benno Voorham</span><span class="country-line">Sweden</span></div></div><div aria-label="Open details: Risk, Play &amp; Flight" class="event ci" data-detail="risk-play-flight" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI 2-day intensive</div></div><div class="event-title">Risk, Play &amp; Flight</div><div class="event-sub"><span class="teacher-line">Olek Wójcik</span><span class="country-line">Poland / Spain</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">10:00 — 13:30</div><div class="group-events"><div aria-label="Open details: Seeing and being seen" class="event performance" data-detail="seeing-and-being-seen" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Performance lab</div><div class="meta-secondary">3-day laboratory</div></div><div class="event-title">Seeing and being seen</div><div class="event-sub"><span class="teacher-line">Benno Voorham</span><span class="country-line">Sweden</span></div></div><div aria-label="Open details: Risk, Play &amp; Flight" class="event ci" data-detail="risk-play-flight" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI 2-day intensive</div></div><div class="event-title">Risk, Play &amp; Flight</div><div class="event-sub"><span class="teacher-line">Olek Wójcik</span><span class="country-line">Poland / Spain</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">10:00 — 13:30</div><div class="group-events"><div aria-label="Open details: Seeing and being seen" class="event performance" data-detail="seeing-and-being-seen" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Performance lab</div><div class="meta-secondary">3-day laboratory</div></div><div class="event-title">Seeing and being seen</div><div class="event-sub"><span class="teacher-line">Benno Voorham</span><span class="country-line">Sweden</span></div></div><div aria-label="Open details: Way in and Way Out" class="event ci" data-detail="way-in-and-way-out" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI class</div></div><div class="event-title">Way in and Way Out</div><div class="event-sub"><span class="teacher-line">Marina Baranova</span><span class="country-line">Ukraine</span></div></div></div></div></div></td></tr><tr><th class="time-cell"><div class="band-name">Midday</div><div class="band-time">13:00–15:30</div></th><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">14:30 — 15:30</div><div class="group-events"><div aria-label="Open details: Lunch Break" class="event meal" data-detail="lunch-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Lunch Break</div><div class="event-sub">Time to rest and eat</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">14:30 — 17:00</div><div class="group-events"><div aria-label="Open details: Lunch Break" class="event meal" data-detail="lunch-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Lunch Break</div><div class="event-sub">Time to rest and eat</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">13:30 — 15:30</div><div class="group-events"><div aria-label="Open details: Lunch Break" class="event meal" data-detail="lunch-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Lunch Break</div><div class="event-sub">Time to rest and eat</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">13:30 — 15:30</div><div class="group-events"><div aria-label="Open details: Lunch Break" class="event meal" data-detail="lunch-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Lunch Break</div><div class="event-sub">Time to rest and eat</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">13:30 — 15:30</div><div class="group-events"><div aria-label="Open details: Lunch Break" class="event meal" data-detail="lunch-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Lunch Break</div><div class="event-sub">Time to rest and eat</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">13:30 — 15:30</div><div class="group-events"><div aria-label="Open details: Lunch Break" class="event meal" data-detail="lunch-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Lunch Break</div><div class="event-sub">Time to rest and eat</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">13:30 — 15:30</div><div class="group-events"><div aria-label="Open details: Lunch Break" class="event meal" data-detail="lunch-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Lunch Break</div><div class="event-sub">Time to rest and eat</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">13:30 — 15:30</div><div class="group-events"><div aria-label="Open details: Lunch Break" class="event meal" data-detail="lunch-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Lunch Break</div><div class="event-sub">Time to rest and eat</div></div></div></div></div></td></tr><tr><th class="time-cell"><div class="band-name">Afternoon</div><div class="band-time">15:30–18:30</div></th><td class="cell gap-cell"><div class="gap-fill"></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">17:00 — 22:00</div><div class="group-events"><div aria-label="Open details: Welcoming Open Circle &amp; JAM" class="event jam" data-detail="welcoming-open-circle-jam" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">JAM</div></div><div class="event-title">Welcoming Open Circle &amp; JAM</div><div class="event-sub">Festival opening</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">15:30 — 18:30</div><div class="group-events"><div aria-label="Open details: Touching Stories" class="event performance" data-detail="touching-stories" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Performance lab</div><div class="meta-secondary">3-day laboratory</div></div><div class="event-title">Touching Stories</div><div class="event-sub"><span class="teacher-line">Olga Žitluhina</span><span class="country-line">Latvia</span></div></div><div aria-label="Open details: Choice as Bodily Experience" class="event performance" data-detail="choice-as-bodily-experience" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Performance lab</div><div class="meta-secondary">3-day laboratory</div></div><div class="event-title">Choice as Bodily Experience</div><div class="event-sub"><span class="teacher-line">Alexandra Soshnicova &amp; Sergey Golovnea</span><span class="country-line">Moldova</span><span class="teacher-line">Tamara Maksymenko</span><span class="country-line">Austria / Ukraine</span><span class="teacher-line">Sergey Semichev</span><span class="country-line">Germany / Ukraine</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">15:30 — 18:30</div><div class="group-events"><div aria-label="Open details: Touching Stories" class="event performance" data-detail="touching-stories" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Performance lab</div><div class="meta-secondary">3-day laboratory</div></div><div class="event-title">Touching Stories</div><div class="event-sub"><span class="teacher-line">Olga Žitluhina</span><span class="country-line">Latvia</span></div></div><div aria-label="Open details: Choice as Bodily Experience" class="event performance" data-detail="choice-as-bodily-experience" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Performance lab</div><div class="meta-secondary">3-day laboratory</div></div><div class="event-title">Choice as Bodily Experience</div><div class="event-sub"><span class="teacher-line">Alexandra Soshnicova &amp; Sergey Golovnea</span><span class="country-line">Moldova</span><span class="teacher-line">Tamara Maksymenko</span><span class="country-line">Austria / Ukraine</span><span class="teacher-line">Sergey Semichev</span><span class="country-line">Germany / Ukraine</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">15:30 — 18:30</div><div class="group-events"><div aria-label="Open details: Bodywork as Dialogue" class="event ci jam" data-detail="bodywork-as-dialogue" data-program="main" data-tags="ci jam" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">CI &amp; JAM</div></div><div class="event-title">Bodywork as Dialogue</div><div class="event-sub"><span class="teacher-line">Sergey Semichev</span><span class="country-line">Germany / Ukraine</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">15:30 — 18:30</div><div class="group-events"><div aria-label="Open details: Touching Stories" class="event performance" data-detail="touching-stories" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Performance lab</div><div class="meta-secondary">3-day laboratory</div></div><div class="event-title">Touching Stories</div><div class="event-sub"><span class="teacher-line">Olga Žitluhina</span><span class="country-line">Latvia</span></div></div><div aria-label="Open details: Choice as Bodily Experience" class="event performance" data-detail="choice-as-bodily-experience" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Performance lab</div><div class="meta-secondary">3-day laboratory</div></div><div class="event-title">Choice as Bodily Experience</div><div class="event-sub"><span class="teacher-line">Alexandra Soshnicova &amp; Sergey Golovnea</span><span class="country-line">Moldova</span><span class="teacher-line">Tamara Maksymenko</span><span class="country-line">Austria / Ukraine</span><span class="teacher-line">Sergey Semichev</span><span class="country-line">Germany / Ukraine</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">15:30 — 18:30</div><div class="group-events"><div aria-label="Open details: Touching Stories" class="event performance" data-detail="touching-stories" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Performance lab</div><div class="meta-secondary">3-day laboratory</div></div><div class="event-title">Touching Stories</div><div class="event-sub"><span class="teacher-line">Olga Žitluhina</span><span class="country-line">Latvia</span></div></div><div aria-label="Open details: Choice as Bodily Experience" class="event performance" data-detail="choice-as-bodily-experience" data-program="main" role="button" tabindex="0"><div class="event-meta event-meta-split"><div class="meta-primary">Performance lab</div><div class="meta-secondary">3-day laboratory</div></div><div class="event-title">Choice as Bodily Experience</div><div class="event-sub"><span class="teacher-line">Alexandra Soshnicova &amp; Sergey Golovnea</span><span class="country-line">Moldova</span><span class="teacher-line">Tamara Maksymenko</span><span class="country-line">Austria / Ukraine</span><span class="teacher-line">Sergey Semichev</span><span class="country-line">Germany / Ukraine</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">15:30 — 17:00</div><div class="group-events"><div aria-label="Open details: Outside/Inside (Norway)" class="event performance" data-detail="outside-inside" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Performance</div></div><div class="event-title">Outside/Inside (Norway)</div><div class="event-sub"><span class="role-line">Film / presentation + discussion</span></div></div></div></div><div class="time-group main-or-mixed"><div class="group-time">17:00 — 18:30</div><div class="group-events"><div aria-label="Open details: Dinner Break" class="event meal" data-detail="dinner-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Dinner Break</div><div class="event-sub">Time to rest and eat</div></div></div></div></div></td></tr><tr><th class="time-cell"><div class="band-name">Evening</div><div class="band-time">18:30–20:00</div></th><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">18:30 — 19:30</div><div class="group-events"><div aria-label="Open details: The Wild One" class="event family" data-detail="the-wild-one" data-program="main" data-tags="performance family" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Performance / Family &amp; Youth</div></div><div class="event-title">The Wild One</div><div class="event-sub">Family acro-theatre performance</div></div></div></div><div class="time-group main-or-mixed"><div class="group-time">19:30 — 22:30</div><div class="group-events"><div aria-label="Open details: First Meetings JAM" class="event jam" data-detail="first-meetings-jam" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">JAM</div></div><div class="event-title">First Meetings JAM</div><div class="event-sub">Opening jam</div></div></div></div></div></td><td class="cell gap-cell"><div class="gap-fill"></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">18:30 — 19:30</div><div class="group-events"><div aria-label="Open details: Dinner Break" class="event meal" data-detail="dinner-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Dinner Break</div><div class="event-sub">Time to rest and eat</div></div></div></div><div class="time-group main-or-mixed"><div class="group-time">19:30 — 20:00</div><div class="group-events"><div aria-label="Open details: Performative Space" class="event performance" data-detail="performative-space" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Performance</div></div><div class="event-title">Performative Space</div><div class="event-sub">Open platform for short performative encounters</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">18:30 — 19:30</div><div class="group-events"><div aria-label="Open details: Dinner Break" class="event meal" data-detail="dinner-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Dinner Break</div><div class="event-sub">Time to rest and eat</div></div></div></div><div class="time-group main-or-mixed"><div class="group-time">19:30 — 20:00</div><div class="group-events"><div aria-label="Open details: Performative Space: ENSŌ" class="event performance" data-detail="performative-space-ens" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Solo theatre performance</div></div><div class="event-title">Performative Space: ENSŌ</div><div class="event-sub"><span class="teacher-line">Daniel Rojasanta</span><span class="country-line">Colombia</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">18:30 — 19:30</div><div class="group-events"><div aria-label="Open details: Dinner Break" class="event meal" data-detail="dinner-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Dinner Break</div><div class="event-sub">Time to rest and eat</div></div></div></div><div class="time-group main-or-mixed"><div class="group-time">19:30 — 21:30</div><div class="group-events"><div aria-label="Open details: Light from the Shadow" class="event performance" data-detail="light-from-the-shadow" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Theatre performance</div></div><div class="event-title">Light from the Shadow</div><div class="event-sub"><span class="teacher-line">Voices Dance Company</span><span class="country-line">Moldova</span></div></div>
+<div aria-label="Open details: Descent" class="event performance" data-detail="descent" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Solo theatre performance</div></div><div class="event-title">Descent</div><div class="event-sub"><span class="teacher-line">Daniel Kearns</span><span class="country-line">UK / Bulgaria</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">18:30 — 19:30</div><div class="group-events"><div aria-label="Open details: Dinner Break" class="event meal" data-detail="dinner-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Dinner Break</div><div class="event-sub">Time to rest and eat</div></div></div></div><div class="time-group main-or-mixed"><div class="group-time">19:30 — 21:30</div><div class="group-events"><div aria-label="Open details: FIELD" class="event performance" data-detail="field" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Theatre performance</div></div><div class="event-title">FIELD</div><div class="event-sub"><span class="teacher-line">DUNE Dance Company</span><span class="country-line">Bulgaria</span></div></div><div aria-label="Open details: Voice Under the Skin" class="event performance" data-detail="voice-under-the-skin" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Theatre performance</div></div><div class="event-title">Voice Under the Skin</div><div class="event-sub"><span class="teacher-line">Fantezia Dance Theatre</span><span class="country-line">Moldova</span></div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">18:30 — 19:30</div><div class="group-events"><div aria-label="Open details: Performance Lab Showing I" class="event performance" data-detail="performance-lab-showing-i" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Performance</div></div><div class="event-title">Performance Lab Showing I</div><div class="event-sub">Laboratory sharing</div></div></div></div><div class="time-group main-or-mixed"><div class="group-time">19:30 — 20:00</div><div class="group-events"><div aria-label="Open details: Teachers Performance" class="event performance" data-detail="teachers-performance" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Performance</div></div><div class="event-title">Teachers Performance</div><div class="event-sub">Short performance program</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">18:30 — 19:30</div><div class="group-events"><div aria-label="Open details: Performance Lab Showing II" class="event performance" data-detail="performance-lab-showing-ii" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Performance</div></div><div class="event-title">Performance Lab Showing II</div><div class="event-sub">Laboratory sharing</div></div></div></div></div></td></tr><tr><th class="time-cell"><div class="band-name">Late evening</div><div class="band-time">20:00–00:00</div></th><td class="cell gap-cell"><div class="gap-fill"></div></td><td class="cell gap-cell"><div class="gap-fill"></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">20:00 — 23:00</div><div class="group-events"><div aria-label="Open details: JAM" class="event jam" data-detail="jam" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">JAM</div></div><div class="event-title">JAM</div><div class="event-sub">Evening jam</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">20:00 — 23:00</div><div class="group-events"><div aria-label="Open details: JAM" class="event jam" data-detail="jam" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">JAM</div></div><div class="event-title">JAM</div><div class="event-sub">Evening jam</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">21:30 — 00:00</div><div class="group-events"><div aria-label="Open details: Fire Party &amp; Live Music" class="event jam" data-detail="fire-party-live-music" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Evening gathering</div></div><div class="event-title">Fire Party &amp; Live Music</div><div class="event-sub">Evening gathering</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">21:30 — 00:00</div><div class="group-events"><div aria-label="Open details: After Party / JAM" class="event jam" data-detail="after-party-jam" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">JAM</div></div><div class="event-title">After Party / JAM</div><div class="event-sub">Evening gathering</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">20:00 — 21:00</div><div class="group-events"><div aria-label="Open details: Dinner Break" class="event meal" data-detail="dinner-break" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">Break</div></div><div class="event-title">Dinner Break</div><div class="event-sub">Time to rest and eat</div></div></div></div><div class="time-group main-or-mixed"><div class="group-time">21:00 — 00:00</div><div class="group-events"><div aria-label="Open details: JAM" class="event jam" data-detail="jam" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">JAM</div></div><div class="event-title">JAM</div><div class="event-sub">Evening jam</div></div></div></div></div></td><td class="cell"><div class="events"><div class="time-group main-or-mixed"><div class="group-time">20:00 — 00:00</div><div class="group-events"><div aria-label="Open details: Celebration JAM" class="event jam" data-detail="celebration-jam" data-program="main" role="button" tabindex="0"><div class="event-meta"><div class="meta-primary">JAM</div></div><div class="event-title">Celebration JAM</div><div class="event-sub">Closing celebration jam</div></div></div></div></div></td></tr></tbody></table></div><div class="note">Working festival overview. Some titles may still be adjusted before public release. Prepared for desktop review and A3 landscape printing.</div><footer class="footer-credit"><span>Program overview prepared with care by</span><span>Jenia Gheorghiev</span><span>·</span><a href="https://www.instagram.com/jenia_gheorghiev/" rel="noopener" target="_blank">Instagram</a><span>·</span><a href="https://www.facebook.com/fox3company" rel="noopener" target="_blank">Facebook</a></footer></div>
+<div aria-hidden="true" class="detail-overlay" id="detailOverlay"></div>
+<aside aria-hidden="true" aria-modal="true" class="detail-panel" id="detailPanel" role="dialog">
+<button aria-label="Close details" class="detail-close" id="detailClose" type="button">×</button>
+<div class="detail-kicker" id="detailKicker"></div>
+<h2 class="detail-title" id="detailTitle"></h2>
+<div class="detail-context-grid">
+<div class="detail-context-item">
+<div class="detail-context-label">Date &amp; time</div>
+<div class="detail-context-value" id="detailWhen"></div>
+</div>
+<a class="detail-context-item detail-location-link" href="#" id="detailLocationLink" rel="noopener" target="_blank">
+<div class="detail-context-label">Location</div>
+<div class="detail-context-value" id="detailLocationName"></div>
+<div class="detail-context-note" id="detailLocationAddress"></div>
+</a>
+</div>
+<div class="detail-section" id="detailPeopleWrap">
+<div class="detail-section-label" id="detailPeopleLabel">With</div>
+<div class="detail-people-list" id="detailPeople"></div>
+</div>
+<div class="detail-description" id="detailDescription"></div>
+<div class="detail-info-grid">
+<div class="detail-info" id="detailFocusWrap">
+<div class="detail-info-label" id="detailFocusLabel">Focus</div>
+<div class="detail-info-value" id="detailFocus"></div>
+</div>
+</div>
+</aside>
+<script>
+const page = document.getElementById('page');
+const showAll = document.getElementById('showAll');
+const showMain = document.getElementById('showMain');
+const filterButtons = Array.from(document.querySelectorAll('.filter-pill'));
+const activeFilters = new Set();
+
+const detailData = {
+  "morning-practice": {
+    "title": "Morning Practice",
+    "category": "CI",
+    "categoryHtml": "CI",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 28 — Oct 3 · 09:00 — 10:00",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "A soft morning practice to arrive in the body before the main program. We wake up attention, mobility, breath and readiness for the day.",
+    "focus": "Arrival · body awareness · mobility · shared attention",
+    "peopleLabel": "With",
+    "formatLabel": "Format",
+    "focusLabel": "Practice focus"
+  },
+  "dancing-in-the-city": {
+    "title": "Dancing in the City",
+    "category": "CI",
+    "categoryHtml": "CI",
+    "format": "CI",
+    "formatHtml": "CI",
+    "when": "Oct 4 · Daytime",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "A closing-day movement experience where the city becomes a partner. Surfaces, architecture and public space invite a different kind of attention and play.",
+    "focus": "City space · site-responsive movement · collective presence",
+    "peopleLabel": "With",
+    "formatLabel": "Program type",
+    "focusLabel": "Practice focus"
+  },
+  "farewell-jam": {
+    "title": "Farewell JAM",
+    "category": "JAM",
+    "categoryHtml": "JAM",
+    "format": "",
+    "formatHtml": "",
+    "when": "Oct 4 · Daytime",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "A final open dancing space to gather what the festival has opened. A gentle farewell through movement, touch and shared presence.",
+    "focus": "Integration · farewell · open dancing",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Jam frame"
+  },
+  "discussions": {
+    "title": "Discussions",
+    "category": "Gathering",
+    "categoryHtml": "Gathering",
+    "format": "Gathering",
+    "formatHtml": "Gathering",
+    "when": "Oct 4 · Daytime",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "A reflective space for sharing impressions, questions and discoveries from the festival week. A moment to listen, speak and connect experience with future practice.",
+    "focus": "Reflection · dialogue · shared learning",
+    "peopleLabel": "With",
+    "formatLabel": "Program type",
+    "focusLabel": "Conversation frame"
+  },
+  "closing-circle": {
+    "title": "Closing Circle",
+    "category": "Gathering",
+    "categoryHtml": "Gathering",
+    "format": "Gathering",
+    "formatHtml": "Gathering",
+    "when": "Oct 4 · Daytime",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "The formal closing moment of the festival. A simple shared circle to acknowledge the week, the people and the transition back into everyday life.",
+    "focus": "Closure · gratitude · community",
+    "peopleLabel": "With",
+    "formatLabel": "Program type",
+    "focusLabel": "Shared frame"
+  },
+  "national-wine-day-in-chi-in-u": {
+    "title": "National Wine Day in Chișinău",
+    "category": "Gathering",
+    "categoryHtml": "Gathering",
+    "format": "Gathering",
+    "formatHtml": "Gathering",
+    "when": "Oct 4 · Afterwards",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "An optional city celebration after the formal festival closing. A relaxed way to stay together a little longer and meet Chișinău beyond the dance program.",
+    "focus": "City life · informal gathering · optional celebration",
+    "peopleLabel": "With",
+    "formatLabel": "Program type",
+    "focusLabel": "Optional city frame"
+  },
+  "little-curiosity-family-baby-6": {
+    "title": "Little Curiosity: Family + Baby (<6)",
+    "category": "Family & Youth",
+    "categoryHtml": "Family & Youth",
+    "format": "Class for parents & children",
+    "formatHtml": "Class for parents & children",
+    "when": "Sep 26 · 10:00 — 11:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Olek Wójcik",
+        "country": "Poland / Spain",
+        "role": "",
+        "url": "https://www.instagram.com/pirateoli/"
+      },
+      {
+        "name": "Laura Vlad",
+        "country": "Romania / Spain",
+        "role": "",
+        "url": "https://www.instagram.com/vlad.laura/"
+      }
+    ],
+    "notes": [],
+    "description": "A Family & Youth class for connected play between parents and very young children. Through simple games, storytelling and attention, adults and children explore imagination, touch and being seen together.",
+    "focus": "Parent-child play · storytelling · touch · imagination · attention",
+    "peopleLabel": "With",
+    "formatLabel": "Format",
+    "focusLabel": "Class focus"
+  },
+  "youth-dance-class": {
+    "title": "Youth Dance Class",
+    "category": "Family & Youth",
+    "categoryHtml": "Family & Youth",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 26 — Sep 27 · 10:00 — 11:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "A dance class for young movers built around play, coordination, imagination and physical confidence. The focus is on discovering movement as something alive and personal.",
+    "focus": "Young movers · play · coordination · imagination",
+    "peopleLabel": "With",
+    "formatLabel": "Format",
+    "focusLabel": "Class focus"
+  },
+  "registration": {
+    "title": "Registration",
+    "category": "Gathering",
+    "categoryHtml": "Gathering",
+    "format": "Gathering",
+    "formatHtml": "Gathering",
+    "when": "Sep 26 · 10:00 — 14:00",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "Festival check-in and arrival time. Participants can collect information, orient themselves in the space and meet the team.",
+    "focus": "Arrival · orientation · check-in",
+    "peopleLabel": "With",
+    "formatLabel": "Program type",
+    "focusLabel": "Arrival frame"
+  },
+  "arriving-into-the-touch": {
+    "title": "Arriving into the Touch",
+    "category": "CI base",
+    "categoryHtml": "CI base",
+    "format": "2-day intensive",
+    "formatHtml": "2-day intensive",
+    "when": "Sep 26 — Sep 27 · 12:00 — 14:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Virginia Negru",
+        "country": "Romania",
+        "role": "",
+        "url": "https://www.instagram.com/virginia.negru/"
+      }
+    ],
+    "notes": [],
+    "description": "A two-day CI base intensive on arriving into touch: from the everyday vertical axis toward falling, landing and meeting another body through contact. The class builds attention to departure, landing and the space between.",
+    "focus": "Arriving · falling · touch · landing · CI base",
+    "peopleLabel": "With",
+    "formatLabel": "Format",
+    "focusLabel": "Practice focus"
+  },
+  "shared-awareness": {
+    "title": "Shared Awareness",
+    "category": "CI & Performance class",
+    "categoryHtml": "CI & Performance class",
+    "format": "2-day intensive",
+    "formatHtml": "2-day intensive",
+    "when": "Sep 26 — Sep 27 · 12:00 — 14:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Daniel Rojasanta",
+        "country": "Colombia",
+        "role": "",
+        "url": "https://www.instagram.com/danielrojasanta/"
+      }
+    ],
+    "notes": [],
+    "description": "A two-day CI & Performance class exploring Contact Improvisation as communication, somatic language and shared awareness. Through attention, touch, body mechanics and collective presence, the process may naturally lead to a short performative score later in the festival.",
+    "focus": "Shared awareness · CI as communication · presence · touch · performative score",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Practice / performance focus"
+  },
+  "little-curiosity-family-kids-6": {
+    "title": "Little Curiosity: Family + Kids (6+)",
+    "category": "Family & Youth",
+    "categoryHtml": "Family & Youth",
+    "format": "Class for parents & children",
+    "formatHtml": "Class for parents & children",
+    "when": "Sep 27 · 10:00 — 11:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Olek Wójcik",
+        "country": "Poland / Spain",
+        "role": "",
+        "url": "https://www.instagram.com/pirateoli/"
+      },
+      {
+        "name": "Laura Vlad",
+        "country": "Romania / Spain",
+        "role": "",
+        "url": "https://www.instagram.com/vlad.laura/"
+      }
+    ],
+    "notes": [],
+    "description": "A Family & Youth class for connected play between adults and children. Simple games and storytelling tools create a safe space for listening, imagination and shared movement.",
+    "focus": "Connected play · storytelling · listening · imagination · shared movement",
+    "peopleLabel": "With",
+    "formatLabel": "Format",
+    "focusLabel": "Class focus"
+  },
+  "family-time-discussion": {
+    "title": "Family Time & Discussion",
+    "category": "Family & Youth",
+    "categoryHtml": "Family & Youth",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 27 · 11:30 — 13:00",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Laura Vlad",
+        "country": "Romania / Spain",
+        "role": "Facilitated by",
+        "url": "https://www.instagram.com/vlad.laura/"
+      }
+    ],
+    "notes": [],
+    "description": "A facilitated space for families to pause, share impressions and talk about the Family & Youth experience. A simple moment of reflection and connection.",
+    "focus": "Family dialogue · reflection · shared experience",
+    "peopleLabel": "With",
+    "formatLabel": "Format",
+    "focusLabel": "Conversation frame"
+  },
+  "ci-as-artsport": {
+    "title": "CI as ArtSport",
+    "category": "CI 3-day intensive",
+    "categoryHtml": "CI 3-day intensive",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 28 — Sep 30 · 10:30 — 13:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Sebastian Flegiel",
+        "country": "Poland",
+        "role": "",
+        "url": "https://www.instagram.com/sebastianflegiel/"
+      }
+    ],
+    "notes": [],
+    "description": "A three-day CI intensive where athletic training becomes responsive, poetic dancing. The work explores gravity, momentum, rolling point of contact, spirals, shared weight, falling, flying and trust.",
+    "focus": "Gravity · momentum · rolling point · spirals · shared weight · trust",
+    "peopleLabel": "With",
+    "formatLabel": "Format",
+    "focusLabel": "Practice focus"
+  },
+  "dynamic-flying": {
+    "title": "Dynamic Flying",
+    "category": "CI 3-day intensive",
+    "categoryHtml": "CI 3-day intensive",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 28 — Sep 30 · 10:30 — 13:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Mirva Mäkinen",
+        "country": "Finland",
+        "role": "",
+        "url": "https://www.instagram.com/makinen_mirva/"
+      }
+    ],
+    "notes": [],
+    "description": "A dynamic CI intensive focused on lifts, momentum and shared flight. The work develops timing, counterbalance, responsive partnering and safe pathways into and out of the air.",
+    "focus": "Lifts · momentum · timing · counterbalance · safe landings",
+    "peopleLabel": "With",
+    "formatLabel": "Format",
+    "focusLabel": "Practice focus"
+  },
+  "seeing-and-being-seen": {
+    "title": "Seeing and being seen",
+    "category": "Performance lab",
+    "categoryHtml": "Performance lab",
+    "format": "3-day laboratory",
+    "formatHtml": "3-day laboratory",
+    "when": "Oct 1 — Oct 3 · 10:00 — 13:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Benno Voorham",
+        "country": "Sweden",
+        "role": "",
+        "url": "https://www.instagram.com/lavadansproduktion/"
+      }
+    ],
+    "notes": [],
+    "description": "A three-day workshop laboratory exploring ways to integrate video imagery and live streaming into a performative context. Starting from the moving body, the work looks at how video can support and enter into dialogue with the performer without overwhelming their actions.",
+    "focus": "Video imagery · live streaming · moving body · performer presence · performer-video dialogue",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Research focus"
+  },
+  "risk-play-flight": {
+    "title": "Risk, Play & Flight",
+    "category": "CI 2-day intensive",
+    "categoryHtml": "CI 2-day intensive",
+    "format": "",
+    "formatHtml": "",
+    "when": "Oct 1 — Oct 2 · 10:00 — 13:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Olek Wójcik",
+        "country": "Poland / Spain",
+        "role": "",
+        "url": "https://www.instagram.com/pirateoli/"
+      }
+    ],
+    "notes": [],
+    "description": "A two-day CI intensive around risk as a form of play. Through falling, flying, space awareness, reflexive response and safe landing, the work opens confidence in meeting the unknown.",
+    "focus": "Risk · play · falling · flying · safe landing · curiosity",
+    "peopleLabel": "With",
+    "formatLabel": "Format",
+    "focusLabel": "Practice focus"
+  },
+  "way-in-and-way-out": {
+    "title": "Way in and Way Out",
+    "category": "CI class",
+    "categoryHtml": "CI class",
+    "format": "",
+    "formatHtml": "",
+    "when": "Oct 3 · 10:00 — 13:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Marina Baranova",
+        "country": "Ukraine",
+        "role": "",
+        "url": "https://www.instagram.com/mrsmbaranova/"
+      }
+    ],
+    "notes": [],
+    "description": "A CI class around transitions between solo, duet and trio — and the way back to solo. The class asks how relation changes the dance without losing individual presence.",
+    "focus": "Solo-duet-trio transitions · relational attention · changing conditions",
+    "peopleLabel": "With",
+    "formatLabel": "Format",
+    "focusLabel": "Practice focus"
+  },
+  "lunch-break": {
+    "title": "Lunch Break",
+    "category": "Break",
+    "categoryHtml": "Break",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 26 · 14:30 — 15:30\nSep 27 · 14:30 — 17:00\nSep 28 — Oct 3 · 13:30 — 15:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "A daily pause for food, rest and informal conversation. Time to let the body absorb the morning practice before entering the next part of the day.",
+    "focus": "",
+    "peopleLabel": "With",
+    "formatLabel": "Format",
+    "focusLabel": ""
+  },
+  "welcoming-open-circle-jam": {
+    "title": "Welcoming Open Circle & JAM",
+    "category": "JAM",
+    "categoryHtml": "JAM",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 27 · 17:00 — 22:00",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "The festival opening gathering and jam. A shared moment to meet the group, open the space and begin dancing together.",
+    "focus": "Opening · community · first shared dance",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Jam frame"
+  },
+  "touching-stories": {
+    "title": "Touching Stories",
+    "category": "Performance lab",
+    "categoryHtml": "Performance lab",
+    "format": "3-day laboratory",
+    "formatHtml": "3-day laboratory",
+    "when": "Sep 28 — Sep 29, Oct 1 — Oct 2 · 15:30 — 18:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Olga Žitluhina",
+        "country": "Latvia",
+        "role": "",
+        "url": "https://www.instagram.com/zitluhina/"
+      }
+    ],
+    "notes": [],
+    "description": "A performance laboratory where touch becomes a source of stories, movement material and shared composition. The work approaches contact as memory, relation and dramaturgy.",
+    "focus": "Touch · story · memory · relation · composition",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Research focus"
+  },
+  "choice-as-bodily-experience": {
+    "title": "Choice as Bodily Experience",
+    "category": "Performance lab",
+    "categoryHtml": "Performance lab",
+    "format": "3-day laboratory",
+    "formatHtml": "3-day laboratory",
+    "when": "Sep 28 — Sep 29, Oct 1 — Oct 2 · 15:30 — 18:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Alexandra Soshnicova",
+        "country": "Moldova",
+        "role": "",
+        "url": "https://www.instagram.com/alexandrasoshnicova/"
+      },
+      {
+        "name": "Sergey Golovnea",
+        "country": "Moldova",
+        "role": "",
+        "url": "https://www.instagram.com/scotchgolovnea/"
+      },
+      {
+        "name": "Tamara Maksymenko",
+        "country": "Austria / Ukraine",
+        "role": "",
+        "url": "https://www.instagram.com/tamara_maksymenko_/"
+      },
+      {
+        "name": "Sergey Semichev",
+        "country": "Germany / Ukraine",
+        "role": "",
+        "url": "https://www.instagram.com/semichev_art/"
+      }
+    ],
+    "notes": [],
+    "description": "A performance laboratory where movement becomes a language of communication and choice becomes a physical act. The work explores uncertainty, responsibility and shared presence through improvisation, relation and space, leading toward an open performative showing.",
+    "focus": "Choice · uncertainty · responsibility · relation · shared presence",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Research focus"
+  },
+  "bodywork-as-dialogue": {
+    "title": "Bodywork as Dialogue",
+    "category": "CI & JAM",
+    "categoryHtml": "CI & JAM",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 30 · 15:30 — 18:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Sergey Semichev",
+        "country": "Germany / Ukraine",
+        "role": "",
+        "url": "https://www.instagram.com/semichev_art/"
+      }
+    ],
+    "notes": [],
+    "description": "A workshop moving from bodywork into contact dance and JAM. Instead of manipulating a partner, the practice asks how organizing one’s own body, center of gravity and attention can create clear, effortless dialogue.",
+    "focus": "Body organization · center of gravity · subtle contact · listening · transition into JAM",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Practice / jam focus"
+  },
+  "outside-inside": {
+    "title": "Outside/Inside (Norway)",
+    "category": "Performance",
+    "categoryHtml": "Performance",
+    "format": "Film / presentation + discussion",
+    "formatHtml": "Film / presentation + discussion",
+    "when": "Oct 3 · 15:30 — 17:00",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Samovarteateret",
+        "country": "Norway",
+        "role": "Production",
+        "url": ""
+      },
+      {
+        "name": "Nikolay Shchetnev",
+        "country": "Norway",
+        "role": "On stage / discussion",
+        "url": ""
+      },
+      {
+        "name": "Thomas Bergsten",
+        "country": "",
+        "role": "On stage / music",
+        "url": ""
+      },
+      {
+        "name": "Benno Voorham",
+        "country": "Sweden",
+        "role": "Choreography & movement",
+        "url": "https://www.instagram.com/lavadansproduktion/"
+      }
+    ],
+    "notes": [],
+    "description": "An interdisciplinary performance by Samovarteateret combining improvised music and dance with theatre, scenographic storytelling and video. The presentation is followed by a discussion with Nikolay Shchetnev.",
+    "focus": "Improvised music · dance · theatre · video · inner / outer tension · discussion",
+    "peopleLabel": "By",
+    "formatLabel": "Event type",
+    "focusLabel": "Screening frame"
+  },
+  "dinner-break": {
+    "title": "Dinner Break",
+    "category": "Break",
+    "categoryHtml": "Break",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 28 — Oct 1 · 18:30 — 19:30\nOct 2 · 20:00 — 21:00\nOct 3 · 17:00 — 18:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "An evening pause for food, rest and transition. Time to reset between afternoon work and the performances, jams or gatherings that follow.",
+    "focus": "",
+    "peopleLabel": "With",
+    "formatLabel": "Format",
+    "focusLabel": ""
+  },
+  "the-wild-one": {
+    "title": "The Wild One",
+    "category": "Performance / Family & Youth",
+    "categoryHtml": "Performance / Family & Youth",
+    "format": "Performance / Family & Youth",
+    "formatHtml": "Performance / Family & Youth",
+    "when": "Sep 26 · 18:30 — 19:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "A family acro-theatre performance around childlike curiosity, presence and play. Improvisation and physical theatre blur imagination and reality, inviting performers and audience into a shared journey of discovery.",
+    "focus": "Childlike curiosity · acro-theatre · play · imagination · shared presence",
+    "peopleLabel": "By",
+    "formatLabel": "Event type",
+    "focusLabel": "Performance focus"
+  },
+  "first-meetings-jam": {
+    "title": "First Meetings JAM",
+    "category": "JAM",
+    "categoryHtml": "JAM",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 26 · 19:30 — 22:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "The first jam of the festival. A space for initial meetings, orientation through touch and the beginning of shared dancing.",
+    "focus": "First meetings · open dancing · group arrival",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Jam frame"
+  },
+  "performative-space": {
+    "title": "Performative Space",
+    "category": "Performance",
+    "categoryHtml": "Performance",
+    "format": "Performance",
+    "formatHtml": "Performance",
+    "when": "Sep 28 · 19:30 — 20:00",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "An open platform for spontaneous artistic encounters during the festival. Short proposals, actions and performative situations can appear from the energy of the group.",
+    "focus": "Open platform · spontaneous artistic encounters · witnessing",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Performance frame"
+  },
+  "performative-space-ens": {
+    "title": "Performative Space: ENSŌ",
+    "category": "Solo theatre performance",
+    "categoryHtml": "Solo theatre performance",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 29 · 19:30 — 20:00",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Daniel Rojasanta",
+        "country": "Colombia",
+        "role": "",
+        "url": "https://www.instagram.com/danielrojasanta/"
+      }
+    ],
+    "notes": [],
+    "description": "A solo theatre performance built around the act of painting an invisible circle with water and a traditional brush. Through body, attention and changing emotional states, the circle becomes a quiet ritual of transformation and return.",
+    "focus": "Invisible circle · collective attention · physical theatre · transformation",
+    "peopleLabel": "By",
+    "formatLabel": "Event type",
+    "focusLabel": "Performance focus"
+  },
+  "light-from-the-shadow": {
+    "title": "Light from the Shadow",
+    "category": "Theatre performance",
+    "categoryHtml": "Theatre performance",
+    "format": "Theatre performance",
+    "formatHtml": "Theatre performance",
+    "when": "Sep 30 · 19:30 — 21:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Voices Dance Company",
+        "country": "Moldova",
+        "role": "",
+        "url": "https://www.instagram.com/voices.dancecompany/"
+      }
+    ],
+    "notes": [],
+    "description": "A multimedia theatre performance by Voices Dance Company inspired by the life, love and creative journey of a 19th-century poet and writer. Contemporary dance, live and electronic music, spoken text and projections create one stage language.",
+    "focus": "Multimedia performance · contemporary dance · music · text · projections",
+    "peopleLabel": "By",
+    "formatLabel": "Event type",
+    "focusLabel": "Performance focus"
+  },
+  "descent": {
+    "title": "Descent",
+    "category": "Solo theatre performance",
+    "categoryHtml": "Solo theatre performance",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 30 · 19:30 — 21:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Daniel Kearns",
+        "country": "UK / Bulgaria",
+        "role": "",
+        "url": "https://www.instagram.com/yurodivy/"
+      }
+    ],
+    "notes": [],
+    "description": "A solo theatre performance by Daniel Kearns that moves inward and downward into childhood wonder, tenderness, memory and the subconscious. The work brings invisible inner landscapes into a sensual, immediate stage presence.",
+    "focus": "Solo theatre · childhood wonder · memory · subconscious · inner landscape",
+    "peopleLabel": "By",
+    "formatLabel": "Event type",
+    "focusLabel": "Performance focus"
+  },
+  "field": {
+    "title": "FIELD",
+    "category": "Theatre performance",
+    "categoryHtml": "Theatre performance",
+    "format": "Theatre performance",
+    "formatHtml": "Theatre performance",
+    "when": "Oct 1 · 19:30 — 21:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "DUNE Dance Company",
+        "country": "Bulgaria",
+        "role": "",
+        "url": "https://www.instagram.com/dune_dance_company/"
+      }
+    ],
+    "notes": [],
+    "description": "A contemporary dance performance by DUNE Dance Company focused on the body, movement and inner spaces. The work speaks without words, bringing a strong emotional field into the festival performance program.",
+    "focus": "Contemporary dance · body · movement · inner spaces · wordless stage",
+    "peopleLabel": "By",
+    "formatLabel": "Event type",
+    "focusLabel": "Performance focus"
+  },
+  "voice-under-the-skin": {
+    "title": "Voice Under the Skin",
+    "category": "Theatre performance",
+    "categoryHtml": "Theatre performance",
+    "format": "Theatre performance",
+    "formatHtml": "Theatre performance",
+    "when": "Oct 1 · 19:30 — 21:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [
+      {
+        "name": "Fantezia Dance Theatre",
+        "country": "Moldova",
+        "role": "",
+        "url": "https://www.instagram.com/fantezia_dance/"
+      }
+    ],
+    "notes": [],
+    "description": "A choreographic performance by Fantezia Dance Theatre built from performers’ personal stories. Structured choreography and live improvisation explore inner conflict, vulnerability, identity and what remains unspoken.",
+    "focus": "Personal stories · choreography · live improvisation · shadow · vulnerability",
+    "peopleLabel": "By",
+    "formatLabel": "Event type",
+    "focusLabel": "Performance focus"
+  },
+  "performance-lab-showing-i": {
+    "title": "Performance Lab Showing I",
+    "category": "Performance",
+    "categoryHtml": "Performance",
+    "format": "Performance",
+    "formatHtml": "Performance",
+    "when": "Oct 2 · 18:30 — 19:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "A first public sharing of material developed inside the festival laboratories. It is framed as work-in-process: a chance to witness research while it is still alive and changing.",
+    "focus": "Lab sharing · work-in-process · performance research",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Showing frame"
+  },
+  "teachers-performance": {
+    "title": "Teachers Performance",
+    "category": "Performance",
+    "categoryHtml": "Performance",
+    "format": "Performance",
+    "formatHtml": "Performance",
+    "when": "Oct 2 · 19:30 — 20:00",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "A short performance program by invited teachers and artists of the festival. A chance to meet the teachers through their artistic practice, not only through class facilitation.",
+    "focus": "Teacher performance · artistic practice · pedagogy and stage",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Performance frame"
+  },
+  "performance-lab-showing-ii": {
+    "title": "Performance Lab Showing II",
+    "category": "Performance",
+    "categoryHtml": "Performance",
+    "format": "Performance",
+    "formatHtml": "Performance",
+    "when": "Oct 3 · 18:30 — 19:30",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "A second public sharing of laboratory material developed during the festival. The emphasis is on process, presence and collective composition rather than finished theatrical form.",
+    "focus": "Lab sharing · process · presence · collective composition",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Showing frame"
+  },
+  "jam": {
+    "title": "JAM",
+    "category": "JAM",
+    "categoryHtml": "JAM",
+    "format": "",
+    "formatHtml": "",
+    "when": "Sep 28 — Sep 29 · 20:00 — 23:00 / Oct 2 · 21:00 — 00:00",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "An open evening jam for integrating the day’s practice through dancing. A space for meeting, listening, resting, experimenting and continuing the conversation through the body.",
+    "focus": "Open jam · integration · shared practice",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Jam frame"
+  },
+  "fire-party-live-music": {
+    "title": "Fire Party & Live Music",
+    "category": "Evening gathering",
+    "categoryHtml": "Evening gathering",
+    "format": "Fire · live music · informal celebration",
+    "formatHtml": "Fire · live music · informal celebration",
+    "when": "Sep 30 · 21:30 — 00:00",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "An evening gathering with fire, live music and dancing. A celebratory social space connected to the festival’s evening life.",
+    "focus": "Fire · live music · celebration · informal gathering",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Gathering frame"
+  },
+  "after-party-jam": {
+    "title": "After Party / JAM",
+    "category": "JAM",
+    "categoryHtml": "JAM",
+    "format": "",
+    "formatHtml": "",
+    "when": "Oct 1 · 21:30 — 00:00",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "A late evening continuation of the festival through dancing and informal gathering. The frame is lighter and social, while still connected to shared practice.",
+    "focus": "After party · jam · informal gathering",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Jam frame"
+  },
+  "celebration-jam": {
+    "title": "Celebration JAM",
+    "category": "JAM",
+    "categoryHtml": "JAM",
+    "format": "",
+    "formatHtml": "",
+    "when": "Oct 3 · 20:00 — 00:00",
+    "location": {
+      "name": "Artcor Creative Hub",
+      "address": "Strada 31 August 1989 137, Chișinău",
+      "href": "https://www.google.com/maps/search/?api=1&query=47.0240%2C28.8295",
+      "label": "Open map"
+    },
+    "people": [],
+    "notes": [],
+    "description": "A celebratory final jam for the main festival days. It gathers the week’s intensity, fatigue, pleasure and connection into one shared closing dance.",
+    "focus": "Celebration · final main jam · integration",
+    "peopleLabel": "With",
+    "formatLabel": "Event type",
+    "focusLabel": "Jam frame"
+  }
+};
+const detailOverlay = document.getElementById('detailOverlay');
+const detailPanel = document.getElementById('detailPanel');
+const detailClose = document.getElementById('detailClose');
+
+function eventMatchesCategory(eventEl) {
+  if (activeFilters.size === 0) return true;
+  const tags = (eventEl.dataset.tags || '').split(/\s+/).filter(Boolean);
+  return Array.from(activeFilters).some(filter => eventEl.classList.contains(filter) || tags.includes(filter));
+}
+
+function eventMatchesProgram(eventEl) {
+  if (!page.classList.contains('hide-family')) return true;
+  return eventEl.dataset.program !== 'family';
+}
+
+function applyFilters() {
+  const events = Array.from(document.querySelectorAll('.event'));
+  events.forEach(eventEl => {
+    const visible = eventMatchesProgram(eventEl) && eventMatchesCategory(eventEl);
+    eventEl.classList.toggle('is-hidden-by-filter', !visible);
+  });
+  document.querySelectorAll('.time-group').forEach(group => {
+    const visibleEvents = Array.from(group.querySelectorAll('.event')).filter(eventEl => !eventEl.classList.contains('is-hidden-by-filter'));
+    group.classList.toggle('is-hidden-by-filter', visibleEvents.length === 0);
+  });
+  filterButtons.forEach(btn => {
+    const isActive = activeFilters.has(btn.dataset.filter);
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+}
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value || '';
+}
+
+function setWrap(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = value ? '' : 'none';
+}
+
+function openDetails(key, card) {
+  const data = detailData[key];
+  if (!data) return;
+
+  const kicker = document.getElementById('detailKicker');
+  if (kicker) {
+    kicker.innerHTML = '';
+
+    const first = document.createElement('span');
+    first.className = 'detail-kicker-primary';
+    first.innerHTML = data.categoryHtml || data.category || '';
+    kicker.appendChild(first);
+
+    const formatText = (data.format || '').trim();
+    const categoryText = (data.category || '').trim();
+    const shouldShowFormat = formatText && formatText !== categoryText && !categoryText.startsWith(formatText + ' ');
+    if (shouldShowFormat && data.formatHtml) {
+      const second = document.createElement('span');
+      second.className = 'detail-kicker-secondary';
+      second.innerHTML = data.formatHtml || data.format;
+      kicker.appendChild(second);
+    }
+  }
+
+  setText('detailTitle', data.title);
+  setText('detailWhen', data.when || '');
+
+  const locationLink = document.getElementById('detailLocationLink');
+  if (locationLink) locationLink.href = data.location?.href || '#';
+  setText('detailLocationName', data.location?.name || '');
+  setText('detailLocationAddress', data.location?.address || '');
+
+  const peopleWrap = document.getElementById('detailPeopleWrap');
+  const peopleLabel = document.getElementById('detailPeopleLabel');
+  const peopleList = document.getElementById('detailPeople');
+  const people = data.people || [];
+
+  if (peopleLabel) peopleLabel.textContent = data.peopleLabel || 'With';
+
+  if (peopleList) {
+    peopleList.innerHTML = '';
+
+    people.forEach(person => {
+      const row = document.createElement('div');
+      row.className = 'detail-person-row';
+
+      if (person.role) {
+        const role = document.createElement('div');
+        role.className = 'detail-person-role';
+        role.textContent = person.role;
+        row.appendChild(role);
+      }
+
+      const nameEl = person.url ? document.createElement('a') : document.createElement('div');
+      nameEl.className = 'detail-person-name';
+      nameEl.textContent = person.name || '';
+      if (person.url) {
+        nameEl.href = person.url;
+        nameEl.target = '_blank';
+        nameEl.rel = 'noopener';
+        nameEl.setAttribute('aria-label', `${person.name} on Instagram`);
+      }
+      row.appendChild(nameEl);
+
+      if (person.country) {
+        const country = document.createElement('div');
+        country.className = 'detail-person-country';
+        country.textContent = person.country;
+        row.appendChild(country);
+      }
+
+      peopleList.appendChild(row);
+    });
+
+    if (peopleWrap) peopleWrap.style.display = people.length ? '' : 'none';
+  }
+
+  setText('detailDescription', data.description);
+  setText('detailFocusLabel', data.focusLabel || 'Focus');
+  setText('detailFocus', data.focus || '');
+  setWrap('detailFocusWrap', data.focus);
+
+  detailOverlay.classList.add('open');
+  detailPanel.classList.add('open');
+  detailOverlay.setAttribute('aria-hidden', 'false');
+  detailPanel.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  detailClose.focus();
+}
+
+function closeDetails() {
+  detailOverlay.classList.remove('open');
+  detailPanel.classList.remove('open');
+  detailOverlay.setAttribute('aria-hidden', 'true');
+  detailPanel.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+showAll.addEventListener('click', () => {
+  page.classList.remove('hide-family');
+  showAll.classList.add('active');
+  showMain.classList.remove('active');
+  applyFilters();
+});
+
+showMain.addEventListener('click', () => {
+  page.classList.add('hide-family');
+  showMain.classList.add('active');
+  showAll.classList.remove('active');
+  applyFilters();
+});
+
+filterButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filter = btn.dataset.filter;
+    activeFilters.has(filter) ? activeFilters.delete(filter) : activeFilters.add(filter);
+    applyFilters();
+  });
+});
+
+document.querySelectorAll('.event[data-detail]').forEach(card => {
+  card.addEventListener('click', () => openDetails(card.dataset.detail, card));
+  card.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openDetails(card.dataset.detail, card);
+    }
+  });
+});
+
+detailOverlay.addEventListener('click', closeDetails);
+detailClose.addEventListener('click', closeDetails);
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && detailPanel.classList.contains('open')) closeDetails();
+});
+
+applyFilters();
+</script>
+</body></html>

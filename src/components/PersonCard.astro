@@ -1,0 +1,124 @@
+---
+import { getLocalized, type Locale } from '../lib/locales';
+import { getFestivalRoleLabel } from '../lib/people';
+
+interface Props {
+  person: any;
+  lang: Locale;
+  eventCount?: number;
+  relationSummary?: string;
+  filterGroup?: string;
+}
+
+const { person, lang, eventCount = 0, relationSummary = '', filterGroup = '' } = Astro.props;
+const entityLabel = getFestivalRoleLabel(person, lang);
+const eventCountLabel = eventCount === 1
+  ? getLocalized({ en: '1 festival event', ro: '1 eveniment', ru: '1 событие' }, lang)
+  : getLocalized({
+    en: `${eventCount} festival events`,
+    ro: `${eventCount} evenimente`,
+    ru: `${eventCount} событий`,
+  }, lang);
+---
+
+<article class="card" data-artist-card data-artist-filter={filterGroup}>
+  <div>
+    <p class={`person-meta ${person.data.country_display ? 'person-meta--has-country' : ''}`}>
+      {person.data.country_display && <span class="person-meta__country">{person.data.country_display}</span>}
+      <span class="person-meta__role">{entityLabel}</span>
+    </p>
+    <h2><a href={`/${lang}/artists/${person.slug}`}>{person.data.name}</a></h2>
+    <p>{getLocalized(person.data.role_summary, lang)}</p>
+    {eventCount > 0 && <p class="event-count">{[eventCountLabel, relationSummary].filter(Boolean).join(' · ')}</p>}
+  </div>
+</article>
+
+<style>
+  .card {
+    display: grid;
+    padding: 22px 0 25px;
+    border-top: 1px solid rgba(222, 214, 203, 0.34);
+  }
+
+  .card:first-child {
+    border-top: 0;
+  }
+
+  .card[hidden] {
+    display: none;
+  }
+
+  h2 {
+    margin: 0 0 7px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.36rem, 2.1vw, 1.82rem);
+    font-weight: 400;
+    line-height: 1.12;
+  }
+
+  h2 a {
+    text-decoration: none;
+  }
+
+  h2 a:hover {
+    color: var(--accent-muted);
+  }
+
+  .card h2 + p {
+    max-width: 650px;
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.52;
+    margin-bottom: 0;
+  }
+
+  .event-count {
+    margin-top: 9px;
+    color: var(--soft);
+    font-size: 0.76rem;
+    font-weight: 560;
+    letter-spacing: 0.02em;
+    line-height: 1.35;
+  }
+
+  .person-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px 10px;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+
+  .person-meta__country {
+    color: var(--accent-muted);
+    font-size: 0.68rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .person-meta__role {
+    color: var(--soft);
+    font-size: 0.8rem;
+    font-weight: 450;
+    line-height: 1.2;
+  }
+
+  .person-meta--has-country .person-meta__role::before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 1px;
+    margin: 0 9px 0 1px;
+    vertical-align: middle;
+    background: rgba(200, 189, 176, 0.76);
+  }
+
+  @media (max-width: 560px) {
+    .person-meta--has-country .person-meta__role::before {
+      width: 12px;
+      margin-right: 8px;
+    }
+  }
+</style>

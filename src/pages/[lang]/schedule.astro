@@ -1,0 +1,1607 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { isPublicPerson } from '../../lib/content';
+import {
+  getLocalizedDateLabel,
+  getLocalizedDayName,
+  getLocalizedDayRangeLabel,
+  getLocalizedDayTheme,
+} from '../../lib/festivalDates';
+import { getLocalized, isLocale } from '../../lib/locales';
+import { locations } from '../../lib/locations';
+import {
+  filterProgramEvents,
+  getProgramCategoryLabel,
+  getProgramFilterGroup,
+  getProgramOccurrences,
+  groupProgramEventsByDay,
+  isPublicDetailEvent,
+  isVisibleInProgramView,
+} from '../../lib/program';
+
+export async function getStaticPaths() {
+  return ['en', 'ro', 'ru'].map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props;
+if (!isLocale(lang)) {
+  return Astro.redirect('/en/schedule');
+}
+
+const allEvents = filterProgramEvents(await getCollection('events'), {
+  viewMode: 'full_festival',
+  includeScheduleOnly: true,
+});
+const dayGroups = groupProgramEventsByDay(allEvents).map((dayGroup) => {
+  const timeGroups = new Map<string, typeof dayGroup.occurrences>();
+
+  for (const occurrence of dayGroup.occurrences) {
+    timeGroups.set(occurrence.timeDisplay, [...(timeGroups.get(occurrence.timeDisplay) || []), occurrence]);
+  }
+
+  return {
+    day: dayGroup.day,
+    timeGroups: [...timeGroups.entries()].map(([timeDisplay, occurrences]) => ({ timeDisplay, occurrences })),
+  };
+});
+const allPeople = await getCollection('people');
+const peopleById = new Map(allPeople.map((person) => [person.data.id || person.slug, person]));
+
+function getDayId(day: string) {
+  return `day-${day.toLowerCase().replace(/\s+/g, '-')}`;
+}
+
+function isParallelBlock(day: string, timeDisplay: string, occurrences: typeof dayGroups[number]['timeGroups'][number]['occurrences']) {
+  if (occurrences.length < 2) return false;
+  if (day === 'Oct 4' && timeDisplay === 'Daytime') return false;
+
+  const performanceOnlyLines = new Set(['performance', 'theatre_performance']);
+  return !occurrences.every(({ event }) => performanceOnlyLines.has(event.data.program_line));
+}
+
+const pageTitle = getLocalized({ en: 'Schedule', ro: 'Orar', ru: 'Расписание' }, lang);
+const intro = getLocalized({
+  en: 'A practical vertical view of the festival program, organized by days and time.',
+  ro: 'O vedere verticală practică a programului festivalului, organizată pe zile și ore.',
+  ru: 'Практичный вертикальный вид программы фестиваля: по дням и времени.',
+}, lang);
+
+const labels = {
+  vertical: getLocalized({ en: 'Vertical', ro: 'Vertical', ru: 'Вертикально' }, lang),
+  horizontal: getLocalized({ en: 'Horizontal', ro: 'Orizontal', ru: 'Горизонтально' }, lang),
+  full: getLocalized({ en: 'Full festival', ro: 'Festival complet', ru: 'Весь фестиваль' }, lang),
+  classes: getLocalized({
+    en: 'Classes & performances only',
+    ro: 'Doar clase și performance-uri',
+    ru: 'Только классы и перформансы',
+  }, lang),
+  all: getLocalized({ en: 'All', ro: 'Toate', ru: 'Все' }, lang),
+  ci: getLocalized({ en: 'CI', ro: 'CI', ru: 'КИ' }, lang),
+  performanceLabs: getLocalized({
+    en: 'Perf Labs',
+    ro: 'Perf Labs',
+    ru: 'Перформанс-лабы',
+  }, lang),
+  family: getLocalized({ en: 'Family & Youth', ro: 'Familie și copii', ru: 'Семья и дети' }, lang),
+  performances: getLocalized({ en: 'Perf', ro: 'Perf', ru: 'Перформансы' }, lang),
+  jams: getLocalized({ en: 'Jams & gatherings', ro: 'Jam-uri și întâlniri', ru: 'Джемы и встречи' }, lang),
+  search: getLocalized({
+    en: 'Search program',
+    ro: 'Caută în program',
+    ru: 'Поиск по программе',
+  }, lang),
+  searchPlaceholder: getLocalized({
+    en: 'Search event, artist, class...',
+    ro: 'Caută eveniment, artist, clasă...',
+    ru: 'Событие, артист, класс...',
+  }, lang),
+  view: getLocalized({ en: 'View', ro: 'Vedere', ru: 'Вид' }, lang),
+  mode: getLocalized({ en: 'Mode', ro: 'Mod', ru: 'Режим' }, lang),
+  filters: getLocalized({ en: 'Focus', ro: 'Focus', ru: 'Фокус' }, lang),
+  parallel: getLocalized({
+    en: 'Parallel sessions',
+    ro: 'Sesiuni paralele',
+    ru: 'Параллельные сессии',
+  }, lang),
+  empty: getLocalized({
+    en: 'No events match this view.',
+    ro: 'Nu există evenimente pentru această vedere.',
+    ru: 'Для этого режима нет событий.',
+  }, lang),
+  top: getLocalized({ en: 'Top', ro: 'Sus', ru: 'Вверх' }, lang),
+  festivalContext: getLocalized({
+    en: 'Sep 26 — Oct 4 · Chișinău',
+    ro: '26 sept — 4 oct · Chișinău',
+    ru: '26 сентября — 4 октября · Кишинёв',
+  }, lang),
+  openDetails: getLocalized({
+    en: 'Open details',
+    ro: 'Deschide detalii',
+    ru: 'Открыть подробности',
+  }, lang),
+  close: getLocalized({ en: 'Close', ro: 'Închide', ru: 'Закрыть' }, lang),
+  date: getLocalized({ en: 'Date', ro: 'Dată', ru: 'Дата' }, lang),
+  time: getLocalized({ en: 'Time', ro: 'Oră', ru: 'Время' }, lang),
+  place: getLocalized({ en: 'Place', ro: 'Loc', ru: 'Место' }, lang),
+  with: getLocalized({ en: 'With', ro: 'Cu', ru: 'С кем' }, lang),
+  by: getLocalized({ en: 'By', ro: 'De', ru: 'От' }, lang),
+  fullPage: getLocalized({
+    en: 'Open full event page',
+    ro: 'Deschide pagina completă',
+    ru: 'Открыть полную страницу',
+  }, lang),
+  view: getLocalized({ en: 'View', ro: 'Vedere', ru: 'Вид' }, lang),
+};
+
+function formatPersonName(personId: string) {
+  return peopleById.get(personId)?.data.name || personId.split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+}
+
+function getPersonLabel(person: { public_label?: Partial<Record<typeof lang, string>> }, eventPeopleLabel?: string) {
+  return getLocalized(person.public_label, lang)
+    || (eventPeopleLabel === 'By' ? labels.by : labels.with);
+}
+
+function getEventDetailKey(eventSlug: string, occurrenceDate: string, occurrenceDateLabel: string) {
+  return `${eventSlug}--${occurrenceDate || occurrenceDateLabel.toLowerCase().replace(/\s+/g, '-')}`;
+}
+
+function getDateLine(dateLabel: string) {
+  const dayName = getLocalizedDayName(dateLabel, lang);
+  return [getLocalizedDateLabel(dateLabel, lang), dayName].filter(Boolean).join(' · ');
+}
+
+function getDayRangeLabel(dateLabel: string) {
+  return getLocalizedDayRangeLabel(dateLabel, lang);
+}
+
+function getEventDateDisplay(event: typeof allEvents[number]) {
+  return event.data.schedule.date_display;
+}
+
+function getEventDateLines(event: typeof allEvents[number]) {
+  return getEventDateDisplay(event)
+    .split(/,\s*(?=[A-Z][a-z]{2}\s+\d)/)
+    .filter(Boolean)
+    .map(getDayRangeLabel);
+}
+
+function getOccurrenceLocationFacts(event: typeof allEvents[number]) {
+  const grouped = new Map<string, { dateLabels: string[]; name: string; address: string; href: string }>();
+
+  getProgramOccurrences([event]).forEach((occurrence) => {
+    const locationRef = occurrence.locationRef || event.data.location_ref;
+    if (!locationRef) return;
+    const location = locations[locationRef];
+    const fact = grouped.get(locationRef) || {
+      dateLabels: [],
+      name: location?.name || locationRef,
+      address: location?.address || '',
+      href: location?.href || '',
+    };
+
+    if (occurrence.dateLabel && !fact.dateLabels.includes(occurrence.dateLabel)) {
+      fact.dateLabels.push(occurrence.dateLabel);
+    }
+
+    grouped.set(locationRef, fact);
+  });
+
+  return [...grouped.values()].map((fact) => ({
+    ...fact,
+    dateLabel: fact.dateLabels.join(' — '),
+    localizedDateLabel: getLocalizedDateLabel(fact.dateLabels.join(' — '), lang),
+  }));
+}
+
+const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
+  timeGroups.flatMap(({ occurrences }) => (
+    occurrences.map(({ event, date, dateLabel, timeDisplay, locationRef: locationRefFromOccurrence }) => {
+      const visiblePeople = (event.data.people || []).filter((person) => person.public_visibility === 'visible');
+      const people = visiblePeople.map((person) => {
+        const profile = peopleById.get(person.person_id);
+        return {
+          label: getPersonLabel(person, event.data.people_label),
+          name: formatPersonName(person.person_id),
+          country: profile?.data.country_display || '',
+          href: profile && isPublicPerson(profile) ? `/${lang}/artists/${profile.slug}` : '',
+        };
+      });
+      const category = getProgramCategoryLabel(getLocalized(event.data.meta?.category, lang), event.data.program_line);
+      const format = getLocalized(event.data.meta?.format, lang);
+      const focusLabel = getLocalized(event.data.focus_label, lang);
+      const focus = getLocalized(event.data.focus, lang);
+      const locationRef = locationRefFromOccurrence || event.data.location_ref;
+      const location = locationRef ? locations[locationRef] : undefined;
+      const places = getOccurrenceLocationFacts(event);
+      const firstPlace = places[0];
+
+      return [
+        getEventDetailKey(event.slug, date, dateLabel),
+        {
+          title: getLocalized(event.data.title, lang),
+          category: category || event.data.program_line,
+          format,
+          dateLines: getEventDateLines(event),
+          time: timeDisplay || event.data.schedule.time_display,
+          place: firstPlace?.name || location?.name || locationRef || '',
+          placeAddress: firstPlace?.address || location?.address || '',
+          placeHref: firstPlace?.href || location?.href || '',
+          places,
+          people,
+          description: getLocalized(event.data.body, lang) || getLocalized(event.data.summary, lang),
+          focusLabel,
+          focus,
+          fullPageHref: isPublicDetailEvent(event) ? `/${lang}/program/${event.slug}` : '',
+        },
+      ];
+    })
+  ))
+)));
+---
+
+<BaseLayout lang={lang} title={`${pageTitle} · Contact+ 2026`} description={intro}>
+  <main class="schedule-page">
+    <PageHero title={pageTitle} description={intro} context={labels.festivalContext} />
+
+    <section class="schedule-controls" aria-label={pageTitle}>
+      <nav class="day-nav" aria-label="Schedule days">
+        {dayGroups.map(({ day }) => (
+          <a class="day-nav__item" href={`#${getDayId(day)}`}>
+            <span>{getLocalizedDateLabel(day, lang)}</span>
+            <small>{getLocalizedDayName(day, lang)}</small>
+          </a>
+        ))}
+      </nav>
+
+      <div class="control-panel">
+        <label class="schedule-search">
+          <span>{labels.search}</span>
+          <input type="search" placeholder={labels.searchPlaceholder} data-schedule-search />
+        </label>
+
+        <div class="control-stack">
+          <div class="tool-group">
+            <span class="tool-label">{labels.view}</span>
+            <nav class="view-switch" aria-label="Program view">
+              <a class="view-link active" href={`/${lang}/schedule`}>{labels.vertical}</a>
+              <a class="view-link" href={`/${lang}/schedule/horizontal`}>{labels.horizontal}</a>
+            </nav>
+          </div>
+
+          <div class="tool-group">
+            <span class="tool-label">{labels.mode}</span>
+            <div class="control-group" aria-label="View mode">
+              <button class="control-pill active" type="button" data-mode-button="full_festival">{labels.full}</button>
+              <button class="control-pill" type="button" data-mode-button="classes_performances">{labels.classes}</button>
+            </div>
+          </div>
+
+          <div class="tool-group tool-group--wide">
+            <span class="tool-label">{labels.filters}</span>
+            <div class="control-group filters" aria-label="Filters">
+              <button class="control-pill active" type="button" data-filter-button="all" aria-pressed="true">{labels.all}</button>
+              <button class="control-pill" type="button" data-filter-button="ci" aria-pressed="false">{labels.ci}</button>
+              <button class="control-pill" type="button" data-filter-button="performance_labs" aria-pressed="false">{labels.performanceLabs}</button>
+              <button class="control-pill" type="button" data-filter-button="family_youth" aria-pressed="false">{labels.family}</button>
+              <button class="control-pill" type="button" data-filter-button="performances" aria-pressed="false">{labels.performances}</button>
+              <button class="control-pill" type="button" data-filter-button="jams_gatherings" aria-pressed="false">{labels.jams}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="days" data-schedule-days aria-live="polite">
+      {dayGroups.map(({ day, timeGroups }) => (
+        <section class="day-block" id={getDayId(day)} data-day-block>
+          <header class="day-head">
+            <p>{getLocalizedDayName(day, lang)}</p>
+            <h2>{getLocalizedDateLabel(day, lang)}</h2>
+            <span>{getLocalizedDayTheme(day, lang)}</span>
+          </header>
+          <div class="day-events">
+            {timeGroups.map(({ timeDisplay, occurrences }) => {
+              const parallel = isParallelBlock(day, timeDisplay, occurrences);
+
+              return (
+              <section class="time-group" data-time-group>
+                <div class="time-column">
+                  <span>{timeDisplay}</span>
+                  {parallel && <em class="parallel-label">{labels.parallel}</em>}
+                </div>
+                <div class={`time-events ${parallel ? 'has-parallel' : ''}`}>
+                  {occurrences.map(({ event, date, dateLabel }) => {
+                    const title = getLocalized(event.data.title, lang);
+                    const category = getProgramCategoryLabel(getLocalized(event.data.meta?.category, lang), event.data.program_line);
+                    const format = getLocalized(event.data.meta?.format, lang);
+                    const summary = getLocalized(event.data.summary, lang);
+                    const group = getProgramFilterGroup(event);
+                    const detailKey = getEventDetailKey(event.slug, date, dateLabel);
+                    const searchText = [
+                      title,
+                      category,
+                      format,
+                      summary,
+                      event.data.people?.map((person) => person.person_id).join(' '),
+                    ].filter(Boolean).join(' ');
+
+                    return (
+                      <article
+                        class={`schedule-card program-accent program-accent--${group}`}
+                        data-event-card
+                        data-filter-group={group}
+                        data-program-accent={group}
+                        data-view-classes={isVisibleInProgramView(event, 'classes_performances') ? 'true' : 'false'}
+                        data-search={searchText.toLowerCase()}
+                        data-detail-key={detailKey}
+                        role="button"
+                        tabindex="0"
+                        aria-label={`${labels.openDetails}: ${title}`}
+                      >
+                        <div class="event-body">
+                          <p class="program-meta">
+                            <span class="program-meta__category">{category || event.data.program_line}</span>
+                            {format && <span class="program-meta__divider" aria-hidden="true"></span>}
+                            {format && <span class="program-meta__format">{format}</span>}
+                          </p>
+                          <h3>{title}</h3>
+                          <p>{summary}</p>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </section>
+              );
+            })}
+          </div>
+        </section>
+      ))}
+      <p class="empty-message" data-empty-message hidden>{labels.empty}</p>
+    </section>
+
+    <div class="detail-overlay" data-detail-overlay hidden></div>
+    <aside class="detail-panel" data-detail-panel aria-hidden="true" aria-modal="true" role="dialog" aria-labelledby="schedule-detail-title">
+      <button class="detail-close" type="button" data-detail-close aria-label={labels.close}>×</button>
+      <p class="program-meta detail-kicker">
+        <span class="program-meta__category" data-detail-category></span>
+        <span class="program-meta__divider" data-detail-format-divider aria-hidden="true"></span>
+        <span class="program-meta__format" data-detail-format></span>
+      </p>
+      <h2 id="schedule-detail-title" data-detail-title></h2>
+      <dl class="detail-facts">
+        <div class="detail-fact">
+          <dt>{labels.date}</dt>
+          <dd data-detail-date></dd>
+        </div>
+        <div class="detail-fact">
+          <dt>{labels.time}</dt>
+          <dd data-detail-time></dd>
+        </div>
+        <div class="detail-fact detail-fact--wide" data-detail-place-wrap>
+          <dt>{labels.place}</dt>
+          <dd data-detail-place-list>
+            <a class="detail-place-link" href="#" data-detail-place-link rel="noopener" target="_blank">
+              <span data-detail-place></span>
+              <small data-detail-place-address></small>
+            </a>
+          </dd>
+        </div>
+        <div class="detail-fact detail-fact--wide detail-people" data-detail-people-wrap>
+          <dt data-detail-people-label>{labels.with}</dt>
+          <dd data-detail-people></dd>
+        </div>
+      </dl>
+      <div class="detail-description" data-detail-description></div>
+      <section class="detail-focus" data-detail-focus-wrap hidden>
+        <h3 data-detail-focus-label></h3>
+        <p data-detail-focus></p>
+      </section>
+      <a class="detail-full-link" href="#" data-detail-full-page>{labels.fullPage}</a>
+    </aside>
+  </main>
+</BaseLayout>
+
+<script type="application/json" id="schedule-detail-data" set:html={JSON.stringify(eventDetails)}></script>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    const modeButtons = [...document.querySelectorAll('[data-mode-button]')];
+    const filterButtons = [...document.querySelectorAll('[data-filter-button]')];
+    const cards = [...document.querySelectorAll('[data-event-card]')];
+    const timeGroups = [...document.querySelectorAll('[data-time-group]')];
+    const dayBlocks = [...document.querySelectorAll('[data-day-block]')];
+    const daysList = document.querySelector('[data-schedule-days]');
+    const searchInput = document.querySelector('[data-schedule-search]');
+    const emptyMessage = document.querySelector('[data-empty-message]');
+    const detailData = JSON.parse(document.getElementById('schedule-detail-data')?.textContent || '{}');
+    const detailOverlay = document.querySelector('[data-detail-overlay]');
+    const detailPanel = document.querySelector('[data-detail-panel]');
+    const detailClose = document.querySelector('[data-detail-close]');
+    const detailFullPage = document.querySelector('[data-detail-full-page]');
+    let lastFocusedCard = null;
+    let activeMode = 'full_festival';
+    const activeFilters = new Set();
+    let activeSearch = '';
+
+    function setActive(buttons, attr, value) {
+      buttons.forEach((button) => {
+        button.classList.toggle('active', button.getAttribute(attr) === value);
+      });
+    }
+
+    function syncFilterButtons() {
+      const hasSpecificFilters = activeFilters.size > 0;
+
+      filterButtons.forEach((button) => {
+        const filter = button.getAttribute('data-filter-button') || 'all';
+        const active = filter === 'all' ? !hasSpecificFilters : activeFilters.has(filter);
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+    }
+
+    function renderSchedule() {
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const modeMatch = activeMode === 'full_festival' || card.getAttribute('data-view-classes') === 'true';
+        const filterGroup = card.getAttribute('data-filter-group') || '';
+        const filterMatch = activeFilters.size === 0 || activeFilters.has(filterGroup);
+        const searchMatch = !activeSearch || (card.getAttribute('data-search') || '').includes(activeSearch);
+        const visible = modeMatch && filterMatch && searchMatch;
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+
+      timeGroups.forEach((group) => {
+        group.hidden = !group.querySelector('[data-event-card]:not([hidden])');
+      });
+
+      dayBlocks.forEach((block) => {
+        const blockTimeGroups = [...block.querySelectorAll('[data-time-group]')];
+        const visibleGroups = blockTimeGroups.filter((group) => !group.hidden);
+        block.hidden = visibleGroups.length === 0;
+        blockTimeGroups.forEach((group) => group.classList.remove('is-first-visible', 'is-last-visible'));
+        visibleGroups[0]?.classList.add('is-first-visible');
+        visibleGroups[visibleGroups.length - 1]?.classList.add('is-last-visible');
+      });
+
+      const hasActiveControls = activeMode !== 'full_festival' || activeFilters.size > 0 || Boolean(activeSearch);
+      daysList?.classList.toggle('is-filtered', hasActiveControls);
+
+      if (emptyMessage) emptyMessage.hidden = visibleCount > 0;
+    }
+
+    function setText(selector, value) {
+      const element = document.querySelector(selector);
+      if (element) element.textContent = value || '';
+    }
+
+    function openDetail(key, trigger) {
+      const data = detailData[key];
+      if (!data || !detailPanel || !detailOverlay) return;
+
+      lastFocusedCard = trigger;
+      detailPanel.setAttribute('data-accent', trigger?.getAttribute('data-program-accent') || '');
+      setText('[data-detail-category]', data.category);
+      setText('[data-detail-format]', data.format);
+      const formatDivider = document.querySelector('[data-detail-format-divider]');
+      const formatLabel = document.querySelector('[data-detail-format]');
+      if (formatDivider) formatDivider.hidden = !data.format;
+      if (formatLabel) formatLabel.hidden = !data.format;
+      setText('[data-detail-title]', data.title);
+      setText('[data-detail-time]', data.time);
+      setText('[data-detail-place]', data.place);
+      setText('[data-detail-place-address]', data.placeAddress);
+      setText('[data-detail-description]', data.description);
+
+      const dateList = document.querySelector('[data-detail-date]');
+      if (dateList) {
+        dateList.innerHTML = '';
+        (data.dateLines || []).forEach((dateLine) => {
+          const item = document.createElement('span');
+          item.className = 'detail-date-line';
+          const [dateValue, dayValue] = dateLine.split(' · ');
+
+          const dateText = document.createElement('span');
+          dateText.className = 'detail-date-value';
+          dateText.textContent = dateValue;
+          item.appendChild(dateText);
+
+          if (dayValue) {
+            const dayText = document.createElement('span');
+            dayText.className = 'detail-date-days';
+            dayText.textContent = ` · ${dayValue}`;
+            item.appendChild(dayText);
+          }
+
+          dateList.appendChild(item);
+        });
+      }
+
+      const placeWrap = document.querySelector('[data-detail-place-wrap]');
+      const placeList = document.querySelector('[data-detail-place-list]');
+      const places = data.places?.length ? data.places : (data.place ? [{
+        name: data.place,
+        address: data.placeAddress,
+        href: data.placeHref,
+        localizedDateLabel: '',
+      }] : []);
+      if (placeWrap) placeWrap.hidden = !places.length;
+      if (placeList) {
+        placeList.innerHTML = '';
+        places.forEach((place) => {
+          const placeElement = place.href ? document.createElement('a') : document.createElement('span');
+          placeElement.className = 'detail-place-link';
+          if (place.href) {
+            placeElement.setAttribute('href', place.href);
+            placeElement.setAttribute('rel', 'noopener');
+            placeElement.setAttribute('target', '_blank');
+          }
+
+          if ((place.localizedDateLabel || place.dateLabel) && places.length > 1) {
+            const date = document.createElement('small');
+            date.className = 'detail-place-date';
+            date.textContent = place.localizedDateLabel || place.dateLabel;
+            placeElement.appendChild(date);
+          }
+
+          const name = document.createElement('span');
+          name.textContent = place.name;
+          placeElement.appendChild(name);
+
+          if (place.address) {
+            const address = document.createElement('small');
+            address.textContent = place.address;
+            placeElement.appendChild(address);
+          }
+
+          placeList.appendChild(placeElement);
+        });
+      }
+
+      const peopleWrap = document.querySelector('[data-detail-people-wrap]');
+      const peopleLabel = document.querySelector('[data-detail-people-label]');
+      const peopleList = document.querySelector('[data-detail-people]');
+      if (peopleWrap && peopleList) {
+        peopleWrap.hidden = !data.people?.length;
+        peopleList.innerHTML = '';
+        if (data.people?.length) {
+          if (peopleLabel) peopleLabel.textContent = data.people[0].label || peopleLabel.textContent;
+          data.people.forEach((person) => {
+            const row = document.createElement('span');
+            row.className = 'detail-person-row';
+
+            const nameWrap = person.href ? document.createElement('button') : document.createElement('span');
+            nameWrap.className = 'detail-person-name-link';
+            if (person.href) {
+              nameWrap.setAttribute('type', 'button');
+              nameWrap.setAttribute('data-person-href', person.href);
+            }
+
+            const name = document.createElement('span');
+            name.className = 'detail-person-name';
+            name.textContent = person.name;
+            nameWrap.appendChild(name);
+            row.appendChild(nameWrap);
+
+            if (person.country) {
+              const separator = document.createElement('span');
+              separator.className = 'detail-person-separator';
+              separator.setAttribute('aria-hidden', 'true');
+              separator.textContent = ' · ';
+              row.appendChild(separator);
+
+              const country = document.createElement('span');
+              country.className = 'detail-person-country';
+              country.textContent = person.country;
+              row.appendChild(country);
+            }
+
+            peopleList.appendChild(row);
+          });
+        }
+      }
+
+      const focusWrap = document.querySelector('[data-detail-focus-wrap]');
+      if (focusWrap) {
+        focusWrap.hidden = !data.focus;
+        setText('[data-detail-focus-label]', data.focusLabel);
+        setText('[data-detail-focus]', data.focus);
+      }
+
+      if (detailFullPage) {
+        detailFullPage.hidden = !data.fullPageHref;
+        detailFullPage.setAttribute('href', data.fullPageHref || '#');
+      }
+
+      detailOverlay.hidden = false;
+      detailPanel.classList.add('open');
+      detailOverlay.classList.add('open');
+      detailPanel.setAttribute('aria-hidden', 'false');
+      detailClose?.focus();
+    }
+
+    function closeDetail() {
+      if (!detailPanel || !detailOverlay) return;
+      detailPanel.classList.remove('open');
+      detailOverlay.classList.remove('open');
+      detailPanel.setAttribute('aria-hidden', 'true');
+      detailOverlay.hidden = true;
+      lastFocusedCard?.focus?.();
+    }
+
+    modeButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        activeMode = button.getAttribute('data-mode-button') || 'full_festival';
+        setActive(modeButtons, 'data-mode-button', activeMode);
+        renderSchedule();
+      });
+    });
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.getAttribute('data-filter-button') || 'all';
+
+        if (filter === 'all') {
+          activeFilters.clear();
+        } else if (activeFilters.has(filter)) {
+          activeFilters.delete(filter);
+        } else {
+          activeFilters.add(filter);
+        }
+
+        syncFilterButtons();
+        renderSchedule();
+      });
+    });
+
+    searchInput?.addEventListener('input', () => {
+      activeSearch = searchInput.value.trim().toLowerCase();
+      renderSchedule();
+    });
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => openDetail(card.getAttribute('data-detail-key'), card));
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openDetail(card.getAttribute('data-detail-key'), card);
+        }
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      const personLink = event.target.closest('[data-person-href]');
+      if (!personLink) return;
+      window.location.href = personLink.getAttribute('data-person-href');
+    });
+
+    detailClose?.addEventListener('click', closeDetail);
+    detailOverlay?.addEventListener('click', closeDetail);
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeDetail();
+    });
+
+    syncFilterButtons();
+    renderSchedule();
+  });
+</script>
+
+<style>
+  .schedule-page {
+    width: min(1160px, calc(100% - 34px));
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  .schedule-controls {
+    display: grid;
+    gap: 18px;
+    margin: 0 0 38px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .day-nav {
+    display: grid;
+    grid-template-columns: repeat(9, minmax(92px, 1fr));
+    gap: 0;
+    padding: 10px;
+    border: 1px solid rgba(222, 214, 203, 0.74);
+    border-radius: 28px;
+    background:
+      linear-gradient(180deg, rgba(251, 250, 247, 0.78), rgba(242, 238, 231, 0.62));
+  }
+
+  .day-nav__item {
+    display: grid;
+    gap: 1px;
+    min-height: 66px;
+    align-content: center;
+    padding: 10px 14px;
+    border-radius: 22px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .day-nav__item:hover {
+    background: rgba(251, 250, 247, 0.82);
+  }
+
+  .day-nav__item span {
+    font-size: 1rem;
+    line-height: 1.1;
+  }
+
+  .day-nav__item small {
+    color: var(--muted);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .control-panel {
+    display: grid;
+    grid-template-columns: minmax(250px, 460px) 1fr;
+    gap: 16px 24px;
+    align-items: start;
+    padding: 18px 20px;
+    border: 1px solid rgba(222, 214, 203, 0.72);
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(251, 250, 247, 0.78), rgba(242, 238, 231, 0.36));
+  }
+
+  .schedule-search {
+    display: grid;
+    gap: 6px;
+  }
+
+  .schedule-search span,
+  .tool-label {
+    color: var(--soft);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .schedule-search input {
+    width: 100%;
+    min-height: 42px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 9px 14px;
+    background: rgba(251, 250, 247, 0.72);
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.92rem;
+  }
+
+  .schedule-search input:focus {
+    border-color: var(--line-strong);
+    outline: 0;
+  }
+
+  .control-stack {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 12px 18px;
+    justify-content: end;
+  }
+
+  .tool-group {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+  }
+
+  .tool-group--wide {
+    grid-column: 1 / -1;
+  }
+
+  .view-switch,
+  .control-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .view-link,
+  .control-pill {
+    --filter-accent: var(--line-strong);
+    --filter-tint: var(--paper-deep);
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 12px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.84rem;
+    line-height: 1.1;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .view-link.active,
+  .control-pill.active {
+    border-color: color-mix(in srgb, var(--filter-accent) 52%, var(--line-strong));
+    background: var(--filter-tint);
+    color: var(--ink);
+  }
+
+  .filters .control-pill:not([data-filter-button="all"]) {
+    gap: 7px;
+  }
+
+  .filters .control-pill:not([data-filter-button="all"])::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--filter-accent);
+    opacity: 0.9;
+  }
+
+  .filters .control-pill[data-filter-button="ci"] {
+    --filter-accent: #738b5f;
+    --filter-tint: rgba(115, 139, 95, 0.2);
+  }
+
+  .filters .control-pill[data-filter-button="performance_labs"] {
+    --filter-accent: #a06f42;
+    --filter-tint: rgba(160, 111, 66, 0.2);
+  }
+
+  .filters .control-pill[data-filter-button="performances"] {
+    --filter-accent: #8d4f67;
+    --filter-tint: rgba(141, 79, 103, 0.2);
+  }
+
+  .filters .control-pill[data-filter-button="family_youth"] {
+    --filter-accent: #62869a;
+    --filter-tint: rgba(98, 134, 154, 0.2);
+  }
+
+  .filters .control-pill[data-filter-button="jams_gatherings"] {
+    --filter-accent: #736e96;
+    --filter-tint: rgba(115, 110, 150, 0.2);
+  }
+
+  .filters .control-pill.active:not([data-filter-button="all"]) {
+    gap: 8px;
+  }
+
+  .filters .control-pill.active:not([data-filter-button="all"])::after {
+    content: "×";
+    color: var(--soft);
+    font-size: 0.86rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .filters .control-pill.active:not([data-filter-button="all"]):hover::after {
+    color: var(--accent-muted);
+  }
+
+  .days {
+    display: grid;
+    gap: clamp(36px, 5vw, 58px);
+  }
+
+  .day-block {
+    display: grid;
+    grid-template-columns: minmax(120px, 190px) 1fr;
+    gap: clamp(18px, 4vw, 42px);
+    padding-top: 28px;
+    border-top: 1px solid rgba(222, 214, 203, 0.68);
+  }
+
+  .day-block:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .day-head {
+    position: sticky;
+    top: 228px;
+    align-self: start;
+  }
+
+  .day-head p {
+    margin: 0 0 7px;
+    color: var(--soft);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    line-height: 1.15;
+    text-transform: uppercase;
+  }
+
+  .day-head h2 {
+    margin: 0 0 10px;
+    color: var(--accent-muted);
+    font-family: var(--font-serif);
+    font-size: clamp(1.45rem, 2.4vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: 0;
+  }
+
+  .day-head span {
+    display: block;
+    max-width: 170px;
+    color: var(--muted);
+    font-size: 0.86rem;
+    line-height: 1.35;
+  }
+
+  .day-events {
+    display: grid;
+    gap: 0;
+  }
+
+  .time-group {
+    display: grid;
+    grid-template-columns: minmax(92px, 130px) 1fr;
+    gap: clamp(16px, 3vw, 30px);
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(222, 214, 203, 0.52);
+  }
+
+  .time-group:first-child,
+  .time-group.is-first-visible {
+    padding-top: 0;
+  }
+
+  .days.is-filtered .time-group:first-child,
+  .days.is-filtered .time-group.is-first-visible {
+    border-top: 0;
+  }
+
+  .time-group:last-child,
+  .time-group.is-last-visible {
+    border-bottom: 0 !important;
+  }
+
+  .time-events {
+    display: grid;
+    gap: 18px;
+  }
+
+  .time-events.has-parallel {
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+    padding: 10px 0;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(90deg, rgba(251, 250, 247, 0.58), rgba(251, 250, 247, 0.18) 82%);
+  }
+
+  .parallel-label {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 8px;
+    padding: 2px 7px;
+    border: 1px solid rgba(222, 214, 203, 0.66);
+    border-radius: 999px;
+    background: rgba(251, 250, 247, 0.42);
+    color: color-mix(in srgb, var(--muted) 78%, var(--soft));
+    font-size: 0.62rem;
+    font-style: normal;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .schedule-card {
+    min-width: 0;
+    padding: 18px 18px 18px 16px;
+    border-left: 2px solid color-mix(in srgb, var(--program-accent) 72%, var(--line-strong));
+    border-radius: 0;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 34%, transparent), rgba(255, 255, 255, 0) 72%);
+    cursor: pointer;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .schedule-card:hover {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 54%, transparent), rgba(255, 255, 255, 0.22) 76%);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.28);
+  }
+
+  .schedule-card:focus-visible {
+    outline: 1px solid var(--line-strong);
+    outline-offset: 8px;
+  }
+
+  .has-parallel .schedule-card {
+    padding: 17px 16px 18px 16px;
+    border-left: 2px solid color-mix(in srgb, var(--program-accent) 72%, var(--line-strong));
+    border-radius: 0;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 30%, transparent), rgba(255, 255, 255, 0) 78%);
+  }
+
+  .time-column span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.35;
+  }
+
+  .event-body {
+    max-width: 740px;
+  }
+
+  .event-body h3 {
+    margin: 0 0 8px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 400;
+    line-height: 1.15;
+  }
+
+  .schedule-card:hover .event-body h3 {
+    color: var(--accent-muted);
+  }
+
+  .event-body p:not(.program-meta) {
+    max-width: 650px;
+    margin-bottom: 0;
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .empty-message {
+    padding: 34px 0;
+    color: var(--muted);
+  }
+
+  .detail-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: rgba(36, 32, 28, 0.16);
+  }
+
+  .detail-overlay.open {
+    display: block;
+  }
+
+  .detail-panel {
+    --program-accent: var(--accent-muted);
+    --program-tint: rgba(143, 132, 117, 0.16);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: min(500px, calc(100% - 28px));
+    height: 100vh;
+    padding: clamp(24px, 3.6vw, 38px);
+    border-left: 1px solid var(--line);
+    background: rgba(251, 250, 247, 0.98);
+    box-shadow: -18px 0 60px rgba(47, 39, 33, 0.12);
+    overflow-y: auto;
+    transform: translateX(102%);
+    transition: transform 220ms ease;
+  }
+
+  .detail-panel[data-accent="ci"] {
+    --program-accent: #738b5f;
+    --program-tint: rgba(115, 139, 95, 0.2);
+  }
+
+  .detail-panel[data-accent="performance_labs"] {
+    --program-accent: #a06f42;
+    --program-tint: rgba(160, 111, 66, 0.2);
+  }
+
+  .detail-panel[data-accent="performances"] {
+    --program-accent: #8d4f67;
+    --program-tint: rgba(141, 79, 103, 0.2);
+  }
+
+  .detail-panel[data-accent="family_youth"] {
+    --program-accent: #62869a;
+    --program-tint: rgba(98, 134, 154, 0.2);
+  }
+
+  .detail-panel[data-accent="jams_gatherings"] {
+    --program-accent: #736e96;
+    --program-tint: rgba(115, 110, 150, 0.2);
+  }
+
+  .detail-panel[data-accent="breaks"] {
+    --program-accent: #9f917d;
+    --program-tint: rgba(159, 145, 125, 0.18);
+  }
+
+  .detail-panel .program-meta__category {
+    color: var(--program-accent);
+  }
+
+  .detail-panel .program-meta__divider {
+    background: color-mix(in srgb, var(--program-accent) 52%, var(--line-strong));
+  }
+
+  .detail-panel.open {
+    transform: translateX(0);
+  }
+
+  .detail-close {
+    align-self: flex-end;
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .detail-close:hover,
+  .detail-close:focus-visible {
+    border-color: var(--line-strong);
+    color: var(--ink);
+    outline: 0;
+  }
+
+  .detail-kicker {
+    margin: 0 0 2px;
+    font-size: 0.78rem;
+  }
+
+  .detail-panel h2 {
+    max-width: 400px;
+    margin: 0 0 4px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.62rem, 2.45vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .detail-facts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 0;
+    padding: 2px 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .detail-fact {
+    min-width: 0;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .detail-facts dt,
+  .detail-focus h3 {
+    margin: 0 0 7px;
+    color: var(--soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .detail-facts dd {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    font-weight: 500;
+    line-height: 1.34;
+  }
+
+  .detail-facts dd > span,
+  .detail-facts dd > :global(span) {
+    display: block;
+  }
+
+  :global(.detail-date-line) {
+    display: block;
+  }
+
+  :global(.detail-date-value) {
+    color: var(--muted);
+  }
+
+  :global(.detail-date-days) {
+    color: var(--soft);
+    font-size: 0.82rem;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .detail-facts a,
+  :global(.detail-place-link) {
+    color: inherit;
+    text-decoration: none !important;
+    border-bottom: 0;
+  }
+
+  .detail-facts a:hover,
+  :global(.detail-place-link:hover) {
+    color: var(--ink);
+  }
+
+  :global(.detail-place-link) {
+    display: grid;
+    gap: 2px;
+    width: fit-content;
+    max-width: 100%;
+    border-radius: 6px;
+    line-height: 1.25;
+  }
+
+  :global([data-detail-place-list]) {
+    display: grid;
+    gap: 8px;
+  }
+
+  :global([data-detail-place-list] .detail-place-link + .detail-place-link) {
+    padding-top: 7px;
+    border-top: 1px solid rgba(222, 214, 203, 0.42);
+  }
+
+  :global(.detail-place-link span),
+  :global(.detail-place-link small) {
+    display: block;
+  }
+
+  :global(.detail-place-link span) {
+    color: color-mix(in srgb, var(--muted) 84%, var(--soft));
+    font-size: 0.88rem;
+    font-weight: 540;
+  }
+
+  :global(.detail-place-link small) {
+    color: var(--soft);
+    max-width: 36ch;
+    font-size: 0.68rem;
+    font-weight: 400;
+    line-height: 1.32;
+  }
+
+  :global(.detail-place-link .detail-place-date) {
+    color: color-mix(in srgb, var(--accent-muted) 58%, var(--soft));
+    font-size: 0.58rem;
+    font-weight: 650;
+    letter-spacing: 0.07em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  :global(.detail-place-link:hover span),
+  :global(.detail-person-name-link:hover .detail-person-name) {
+    color: var(--ink);
+  }
+
+  .detail-people dd {
+    display: grid;
+    gap: 8px;
+  }
+
+  :global(.detail-person-row) {
+    display: inline-flex;
+    flex-wrap: wrap;
+    column-gap: 0;
+    row-gap: 0;
+    align-items: baseline;
+    width: fit-content;
+    max-width: 100%;
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 0.94rem;
+  }
+
+  :global(.detail-person-name-link),
+  :global(.detail-person-name-link:visited),
+  :global(.detail-person-name-link:hover),
+  :global(.detail-person-name-link:active) {
+    appearance: none;
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: 0 !important;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    box-shadow: none !important;
+  }
+
+  :global(.detail-person-name-link:focus-visible) {
+    outline: 1px solid var(--line-strong);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  :global(.detail-person-name) {
+    min-width: 0;
+    color: inherit;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    overflow-wrap: anywhere;
+  }
+
+  :global(.detail-person-separator) {
+    color: var(--line-strong);
+    font-size: 0.76rem;
+    font-weight: 400;
+    line-height: 1.35;
+    white-space: pre;
+  }
+
+  :global(.detail-person-row .detail-person-country) {
+    color: var(--soft);
+    font-size: 0.76rem;
+    font-weight: 400 !important;
+    line-height: 1.35;
+    white-space: nowrap;
+  }
+
+  .detail-description {
+    max-width: 400px;
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.56;
+    white-space: pre-line;
+  }
+
+  .detail-focus {
+    max-width: 400px;
+    margin: 2px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+
+  .detail-focus p {
+    margin: 0;
+    color: var(--accent-muted);
+    font-size: 0.86rem;
+    line-height: 1.48;
+  }
+
+  .detail-full-link {
+    align-self: flex-start;
+    color: var(--soft);
+    margin-top: -4px;
+    padding: 7px 0 0;
+    border-top: 1px solid transparent;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    text-decoration-thickness: 1px;
+    text-transform: none;
+  }
+
+  .detail-full-link:hover {
+    color: var(--accent-muted);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 0.24em;
+  }
+
+  @media (max-width: 820px) {
+    .control-panel {
+      grid-template-columns: 1fr;
+      padding: 16px;
+    }
+
+    .control-stack {
+      grid-template-columns: 1fr;
+      justify-content: stretch;
+    }
+
+    .day-block {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .day-head {
+      position: static;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 10px;
+      align-items: baseline;
+      padding: 0 0 13px;
+      border-bottom: 1px solid rgba(222, 214, 203, 0.5);
+    }
+
+    .day-head p {
+      grid-column: 2;
+      grid-row: 1;
+      margin: 0;
+      color: color-mix(in srgb, var(--soft) 86%, var(--muted));
+      font-size: 0.66rem;
+      letter-spacing: 0.09em;
+    }
+
+    .day-head h2 {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      margin: 0;
+      font-size: clamp(1.7rem, 10vw, 2.05rem);
+      line-height: 0.98;
+    }
+
+    .day-head span {
+      grid-column: 1 / -1;
+      max-width: none;
+      margin-top: 0;
+      color: color-mix(in srgb, var(--muted) 86%, var(--soft));
+      font-size: 0.78rem;
+      line-height: 1.36;
+    }
+
+    .time-group {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 23px 0;
+    }
+
+    .time-events.has-parallel {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 10px 0;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(90deg, rgba(251, 250, 247, 0.62), rgba(251, 250, 247, 0.16) 86%);
+    }
+
+    .has-parallel .schedule-card {
+      padding: 17px 14px 18px 16px;
+      border-left: 2px solid color-mix(in srgb, var(--program-accent) 72%, var(--line-strong));
+      border-radius: 0;
+      background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 28%, transparent), rgba(255, 255, 255, 0) 78%);
+    }
+
+    .has-parallel .schedule-card:last-child {
+      border-bottom: 0;
+    }
+
+    .has-parallel .event-body h3 {
+      margin-bottom: 9px;
+    }
+
+    .has-parallel .event-body p:not(.program-meta) {
+      color: color-mix(in srgb, var(--muted) 88%, var(--soft));
+      font-size: 0.94rem;
+      line-height: 1.48;
+    }
+
+    .parallel-label {
+      margin-left: 8px;
+      margin-top: 0;
+      padding: 1px 6px;
+      border-color: rgba(222, 214, 203, 0.48);
+      background: rgba(251, 250, 247, 0.24);
+      color: color-mix(in srgb, var(--muted) 70%, var(--soft));
+      font-size: 0.58rem;
+      vertical-align: 0.1em;
+    }
+
+    .time-column span {
+      display: inline-block;
+      color: var(--accent-muted);
+      font-size: 0.86rem;
+    }
+
+    .detail-panel {
+      top: auto;
+      bottom: 0;
+      width: 100%;
+      height: min(86vh, 760px);
+      border-top: 1px solid var(--line);
+      border-left: 0;
+      border-radius: 22px 22px 0 0;
+      box-shadow: 0 -18px 60px rgba(47, 39, 33, 0.14);
+      transform: translateY(104%);
+    }
+
+    .detail-panel.open {
+      transform: translateY(0);
+    }
+
+    .detail-facts {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+  }
+
+  @media (max-width: 560px) {
+    .schedule-page {
+      width: min(100% - 28px, 1160px);
+    }
+
+    .schedule-controls {
+      margin-left: -14px;
+      margin-right: -14px;
+      padding: 0 14px;
+    }
+
+    .day-nav {
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      padding: 8px;
+      border-radius: 24px;
+      scroll-padding-inline: 8px;
+    }
+
+    .day-nav__item {
+      flex: 0 0 118px;
+      min-height: 58px;
+      padding: 8px 12px;
+    }
+
+    .day-head {
+      width: min(100%, 340px);
+      margin-inline: auto;
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .day-head p,
+    .day-head h2,
+    .day-head span {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .day-head span {
+      max-width: 280px;
+    }
+
+    .control-panel {
+      padding: 14px;
+      border-radius: 24px;
+    }
+
+    .schedule-search {
+      max-width: none;
+    }
+
+    .filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 3px;
+    }
+
+    .control-pill,
+    .view-link {
+      white-space: nowrap;
+    }
+  }
+</style>

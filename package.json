@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "audit:content": "node scripts/content-audit.mjs",
+    "audit:content:bundled": "PATH=/Users/jenia/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH node scripts/content-audit.mjs",
+    "dev:bundled": "PATH=/Users/jenia/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH astro dev --host 127.0.0.1",
+    "build:bundled": "PATH=/Users/jenia/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH astro build",
+    "preview:bundled": "PATH=/Users/jenia/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH astro preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.14",
+    "astro": "^5.18.2",
+    "zod": "latest"
+  }
+}

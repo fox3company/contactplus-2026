@@ -1,0 +1,755 @@
+---
+import { getCollection } from 'astro:content';
+import MediaBlock from '../../../components/MediaBlock.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { isPublicEvent, isPublicPerson } from '../../../lib/content';
+import {
+  getLocalizedDateLabel,
+  getLocalizedDayName,
+} from '../../../lib/festivalDates';
+import { getLocalized, isLocale } from '../../../lib/locales';
+import { locations } from '../../../lib/locations';
+import { getProgramCategoryLabel, getProgramFilterGroup } from '../../../lib/program';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events', isPublicEvent);
+  const langs = ['en', 'ro', 'ru'];
+  return langs.flatMap((lang) => events.map((event) => ({ params: { lang, slug: event.slug }, props: { event, lang } })));
+}
+
+const { event, lang } = Astro.props;
+if (!isLocale(lang)) {
+  return Astro.redirect('/en/program');
+}
+
+const title = getLocalized(event.data.title, lang);
+const summary = getLocalized(event.data.summary, lang);
+const category = getProgramCategoryLabel(getLocalized(event.data.meta?.category, lang), event.data.program_line);
+const format = getLocalized(event.data.meta?.format, lang);
+const focusLabel = getLocalized(event.data.focus_label, lang);
+const focus = getLocalized(event.data.focus, lang);
+const body = getLocalized(event.data.body, lang);
+const credits = getLocalized(event.data.credits?.short, lang);
+const sourceCredit = getLocalized(event.data.credits?.full_source, lang);
+const accentGroup = getProgramFilterGroup(event);
+const creditsLabel = getLocalized({ en: 'Credits', ro: 'Credite', ru: 'Кредиты' }, lang);
+const relatedLabel = getLocalized({ en: 'Related', ro: 'Conexiuni', ru: 'Связи' }, lang);
+const peopleLabel = getLocalized({
+  en: event.data.people_label || 'With',
+  ro: event.data.people_label === 'By' ? 'De' : 'Cu',
+  ru: event.data.people_label === 'By' ? 'От' : 'С кем',
+}, lang);
+const dateLabel = getLocalized({ en: 'Date', ro: 'Dată', ru: 'Дата' }, lang);
+const timeLabel = getLocalized({ en: 'Time', ro: 'Oră', ru: 'Время' }, lang);
+const placeLabel = getLocalized({ en: 'Place', ro: 'Loc', ru: 'Место' }, lang);
+const mediaLabel = getLocalized({ en: 'Media', ro: 'Media', ru: 'Медиа' }, lang);
+const backLabel = getLocalized({
+  en: 'Back',
+  ro: 'Înapoi',
+  ru: 'Назад',
+}, lang);
+const location = event.data.location_ref ? locations[event.data.location_ref] : undefined;
+const occurrenceLocationFacts = (event.data.occurrences || [])
+  .filter((occurrence) => occurrence.location_ref && locations[occurrence.location_ref])
+  .reduce((groups, occurrence) => {
+    const locationRef = occurrence.location_ref as string;
+    const lastGroup = groups[groups.length - 1];
+
+    if (lastGroup?.locationRef === locationRef) {
+      lastGroup.dateLabels.push(occurrence.date_label);
+    } else {
+      groups.push({ locationRef, dateLabels: [occurrence.date_label] });
+    }
+
+    return groups;
+  }, [] as { locationRef: string; dateLabels: string[] }[])
+  .map((group) => ({
+    date:
+      group.dateLabels.length > 1
+        ? getLocalizedDateLabel(`${group.dateLabels[0]} — ${group.dateLabels[group.dateLabels.length - 1]}`, lang)
+        : getLocalizedDateLabel(group.dateLabels[0], lang),
+    location: locations[group.locationRef],
+  }));
+const locationFacts = occurrenceLocationFacts.length > 0
+  ? occurrenceLocationFacts
+  : location
+    ? [{ date: '', location }]
+    : [];
+const allPeople = await getCollection('people');
+const peopleById = new Map(allPeople.map((person) => [person.data.id || person.slug, person]));
+const allEvents = await getCollection('events');
+const eventsBySlug = new Map(allEvents.map((item) => [item.slug, item]));
+const visiblePeople = (event.data.people || []).filter((person) => person.public_visibility === 'visible');
+const creditItems = event.data.credits?.items || [];
+
+function formatPersonName(personId: string) {
+  return peopleById.get(personId)?.data.name || personId.split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+}
+
+function getPersonLabel(person: { public_label?: Partial<Record<typeof lang, string>> }) {
+  return getLocalized(person.public_label, lang) || peopleLabel;
+}
+
+function getDayRangeLabel(dateLabel: string) {
+  const rangeParts = dateLabel.split('—').map((part) => part.trim());
+  const localizedDate = getLocalizedDateLabel(dateLabel, lang);
+
+  if (rangeParts.length === 2) {
+    const startDay = getLocalizedDayName(rangeParts[0], lang);
+    const endDay = getLocalizedDayName(rangeParts[1], lang);
+
+    if (startDay && endDay) {
+      return { date: localizedDate, days: `${startDay} — ${endDay}` };
+    }
+  }
+
+  const dayName = getLocalizedDayName(dateLabel, lang);
+  return { date: localizedDate, days: dayName };
+}
+
+function getEventDateLines(dateDisplay: string) {
+  return dateDisplay
+    .split(/,\s*(?=[A-Z][a-z]{2}\s+\d)/)
+    .filter(Boolean)
+    .map(getDayRangeLabel);
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+const visiblePeopleFacts = visiblePeople.map((person) => {
+  const profile = peopleById.get(person.person_id);
+  return {
+    label: getPersonLabel(person),
+    name: formatPersonName(person.person_id),
+    country: profile?.data.country_display || '',
+    href: profile && isPublicPerson(profile) ? `/${lang}/artists/${profile.slug}` : '',
+  };
+});
+const visiblePeopleGroups = visiblePeopleFacts.reduce((groups, person) => {
+  const group = groups.find((item) => item.label === person.label);
+  if (group) {
+    group.people.push(person);
+  } else {
+    groups.push({ label: person.label, people: [person] });
+  }
+  return groups;
+}, [] as { label: string; people: typeof visiblePeopleFacts }[]);
+const relatedEvents = (event.data.related?.events || [])
+  .map((eventSlug) => eventsBySlug.get(eventSlug))
+  .filter((item) => item && item.data.visibility === 'public_page')
+  .map((item) => {
+    const relatedCategory = getProgramCategoryLabel(getLocalized(item.data.meta?.category, lang), item.data.program_line);
+    const relatedFormat = getLocalized(item.data.meta?.format, lang);
+    return {
+      href: `/${lang}/program/${item.slug}`,
+      title: getLocalized(item.data.title, lang),
+      meta: [relatedCategory, relatedFormat].filter(Boolean).join(' · '),
+    };
+  });
+const dateLines = getEventDateLines(event.data.schedule.date_display);
+const media = event.data.media as { src?: string; url?: string; hero?: string; type?: 'image' | 'video'; caption?: string } | undefined;
+const mediaSrc = media?.src || media?.url || (media?.hero && !media.hero.includes('placeholder') ? media.hero : '');
+const publicCreditLinks = allPeople
+  .filter(isPublicPerson)
+  .map((person) => ({
+    name: person.data.name,
+    href: `/${lang}/artists/${person.slug}`,
+  }))
+  .sort((a, b) => b.name.length - a.name.length);
+const creditNamePattern = publicCreditLinks.length
+  ? new RegExp(`(${publicCreditLinks.map((person) => escapeRegExp(person.name)).join('|')})`, 'g')
+  : undefined;
+const publicCreditLinksByName = new Map(publicCreditLinks.map((person) => [person.name, person.href]));
+
+function getLinkedCreditParts(value: string) {
+  if (!creditNamePattern) return [{ text: value, href: '' }];
+
+  return value.split(creditNamePattern).filter(Boolean).map((part) => ({
+    text: part,
+    href: publicCreditLinksByName.get(part) || '',
+  }));
+}
+---
+<BaseLayout lang={lang} title={`${title} · Contact+ 2026`} description={summary}>
+  <main class={`page event-page program-accent program-accent--${accentGroup} ${mediaSrc ? 'event-page--has-media' : 'event-page--no-media'}`}>
+    <a class="back-link" href={`/${lang}/schedule`} data-history-back>{backLabel}</a>
+
+    <header class="detail-hero">
+      <p class="program-meta">
+        <span class="program-meta__category">{category}</span>
+        {format && <span class="program-meta__divider" aria-hidden="true"></span>}
+        {format && <span class="program-meta__format">{format}</span>}
+      </p>
+      <h1>{title}</h1>
+      <p class="lead">{summary}</p>
+    </header>
+
+    <dl class="event-facts" aria-label={title}>
+      <div class="event-fact">
+        <dt>{dateLabel}</dt>
+        <dd class="event-date-lines">
+          {dateLines.map((line) => (
+            <span class="event-date-line">
+              <span class="event-date-value">{line.date}</span>
+              {line.days && <span class="event-date-days"> · {line.days}</span>}
+            </span>
+          ))}
+        </dd>
+      </div>
+      <div class="event-fact">
+        <dt>{timeLabel}</dt>
+        <dd>{event.data.schedule.time_display}</dd>
+      </div>
+      {locationFacts.length > 0 && (
+        <div class="event-fact">
+          <dt>{placeLabel}</dt>
+          <dd class:list={['event-location-list', locationFacts.length > 1 && 'event-location-list--multiple']}>
+            {locationFacts.map((item) => (
+              <span class="event-location-item">
+                {item.date && <span class="event-location-date">{item.date}</span>}
+                <a class="event-place-link" href={item.location.href} rel="noopener" target="_blank">
+                  <span>{item.location.name}</span>
+                  <small>{item.location.address}</small>
+                </a>
+              </span>
+            ))}
+          </dd>
+        </div>
+      )}
+      {visiblePeopleGroups.map((group) => (
+        <div class="event-fact">
+          <dt>{group.label}</dt>
+          <dd class="people-list">
+            {group.people.map((person) => (
+              <span class="people-list__item event-person-row">
+                {person.href ? (
+                  <a class="event-person-name-link" href={person.href}>
+                    <span class="event-person-name">{person.name}</span>
+                  </a>
+                ) : (
+                  <span class="event-person-name">{person.name}</span>
+                )}
+                {person.country && (
+                  <>
+                    <span class="event-person-separator" aria-hidden="true"> · </span>
+                    <span class="event-person-country">{person.country}</span>
+                  </>
+                )}
+              </span>
+            ))}
+          </dd>
+        </div>
+      ))}
+    </dl>
+
+    {mediaSrc && <MediaBlock title={title} label={mediaLabel} src={mediaSrc} type={media?.type} caption={media?.caption} />}
+
+    <section class="body-copy">
+      <p>{body}</p>
+    </section>
+
+    {focus && (
+      <section class="focus">
+        <h2>{focusLabel}</h2>
+        <p>{focus}</p>
+      </section>
+    )}
+
+    {relatedEvents.length > 0 && (
+      <section class="related">
+        <h2>{relatedLabel}</h2>
+        <ul>
+          {relatedEvents.map((relatedEvent) => (
+            <li>
+              <a href={relatedEvent.href}>{relatedEvent.title}</a>
+              {relatedEvent.meta && <span>{relatedEvent.meta}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {(creditItems.length > 0 || sourceCredit || credits) && (
+      <details class="credits">
+        <summary>{creditsLabel}</summary>
+        <div class="credits-inner">
+        {creditItems.length > 0 && (
+          <dl class="credit-list">
+            {creditItems.map((item) => (
+              <div>
+                <dt>{getLocalized(item.label, lang)}</dt>
+                <dd>
+                  {getLinkedCreditParts(getLocalized(item.value, lang)).map((part) => (
+                    part.href ? <a href={part.href}>{part.text}</a> : part.text
+                  ))}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
+        {credits && <p>{credits}</p>}
+        {sourceCredit && <p class="credit-note">{sourceCredit}</p>}
+        </div>
+      </details>
+    )}
+  </main>
+</BaseLayout>
+
+<script>
+  document.querySelector('[data-history-back]')?.addEventListener('click', (event) => {
+    const referrer = document.referrer ? new URL(document.referrer) : null;
+    const isSameSiteReferrer = referrer?.origin === window.location.origin;
+
+    if (isSameSiteReferrer && window.history.length > 1) {
+      event.preventDefault();
+      window.history.back();
+    }
+  });
+</script>
+
+<style>
+  .detail-hero {
+    max-width: 720px;
+  }
+
+  .detail-hero h1 {
+    max-width: 680px;
+    margin: 10px 0 16px;
+    font-size: clamp(2.12rem, 4.05vw, 3.86rem);
+    line-height: 1.075;
+  }
+
+  .detail-hero .lead {
+    max-width: 620px;
+    color: var(--muted);
+    font-size: clamp(1.02rem, 1.45vw, 1.18rem);
+    line-height: 1.55;
+  }
+
+  .detail-hero .program-meta {
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .detail-hero .program-meta__category {
+    color: var(--program-accent);
+    letter-spacing: 0.075em;
+  }
+
+  .detail-hero .program-meta__divider {
+    background: color-mix(in srgb, var(--program-accent) 52%, var(--line-strong));
+  }
+
+  .detail-hero .program-meta__format {
+    color: var(--muted);
+    font-size: 0.92rem;
+    font-weight: 450;
+  }
+
+  @media (max-width: 640px) {
+    .detail-hero {
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .detail-hero h1,
+    .detail-hero .lead {
+      margin-inline: auto;
+    }
+
+    .detail-hero .lead {
+      text-align: left;
+    }
+
+    .detail-hero .program-meta {
+      justify-content: center;
+    }
+  }
+
+  .back-link {
+    display: inline-flex;
+    margin: 0 0 34px;
+    color: var(--soft);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .back-link::before {
+    content: "←";
+    margin-right: 8px;
+    color: var(--line-strong);
+  }
+
+  .back-link:hover {
+    color: var(--muted);
+  }
+
+  .event-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 clamp(24px, 4vw, 52px);
+    max-width: 700px;
+    margin: 28px 0 0;
+    padding: 0 0 0 18px;
+    border-left: 3px solid var(--program-accent);
+    border-top: 1px solid rgba(222, 214, 203, 0.72);
+    border-bottom: 1px solid rgba(222, 214, 203, 0.72);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 46%, transparent), rgba(251, 250, 247, 0) 34%);
+  }
+
+  .event-fact {
+    min-width: 0;
+    padding: 14px 0;
+  }
+
+  .event-fact:nth-child(n + 3) {
+    border-top: 1px solid rgba(222, 214, 203, 0.52);
+  }
+
+  .event-facts dt {
+    margin: 0 0 7px;
+    color: var(--soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .event-facts dd {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.96rem;
+    font-weight: 500;
+    line-height: 1.36;
+  }
+
+  .event-date-line {
+    display: block;
+  }
+
+  .event-date-value {
+    color: var(--muted);
+  }
+
+  .event-date-days {
+    color: var(--soft);
+    font-size: 0.84rem;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .event-location-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .event-location-list--multiple {
+    gap: 10px;
+  }
+
+  .event-location-item {
+    display: grid;
+    gap: 3px;
+  }
+
+  .event-location-date {
+    color: var(--soft);
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .event-place-link {
+    display: grid;
+    gap: 3px;
+    width: fit-content;
+    max-width: 100%;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 6px;
+  }
+
+  .event-place-link small {
+    color: var(--soft);
+    font-size: 0.78rem;
+    font-weight: 400;
+    line-height: 1.35;
+  }
+
+  .event-place-link:hover span,
+  .event-person-name-link:hover .event-person-name {
+    color: var(--ink);
+  }
+
+  .people-list {
+    display: grid;
+    gap: 8px;
+    max-width: 340px;
+  }
+
+  .event-person-row {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    width: fit-content;
+    max-width: 100%;
+    color: var(--muted);
+  }
+
+  .event-person-name-link,
+  .event-person-name-link:visited,
+  .event-person-name-link:hover,
+  .event-person-name-link:active {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .event-person-name-link:focus-visible {
+    outline: 1px solid var(--line-strong);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  .event-person-name {
+    color: inherit;
+    overflow-wrap: anywhere;
+  }
+
+  .event-person-separator {
+    color: var(--line-strong);
+    font-size: 0.78rem;
+    font-weight: 400;
+    line-height: 1.35;
+    white-space: pre;
+  }
+
+  .event-person-country {
+    color: var(--soft);
+    font-size: 0.78rem;
+    font-weight: 400;
+    line-height: 1.35;
+    white-space: nowrap;
+  }
+
+  .focus {
+    max-width: 720px;
+    margin: 24px 0 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .focus h2 {
+    margin-bottom: 7px;
+    color: var(--soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    text-transform: uppercase;
+  }
+
+  .focus p {
+    max-width: 680px;
+    color: color-mix(in srgb, var(--accent-muted) 76%, var(--muted));
+    font-family: inherit;
+    font-size: 0.98rem;
+    font-weight: 450;
+    line-height: 1.48;
+  }
+
+  .body-copy {
+    max-width: 720px;
+    margin-top: 26px;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .event-page--has-media .body-copy {
+    margin-top: 30px;
+  }
+
+  :global(.event-page--has-media .media-block) {
+    max-width: 760px;
+    margin: clamp(34px, 5vw, 54px) 0 0;
+  }
+
+  .event-page--no-media .body-copy {
+    margin-top: 28px;
+  }
+
+  .body-copy p {
+    color: var(--muted);
+    font-size: clamp(1.02rem, 1.25vw, 1.12rem);
+    line-height: 1.66;
+  }
+
+  .credits {
+    max-width: 720px;
+    margin: 38px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid rgba(222, 214, 203, 0.7);
+  }
+
+  .related {
+    max-width: 720px;
+    margin: 36px 0 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  .related h2 {
+    margin-bottom: 12px;
+    color: var(--soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    text-transform: uppercase;
+  }
+
+  .related ul {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .related li {
+    display: grid;
+    gap: 3px;
+  }
+
+  .related a {
+    color: var(--muted);
+    font-size: 1.02rem;
+    font-weight: 520;
+    text-decoration: none;
+  }
+
+  .related a:hover {
+    color: var(--ink);
+    text-decoration-color: var(--muted);
+  }
+
+  .related span {
+    color: var(--soft);
+    font-size: 0.84rem;
+  }
+
+  .credits summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--soft);
+    cursor: pointer;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    list-style: none;
+    text-transform: uppercase;
+  }
+
+  .credits summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .credits summary::after {
+    content: "+";
+    color: var(--line-strong);
+    font-size: 0.98rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .credits[open] summary::after {
+    content: "-";
+  }
+
+  .credits-inner {
+    max-width: 640px;
+    margin-top: 18px;
+  }
+
+  .credits-inner p {
+    color: var(--soft);
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .credit-list {
+    display: grid;
+    gap: 0;
+    margin: 0;
+  }
+
+  .credit-list div {
+    display: grid;
+    grid-template-columns: minmax(150px, 0.32fr) minmax(0, 1fr);
+    gap: 20px;
+    padding: 12px 0;
+    border-top: 1px solid rgba(222, 214, 203, 0.48);
+  }
+
+  .credit-list div:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .credit-list dt {
+    color: var(--soft);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  .credit-list dd {
+    margin: 0;
+    max-width: 440px;
+    color: var(--muted);
+    font-size: 0.92rem;
+    font-weight: 450;
+    line-height: 1.5;
+  }
+
+  .credit-list dd a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .credit-list dd a:hover {
+    color: var(--ink);
+  }
+
+  .credit-note {
+    max-width: 520px;
+    margin: 18px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid rgba(222, 214, 203, 0.42);
+    color: var(--soft);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 760px) {
+    .event-facts {
+      grid-template-columns: 1fr;
+    }
+
+    .event-date-days {
+      white-space: normal;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .credit-list div {
+      grid-template-columns: 1fr;
+      gap: 5px;
+    }
+  }
+</style>

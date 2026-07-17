@@ -1,0 +1,365 @@
+---
+import { getCollection } from 'astro:content';
+import MediaBlock from '../../../components/MediaBlock.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { isPublicPerson } from '../../../lib/content';
+import { getLocalized, isLocale } from '../../../lib/locales';
+import { getFestivalRoleLabel } from '../../../lib/people';
+import { getProgramFilterGroup } from '../../../lib/program';
+
+export async function getStaticPaths() {
+  const people = await getCollection('people', isPublicPerson);
+  const langs = ['en', 'ro', 'ru'];
+  return langs.flatMap((lang) => people.map((person) => ({ params: { lang, slug: person.slug }, props: { person, lang } })));
+}
+
+const { person, lang } = Astro.props;
+if (!isLocale(lang)) {
+  return Astro.redirect('/en/artists');
+}
+
+const role = getLocalized(person.data.role_summary, lang);
+const profile = getLocalized(person.data.short_profile, lang);
+const extendedProfile = getLocalized(person.data.extended_profile, lang);
+const entityLabel = getFestivalRoleLabel(person, lang);
+const credits = getLocalized(person.data.credits_note, lang);
+const creditsLabel = getLocalized({ en: 'Credits', ro: 'Credite', ru: 'Кредиты' }, lang);
+const eventsLabel = getLocalized({ en: 'Festival events', ro: 'Evenimente în festival', ru: 'События фестиваля' }, lang);
+const creditContextLabel = getLocalized({ en: 'Credit context', ro: 'Context de credite', ru: 'Контекст credits' }, lang);
+const portraitLabel = getLocalized({ en: 'Portrait', ro: 'Portret', ru: 'Портрет' }, lang);
+const backToArtistsLabel = getLocalized({
+  en: 'Back',
+  ro: 'Înapoi',
+  ru: 'Назад',
+}, lang);
+const events = await getCollection('events');
+const eventsBySlug = new Map(events.map((event) => [event.slug, event]));
+const festivalEventLinks = (person.data.festival_events || [])
+  .map((event) => {
+    const linkedEvent = eventsBySlug.get(event.event_id);
+    if (!linkedEvent || linkedEvent.data.visibility !== 'public_page') return null;
+    const category = getLocalized(linkedEvent.data.meta?.category, lang);
+    const format = getLocalized(linkedEvent.data.meta?.format, lang);
+    const relationLabel = event.relation === 'credit_only' ? creditContextLabel : '';
+    return {
+      href: `/${lang}/program/${linkedEvent.slug}`,
+      title: getLocalized(linkedEvent.data.title, lang),
+      meta: [relationLabel, category, format].filter(Boolean).join(' · '),
+      isCredit: event.relation === 'credit_only',
+      accentGroup: getProgramFilterGroup(linkedEvent),
+    };
+  })
+  .filter(Boolean);
+const creditEvents = (person.data.festival_events || [])
+  .filter((event) => event.relation === 'credit_only')
+  .map((event) => {
+    const linkedEvent = eventsBySlug.get(event.event_id);
+    return {
+      href: `/${lang}/program/${event.event_id}`,
+      title: linkedEvent ? getLocalized(linkedEvent.data.title, lang) : event.event_id,
+    };
+  });
+const primaryCreditEvent = creditEvents[0];
+const creditTextParts = primaryCreditEvent && credits.includes(primaryCreditEvent.title)
+  ? credits.split(primaryCreditEvent.title)
+  : null;
+const media = person.data.media as { src?: string; url?: string; portrait?: string; hero?: string; type?: 'image' | 'video'; caption?: string } | undefined;
+const mediaCandidates = [media?.src, media?.url, media?.portrait, media?.hero].filter(Boolean) as string[];
+const mediaSrc = mediaCandidates.find((candidate) => !candidate.includes('placeholder')) || '';
+const artistAccentGroup = person.data.participation_status === 'production_company'
+  ? 'companies'
+  : person.data.entity_type !== 'person' || person.data.participation_status === 'attending_artist'
+    ? 'performers'
+    : 'teachers';
+const creditTitleLinks = creditEvents
+  .filter((event) => event.title)
+  .sort((a, b) => b.title.length - a.title.length);
+const creditTitlePattern = creditTitleLinks.length
+  ? new RegExp(`(${creditTitleLinks.map((event) => event.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g')
+  : undefined;
+const creditLinksByTitle = new Map(creditTitleLinks.map((event) => [event.title, event.href]));
+const linkedCreditParts = credits && creditTitlePattern
+  ? credits.split(creditTitlePattern).filter(Boolean).map((part) => ({
+    text: part,
+    href: creditLinksByTitle.get(part) || '',
+  }))
+  : [];
+---
+<BaseLayout lang={lang} title={`${person.data.name} · Contact+ 2026`} description={profile}>
+  <main class={`page artist-page artist-page--${artistAccentGroup} ${mediaSrc ? 'artist-page--has-media' : 'artist-page--no-media'}`}>
+    <a class="back-link" href={`/${lang}/artists`} data-history-back>{backToArtistsLabel}</a>
+
+    <header class="detail-hero">
+      <p class="program-meta">
+        {person.data.country_display && <span class="program-meta__category">{person.data.country_display}</span>}
+        {person.data.country_display && <span class="program-meta__divider" aria-hidden="true"></span>}
+        <span class="program-meta__format">{entityLabel}</span>
+      </p>
+      <h1>{person.data.name}</h1>
+      <p class="lead">{role}</p>
+    </header>
+
+    {mediaSrc && <MediaBlock title={person.data.name} label={portraitLabel} src={mediaSrc} type={media?.type} caption={media?.caption} />}
+
+    <section class="body-copy">
+      <p>{profile}</p>
+      {extendedProfile && <p>{extendedProfile}</p>}
+    </section>
+
+    {festivalEventLinks.length > 0 && (
+      <section class="related">
+        <h2>{eventsLabel}</h2>
+        <ul>
+          {festivalEventLinks.map((event) => (
+            <li class:list={{ 'related-credit': event.isCredit, 'program-accent': true, [`program-accent--${event.accentGroup}`]: true }}>
+              <a href={event.href}>{event.title}</a>
+              {event.meta && <span>{event.meta}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {credits && (
+      <aside class="credits">
+        <h2>{creditsLabel}</h2>
+        <p>
+          {linkedCreditParts.length > 0 ? (
+            <>
+              {linkedCreditParts.map((part) => part.href ? (
+                <a class="quiet-link" href={part.href}>{part.text}</a>
+              ) : part.text)}
+            </>
+          ) : creditTextParts ? (
+            <>
+              {creditTextParts[0]}<a class="quiet-link" href={primaryCreditEvent.href}>{primaryCreditEvent.title}</a>{creditTextParts.slice(1).join(primaryCreditEvent.title)}
+            </>
+          ) : credits}
+        </p>
+      </aside>
+    )}
+  </main>
+</BaseLayout>
+
+<script>
+  document.querySelector('[data-history-back]')?.addEventListener('click', (event) => {
+    const referrer = document.referrer ? new URL(document.referrer) : null;
+    const isSameSiteReferrer = referrer?.origin === window.location.origin;
+
+    if (isSameSiteReferrer && window.history.length > 1) {
+      event.preventDefault();
+      window.history.back();
+    }
+  });
+</script>
+
+<style>
+  .detail-hero {
+    position: relative;
+    max-width: 720px;
+  }
+
+  .artist-page--teachers {
+    --artist-accent: #6f8a5f;
+    --artist-tint: rgba(111, 138, 95, 0.12);
+  }
+
+  .artist-page--performers {
+    --artist-accent: #9b5a73;
+    --artist-tint: rgba(155, 90, 115, 0.12);
+  }
+
+  .artist-page--companies {
+    --artist-accent: #77719a;
+    --artist-tint: rgba(119, 113, 154, 0.11);
+  }
+
+  .detail-hero h1 {
+    max-width: 680px;
+    margin: 10px 0 16px;
+    font-size: clamp(2.12rem, 4.05vw, 3.86rem);
+    line-height: 1.075;
+  }
+
+  .detail-hero .lead {
+    max-width: 620px;
+    color: var(--muted);
+    font-size: clamp(1.02rem, 1.45vw, 1.18rem);
+    line-height: 1.55;
+  }
+
+  .detail-hero .program-meta {
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .detail-hero .program-meta__category {
+    color: var(--artist-accent);
+    letter-spacing: 0.075em;
+  }
+
+  .detail-hero .program-meta__divider {
+    background: color-mix(in srgb, var(--artist-accent) 42%, var(--line-strong));
+  }
+
+  .detail-hero .program-meta__format {
+    color: var(--muted);
+    font-size: 0.92rem;
+    font-weight: 450;
+  }
+
+  @media (max-width: 640px) {
+    .detail-hero {
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .detail-hero h1,
+    .detail-hero .lead {
+      margin-inline: auto;
+    }
+
+    .detail-hero .lead {
+      text-align: left;
+    }
+
+    .detail-hero .program-meta {
+      justify-content: center;
+    }
+  }
+
+  .back-link {
+    display: inline-flex;
+    margin: 0 0 34px;
+    color: var(--soft);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .back-link::before {
+    content: "←";
+    margin-right: 8px;
+    color: var(--line-strong);
+  }
+
+  .back-link:hover {
+    color: var(--muted);
+  }
+
+  .body-copy,
+  .credits,
+  .related {
+    max-width: 720px;
+  }
+
+  .body-copy {
+    position: relative;
+  }
+
+  .body-copy p {
+    color: var(--muted);
+    font-size: clamp(1.02rem, 1.25vw, 1.12rem);
+    line-height: 1.66;
+  }
+
+  .body-copy {
+    margin-top: 28px;
+  }
+
+  :global(.artist-page--has-media .media-block) {
+    max-width: 760px;
+    margin: clamp(34px, 5vw, 54px) 0 0;
+  }
+
+  .artist-page--has-media .body-copy {
+    margin-top: 30px;
+  }
+
+  .credits,
+  .related {
+    margin: 36px 0 0;
+    padding: 20px 0 0;
+    border-top: 1px solid rgba(222, 214, 203, 0.7);
+  }
+
+  h2 {
+    margin-bottom: 12px;
+    color: var(--soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    text-transform: uppercase;
+  }
+
+  .related ul {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .related li {
+    position: relative;
+    display: grid;
+    gap: 3px;
+    padding-left: 14px;
+  }
+
+  .related li::before {
+    position: absolute;
+    top: 0.68em;
+    left: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--program-accent, var(--artist-accent)) 72%, var(--line-strong));
+    content: "";
+  }
+
+  .related a {
+    color: color-mix(in srgb, var(--ink) 62%, var(--muted));
+    font-size: 0.94rem;
+    font-weight: 470;
+    text-decoration: none;
+  }
+
+  .related a:hover {
+    color: var(--program-accent, var(--artist-accent));
+    text-decoration-color: var(--muted);
+  }
+
+  .related span {
+    color: color-mix(in srgb, var(--program-accent, var(--artist-accent)) 42%, var(--soft));
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+
+  .related-credit a {
+    color: color-mix(in srgb, var(--ink) 56%, var(--muted));
+  }
+
+  .related-credit span {
+    color: color-mix(in srgb, var(--program-accent, var(--artist-accent)) 34%, var(--soft));
+  }
+
+  .credits p {
+    max-width: 620px;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .quiet-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .quiet-link:hover {
+    color: var(--artist-accent);
+    text-decoration-color: var(--muted);
+  }
+
+</style>

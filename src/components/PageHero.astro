@@ -1,0 +1,25 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  context?: string;
+  variant?: 'default' | 'wide';
+}
+
+const {
+  title,
+  description,
+  context,
+  variant = 'default',
+} = Astro.props;
+
+const className = ['page-hero', variant === 'wide' ? 'page-hero--wide' : '']
+  .filter(Boolean)
+  .join(' ');
+---
+
+<header class={className}>
+  <h1>{title}</h1>
+  {description && <p class="lead">{description}</p>}
+  {context && <p class="page-context">{context}</p>}
+</header>
