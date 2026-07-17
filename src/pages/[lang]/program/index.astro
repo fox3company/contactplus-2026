@@ -784,9 +784,11 @@ const eventDetails = Object.fromEntries([...detailEventsBySlug.values()].map((ev
   }
 
   .detail-close {
-    align-self: flex-end;
+    position: absolute;
+    top: clamp(20px, 3vw, 28px);
+    right: clamp(20px, 3vw, 28px);
+    z-index: 2;
     display: grid;
-    position: relative;
     width: 32px;
     height: 32px;
     place-items: center;
@@ -830,6 +832,7 @@ const eventDetails = Object.fromEntries([...detailEventsBySlug.values()].map((ev
 
   .detail-kicker {
     margin: 0 0 2px;
+    padding-right: 58px;
     font-size: 0.78rem;
   }
 
@@ -1181,10 +1184,8 @@ const eventDetails = Object.fromEntries([...detailEventsBySlug.values()].map((ev
     }
 
     .detail-close {
-      position: absolute;
       top: 16px;
       right: 16px;
-      z-index: 2;
     }
 
     .detail-kicker {

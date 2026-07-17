@@ -1283,9 +1283,11 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
   }
 
   .detail-close {
-    align-self: flex-end;
+    position: absolute;
+    top: clamp(20px, 3vw, 28px);
+    right: clamp(20px, 3vw, 28px);
+    z-index: 2;
     display: grid;
-    position: relative;
     width: 32px;
     height: 32px;
     place-items: center;
@@ -1327,6 +1329,10 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     font-size: clamp(1.62rem, 2.45vw, 2.2rem);
     font-weight: 400;
     line-height: 1.08;
+  }
+
+  .detail-kicker {
+    padding-right: 58px;
   }
 
   .detail-facts {
@@ -1501,10 +1507,8 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     }
 
     .detail-close {
-      position: absolute;
       top: 16px;
       right: 16px;
-      z-index: 2;
     }
 
     .detail-kicker {
