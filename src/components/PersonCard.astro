@@ -21,13 +21,21 @@ const eventCountLabel = eventCount === 1
   }, lang);
 ---
 
-<article class="card" data-artist-card data-artist-filter={filterGroup}>
+<article
+  class="card"
+  data-artist-card
+  data-artist-detail-key={person.slug}
+  data-artist-filter={filterGroup}
+  role="button"
+  tabindex="0"
+  aria-label={`${person.data.name}`}
+>
   <div>
     <p class={`person-meta ${person.data.country_display ? 'person-meta--has-country' : ''}`}>
       {person.data.country_display && <span class="person-meta__country">{person.data.country_display}</span>}
       <span class="person-meta__role">{entityLabel}</span>
     </p>
-    <h2><a href={`/${lang}/artists/${person.slug}`}>{person.data.name}</a></h2>
+    <h2>{person.data.name}</h2>
     <p>{getLocalized(person.data.role_summary, lang)}</p>
     {eventCount > 0 && <p class="event-count">{[eventCountLabel, relationSummary].filter(Boolean).join(' · ')}</p>}
   </div>
@@ -38,6 +46,7 @@ const eventCountLabel = eventCount === 1
     display: grid;
     padding: 22px 0 25px;
     border-top: 1px solid rgba(222, 214, 203, 0.34);
+    cursor: pointer;
   }
 
   .card:first-child {
@@ -56,12 +65,13 @@ const eventCountLabel = eventCount === 1
     line-height: 1.12;
   }
 
-  h2 a {
-    text-decoration: none;
+  .card:hover h2 {
+    color: var(--accent-muted);
   }
 
-  h2 a:hover {
-    color: var(--accent-muted);
+  .card:focus-visible {
+    outline: 1px solid var(--line-strong);
+    outline-offset: 8px;
   }
 
   .card h2 + p {

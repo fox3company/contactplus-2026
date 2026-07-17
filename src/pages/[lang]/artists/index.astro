@@ -5,7 +5,8 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHero from '../../../components/PageHero.astro';
 import { isPublicPerson } from '../../../lib/content';
 import { getLocalized, isLocale } from '../../../lib/locales';
-import { getFestivalRelationSummary } from '../../../lib/people';
+import { getFestivalRelationSummary, getFestivalRoleLabel } from '../../../lib/people';
+import { getProgramFilterGroup } from '../../../lib/program';
 
 export async function getStaticPaths() {
   return ['en', 'ro', 'ru'].map((lang) => ({ params: { lang }, props: { lang } }));
@@ -26,6 +27,13 @@ const intro = getLocalized({
   ru: 'Познакомьтесь с преподавателями, перформерами, фасилитаторами и танцевальными компаниями фестиваля.',
 }, lang);
 const artistNavLabel = getLocalized({ en: 'Teachers and artists sections', ro: 'Secțiuni profesori și artiști', ru: 'Разделы преподавателей и артистов' }, lang);
+const detailLabels = {
+  close: getLocalized({ en: 'Close', ro: 'Închide', ru: 'Закрыть' }, lang),
+  events: getLocalized({ en: 'Festival events', ro: 'Evenimente în festival', ru: 'События фестиваля' }, lang),
+  fullPage: getLocalized({ en: 'Open full artist page', ro: 'Deschide pagina completă', ru: 'Открыть полную страницу' }, lang),
+  profile: getLocalized({ en: 'Profile', ro: 'Profil', ru: 'Профиль' }, lang),
+};
+const creditContextLabel = getLocalized({ en: 'Credit context', ro: 'Context de credite', ru: 'Контекст credits' }, lang);
 const groupLabels = {
   teachers: getLocalized({
     en: 'Teaching & facilitation',
@@ -82,6 +90,42 @@ const groupedPeople = [
     people: people.filter((person) => getPersonGroup(person) === 'production'),
   },
 ].filter((group) => group.people.length > 0);
+
+const artistDetails = Object.fromEntries(people.map((person) => {
+  const festivalEvents = (person.data.festival_events || [])
+    .map((eventRef) => {
+      const event = publicEventsBySlug.get(eventRef.event_id);
+      if (!event) return null;
+      const category = getLocalized(event.data.meta?.category, lang);
+      const format = getLocalized(event.data.meta?.format, lang);
+      const relationLabel = eventRef.relation === 'credit_only' ? creditContextLabel : '';
+      return {
+        title: getLocalized(event.data.title, lang),
+        href: `/${lang}/program/${event.slug}`,
+        meta: [relationLabel, category, format].filter(Boolean).join(' · '),
+        isCredit: eventRef.relation === 'credit_only',
+        accentGroup: getProgramFilterGroup(event),
+      };
+    })
+    .filter(Boolean);
+
+  return [
+    person.slug,
+    {
+      name: person.data.name,
+      country: person.data.country_display || '',
+      role: getFestivalRoleLabel(person, lang),
+      roleSummary: getLocalized(person.data.role_summary, lang),
+      shortProfile: getLocalized(person.data.short_profile, lang),
+      extendedProfile: getLocalized(person.data.extended_profile, lang),
+      eventCount: getPublicEventCount(person),
+      relationSummary: getPublicRelationSummary(person),
+      events: festivalEvents,
+      fullPageHref: `/${lang}/artists/${person.slug}`,
+      accent: getPersonGroup(person),
+    },
+  ];
+}));
 ---
 <BaseLayout lang={lang} title={`${pageTitle} · Contact+ 2026`}>
   <main class="artists-page">
@@ -110,8 +154,125 @@ const groupedPeople = [
         </section>
       ))}
     </div>
+
+    <div class="detail-overlay" data-artist-detail-overlay hidden></div>
+    <aside class="detail-panel" data-artist-detail-panel aria-hidden="true" aria-modal="true" role="dialog" aria-labelledby="artist-detail-title">
+      <button class="detail-close" type="button" data-artist-detail-close aria-label={detailLabels.close}>×</button>
+      <p class="program-meta detail-kicker">
+        <span class="program-meta__category" data-artist-detail-country></span>
+        <span class="program-meta__divider" data-artist-detail-divider aria-hidden="true"></span>
+        <span class="program-meta__format" data-artist-detail-role></span>
+      </p>
+      <h2 id="artist-detail-title" data-artist-detail-title></h2>
+      <p class="detail-lead" data-artist-detail-role-summary></p>
+      <div class="detail-description" data-artist-detail-profile></div>
+      <section class="detail-events" data-artist-detail-events-wrap hidden>
+        <h3>{detailLabels.events}</h3>
+        <ul data-artist-detail-events></ul>
+      </section>
+      <a class="detail-full-link" href="#" data-artist-detail-full-page>{detailLabels.fullPage}</a>
+    </aside>
   </main>
 </BaseLayout>
+
+<script type="application/json" id="artist-detail-data" set:html={JSON.stringify(artistDetails)}></script>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    const cards = [...document.querySelectorAll('[data-artist-detail-key]')];
+    const detailData = JSON.parse(document.getElementById('artist-detail-data')?.textContent || '{}');
+    const detailOverlay = document.querySelector('[data-artist-detail-overlay]');
+    const detailPanel = document.querySelector('[data-artist-detail-panel]');
+    const detailClose = document.querySelector('[data-artist-detail-close]');
+    const detailFullPage = document.querySelector('[data-artist-detail-full-page]');
+    let lastFocusedCard = null;
+
+    function setText(selector, value) {
+      const element = detailPanel?.querySelector(selector);
+      if (element) element.textContent = value || '';
+    }
+
+    function closeDetail() {
+      detailPanel?.classList.remove('open');
+      detailOverlay?.classList.remove('open');
+      detailPanel?.setAttribute('aria-hidden', 'true');
+      if (detailOverlay) detailOverlay.hidden = true;
+      document.body.style.overflow = '';
+      lastFocusedCard?.focus?.();
+    }
+
+    function openDetail(key, sourceCard) {
+      const data = detailData[key];
+      if (!data || !detailPanel || !detailOverlay) return;
+      lastFocusedCard = sourceCard;
+
+      detailPanel.setAttribute('data-accent', data.accent || '');
+      setText('[data-artist-detail-country]', data.country);
+      setText('[data-artist-detail-role]', data.role);
+      setText('[data-artist-detail-title]', data.name);
+      setText('[data-artist-detail-role-summary]', data.roleSummary);
+
+      const divider = detailPanel.querySelector('[data-artist-detail-divider]');
+      if (divider) divider.hidden = !data.country || !data.role;
+
+      const profile = detailPanel.querySelector('[data-artist-detail-profile]');
+      if (profile) {
+        profile.innerHTML = '';
+        [data.shortProfile, data.extendedProfile].filter(Boolean).forEach((text) => {
+          const paragraph = document.createElement('p');
+          paragraph.textContent = text;
+          profile.append(paragraph);
+        });
+      }
+
+      const eventsWrap = detailPanel.querySelector('[data-artist-detail-events-wrap]');
+      const eventsList = detailPanel.querySelector('[data-artist-detail-events]');
+      if (eventsWrap && eventsList) {
+        eventsList.innerHTML = '';
+        (data.events || []).forEach((event) => {
+          const item = document.createElement('li');
+          item.classList.add('program-accent', `program-accent--${event.accentGroup || 'all'}`);
+          if (event.isCredit) item.classList.add('detail-event--credit');
+          const link = document.createElement('a');
+          link.href = event.href;
+          link.textContent = event.title;
+          item.append(link);
+          if (event.meta) {
+            const meta = document.createElement('span');
+            meta.textContent = event.meta;
+            item.append(meta);
+          }
+          eventsList.append(item);
+        });
+        eventsWrap.hidden = !(data.events || []).length;
+      }
+
+      if (detailFullPage) detailFullPage.href = data.fullPageHref;
+      detailOverlay.hidden = false;
+      detailOverlay.classList.add('open');
+      detailPanel.classList.add('open');
+      detailPanel.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      detailClose?.focus();
+    }
+
+    cards.forEach((card) => {
+      card.addEventListener('click', () => openDetail(card.getAttribute('data-artist-detail-key'), card));
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openDetail(card.getAttribute('data-artist-detail-key'), card);
+        }
+      });
+    });
+
+    detailClose?.addEventListener('click', closeDetail);
+    detailOverlay?.addEventListener('click', closeDetail);
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeDetail();
+    });
+  });
+</script>
 
 <style>
   :global(.artist-section-nav) {
@@ -250,6 +411,237 @@ const groupedPeople = [
     color: var(--artist-accent, var(--accent-muted));
   }
 
+  .detail-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: rgba(36, 32, 28, 0.16);
+  }
+
+  .detail-overlay.open {
+    display: block;
+  }
+
+  .detail-panel {
+    --artist-accent: var(--accent-muted);
+    --artist-tint: rgba(143, 132, 117, 0.16);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: min(500px, calc(100% - 28px));
+    height: 100vh;
+    padding: clamp(28px, 3.6vw, 38px);
+    border-left: 1px solid var(--line);
+    background: rgba(251, 250, 247, 0.98);
+    box-shadow: -18px 0 60px rgba(47, 39, 33, 0.12);
+    overflow-y: auto;
+    transform: translateX(102%);
+    transition: transform 220ms ease;
+  }
+
+  .detail-panel[data-accent="teachers"] {
+    --artist-accent: #738b5f;
+    --artist-tint: rgba(115, 139, 95, 0.16);
+  }
+
+  .detail-panel[data-accent="performers"] {
+    --artist-accent: #8d4f67;
+    --artist-tint: rgba(141, 79, 103, 0.15);
+  }
+
+  .detail-panel[data-accent="production"] {
+    --artist-accent: #736e96;
+    --artist-tint: rgba(115, 110, 150, 0.14);
+  }
+
+  .detail-panel.open {
+    transform: translateX(0);
+  }
+
+  .detail-panel .program-meta__category {
+    color: var(--artist-accent);
+  }
+
+  .detail-panel .program-meta__divider {
+    background: color-mix(in srgb, var(--artist-accent) 42%, var(--line-strong));
+  }
+
+  .detail-close {
+    position: absolute;
+    top: clamp(20px, 3vw, 28px);
+    right: clamp(20px, 3vw, 28px);
+    z-index: 2;
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--soft);
+    font: inherit;
+    font-size: 0;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .detail-close::before,
+  .detail-close::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 1.5px;
+    border-radius: 999px;
+    background: currentColor;
+    content: "";
+    transform-origin: center;
+  }
+
+  .detail-close::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .detail-close::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .detail-close:hover,
+  .detail-close:focus-visible {
+    border-color: var(--line-strong);
+    color: var(--ink);
+    outline: 0;
+  }
+
+  .detail-kicker {
+    margin: 0 0 2px;
+    padding-right: 58px;
+    font-size: 0.78rem;
+  }
+
+  .detail-panel h2 {
+    max-width: 420px;
+    margin: 0 0 2px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3vw, 2.42rem);
+    font-weight: 400;
+    line-height: 1.06;
+    letter-spacing: 0;
+  }
+
+  .detail-lead {
+    max-width: 420px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 1.5;
+  }
+
+  .detail-description {
+    display: grid;
+    gap: 14px;
+    padding-top: 2px;
+    color: var(--muted);
+    font-size: 0.98rem;
+    line-height: 1.56;
+  }
+
+  .detail-description p {
+    margin: 0;
+  }
+
+  .detail-events {
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .detail-events h3 {
+    margin: 0 0 10px;
+    color: var(--soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .detail-events ul {
+    display: grid;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .detail-events :global(li) {
+    position: relative;
+    display: grid;
+    gap: 3px;
+    padding-left: 14px;
+  }
+
+  .detail-events :global(li)::before {
+    position: absolute;
+    top: 0.68em;
+    left: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--program-accent, var(--artist-accent)) 72%, var(--line-strong));
+    content: "";
+  }
+
+  .detail-events :global(a) {
+    color: color-mix(in srgb, var(--ink) 62%, var(--muted));
+    font-size: 0.94rem;
+    font-weight: 470;
+    text-decoration: none;
+  }
+
+  .detail-events :global(a:hover) {
+    color: var(--program-accent, var(--artist-accent));
+    text-decoration-color: var(--muted);
+  }
+
+  .detail-events :global(span) {
+    color: color-mix(in srgb, var(--program-accent, var(--artist-accent)) 42%, var(--soft));
+    font-size: 0.82rem;
+    font-weight: 500;
+    line-height: 1.38;
+  }
+
+  .detail-events :global(.detail-event--credit a) {
+    color: color-mix(in srgb, var(--ink) 56%, var(--muted));
+  }
+
+  .detail-events :global(.detail-event--credit span) {
+    color: color-mix(in srgb, var(--program-accent, var(--artist-accent)) 34%, var(--soft));
+  }
+
+  .detail-full-link {
+    display: inline-flex;
+    align-self: flex-start;
+    width: fit-content;
+    margin-top: -4px;
+    padding: 7px 0 0;
+    color: var(--soft);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+
+  .detail-full-link:hover {
+    color: var(--artist-accent);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 0.24em;
+  }
+
   :global(.artists-page .listing) {
     max-width: 760px;
   }
@@ -329,6 +721,31 @@ const groupedPeople = [
 
     :global(.artist-group__head::before) {
       margin-inline: auto;
+    }
+
+    .detail-panel {
+      top: auto;
+      bottom: 0;
+      width: 100%;
+      height: min(86vh, 760px);
+      border-top: 1px solid var(--line);
+      border-left: 0;
+      border-radius: 22px 22px 0 0;
+      box-shadow: 0 -18px 60px rgba(47, 39, 33, 0.14);
+      transform: translateY(104%);
+    }
+
+    .detail-panel.open {
+      transform: translateY(0);
+    }
+
+    .detail-close {
+      top: 16px;
+      right: 16px;
+    }
+
+    .detail-kicker {
+      padding-right: 58px;
     }
   }
 </style>

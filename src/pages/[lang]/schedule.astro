@@ -1148,17 +1148,39 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
   .detail-close {
     align-self: flex-end;
     display: grid;
-    width: 38px;
-    height: 38px;
+    position: relative;
+    width: 32px;
+    height: 32px;
     place-items: center;
-    border: 1px solid var(--line);
+    border: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
     border-radius: 999px;
     background: transparent;
-    color: var(--muted);
+    color: var(--soft);
     font: inherit;
-    font-size: 1.2rem;
+    font-size: 0;
     line-height: 1;
     cursor: pointer;
+  }
+
+  .detail-close::before,
+  .detail-close::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 1.5px;
+    border-radius: 999px;
+    background: currentColor;
+    content: "";
+    transform-origin: center;
+  }
+
+  .detail-close::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .detail-close::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
   }
 
   .detail-close:hover,
@@ -1526,6 +1548,17 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
       border-radius: 22px 22px 0 0;
       box-shadow: 0 -18px 60px rgba(47, 39, 33, 0.14);
       transform: translateY(104%);
+    }
+
+    .detail-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 2;
+    }
+
+    .detail-kicker {
+      padding-right: 58px;
     }
 
     .detail-panel.open {
