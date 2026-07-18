@@ -1,0 +1,18 @@
+---
+import AboutPage from '../../components/AboutPage.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { aboutCopy } from '../../lib/about';
+import { isLocale } from '../../lib/locales';
+
+export async function getStaticPaths() {
+  return ['en', 'ro', 'ru'].map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props;
+if (!isLocale(lang)) return Astro.redirect('/en/about');
+const copy = aboutCopy[lang];
+---
+
+<BaseLayout lang={lang} title={`${copy.title} · Contact+ 2026`} description={copy.lead}>
+  <AboutPage lang={lang} />
+</BaseLayout>
