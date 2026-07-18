@@ -15,14 +15,6 @@ const organisers = [
   { names: ['Stan Potoku'], links: ['https://www.facebook.com/stanpotoku'], role: copy.organisers.musician },
   { names: ['Olyga Braga', 'Tara Diamondbreath'], links: ['https://www.facebook.com/oliga.braga', 'https://www.facebook.com/bodhi.tara'], role: copy.organisers.support },
 ];
-const flowAlts = [
-  'People arriving and meeting at a festival',
-  'People practising Contact Improvisation together',
-  'Performer moving in a theatre space',
-  'Two performers in close stage work',
-  'People sharing attention in a performance space',
-  'People together during an evening gathering',
-];
 ---
 
 <main class="about-page">
@@ -46,25 +38,35 @@ const flowAlts = [
   </section>
 
   <section class="about-section about-section--why" aria-labelledby="about-why">
-    <header><h2 id="about-why">{copy.why.title}</h2></header>
-    <div class="about-why__stage">
-      <div class="about-why__row about-why__row--one"><p class="about-why__statement">{copy.why.items[0]}</p><img class="about-why__image" src={aboutMedia.why[0]} alt="A performer moving on stage" width="4000" height="6000" loading="lazy" decoding="async" /></div>
-      <div class="about-why__row about-why__row--two"><img class="about-why__image" src={aboutMedia.why[1]} alt="Two people performing together on stage" width="4000" height="6000" loading="lazy" decoding="async" /><p class="about-why__statement">{copy.why.items[1]}</p></div>
-      <div class="about-why__row about-why__row--three"><div class="about-why__related"><p class="about-why__statement">{copy.why.items[2]}</p><p class="about-why__statement">{copy.why.items[3]}</p></div><img class="about-why__image" src={aboutMedia.why[2]} alt="People meeting and moving together outdoors" width="2048" height="1365" loading="lazy" decoding="async" /><p class="about-why__statement about-why__final">{copy.why.items[4]}</p></div>
+    <div class="about-why__layout">
+      <div class="about-why__media about-media--landscape"><img src={aboutMedia.why[4]} alt="Performers sharing movement and attention on stage" width="2048" height="1367" loading="lazy" decoding="async" /></div>
+      <div class="about-why__copy"><h2 id="about-why">{copy.why.title}</h2><ul>{copy.why.items.map((item: string) => <li>{item}</li>)}</ul></div>
     </div>
   </section>
 
   <section class="about-section about-section--unfold" aria-labelledby="about-unfold">
     <header><h2 id="about-unfold">{copy.unfold.title}</h2><p>{copy.unfold.text}</p></header>
-    <div class="about-dimensions" aria-label="Program dimensions"><ul>{copy.unfold.dimensions.map((item: string) => <li>{item}</li>)}</ul></div>
-    <div class="about-flow-gallery">{aboutMedia.flow.map((src, index) => <figure><img src={src} alt={flowAlts[index]} width="2048" height="1367" loading="lazy" decoding="async" /><figcaption>{copy.unfold.flow[index]}</figcaption></figure>)}</div>
-  </section>
-
-  <section class="about-section about-section--day" aria-labelledby="about-day">
-    <div class="about-vimeo">
-      <iframe src={vimeoPlayerUrl} title={copy.video.vimeoLabel} loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    <div class="about-unfold__structure">
+      <h3>{copy.unfold.structureTitle}</h3>
+      <p>{copy.unfold.structureText}</p>
+      <ol class="about-entry-points" aria-label={copy.unfold.structureTitle}>
+        {copy.unfold.dimensions.map((item: string, index: number) => <li><span class="about-entry-points__number">0{index + 1}</span><span class="about-entry-points__name">{item}</span><span class="about-entry-points__text">{copy.unfold.dimensionText[index]}</span></li>)}
+      </ol>
     </div>
-    <div class="about-day__copy"><h2 id="about-day">{copy.day.title}</h2><p>{copy.day.note}</p><ol class="about-day__list">{copy.day.items.map((item: string) => <li>{item}</li>)}</ol></div>
+    <div class="about-unfold__rhythm">
+      <h3>{copy.day.title}</h3>
+      <p>{copy.day.note}</p>
+      <div class="about-day-arc">
+        {[0, 1, 2].map((phase) => <article><span class="about-day-arc__number">0{phase + 1}</span><h4>{copy.day.phaseTitles[phase]}</h4><p>{copy.day.phaseTexts[phase]}</p><ul><li>{copy.day.items[phase * 2]}</li><li>{copy.day.items[phase * 2 + 1]}</li></ul></article>)}
+      </div>
+    </div>
+    <div class="about-festival-film">
+      <p class="about-festival-film__label">{copy.video.filmLabel}</p>
+      <div class="about-festival-film__media" data-vimeo-shell>
+        <iframe src="https://player.vimeo.com/video/672667748?title=0&byline=0&portrait=0" title={copy.video.vimeoLabel} loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <p>{copy.video.filmText}</p>
+    </div>
   </section>
 
   <section class="about-section about-section--who" aria-labelledby="about-who">
@@ -114,40 +116,45 @@ const flowAlts = [
   .about-section--what { display: grid; grid-template-columns: minmax(280px, .9fr) minmax(360px, 1.1fr); gap: clamp(34px, 8vw, 122px); align-items: end; }
   .about-section--what > .about-media--landscape { max-height: min(680px, 72vh); }
   .about-section--what > .about-media--landscape img { object-position: center; }
-  .about-section--why { margin-top: clamp(72px, 10vw, 140px); }
-  .about-why__stage { display: grid; gap: clamp(24px, 3.5vw, 44px); }
-  .about-why__row { display: grid; align-items: center; gap: clamp(24px, 4vw, 60px); }
-  .about-why__row--one, .about-why__row--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .about-why__row--three { grid-template-columns: minmax(0, 5fr) minmax(220px, 3fr) minmax(0, 4fr); }
-  .about-why__related { display: grid; gap: 22px; }
-  .about-why__statement { margin: 0; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.45rem, 2.65vw, 2.42rem); line-height: 1.12; }
-  .about-why__image { aspect-ratio: 3 / 2; height: auto; }
-  .about-why__row--two .about-why__image { aspect-ratio: 4 / 5; max-height: 560px; }
-  .about-why__row--three .about-why__image { aspect-ratio: 4 / 5; max-height: 480px; }
-  .about-why__final { align-self: end; }
-  .about-why__statement--five { font-size: clamp(1.15rem, 1.8vw, 1.72rem); }
-  .about-section--unfold { margin-top: clamp(112px, 12vw, 156px); }
-  .about-section--unfold > header { display: block; }
+  .about-section--why { margin-top: clamp(80px, 9vw, 112px); }
+  .about-why__layout { display: grid; grid-template-columns: minmax(0, 7fr) minmax(280px, 5fr); gap: clamp(34px, 7vw, 96px); align-items: center; }
+  .about-why__media { aspect-ratio: 3 / 2; }
+  .about-why__media img { height: 100%; object-position: center; }
+  .about-why__copy h2 { margin-top: 0; }
+  .about-why__copy ul { display: block; margin: 30px 0 0; padding: 0; list-style: none !important; }
+  .about-why__copy li { padding: 16px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: clamp(1.05rem, 1.35vw, 1.25rem); line-height: 1.45; }
+  .about-why__copy li:last-child { border-bottom: 1px solid var(--line); }
+  .about-why__image { aspect-ratio: 4 / 5; height: auto; max-height: 560px; }
+  .about-section--unfold { margin-top: clamp(96px, 10vw, 132px); padding-bottom: clamp(18px, 3vw, 34px); }
+  .about-section--unfold > header { display: block; max-width: 820px; }
   .about-section--unfold > header h2 { margin-bottom: 14px; }
   .about-section--unfold > header p { max-width: 680px; margin: 0; }
-  .about-dimensions { margin: 34px 0 30px; padding: 0 0 26px; border-bottom: 1px solid var(--line); }
-  .about-dimensions ul { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 0; padding: 0; list-style: none; color: var(--accent-muted); font-family: var(--font-serif); font-size: clamp(1.12rem, 2vw, 1.7rem); line-height: 1.15; }
-  .about-dimensions li:not(:last-child)::after { margin-left: 28px; color: var(--line-strong); content: '·'; }
-  .about-flow { display: flex; flex-wrap: wrap; gap: 8px 0; margin: 35px 0 30px; padding: 0; list-style: none; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.2rem, 2.25vw, 1.9rem); }
-  .about-flow li:not(:last-child)::after { margin: 0 12px; color: var(--line-strong); content: '→'; }
-  .about-flow-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 12px; }
-  .about-flow-gallery figure { margin: 0; }
-  .about-flow-gallery img { aspect-ratio: 4 / 5; height: auto; }
-  .about-flow-gallery figcaption { margin-top: 10px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.05rem, 1.7vw, 1.35rem); }
-  .about-section--day { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(30px, 6vw, 82px); align-items: start; margin-top: clamp(96px, 10vw, 136px); }
-  .about-vimeo { position: relative; grid-column: 1; width: 100%; min-width: 0; aspect-ratio: 16 / 9; overflow: hidden; background: #000; }
-  .about-vimeo iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
-  .about-day__copy > p { margin-bottom: 28px; font-size: 1.05rem; line-height: 1.55; }
-  .about-day__list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line-strong); }
-  .about-day__list li { padding: 13px 0; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 1.04rem; }
+  .about-unfold__structure, .about-unfold__rhythm { margin-top: clamp(48px, 6vw, 68px); }
+  .about-unfold__structure { max-width: 820px; margin-left: auto; margin-right: auto; }
+  .about-unfold__rhythm { margin-top: clamp(54px, 7vw, 78px); padding-top: clamp(38px, 5vw, 56px); border-top: 1px solid var(--line); }
+  .about-unfold__structure h3, .about-unfold__rhythm h3 { margin: 0 0 10px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.5rem, 2.4vw, 2.15rem); font-weight: 400; letter-spacing: 0; text-transform: none; }
+  .about-unfold__structure > p, .about-unfold__rhythm > p { max-width: 680px; margin: 0; color: var(--muted); }
+  .about-entry-points { margin: 30px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .about-entry-points li { display: grid; grid-template-columns: 38px minmax(190px, .8fr) minmax(240px, 1.2fr); gap: 18px; align-items: baseline; padding: 15px 0; border-bottom: 1px solid var(--line); }
+  .about-entry-points__number, .about-week-flow__number { color: var(--accent-muted); font-size: .72rem; font-weight: 680; letter-spacing: .08em; }
+  .about-entry-points__name { color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.15rem, 1.8vw, 1.45rem); }
+  .about-entry-points__text { color: var(--muted); font-size: .93rem; line-height: 1.4; }
+  .about-day-arc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 34px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .about-day-arc article { min-height: 244px; padding: 20px 28px 24px 0; }
+  .about-day-arc article:not(:last-child) { margin-right: 28px; border-right: 1px solid var(--line); }
+  .about-day-arc__number { color: var(--accent-muted); font-size: .72rem; font-weight: 680; letter-spacing: .08em; }
+  .about-day-arc h4 { margin: 34px 0 10px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.62rem); font-weight: 400; line-height: 1.12; }
+  .about-day-arc p { min-height: 48px; margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.42; }
+  .about-day-arc ul { margin: 22px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line-strong); }
+  .about-day-arc li { padding: 9px 0; border-bottom: 1px solid var(--line); color: var(--ink); font-size: .9rem; }
+  .about-festival-film { max-width: 820px; margin: clamp(54px, 7vw, 78px) auto 0; padding-top: clamp(38px, 5vw, 56px); border-top: 1px solid var(--line); text-align: center; }
+  .about-festival-film__label { margin: 0 auto 16px; color: var(--accent-muted) !important; font-size: .74rem !important; font-weight: 680; letter-spacing: .1em; text-transform: uppercase; }
+  .about-festival-film__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #111; }
+  .about-festival-film__media iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
+  .about-festival-film > p { max-width: 520px; margin: 14px auto 0; color: var(--muted); font-size: .92rem; }
   .about-section--who { display: grid; grid-template-columns: minmax(250px, .76fr) minmax(360px, 1.24fr); gap: clamp(30px, 7vw, 104px); }
   .about-who__copy ul { margin: 0; padding: 0; list-style: none; }
-  .about-who__copy li { padding: 8px 0; color: var(--muted); font-size: 1.02rem; line-height: 1.45; }
+  .about-who__copy li { padding: 7px 0; color: var(--muted); font-size: 1.02rem; line-height: 1.48; }
   .about-who__media img { object-position: center; }
   .about-who__entry { max-width: 600px; margin-top: 26px; }
   .about-who__entry h3 { margin-bottom: 10px; font-size: .88rem; }
@@ -156,11 +163,11 @@ const flowAlts = [
   .about-section--city { display: grid; grid-template-columns: minmax(320px, 1.08fr) minmax(260px, .92fr); gap: clamp(34px, 8vw, 118px); align-items: center; }
   .about-section--city img { aspect-ratio: 3 / 2; }
   .about-section--organisers { max-width: 860px; margin-bottom: clamp(52px, 7vw, 94px); }
-  .about-organisers__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 48px; max-width: 900px; margin-top: 30px; }
-  .about-organisers__list p { margin: 0; color: var(--ink); font-size: 1.02rem; font-weight: 560; line-height: 1.35; }
+  .about-organisers__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 48px; max-width: 900px; margin-top: 30px; }
+  .about-organisers__list p { margin: 0; color: var(--ink); font-size: 1.04rem; font-weight: 560; line-height: 1.35; }
   .about-organisers__list a { color: inherit; text-decoration: none; }
   .about-organisers__list a:hover, .about-organisers__list a:focus-visible { text-decoration: underline; text-underline-offset: .2em; }
-  .about-organisers__list small { display: block; margin-top: 7px; color: var(--muted); font-size: .9em; font-weight: 400; line-height: 1.45; }
+  .about-organisers__list small { display: block; margin-top: 7px; color: var(--muted); font-size: .94em; font-weight: 400; line-height: 1.45; }
   .about-practical { display: grid; grid-template-columns: minmax(260px, .85fr) minmax(310px, 1.15fr); gap: clamp(42px, 8vw, 120px); padding: clamp(34px, 5vw, 66px) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .about-practical .about-section { margin: 0; }
   .about-actions, .about-explore nav { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 25px; }
@@ -171,11 +178,12 @@ const flowAlts = [
   .about-action--pending { color: var(--soft); cursor: default; }
   .about-faq { border-top: 1px solid var(--line); }
   .about-faq details { border-bottom: 1px solid var(--line); }
-  .about-faq summary { padding: 17px 28px 17px 0; color: var(--ink); font-size: 1.02rem; font-weight: 610; cursor: pointer; }
-  .about-faq summary:hover, .about-faq summary:focus-visible { color: var(--accent-muted); outline: 2px solid var(--accent-muted); outline-offset: 4px; }
+  .about-faq summary { padding: 17px 28px 17px 0; color: var(--ink); font-size: 1.04rem; font-weight: 610; cursor: pointer; }
+  .about-faq summary:hover { background: rgba(145, 106, 94, .07); color: var(--accent-muted); }
+  .about-faq summary:focus-visible { background: rgba(145, 106, 94, .07); color: var(--accent-muted); outline: 0; box-shadow: inset 0 0 0 1px var(--accent-muted); }
   .about-faq summary::marker { color: var(--accent-muted); }
   .about-faq p { margin: 0 0 16px; }
-  .about-explore { display: grid; gap: 28px; margin-top: clamp(80px, 9vw, 120px); }
+  .about-explore { display: grid; gap: 26px; margin-top: clamp(80px, 9vw, 120px); padding-bottom: 72px; }
   .about-explore img { aspect-ratio: 3 / 2; object-position: center; }
   .about-explore > div { display: block; }
   .about-explore nav { margin-top: 18px; gap: 14px 30px; font-size: 1.02rem; }
@@ -186,20 +194,33 @@ const flowAlts = [
     .about-section { margin: 68px 0; }
     .about-section--what, .about-section--unfold > header, .about-section--day, .about-section--who, .about-section--city, .about-explore, .about-practical { grid-template-columns: 1fr; gap: 28px; }
     .about-section--what > .about-media--landscape { max-height: 75vh; }
-    .about-why__stage { gap: 28px; }
-    .about-why__row--one, .about-why__row--two, .about-why__row--three { grid-template-columns: 1fr; gap: 18px; }
-    .about-why__row--two .about-why__image, .about-why__row--three .about-why__image { max-height: 75vh; }
-    .about-dimensions { margin-top: 28px; }
-    .about-dimensions ul { gap: 8px 18px; }
-    .about-dimensions li:not(:last-child)::after { margin-left: 18px; }
-    .about-flow { margin: 28px 0 22px; font-size: 1.25rem; }
-    .about-flow-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-    .about-flow-gallery img { height: auto; }
-    .about-flow-gallery figcaption { margin-top: 8px; font-size: 1.1rem; }
-    .about-section--day { margin-top: 92px; }
+    .about-why__layout { grid-template-columns: 1fr; gap: 28px; }
+    .about-why__copy h2 { margin-bottom: 0; }
+    .about-why__copy ul { margin-top: 18px; }
+    .about-why__copy li { padding: 14px 0; }
+    .about-unfold__structure, .about-unfold__rhythm { margin-top: 44px; }
+    .about-unfold__rhythm { margin-top: 48px; padding-top: 34px; }
+    .about-entry-points { margin-top: 24px; }
+    .about-entry-points li { grid-template-columns: 30px 1fr; gap: 8px 12px; padding: 13px 0; }
+    .about-entry-points__text { grid-column: 2; }
+    .about-day-arc { grid-template-columns: 1fr; gap: 8px; }
+    .about-day-arc article { min-height: 0; padding: 18px 0; }
+    .about-day-arc article:not(:last-child) { margin-right: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+    .about-day-arc h4 { margin-top: 22px; }
+    .about-day-arc p { min-height: 0; }
+    .about-festival-film { margin-top: 48px; padding-top: 34px; }
     .about-who__entry { grid-column: auto; }
     .about-practical { padding: 36px 0; }
     .about-organisers__list { grid-template-columns: 1fr; gap: 20px; }
     .about-explore { margin-top: 76px; }
+  }
+  @media (min-width: 600px) and (max-width: 760px) {
+    .about-why__layout { grid-template-columns: minmax(0, 7fr) minmax(220px, 5fr); gap: 28px; align-items: center; }
+    .about-why__copy h2 { font-size: clamp(1.8rem, 4vw, 2.45rem); }
+    .about-why__copy ul { margin-top: 20px; }
+    .about-why__copy li { padding: 11px 0; font-size: .94rem; }
+    .about-entry-points li { grid-template-columns: 30px minmax(150px, .9fr) minmax(170px, 1.1fr); gap: 10px; }
+    .about-entry-points__name { font-size: 1.05rem; }
+    .about-entry-points__text { font-size: .82rem; }
   }
 </style>
