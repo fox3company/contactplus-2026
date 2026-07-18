@@ -14,7 +14,7 @@ const media = {
     '/media/about/evening-gathering.jpg',
   ],
   dayVideo: '/media/about/day-at-contact.mp4',
-  dayPoster: '/media/about/festival-encounter.jpg',
+  dayPoster: '/media/about/performance-lab.jpg',
   who: ['/media/about/festival-flow.jpg', '/media/about/DSC03637.jpg'],
   city: '/media/about/movement-outside.jpg',
   closing: '/media/about/performance-1.jpg',
