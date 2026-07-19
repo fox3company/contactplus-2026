@@ -6,15 +6,16 @@ interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const copy = aboutCopy[lang];
 const registrationUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdkDT1NjKXxzbAg_8dqSLEDnYPstOaBZ8oE6mxqNHkLTUbBlg/viewform?usp=header';
-const vimeoPlayerUrl = 'https://player.vimeo.com/video/672667748?title=0&byline=0&portrait=0';
+const vimeoPlayerUrl = 'https://player.vimeo.com/video/1211155266?title=0&byline=0&portrait=0';
 const organisers = [
-  { names: ['Alexandra Soshnicova', 'Sergey Golovnea'], links: ['https://www.facebook.com/alexandra.soshnicova', 'https://www.facebook.com/golovnea'], role: copy.organisers.dance },
-  { names: ['Anriana Celan'], links: ['https://www.facebook.com/adriana.celan'], role: copy.organisers.manager },
-  { names: ['Moldova Festival Contact+'], links: ['https://www.facebook.com/fest.contactplus'], role: '' },
-  { names: [copy.organisers.community], links: ['https://www.facebook.com/contempdance/'], role: '' },
-  { names: ['Stan Potoku'], links: ['https://www.facebook.com/stanpotoku'], role: copy.organisers.musician },
-  { names: ['Olyga Braga', 'Tara Diamondbreath'], links: ['https://www.facebook.com/oliga.braga', 'https://www.facebook.com/bodhi.tara'], role: copy.organisers.support },
+  { names: ['Alexandra Soshnicova', 'Sergey Golovnea'], links: ['https://www.facebook.com/alexandra.soshnicova', 'https://www.facebook.com/golovnea'], role: copy.organisers.dance, group: 'core' },
+  { names: ['Anriana Celan'], links: ['https://www.facebook.com/adriana.celan'], role: copy.organisers.manager, group: 'core' },
+  { names: [copy.organisers.festivalTeam], links: ['https://www.facebook.com/fest.contactplus'], role: '', group: 'partners' },
+  { names: [copy.organisers.community], links: ['https://www.facebook.com/contempdance/'], role: '', group: 'partners' },
+  { names: ['Stan Potoku'], links: ['https://www.facebook.com/stanpotoku'], role: copy.organisers.musician, group: 'support' },
+  { names: ['Olyga Braga', 'Tara Diamondbreath'], links: ['https://www.facebook.com/oliga.braga', 'https://www.facebook.com/bodhi.tara'], role: copy.organisers.support, group: 'support' },
 ];
+const organiserGroups = ['core', 'partners', 'support'].map((group) => organisers.filter((organiser) => organiser.group === group));
 ---
 
 <main class="about-page">
@@ -46,45 +47,52 @@ const organisers = [
 
   <section class="about-section about-section--unfold" aria-labelledby="about-unfold">
     <header><h2 id="about-unfold">{copy.unfold.title}</h2><p>{copy.unfold.text}</p></header>
-    <div class="about-unfold__structure">
-      <h3>{copy.unfold.structureTitle}</h3>
-      <p>{copy.unfold.structureText}</p>
-      <ol class="about-entry-points" aria-label={copy.unfold.structureTitle}>
-        {copy.unfold.dimensions.map((item: string, index: number) => <li><span class="about-entry-points__number">0{index + 1}</span><span class="about-entry-points__name">{item}</span><span class="about-entry-points__text">{copy.unfold.dimensionText[index]}</span></li>)}
-      </ol>
-    </div>
-    <div class="about-unfold__rhythm">
-      <h3>{copy.day.title}</h3>
-      <p>{copy.day.note}</p>
-      <div class="about-day-arc">
-        {[0, 1, 2].map((phase) => <article><span class="about-day-arc__number">0{phase + 1}</span><span class="about-day-arc__time">{copy.day.phaseTimes[phase]}</span><h4>{copy.day.phaseTitles[phase]}</h4><p>{copy.day.phaseTexts[phase]}</p><ul><li>{copy.day.items[phase * 2]}</li><li>{copy.day.items[phase * 2 + 1]}</li></ul></article>)}
+    <div class="about-unfold__body">
+      <div class="about-unfold__chapter about-unfold__structure">
+        <div class="about-unfold__intro">
+          <h3>{copy.unfold.structureTitle}</h3>
+          <p>{copy.unfold.structureText}</p>
+        </div>
+        <ol class="about-entry-points" aria-label={copy.unfold.structureTitle}>
+          {copy.unfold.dimensions.map((item: string, index: number) => <li><span class="about-entry-points__number">0{index + 1}</span><span class="about-entry-points__name">{item}</span><span class="about-entry-points__text">{copy.unfold.dimensionText[index]}</span></li>)}
+        </ol>
       </div>
-    </div>
-    <div class="about-festival-film">
-      <p class="about-festival-film__label">{copy.video.filmLabel}</p>
-      <div class="about-festival-film__media" data-vimeo-shell>
-        <iframe src="https://player.vimeo.com/video/672667748?title=0&byline=0&portrait=0" title={copy.video.vimeoLabel} loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      <div class="about-unfold__chapter about-unfold__rhythm">
+        <div class="about-unfold__intro">
+          <h3>{copy.day.title}</h3>
+          <p>{copy.day.note}</p>
+        </div>
+        <div class="about-day-arc">
+          {[0, 1, 2].map((phase) => <article><span class="about-day-arc__number">0{phase + 1}</span><span class="about-day-arc__time">{copy.day.phaseTimes[phase]}</span><h4>{copy.day.phaseTitles[phase]}</h4><p>{copy.day.phaseTexts[phase]}</p><ul><li>{copy.day.items[phase * 2]}</li><li>{copy.day.items[phase * 2 + 1]}</li></ul></article>)}
+        </div>
       </div>
-      <p>{copy.video.filmText}</p>
+      <div class="about-unfold__chapter about-festival-film">
+        <div class="about-unfold__intro">
+          <h3>{copy.video.filmLabel}</h3>
+          <p>{copy.video.filmText}</p>
+        </div>
+        <div class="about-festival-film__media" data-vimeo-shell>
+          <iframe src={vimeoPlayerUrl} title={copy.video.vimeoLabel} loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="about-section about-section--who" aria-labelledby="about-who">
-    <div class="about-who__copy"><h2 id="about-who">{copy.who.title}</h2><h3>{copy.who.gathering}</h3><ul>{copy.who.groups.map((item: string) => <li>{item}</li>)}</ul><div class="about-who__entry"><h3>{copy.who.entry}</h3><p>{copy.who.entryText}</p></div></div>
-    <div class="about-who__media about-media--landscape"><img src={aboutMedia.who[0]} alt="A large group sharing movement in an open space" width="2048" height="1367" loading="lazy" decoding="async" /></div>
+    <div class="about-who__copy"><h2 id="about-who">{copy.who.title}</h2><p>{copy.who.intro}</p><ul>{copy.who.groups.map((item: string) => <li>{item}</li>)}</ul><div class="about-who__entry"><h3>{copy.who.entry}</h3><p>{copy.who.entryText}</p></div></div>
+    <div class="about-who__media"><img src={aboutMedia.who[0]} alt="A large group sharing movement in an open space" width="2048" height="1367" loading="lazy" decoding="async" /></div>
   </section>
 
-  <section class="about-section about-section--city" aria-labelledby="about-city"><img src={aboutMedia.city} alt="People moving together outdoors in Chișinău" width="2048" height="1367" loading="lazy" decoding="async" /><div><p class="eyebrow">Chișinău</p><h2 id="about-city">{copy.city.title}</h2><p>{copy.city.text}</p></div></section>
+  <section class="about-section about-section--city" aria-labelledby="about-city"><img src={aboutMedia.city} alt="People moving together outdoors in Chișinău" width="2048" height="1367" loading="lazy" decoding="async" /><div><h2 id="about-city">{copy.city.title}</h2><p class="about-section__lead">{copy.city.text}</p></div></section>
 
-  <section class="about-section about-section--organisers" aria-labelledby="about-organisers"><h2 id="about-organisers">{copy.organisers.title}</h2><p class="about-section__lead">{copy.organisers.intro}</p><div class="about-organisers__list">{organisers.map((organiser) => <p><span>{organiser.names.map((name, index) => <><a href={organiser.links[index]} rel="noopener" target="_blank">{name}</a>{index < organiser.names.length - 1 && ', '}</>)}</span>{organiser.role && <small>{organiser.role}</small>}</p>)}</div></section>
+  <section class="about-section about-section--organisers" aria-labelledby="about-organisers"><h2 id="about-organisers">{copy.organisers.title}</h2><p class="about-section__lead">{copy.organisers.intro}</p><div class="about-organisers__list">{organiserGroups.map((group) => <div>{group.map((organiser) => <p><span>{organiser.names.map((name, index) => <><a href={organiser.links[index]} rel="noopener" target="_blank">{name}</a>{index < organiser.names.length - 1 && ', '}</>)}</span>{organiser.role && <small>{organiser.role}</small>}</p>)}</div>)}</div></section>
 
-  <section class="about-practical" id="passes-participation"><section class="about-section about-section--participation" aria-labelledby="about-participation"><p class="eyebrow">{copy.participation.title}</p><h2 id="about-participation">{copy.participation.title}</h2><p>{copy.participation.text}</p><div class="about-actions"><a class="about-action about-action--pending" href="#" aria-disabled="true" data-passes-placeholder>{copy.participation.passes}</a><a class="about-action about-action--primary" href={registrationUrl} rel="noopener" target="_blank">{copy.participation.register}</a></div></section><section class="about-section about-section--faq" aria-labelledby="about-faq"><h2 id="about-faq">{copy.faqTitle}</h2><div class="about-faq">{copy.faq.map(([question, answer]: [string, string]) => <details><summary>{question}</summary><p>{answer}</p></details>)}</div></section></section>
+  <section class="about-practical" id="passes-participation"><section class="about-section about-section--participation" aria-labelledby="about-participation"><p class="eyebrow">{copy.participation.title}</p><h2 id="about-participation">{copy.participation.title}</h2><p>{copy.participation.text}</p><div class="about-actions"><a class="about-action about-action--primary" href={registrationUrl} rel="noopener" target="_blank">{copy.participation.register}</a></div></section><section class="about-section about-section--faq" aria-labelledby="about-faq"><h2 id="about-faq">{copy.faqTitle}</h2><div class="about-faq">{copy.faq.map(([question, answer]: [string, string]) => <details><summary>{question}</summary><p>{answer}</p></details>)}</div></section></section>
 
   <section class="about-explore" aria-labelledby="about-explore"><img src={aboutMedia.closing} alt="A group of performers sharing a vivid stage moment" width="3600" height="2384" loading="lazy" decoding="async" /><div><h2 id="about-explore">{copy.explore.title}</h2><nav aria-label={copy.explore.title}><a href={`/${lang}/program`}>{copy.explore.program}</a><a href={`/${lang}/schedule`}>{copy.explore.schedule}</a><a href={`/${lang}/artists`}>{copy.explore.artists}</a></nav></div></section>
 </main>
 
 <script is:inline>
-  document.querySelector('[data-passes-placeholder]')?.addEventListener('click', (event) => event.preventDefault());
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   document.querySelectorAll('[data-autoplay-video]').forEach((video) => {
     if (reduceMotion.matches) {
@@ -97,7 +105,7 @@ const organisers = [
 <style>
   .about-page { width: min(1240px, calc(100% - 40px)); margin: 0 auto; padding: clamp(40px, 5vw, 68px) 0 clamp(44px, 6vw, 78px); }
   .about-hero { margin-bottom: clamp(48px, 6vw, 82px); }
-  .about-hero__copy { max-width: 810px; margin-bottom: clamp(26px, 4vw, 54px); }
+  .about-hero__copy { max-width: 810px; margin-bottom: clamp(22px, 3.2vw, 42px); }
   .about-hero h1 { max-width: 760px; margin: 12px 0 18px; }
   .about-hero__facts { display: flex; flex-wrap: wrap; gap: 7px; margin: 24px 0 0; color: var(--accent-muted); font-size: .78rem; font-weight: 650; letter-spacing: .07em; text-transform: uppercase; }
   .about-hero__media, .about-day__media, .about-media--hero, .about-media--landscape, .about-media--portrait, .about-media--sequence, .about-media--video { position: relative; overflow: hidden; background: #222; }
@@ -111,9 +119,10 @@ const organisers = [
   .about-section h2, .about-explore h2 { max-width: 680px; margin: 8px 0 20px; font-family: var(--font-serif); font-size: clamp(2rem, 3.8vw, 3.35rem); font-weight: 400; line-height: 1.08; }
   .about-section h3 { margin: 26px 0 12px; font-size: .82rem; letter-spacing: .07em; text-transform: uppercase; }
   .about-section p { max-width: 660px; color: var(--muted); }
-  .about-section__lead { font-size: clamp(1.14rem, 1.9vw, 1.45rem); line-height: 1.56; }
+  .about-section__lead { font-size: clamp(1.08rem, 1.55vw, 1.32rem); line-height: 1.52; }
   .about-section img, .about-explore img { display: block; width: 100%; height: auto; object-fit: cover; }
-  .about-section--what { display: grid; grid-template-columns: minmax(280px, .9fr) minmax(360px, 1.1fr); gap: clamp(34px, 8vw, 122px); align-items: end; }
+  .about-section--what { display: grid; grid-template-columns: minmax(280px, .9fr) minmax(360px, 1.1fr); gap: clamp(34px, 8vw, 122px); align-items: start; padding-top: clamp(18px, 4vw, 54px); }
+  .about-section--what h2 { margin-bottom: 26px; }
   .about-section--what > .about-media--landscape { max-height: min(680px, 72vh); }
   .about-section--what > .about-media--landscape img { object-position: center; }
   .about-section--why { margin-top: clamp(80px, 9vw, 112px); }
@@ -121,56 +130,64 @@ const organisers = [
   .about-why__media { aspect-ratio: 3 / 2; }
   .about-why__media img { height: 100%; object-position: center; }
   .about-why__copy h2 { margin-top: 0; }
-  .about-why__copy ul { display: block; margin: 30px 0 0; padding: 0; list-style: none !important; }
-  .about-why__copy li { padding: 16px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: clamp(1.05rem, 1.35vw, 1.25rem); line-height: 1.45; }
+  .about-why__copy ul { display: block; margin: 24px 0 0; padding: 0; list-style: none !important; }
+  .about-why__copy li { padding: 14px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: clamp(1.04rem, 1.28vw, 1.18rem); line-height: 1.42; }
   .about-why__copy li:last-child { border-bottom: 1px solid var(--line); }
   .about-why__image { aspect-ratio: 4 / 5; height: auto; max-height: 560px; }
-  .about-section--unfold { margin-top: clamp(96px, 10vw, 132px); padding-bottom: clamp(18px, 3vw, 34px); }
+  .about-section--unfold { margin-top: clamp(106px, 11vw, 148px); padding-bottom: clamp(14px, 2vw, 26px); }
   .about-section--unfold > header { display: block; max-width: 820px; }
   .about-section--unfold > header h2 { margin-bottom: 14px; }
   .about-section--unfold > header p { max-width: 680px; margin: 0; }
-  .about-unfold__structure, .about-unfold__rhythm { margin-top: clamp(48px, 6vw, 68px); }
-  .about-unfold__structure { max-width: 820px; }
-  .about-unfold__rhythm { margin-top: clamp(54px, 7vw, 78px); padding-top: clamp(38px, 5vw, 56px); border-top: 1px solid var(--line); }
-  .about-unfold__structure h3, .about-unfold__rhythm h3 { margin: 0 0 10px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.5rem, 2.4vw, 2.15rem); font-weight: 400; letter-spacing: 0; text-transform: none; }
-  .about-unfold__structure > p, .about-unfold__rhythm > p { max-width: 680px; margin: 0; color: var(--muted); }
-  .about-entry-points { margin: 30px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
-  .about-entry-points li { display: grid; grid-template-columns: 38px minmax(190px, .8fr) minmax(240px, 1.2fr); gap: 18px; align-items: baseline; padding: 15px 0; border-bottom: 1px solid var(--line); }
+  .about-unfold__body { margin-top: clamp(16px, 2.2vw, 26px); }
+  .about-unfold__chapter { display: grid; grid-template-columns: minmax(210px, .34fr) minmax(0, 1fr); gap: clamp(34px, 6vw, 80px); padding: clamp(12px, 2vw, 20px) 0; }
+  .about-unfold__chapter + .about-unfold__chapter { margin-top: clamp(4px, 1vw, 12px); }
+  .about-unfold__intro { max-width: 310px; }
+  .about-unfold__intro h3 { margin: 0 0 12px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.45rem, 2.1vw, 2rem); font-weight: 400; letter-spacing: 0; line-height: 1.12; text-transform: none; }
+  .about-unfold__intro p { max-width: 310px; margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.48; }
+  .about-entry-points { margin: 0; padding: 0; list-style: none; }
+  .about-entry-points li { display: grid; grid-template-columns: 38px minmax(190px, .8fr) minmax(240px, 1.2fr); gap: 18px; align-items: baseline; padding: 12px 0; }
+  .about-entry-points li + li { border-top: 1px solid rgba(154, 126, 116, .22); }
+  .about-entry-points li:first-child { padding-top: 0; }
   .about-entry-points__number, .about-week-flow__number { color: var(--accent-muted); font-size: .72rem; font-weight: 680; letter-spacing: .08em; }
   .about-entry-points__name { color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.15rem, 1.8vw, 1.45rem); }
   .about-entry-points__text { color: var(--muted); font-size: .93rem; line-height: 1.4; }
-  .about-day-arc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 34px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .about-day-arc article { min-height: 244px; padding: 20px 28px 24px 0; }
-  .about-day-arc article:not(:last-child) { margin-right: 28px; border-right: 1px solid var(--line); }
+  .about-day-arc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(26px, 4vw, 58px); }
+  .about-day-arc article { min-height: 220px; padding: 0; }
   .about-day-arc__number { display: inline-block; margin-right: 12px; color: var(--accent-muted); font-size: .72rem; font-weight: 680; letter-spacing: .08em; }
   .about-day-arc__time { color: var(--accent-muted); font-size: .72rem; font-weight: 680; letter-spacing: .08em; text-transform: uppercase; }
-  .about-day-arc h4 { margin: 28px 0 10px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.62rem); font-weight: 400; line-height: 1.12; }
+  .about-day-arc h4 { margin: 26px 0 10px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.62rem); font-weight: 400; line-height: 1.12; }
   .about-day-arc p { min-height: 48px; margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.42; }
-  .about-day-arc ul { margin: 22px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line-strong); }
-  .about-day-arc li { padding: 9px 0; border-bottom: 1px solid var(--line); color: var(--ink); font-size: .9rem; }
-  .about-festival-film { width: 100%; margin: clamp(48px, 6vw, 68px) auto 0; padding-top: clamp(34px, 4vw, 48px); border-top: 1px solid var(--line); text-align: center; }
-  .about-festival-film__label { margin: 0 auto 16px; color: var(--accent-muted) !important; font-size: .74rem !important; font-weight: 680; letter-spacing: .1em; text-transform: uppercase; }
+  .about-day-arc ul { margin: 18px 0 0; padding: 0; list-style: none; }
+  .about-day-arc li { position: relative; padding: 4px 0 4px 14px; color: var(--ink); font-size: .9rem; }
+  .about-day-arc li::before { content: ""; position: absolute; left: 0; top: .86em; width: 3px; height: 3px; border-radius: 999px; background: var(--accent-muted); opacity: .72; }
+  .about-festival-film { width: 100%; padding-top: clamp(4px, 1vw, 12px); }
   .about-festival-film__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #111; }
   .about-festival-film__media iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
-  .about-festival-film > p { max-width: 520px; margin: 14px auto 0; color: var(--muted); font-size: .92rem; }
-  .about-section--who { display: grid; grid-template-columns: minmax(250px, .76fr) minmax(360px, 1.24fr); gap: clamp(30px, 7vw, 104px); }
-  .about-who__copy ul { margin: 0; padding: 0; list-style: none; }
-  .about-who__copy li { padding: 7px 0; color: var(--muted); font-size: 1.02rem; line-height: 1.48; }
-  .about-who__media img { object-position: center; }
-  .about-who__entry { max-width: 600px; margin-top: 26px; }
+  .about-festival-film .about-unfold__intro p:last-child { margin: 0; color: var(--muted); font-size: .92rem; }
+  .about-section--who { display: grid; grid-template-columns: minmax(300px, .82fr) minmax(0, 1fr); gap: clamp(34px, 6vw, 86px); align-items: stretch; }
+  .about-who__copy { max-width: 560px; }
+  .about-who__copy > p { margin: 0 0 26px; line-height: 1.52; }
+  .about-who__copy ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 24px; margin: 0; padding: 0; list-style: none; }
+  .about-who__copy li { padding: 0; color: var(--muted); font-size: .98rem; line-height: 1.52; }
+  .about-who__media { justify-self: end; width: min(100%, 680px); height: clamp(480px, 38vw, 590px); aspect-ratio: auto; }
+  .about-who__media img { height: 100%; object-position: center 46%; }
+  .about-who__entry { max-width: 600px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
   .about-who__entry h3 { margin-bottom: 10px; font-size: .88rem; }
   .about-who__entry p { line-height: 1.55; }
   .about-who__entry p { margin-bottom: 0; }
-  .about-section--city { display: grid; grid-template-columns: minmax(320px, 1.08fr) minmax(260px, .92fr); gap: clamp(34px, 8vw, 118px); align-items: center; }
-  .about-section--city img { aspect-ratio: 3 / 2; }
-  .about-section--organisers { max-width: 860px; margin-bottom: clamp(52px, 7vw, 94px); }
-  .about-organisers__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 48px; max-width: 900px; margin-top: 30px; }
+  .about-section--city { display: grid; grid-template-columns: minmax(360px, 1.1fr) minmax(280px, .9fr); gap: clamp(34px, 8vw, 122px); align-items: start; margin-top: clamp(72px, 8vw, 96px); padding-top: clamp(18px, 4vw, 54px); }
+  .about-section--city h2 { margin-bottom: 26px; }
+  .about-section--city img { aspect-ratio: 3 / 2; max-height: min(680px, 72vh); }
+  .about-section--organisers { max-width: 900px; margin-bottom: clamp(46px, 6vw, 78px); }
+  .about-organisers__list { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, .95fr) minmax(220px, .82fr); gap: 28px 48px; max-width: 940px; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--line); }
+  .about-organisers__list > div { display: grid; align-content: start; gap: 24px; }
   .about-organisers__list p { margin: 0; color: var(--ink); font-size: 1.04rem; font-weight: 560; line-height: 1.35; }
   .about-organisers__list a { color: inherit; text-decoration: none; }
   .about-organisers__list a:hover, .about-organisers__list a:focus-visible { text-decoration: underline; text-underline-offset: .2em; }
   .about-organisers__list small { display: block; margin-top: 7px; color: var(--muted); font-size: .94em; font-weight: 400; line-height: 1.45; }
-  .about-practical { display: grid; grid-template-columns: minmax(260px, .85fr) minmax(310px, 1.15fr); gap: clamp(42px, 8vw, 120px); padding: clamp(34px, 5vw, 66px) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .about-practical { display: grid; grid-template-columns: minmax(260px, .9fr) minmax(310px, 1.1fr); gap: clamp(42px, 7vw, 92px); margin-top: clamp(58px, 7vw, 86px); padding: clamp(34px, 5vw, 58px) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .about-practical .about-section { margin: 0; }
+  .about-practical h2 { margin-top: 0; }
   .about-actions, .about-explore nav { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 25px; }
   .about-action, .about-explore nav a { color: var(--accent-muted); font-weight: 650; text-decoration: none; text-underline-offset: .25em; }
   .about-action { display: inline-flex; align-items: center; min-height: 38px; }
@@ -184,10 +201,11 @@ const organisers = [
   .about-faq summary:focus-visible { background: rgba(145, 106, 94, .07); color: var(--accent-muted); outline: 0; box-shadow: inset 0 0 0 1px var(--accent-muted); }
   .about-faq summary::marker { color: var(--accent-muted); }
   .about-faq p { margin: 0 0 16px; }
-  .about-explore { display: grid; gap: 26px; margin-top: clamp(80px, 9vw, 120px); padding-bottom: 72px; }
+  .about-explore { display: grid; gap: 32px; margin-top: clamp(58px, 7vw, 86px); padding-bottom: 72px; }
   .about-explore img { aspect-ratio: 3 / 2; object-position: center; }
   .about-explore > div { display: block; }
   .about-explore nav { margin-top: 18px; gap: 14px 30px; font-size: 1.02rem; }
+  .about-explore nav a:first-child { color: var(--ink); font-weight: 720; }
   @media (prefers-reduced-motion: reduce) { .about-hero video { display: none; } .about-hero__media { background: center / cover no-repeat url('/media/about/festival-closing.jpg'); } }
   @media (max-width: 760px) {
     .about-page { width: min(100% - 32px, 620px); padding-top: 36px; }
@@ -199,20 +217,24 @@ const organisers = [
     .about-why__copy h2 { margin-bottom: 0; }
     .about-why__copy ul { margin-top: 18px; }
     .about-why__copy li { padding: 14px 0; }
-    .about-unfold__structure, .about-unfold__rhythm { margin-top: 44px; }
-    .about-unfold__rhythm { margin-top: 48px; padding-top: 34px; }
-    .about-entry-points { margin-top: 24px; }
+    .about-unfold__body { margin-top: 24px; }
+    .about-unfold__chapter { grid-template-columns: 1fr; gap: 20px; padding: 22px 0; }
+    .about-unfold__intro { max-width: 100%; }
+    .about-unfold__intro p { max-width: 620px; }
     .about-entry-points li { grid-template-columns: 30px 1fr; gap: 8px 12px; padding: 13px 0; }
+    .about-entry-points li:first-child { padding-top: 0; }
     .about-entry-points__text { grid-column: 2; }
-    .about-day-arc { grid-template-columns: 1fr; gap: 8px; }
-    .about-day-arc article { min-height: 0; padding: 18px 0; }
-    .about-day-arc article:not(:last-child) { margin-right: 0; border-right: 0; border-bottom: 1px solid var(--line); }
+    .about-day-arc { grid-template-columns: 1fr; gap: 22px; }
+    .about-day-arc article { min-height: 0; padding: 18px 0 0; }
     .about-day-arc h4 { margin-top: 22px; }
     .about-day-arc p { min-height: 0; }
-    .about-festival-film { margin-top: 48px; padding-top: 34px; }
     .about-who__entry { grid-column: auto; }
+    .about-who__copy ul { grid-template-columns: 1fr; gap: 7px; }
+    .about-who__media { justify-self: stretch; width: 100%; max-height: none; }
+    .about-who__media img { height: auto; }
     .about-practical { padding: 36px 0; }
-    .about-organisers__list { grid-template-columns: 1fr; gap: 20px; }
+    .about-organisers__list { grid-template-columns: 1fr; gap: 22px; }
+    .about-organisers__list > div { gap: 20px; }
     .about-explore { margin-top: 76px; }
   }
   @media (min-width: 600px) and (max-width: 760px) {
