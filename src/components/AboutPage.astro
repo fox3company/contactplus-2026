@@ -57,7 +57,7 @@ const organisers = [
       <h3>{copy.day.title}</h3>
       <p>{copy.day.note}</p>
       <div class="about-day-arc">
-        {[0, 1, 2].map((phase) => <article><span class="about-day-arc__number">0{phase + 1}</span><h4>{copy.day.phaseTitles[phase]}</h4><p>{copy.day.phaseTexts[phase]}</p><ul><li>{copy.day.items[phase * 2]}</li><li>{copy.day.items[phase * 2 + 1]}</li></ul></article>)}
+        {[0, 1, 2].map((phase) => <article><span class="about-day-arc__number">0{phase + 1}</span><span class="about-day-arc__time">{copy.day.phaseTimes[phase]}</span><h4>{copy.day.phaseTitles[phase]}</h4><p>{copy.day.phaseTexts[phase]}</p><ul><li>{copy.day.items[phase * 2]}</li><li>{copy.day.items[phase * 2 + 1]}</li></ul></article>)}
       </div>
     </div>
     <div class="about-festival-film">
@@ -130,7 +130,7 @@ const organisers = [
   .about-section--unfold > header h2 { margin-bottom: 14px; }
   .about-section--unfold > header p { max-width: 680px; margin: 0; }
   .about-unfold__structure, .about-unfold__rhythm { margin-top: clamp(48px, 6vw, 68px); }
-  .about-unfold__structure { max-width: 820px; margin-left: auto; margin-right: auto; }
+  .about-unfold__structure { max-width: 820px; }
   .about-unfold__rhythm { margin-top: clamp(54px, 7vw, 78px); padding-top: clamp(38px, 5vw, 56px); border-top: 1px solid var(--line); }
   .about-unfold__structure h3, .about-unfold__rhythm h3 { margin: 0 0 10px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.5rem, 2.4vw, 2.15rem); font-weight: 400; letter-spacing: 0; text-transform: none; }
   .about-unfold__structure > p, .about-unfold__rhythm > p { max-width: 680px; margin: 0; color: var(--muted); }
@@ -142,12 +142,13 @@ const organisers = [
   .about-day-arc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 34px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .about-day-arc article { min-height: 244px; padding: 20px 28px 24px 0; }
   .about-day-arc article:not(:last-child) { margin-right: 28px; border-right: 1px solid var(--line); }
-  .about-day-arc__number { color: var(--accent-muted); font-size: .72rem; font-weight: 680; letter-spacing: .08em; }
-  .about-day-arc h4 { margin: 34px 0 10px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.62rem); font-weight: 400; line-height: 1.12; }
+  .about-day-arc__number { display: inline-block; margin-right: 12px; color: var(--accent-muted); font-size: .72rem; font-weight: 680; letter-spacing: .08em; }
+  .about-day-arc__time { color: var(--accent-muted); font-size: .72rem; font-weight: 680; letter-spacing: .08em; text-transform: uppercase; }
+  .about-day-arc h4 { margin: 28px 0 10px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.62rem); font-weight: 400; line-height: 1.12; }
   .about-day-arc p { min-height: 48px; margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.42; }
   .about-day-arc ul { margin: 22px 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line-strong); }
   .about-day-arc li { padding: 9px 0; border-bottom: 1px solid var(--line); color: var(--ink); font-size: .9rem; }
-  .about-festival-film { max-width: 820px; margin: clamp(54px, 7vw, 78px) auto 0; padding-top: clamp(38px, 5vw, 56px); border-top: 1px solid var(--line); text-align: center; }
+  .about-festival-film { width: 100%; margin: clamp(48px, 6vw, 68px) auto 0; padding-top: clamp(34px, 4vw, 48px); border-top: 1px solid var(--line); text-align: center; }
   .about-festival-film__label { margin: 0 auto 16px; color: var(--accent-muted) !important; font-size: .74rem !important; font-weight: 680; letter-spacing: .1em; text-transform: uppercase; }
   .about-festival-film__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #111; }
   .about-festival-film__media iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
