@@ -7,15 +7,29 @@ const { lang } = Astro.props;
 const copy = aboutCopy[lang];
 const registrationUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdkDT1NjKXxzbAg_8dqSLEDnYPstOaBZ8oE6mxqNHkLTUbBlg/viewform?usp=header';
 const vimeoPlayerUrl = 'https://player.vimeo.com/video/1211155266?title=0&byline=0&portrait=0';
-const organisers = [
-  { names: ['Alexandra Soshnicova', 'Sergey Golovnea'], links: ['https://www.facebook.com/alexandra.soshnicova', 'https://www.facebook.com/golovnea'], role: copy.organisers.dance, group: 'core' },
-  { names: ['Anriana Celan'], links: ['https://www.facebook.com/adriana.celan'], role: copy.organisers.manager, group: 'core' },
-  { names: [copy.organisers.festivalTeam], links: ['https://www.facebook.com/fest.contactplus'], role: '', group: 'partners' },
-  { names: [copy.organisers.community], links: ['https://www.facebook.com/contempdance/'], role: '', group: 'partners' },
-  { names: ['Stan Potoku'], links: ['https://www.facebook.com/stanpotoku'], role: copy.organisers.musician, group: 'support' },
-  { names: ['Olyga Braga', 'Tara Diamondbreath'], links: ['https://www.facebook.com/oliga.braga', 'https://www.facebook.com/bodhi.tara'], role: copy.organisers.support, group: 'support' },
+const organiserGroups = [
+  {
+    label: copy.organisers.coreGroup,
+    items: [
+      { names: ['Alexandra Soshnicova', 'Sergey Golovnea'], links: ['https://www.facebook.com/alexandra.soshnicova', 'https://www.facebook.com/golovnea'], role: copy.organisers.dance },
+      { names: ['Anriana Celan'], links: ['https://www.facebook.com/adriana.celan'], role: copy.organisers.manager },
+    ],
+  },
+  {
+    label: copy.organisers.partnersGroup,
+    items: [
+      { names: [copy.organisers.festivalTeam], links: ['https://www.facebook.com/fest.contactplus'], role: '' },
+      { names: [copy.organisers.community], links: ['https://www.facebook.com/contempdance/'], role: '' },
+    ],
+  },
+  {
+    label: copy.organisers.supportGroup,
+    items: [
+      { names: ['Stan Potoku'], links: ['https://www.facebook.com/stanpotoku'], role: copy.organisers.musician },
+      { names: ['Olyga Braga', 'Tara Diamondbreath'], links: ['https://www.facebook.com/oliga.braga', 'https://www.facebook.com/bodhi.tara'], role: copy.organisers.support },
+    ],
+  },
 ];
-const organiserGroups = ['core', 'partners', 'support'].map((group) => organisers.filter((organiser) => organiser.group === group));
 ---
 
 <main class="about-page">
@@ -85,7 +99,18 @@ const organiserGroups = ['core', 'partners', 'support'].map((group) => organiser
 
   <section class="about-section about-section--city" aria-labelledby="about-city"><img src={aboutMedia.city} alt="People moving together outdoors in Chișinău" width="2048" height="1367" loading="lazy" decoding="async" /><div><h2 id="about-city">{copy.city.title}</h2><p class="about-section__lead">{copy.city.text}</p></div></section>
 
-  <section class="about-section about-section--organisers" aria-labelledby="about-organisers"><h2 id="about-organisers">{copy.organisers.title}</h2><p class="about-section__lead">{copy.organisers.intro}</p><div class="about-organisers__list">{organiserGroups.map((group) => <div>{group.map((organiser) => <p><span>{organiser.names.map((name, index) => <><a href={organiser.links[index]} rel="noopener" target="_blank">{name}</a>{index < organiser.names.length - 1 && ', '}</>)}</span>{organiser.role && <small>{organiser.role}</small>}</p>)}</div>)}</div></section>
+  <section class="about-section about-section--organisers" aria-labelledby="about-organisers">
+    <div class="about-organisers__layout">
+      <div class="about-organisers__copy">
+        <h2 id="about-organisers">{copy.organisers.title}</h2>
+        <p class="about-section__lead">{copy.organisers.intro}</p>
+        <div class="about-organisers__groups">
+          {organiserGroups.map((group) => <section class="about-organisers__group"><h3 class="about-organisers__group-title">{group.label}</h3><div class="about-organisers__items">{group.items.map((organiser) => <p class="about-organisers__item"><span class="about-organisers__names">{organiser.names.map((name, index) => <><a class="about-organisers__link" href={organiser.links[index]} rel="noopener" target="_blank">{name}</a>{index < organiser.names.length - 1 && ', '}</>)}</span>{organiser.role && <small class="about-organisers__role">{organiser.role}</small>}</p>)}</div></section>)}
+        </div>
+      </div>
+      <div class="about-organisers__media about-media--landscape"><img src={aboutMedia.organisers} alt="People greeting each other during the festival" width="2048" height="1365" loading="lazy" decoding="async" /></div>
+    </div>
+  </section>
 
   <section class="about-practical" id="passes-participation"><section class="about-section about-section--participation" aria-labelledby="about-participation"><p class="eyebrow">{copy.participation.title}</p><h2 id="about-participation">{copy.participation.title}</h2><p>{copy.participation.text}</p><div class="about-actions"><a class="about-action about-action--primary" href={registrationUrl} rel="noopener" target="_blank">{copy.participation.register}</a></div></section><section class="about-section about-section--faq" aria-labelledby="about-faq"><h2 id="about-faq">{copy.faqTitle}</h2><div class="about-faq">{copy.faq.map(([question, answer]: [string, string]) => <details><summary>{question}</summary><p>{answer}</p></details>)}</div></section></section>
 
@@ -152,13 +177,13 @@ const organiserGroups = ['core', 'partners', 'support'].map((group) => organiser
   .about-entry-points__name { color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.15rem, 1.8vw, 1.45rem); }
   .about-entry-points__text { color: var(--muted); font-size: .93rem; line-height: 1.4; }
   .about-day-arc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(26px, 4vw, 58px); }
-  .about-day-arc article { min-height: 220px; padding: 0; }
+  .about-day-arc article { min-height: 220px; padding-top: 18px; border-top: 1px solid var(--line); }
   .about-day-arc__number { display: inline-block; margin-right: 12px; color: var(--accent-muted); font-size: .72rem; font-weight: 680; letter-spacing: .08em; }
   .about-day-arc__time { color: var(--accent-muted); font-size: .72rem; font-weight: 680; letter-spacing: .08em; text-transform: uppercase; }
-  .about-day-arc h4 { margin: 26px 0 10px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.62rem); font-weight: 400; line-height: 1.12; }
-  .about-day-arc p { min-height: 48px; margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.42; }
-  .about-day-arc ul { margin: 18px 0 0; padding: 0; list-style: none; }
-  .about-day-arc li { position: relative; padding: 4px 0 4px 14px; color: var(--ink); font-size: .9rem; }
+  .about-day-arc h4 { margin: 20px 0 10px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.2rem, 2vw, 1.62rem); font-weight: 400; line-height: 1.12; }
+  .about-day-arc p { min-height: 42px; margin: 0; color: var(--muted); font-size: .92rem; line-height: 1.42; }
+  .about-day-arc ul { display: grid; gap: 6px; margin: 18px 0 0; padding: 0; list-style: none; }
+  .about-day-arc li { position: relative; padding: 2px 0 2px 14px; color: var(--ink); font-size: .9rem; line-height: 1.35; }
   .about-day-arc li::before { content: ""; position: absolute; left: 0; top: .86em; width: 3px; height: 3px; border-radius: 999px; background: var(--accent-muted); opacity: .72; }
   .about-festival-film { width: 100%; padding-top: clamp(4px, 1vw, 12px); }
   .about-festival-film__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #111; }
@@ -178,14 +203,21 @@ const organiserGroups = ['core', 'partners', 'support'].map((group) => organiser
   .about-section--city { display: grid; grid-template-columns: minmax(360px, 1.1fr) minmax(280px, .9fr); gap: clamp(34px, 8vw, 122px); align-items: start; margin-top: clamp(72px, 8vw, 96px); padding-top: clamp(18px, 4vw, 54px); }
   .about-section--city h2 { margin-bottom: 26px; }
   .about-section--city img { aspect-ratio: 3 / 2; max-height: min(680px, 72vh); }
-  .about-section--organisers { max-width: 900px; margin-bottom: clamp(46px, 6vw, 78px); }
-  .about-organisers__list { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, .95fr) minmax(220px, .82fr); gap: 28px 48px; max-width: 940px; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--line); }
-  .about-organisers__list > div { display: grid; align-content: start; gap: 24px; }
-  .about-organisers__list p { margin: 0; color: var(--ink); font-size: 1.04rem; font-weight: 560; line-height: 1.35; }
-  .about-organisers__list a { color: inherit; text-decoration: none; }
-  .about-organisers__list a:hover, .about-organisers__list a:focus-visible { text-decoration: underline; text-underline-offset: .2em; }
-  .about-organisers__list small { display: block; margin-top: 7px; color: var(--muted); font-size: .94em; font-weight: 400; line-height: 1.45; }
-  .about-practical { display: grid; grid-template-columns: minmax(260px, .9fr) minmax(310px, 1.1fr); gap: clamp(42px, 7vw, 92px); margin-top: clamp(58px, 7vw, 86px); padding: clamp(34px, 5vw, 58px) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .about-section--organisers { margin-bottom: clamp(46px, 6vw, 78px); padding-top: clamp(12px, 3vw, 38px); }
+  .about-organisers__layout { display: grid; grid-template-columns: minmax(280px, .95fr) minmax(320px, 1.05fr); gap: clamp(34px, 7vw, 106px); align-items: stretch; }
+  .about-organisers__copy { max-width: 620px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+  .about-organisers__groups { display: grid; gap: 20px; margin-top: clamp(24px, 3.2vw, 34px); }
+  .about-organisers__group { display: grid; grid-template-columns: 1fr; gap: 11px; padding-top: 15px; border-top: 1px solid var(--line); }
+  .about-organisers__group-title { margin: 0; color: var(--accent-muted); font-size: .68rem; letter-spacing: .075em; line-height: 1.35; }
+  .about-organisers__items { display: grid; gap: 13px; }
+  .about-organisers__item { margin: 0; color: var(--ink); font-size: .96rem; font-weight: 520; line-height: 1.36; }
+  .about-organisers__group:nth-child(n + 2) .about-organisers__item { color: var(--muted); font-weight: 500; }
+  .about-organisers__link { color: inherit; text-decoration: none; }
+  .about-organisers__link:hover, .about-organisers__link:focus-visible { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+  .about-organisers__role { display: block; margin-top: 4px; color: var(--muted); font-size: .92em; font-weight: 400; line-height: 1.42; }
+  .about-organisers__media { align-self: stretch; width: 100%; height: 100%; max-height: none; margin-top: 0; aspect-ratio: auto; }
+  .about-organisers__media img { height: 100%; object-position: center; }
+  .about-practical { display: grid; grid-template-columns: minmax(260px, .9fr) minmax(310px, 1.1fr); gap: clamp(42px, 7vw, 92px); margin-top: clamp(58px, 7vw, 86px); padding: clamp(34px, 5vw, 58px) 0; border-bottom: 1px solid var(--line); }
   .about-practical .about-section { margin: 0; }
   .about-practical h2 { margin-top: 0; }
   .about-actions, .about-explore nav { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 25px; }
@@ -207,7 +239,7 @@ const organiserGroups = ['core', 'partners', 'support'].map((group) => organiser
   .about-explore nav { margin-top: 18px; gap: 14px 30px; font-size: 1.02rem; }
   .about-explore nav a:first-child { color: var(--ink); font-weight: 720; }
   @media (prefers-reduced-motion: reduce) { .about-hero video { display: none; } .about-hero__media { background: center / cover no-repeat url('/media/about/festival-closing.jpg'); } }
-  @media (max-width: 760px) {
+  @media (max-width: 680px) {
     .about-page { width: min(100% - 32px, 620px); padding-top: 36px; }
     .about-hero { margin-bottom: 54px; } .about-hero video, .about-hero__media { aspect-ratio: 16 / 9; }
     .about-section { margin: 68px 0; }
@@ -233,11 +265,15 @@ const organiserGroups = ['core', 'partners', 'support'].map((group) => organiser
     .about-who__media { justify-self: stretch; width: 100%; max-height: none; }
     .about-who__media img { height: auto; }
     .about-practical { padding: 36px 0; }
-    .about-organisers__list { grid-template-columns: 1fr; gap: 22px; }
-    .about-organisers__list > div { gap: 20px; }
+    .about-organisers__layout { grid-template-columns: 1fr; gap: 28px; }
+    .about-organisers__copy { padding-bottom: 0; border-bottom: 0; }
+    .about-organisers__group { gap: 12px; }
+    .about-organisers__media { margin-top: 0; max-height: none; }
+    .about-organisers__media { max-height: none; }
+    .about-organisers__media img { height: auto; }
     .about-explore { margin-top: 76px; }
   }
-  @media (min-width: 600px) and (max-width: 760px) {
+  @media (min-width: 600px) and (max-width: 680px) {
     .about-why__layout { grid-template-columns: minmax(0, 7fr) minmax(220px, 5fr); gap: 28px; align-items: center; }
     .about-why__copy h2 { font-size: clamp(1.8rem, 4vw, 2.45rem); }
     .about-why__copy ul { margin-top: 20px; }

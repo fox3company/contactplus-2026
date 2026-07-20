@@ -15,7 +15,6 @@ const nav = [
   { href: `/${lang}/schedule`, label: { en: 'Schedule', ro: 'Orar', ru: 'Расписание' } },
   { href: `/${lang}/artists`, label: { en: 'Teachers & Artists', ro: 'Profesori și artiști', ru: 'Преподаватели и артисты' } },
 ];
-const menuLabel = getLocalized({ en: 'Menu', ro: 'Meniu', ru: 'Меню' }, lang);
 const footerLabels = {
   closing: getLocalized({
     en: 'Movement · Contact Improvisation · Performance',
@@ -51,15 +50,6 @@ const footerLabels = {
       <nav class="primary-nav" aria-label="Primary navigation">
         {nav.map((item) => <a href={item.href}>{getLocalized(item.label, lang)}</a>)}
       </nav>
-      <details class="mobile-nav">
-        <summary aria-label={menuLabel}>
-          <span>{menuLabel}</span>
-          <span class="mobile-nav__chevron" aria-hidden="true"></span>
-        </summary>
-        <nav class="mobile-nav__menu" aria-label="Primary navigation">
-          {nav.map((item) => <a href={item.href}>{getLocalized(item.label, lang)}</a>)}
-        </nav>
-      </details>
       <LanguageSwitcher lang={lang} />
     </header>
     <slot />
@@ -192,10 +182,6 @@ const footerLabels = {
 
   :global(.language-switcher) {
     flex: 0 0 auto;
-  }
-
-  :global(.mobile-nav) {
-    display: none;
   }
 
   .primary-nav a {
@@ -480,7 +466,11 @@ const footerLabels = {
     }
 
     .primary-nav {
-      display: none;
+      order: 3;
+      width: 100%;
+      justify-content: center;
+      gap: 5px 14px;
+      margin-left: 0;
     }
 
     .primary-nav a {
@@ -566,13 +556,13 @@ const footerLabels = {
     background: color-mix(in srgb, var(--program-accent) 52%, var(--line-strong));
   }
 
-  @media (max-width: 860px) {
+  @media (max-width: 720px) {
     .site-header {
       position: static;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) max-content max-content;
+      grid-template-columns: minmax(0, 1fr) max-content;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       padding: 16px 20px 14px;
     }
 
@@ -584,108 +574,26 @@ const footerLabels = {
     }
 
     :global(.language-switcher) {
-      grid-column: 3;
+      grid-column: 2;
       grid-row: 1;
       justify-self: end;
     }
 
     .primary-nav {
-      display: none;
-    }
-
-    :global(.mobile-nav) {
-      position: relative;
-      z-index: 20;
-      grid-column: 2;
-      grid-row: 1;
-      display: block;
-      justify-self: end;
-    }
-
-    :global(.mobile-nav summary) {
-      display: inline-flex;
-      align-items: center;
+      grid-column: 1 / -1;
+      grid-row: 2;
+      flex-wrap: wrap;
       justify-content: center;
-      gap: 7px;
-      min-height: 34px;
-      padding: 0 12px 0 14px;
-      border: 1px solid color-mix(in srgb, var(--line) 86%, var(--paper));
-      border-radius: 999px;
-      background: rgba(251, 250, 247, 0.86);
-      box-shadow: 0 4px 16px rgba(47, 39, 33, 0.035);
-      color: color-mix(in srgb, var(--muted) 78%, var(--ink));
-      font-size: 0.76rem;
-      font-weight: 650;
-      letter-spacing: 0.02em;
-      line-height: 1;
-      list-style: none;
-      cursor: pointer;
-      transition: border-color 160ms ease, background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+      gap: 6px 14px;
+      margin-left: 0;
+      margin: 0;
+      padding: 0 0 2px;
     }
 
-    :global(.mobile-nav summary::-webkit-details-marker) {
-      display: none;
-    }
-
-    :global(.mobile-nav summary:hover),
-    :global(.mobile-nav[open] summary) {
-      border-color: var(--line-strong);
-      background: color-mix(in srgb, var(--paper-deep) 64%, var(--paper));
-      color: var(--ink);
-      box-shadow: 0 6px 18px rgba(47, 39, 33, 0.055);
-    }
-
-    :global(.mobile-nav summary:focus-visible) {
-      outline: 2px solid color-mix(in srgb, var(--accent-muted) 42%, transparent);
-      outline-offset: 3px;
-    }
-
-    :global(.mobile-nav__chevron) {
-      width: 6px;
-      height: 6px;
-      border-right: 1px solid currentColor;
-      border-bottom: 1px solid currentColor;
-      opacity: 0.78;
-      transform: translateY(-1px) rotate(45deg);
-      transition: transform 160ms ease;
-    }
-
-    :global(.mobile-nav[open] .mobile-nav__chevron) {
-      transform: translateY(1px) rotate(225deg);
-    }
-
-    :global(.mobile-nav__menu) {
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      display: grid;
-      min-width: min(280px, calc(100vw - 40px));
-      padding: 8px;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: rgba(251, 250, 247, 0.98);
-      box-shadow: 0 18px 42px rgba(33, 31, 29, 0.12);
-    }
-
-    :global(.mobile-nav__menu a) {
-      display: flex;
-      align-items: center;
-      min-height: 40px;
-      padding: 0 13px;
-      border-radius: 14px;
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 560;
+    .primary-nav a {
+      font-size: 0.82rem;
       line-height: 1.15;
-      text-decoration: none;
       white-space: nowrap;
-    }
-
-    :global(.mobile-nav__menu a:hover),
-    :global(.mobile-nav__menu a:focus-visible) {
-      background: color-mix(in srgb, var(--paper-deep) 58%, var(--paper));
-      color: var(--ink);
-      outline: 0;
     }
 
     :global(.site-footer) {
