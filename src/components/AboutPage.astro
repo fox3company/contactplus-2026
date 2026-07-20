@@ -204,17 +204,16 @@ const organiserGroups = [
   .about-section--city h2 { margin-bottom: 26px; }
   .about-section--city img { aspect-ratio: 3 / 2; max-height: min(680px, 72vh); }
   .about-section--organisers { margin-bottom: clamp(46px, 6vw, 78px); padding-top: clamp(12px, 3vw, 38px); }
-  .about-organisers__layout { display: grid; grid-template-columns: minmax(280px, .95fr) minmax(320px, 1.05fr); gap: clamp(34px, 7vw, 106px); align-items: stretch; }
-  .about-organisers__copy { max-width: 620px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
-  .about-organisers__groups { display: grid; gap: 20px; margin-top: clamp(24px, 3.2vw, 34px); }
-  .about-organisers__group { display: grid; grid-template-columns: 1fr; gap: 11px; padding-top: 15px; border-top: 1px solid var(--line); }
-  .about-organisers__group-title { margin: 0; color: var(--accent-muted); font-size: .68rem; letter-spacing: .075em; line-height: 1.35; }
-  .about-organisers__items { display: grid; gap: 13px; }
-  .about-organisers__item { margin: 0; color: var(--ink); font-size: .96rem; font-weight: 520; line-height: 1.36; }
-  .about-organisers__group:nth-child(n + 2) .about-organisers__item { color: var(--muted); font-weight: 500; }
+  .about-organisers__layout { display: grid; grid-template-columns: minmax(280px, .98fr) minmax(320px, 1.02fr); gap: clamp(34px, 6vw, 88px); align-items: stretch; }
+  .about-organisers__copy { max-width: 620px; }
+  .about-organisers__groups { display: grid; gap: 18px; margin-top: clamp(24px, 3.2vw, 30px); padding: clamp(24px, 3.2vw, 30px) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .about-organisers__group { display: grid; grid-template-columns: minmax(118px, .32fr) minmax(0, 1fr); gap: clamp(18px, 3vw, 34px); align-items: first baseline; }
+  .about-organisers__group-title { margin: 0; color: var(--accent-muted); font-size: .62rem; letter-spacing: .065em; line-height: 1.42; }
+  .about-organisers__items { display: grid; gap: 11px; }
+  .about-organisers__item { margin: 0; color: var(--muted); font-size: .9rem; font-weight: 480; line-height: 1.36; }
   .about-organisers__link { color: inherit; text-decoration: none; }
   .about-organisers__link:hover, .about-organisers__link:focus-visible { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
-  .about-organisers__role { display: block; margin-top: 4px; color: var(--muted); font-size: .92em; font-weight: 400; line-height: 1.42; }
+  .about-organisers__role { display: block; margin-top: 3px; color: var(--muted); font-size: .9em; font-weight: 400; line-height: 1.4; }
   .about-organisers__media { align-self: stretch; width: 100%; height: 100%; max-height: none; margin-top: 0; aspect-ratio: auto; }
   .about-organisers__media img { height: 100%; object-position: center; }
   .about-practical { display: grid; grid-template-columns: minmax(260px, .9fr) minmax(310px, 1.1fr); gap: clamp(42px, 7vw, 92px); margin-top: clamp(58px, 7vw, 86px); padding: clamp(34px, 5vw, 58px) 0; border-bottom: 1px solid var(--line); }
@@ -267,9 +266,8 @@ const organiserGroups = [
     .about-practical { padding: 36px 0; }
     .about-organisers__layout { grid-template-columns: 1fr; gap: 28px; }
     .about-organisers__copy { padding-bottom: 0; border-bottom: 0; }
-    .about-organisers__group { gap: 12px; }
-    .about-organisers__media { margin-top: 0; max-height: none; }
-    .about-organisers__media { max-height: none; }
+    .about-organisers__group { grid-template-columns: 1fr; gap: 12px; }
+    .about-organisers__media { margin-top: 0; max-height: none; aspect-ratio: 3 / 2; }
     .about-organisers__media img { height: auto; }
     .about-explore { margin-top: 76px; }
   }
