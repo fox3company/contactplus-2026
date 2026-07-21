@@ -149,6 +149,7 @@ const organiserGroups = [
   .about-media--portrait { aspect-ratio: 4 / 5; max-height: min(680px, 72vh); }
   .about-media--sequence { aspect-ratio: 4 / 5; }
   .about-hero video, .about-day video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .about-hero video::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
   .about-section { margin: var(--about-space-l) 0; }
   .about-section h2, .about-explore h2 { max-width: 680px; margin: 8px 0 20px; font-family: var(--font-serif); font-size: clamp(2rem, 3.8vw, 3.35rem); font-weight: 400; line-height: 1.08; }
   .about-section h3 { margin: 26px 0 12px; font-size: .82rem; letter-spacing: .07em; text-transform: uppercase; }
@@ -212,11 +213,11 @@ const organiserGroups = [
   .about-section--city { display: grid; grid-template-columns: minmax(360px, 1.1fr) minmax(280px, .9fr); gap: clamp(34px, 8vw, 122px); align-items: start; margin-top: var(--about-space-m); padding-top: clamp(18px, 4vw, 54px); }
   .about-section--city h2 { margin-bottom: 26px; }
   .about-section--city img { aspect-ratio: 3 / 2; max-height: min(680px, 72vh); }
-  .about-section--organisers { margin-bottom: var(--about-space-s); padding-top: clamp(12px, 3vw, 38px); }
-  .about-organisers__layout { display: grid; grid-template-columns: minmax(280px, .98fr) minmax(320px, 1.02fr); gap: clamp(34px, 6vw, 88px); align-items: stretch; }
-  .about-organisers__copy { max-width: 620px; }
+  .about-section--organisers { margin-bottom: var(--about-space-m); padding-top: clamp(12px, 3vw, 38px); }
+  .about-organisers__layout { display: grid; grid-template-columns: minmax(280px, .98fr) minmax(320px, 1.02fr); gap: clamp(34px, 6vw, 88px); align-items: start; }
+  .about-organisers__copy { max-width: 680px; }
   .about-organisers__groups { display: grid; gap: clamp(28px, 3.2vw, 38px); margin-top: clamp(26px, 3.4vw, 38px); padding: 0; }
-  .about-organisers__group { display: grid; grid-template-columns: minmax(118px, .32fr) minmax(0, 1fr); gap: clamp(18px, 3vw, 34px); align-items: start; }
+  .about-organisers__group { display: grid; grid-template-columns: minmax(160px, .4fr) minmax(0, 1fr); gap: clamp(18px, 3vw, 34px); align-items: start; }
   .about-section--organisers .about-organisers__group-title { margin: 0; padding-top: .18em; color: var(--accent-muted); font-size: .84rem; font-weight: 720; letter-spacing: .074em; line-height: 1.3; }
   .about-organisers__items { display: grid; gap: 12px; }
   .about-organisers__item { margin: 0; color: var(--muted); font-size: clamp(1.02rem, 1.04vw, 1.08rem); font-weight: 370; line-height: 1.44; }
@@ -224,9 +225,9 @@ const organiserGroups = [
   .about-organisers__link { color: inherit; text-decoration: none; }
   .about-organisers__link:hover, .about-organisers__link:focus-visible { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
   .about-organisers__role { display: block; margin-top: 1px; color: color-mix(in srgb, var(--muted) 72%, var(--soft)); font-size: .84em; font-weight: 300; line-height: 1.3; }
-  .about-organisers__media { align-self: stretch; width: 100%; height: 100%; max-height: none; margin-top: 0; aspect-ratio: auto; }
-  .about-organisers__media img { height: 100%; object-position: 64% center; }
-  .about-practical { display: grid; grid-template-columns: 1fr; justify-items: center; gap: clamp(88px, 8vw, 120px); margin-top: var(--about-space-m); padding: clamp(28px, 4vw, 46px) 0 clamp(8px, 1.8vw, 18px); }
+  .about-organisers__media { align-self: start; width: 100%; max-height: none; margin-top: 0; aspect-ratio: 1 / 1; }
+  .about-organisers__media img { width: 100%; height: 100%; object-fit: cover; object-position: 64% center; }
+  .about-practical { display: grid; grid-template-columns: 1fr; justify-items: center; gap: clamp(88px, 8vw, 120px); margin-top: var(--about-space-l); padding: clamp(28px, 4vw, 46px) 0 clamp(8px, 1.8vw, 18px); }
   .about-practical .about-section { margin: 0; }
   .about-practical h2 { margin: 0 0 24px; }
   .about-section--participation { justify-self: center; width: min(100%, 760px); max-width: 760px; margin-inline: auto; }
@@ -248,7 +249,7 @@ const organiserGroups = [
   .about-faq p { max-width: 620px; margin: 0 0 12px; color: var(--muted); font-size: .98rem; line-height: 1.5; }
   .about-faq__action { display: inline-flex; margin: 0 0 18px; color: var(--accent-muted); font-size: .94rem; font-weight: 620; text-decoration: none; text-underline-offset: .24em; }
   .about-faq__action:hover, .about-faq__action:focus-visible { color: var(--ink); text-decoration: underline; }
-  .about-explore { display: grid; grid-template-columns: 1fr; gap: clamp(26px, 2.8vw, 36px); margin-top: var(--about-space-m); padding-bottom: clamp(8px, 1.8vw, 18px); }
+  .about-explore { display: grid; grid-template-columns: 1fr; gap: clamp(26px, 2.8vw, 36px); margin-top: var(--about-space-l); padding-bottom: clamp(8px, 1.8vw, 18px); }
   .about-explore img { aspect-ratio: 3 / 2; object-position: center; }
   .about-page .about-explore > div { display: block; justify-self: center; width: min(100%, 760px); max-width: 760px; margin-inline: auto; order: 2; }
   .about-page .about-explore > img { order: 1; }
@@ -306,10 +307,10 @@ const organiserGroups = [
     .about-day-arc article { min-height: 0; padding: 0 0 20px; }
     .about-day-arc article:nth-child(n + 2) { padding-top: 22px; border-top: 1px solid rgba(154, 126, 116, .22); }
     .about-day-arc article:last-child { padding-bottom: 0; }
-    .about-day-arc__time { display: block; margin-bottom: 7px; font-size: .66rem; font-weight: 620; letter-spacing: .06em; }
-    .about-day-arc h4 { margin: 0 0 7px; font-size: 1.24rem; line-height: 1.14; }
-    .about-day-arc p { min-height: 0; max-width: 34rem; font-size: .9rem; line-height: 1.42; }
-    .about-day-arc ul { gap: 6px; margin-top: 12px; }
+    .about-day-arc__time { display: block; max-width: 34rem; margin: 0 auto 7px; font-size: .66rem; font-weight: 620; letter-spacing: .06em; text-align: left; }
+    .about-day-arc h4 { max-width: 34rem; margin: 0 auto 7px; font-size: 1.24rem; line-height: 1.14; text-align: left; }
+    .about-day-arc p { min-height: 0; max-width: 34rem; margin-inline: auto; font-size: .9rem; line-height: 1.42; text-align: left; }
+    .about-day-arc ul { max-width: 34rem; gap: 6px; margin: 12px auto 0; text-align: left; }
     .about-day-arc li { padding: 0 0 0 14px; color: var(--muted); font-size: .88rem; line-height: 1.36; }
     .about-day-arc li::before { top: .68em; left: 0; width: 4px; height: 4px; border-radius: 999px; opacity: .68; }
     .about-unfold__rhythm + .about-festival-film { margin-top: 46px; padding-top: 0; border-top: 0; }
@@ -341,7 +342,7 @@ const organiserGroups = [
     .about-organisers__groups { gap: 30px; margin-top: 26px; }
     .about-organisers__group { grid-template-columns: 1fr; gap: 6px; }
     .about-section--organisers .about-organisers__group-title { max-width: 18rem; color: color-mix(in srgb, var(--accent-muted) 86%, var(--ink)); font-size: .86rem; font-weight: 680; letter-spacing: .045em; line-height: 1.28; }
-    .about-organisers__items { gap: 16px; }
+    .about-organisers__items { gap: 9px; padding-left: 14px; }
     .about-organisers__item { font-size: .98rem; line-height: 1.5; }
     .about-organisers__names { display: block; color: var(--muted); font-weight: 390; }
     .about-organisers__names, .about-organisers__role { overflow-wrap: anywhere; }
