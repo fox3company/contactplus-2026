@@ -283,37 +283,53 @@ const organiserGroups = [
     .about-entry-points li { grid-template-columns: 30px 1fr; gap: 8px 12px; padding: 13px 0; }
     .about-entry-points li:first-child { padding-top: 0; }
     .about-entry-points__text { grid-column: 2; }
-    .about-day-arc { grid-template-columns: 1fr; gap: 24px; }
-    .about-day-arc article { min-height: 0; padding: 0; }
-    .about-day-arc article:nth-child(n + 2) { padding-top: 18px; border-top: 1px solid rgba(154, 126, 116, .22); }
-    .about-day-arc h4 { margin: 7px 0 7px; font-size: 1.38rem; }
-    .about-day-arc p { min-height: 0; }
-    .about-day-arc ul { margin-top: 9px; }
-    .about-day-arc li { font-size: .92rem; }
-    .about-unfold__rhythm + .about-festival-film { margin-top: 38px; padding-top: 30px; border-top: 1px solid rgba(154, 126, 116, .22); }
+    .about-day-arc { grid-template-columns: 1fr; gap: 0; }
+    .about-day-arc article { min-height: 0; padding: 0 0 20px; }
+    .about-day-arc article:nth-child(n + 2) { padding-top: 22px; border-top: 1px solid rgba(154, 126, 116, .22); }
+    .about-day-arc article:last-child { padding-bottom: 0; }
+    .about-day-arc__time { display: block; margin-bottom: 7px; font-size: .66rem; font-weight: 620; letter-spacing: .06em; }
+    .about-day-arc h4 { margin: 0 0 7px; font-size: 1.24rem; line-height: 1.14; }
+    .about-day-arc p { min-height: 0; max-width: 34rem; font-size: .9rem; line-height: 1.42; }
+    .about-day-arc ul { gap: 6px; margin-top: 12px; }
+    .about-day-arc li { padding: 0 0 0 18px; color: var(--muted); font-size: .88rem; line-height: 1.36; }
+    .about-day-arc li::before { top: .72em; width: 10px; height: 1px; border-radius: 0; opacity: .62; }
+    .about-unfold__rhythm + .about-festival-film { margin-top: 46px; padding-top: 0; border-top: 0; }
     .about-festival-film { padding-top: 0; }
     .about-section--who { margin-top: 72px; }
     .about-who__copy > p { margin-bottom: 22px; font-size: 1rem; line-height: 1.52; }
     .about-who__entry { grid-column: auto; margin-top: 22px; padding-top: 18px; }
-    .about-who__copy ul { grid-template-columns: 1fr; gap: 8px; }
+    .about-who__copy ul { --who-list-indent: clamp(14px, 4vw, 20px); grid-template-columns: 1fr; gap: 8px; width: calc(100% - var(--who-list-indent)); margin-left: var(--who-list-indent); }
     .about-who__media { justify-self: stretch; width: 100%; height: auto; max-height: none; }
     .about-who__media img { height: auto; }
     .about-section--city { margin-top: 58px; padding-top: 0; }
     .about-section--city > div { order: -1; }
-    .about-practical { gap: 70px; margin-top: 66px; padding: 24px 0 12px; }
-    .about-practical h2 { margin-bottom: 16px; }
-    .about-section--participation p { font-size: .98rem; }
-    .about-faq summary { padding: 16px 24px 16px 0; font-size: .92rem; line-height: 1.4; }
-    .about-faq p { font-size: .94rem; }
+    .about-practical { gap: 52px; margin-top: 60px; padding: 20px 0 12px; }
+    .about-practical h2 { margin-bottom: 14px; }
+    .about-section--participation p { max-width: 34rem; font-size: .98rem; line-height: 1.5; }
+    .about-section--participation .about-actions { margin-top: 20px; }
+    .about-section--participation .about-action--primary { min-height: 0; padding: 0 0 4px; background: transparent; border-bottom: 1px solid rgba(154, 126, 116, .42); color: var(--accent-muted); font-size: .98rem; line-height: 1.35; }
+    .about-section--participation .about-action--primary:hover,
+    .about-section--participation .about-action--primary:focus-visible { background: transparent; color: var(--ink); text-decoration: none; }
+    .about-faq { border-top-color: rgba(154, 126, 116, .24); }
+    .about-faq details { border-bottom-color: rgba(154, 126, 116, .24); }
+    .about-faq summary { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 14px; align-items: baseline; padding: 17px 0; font-size: .96rem; font-weight: 520; line-height: 1.38; list-style: none; }
+    .about-faq summary::-webkit-details-marker { display: none; }
+    .about-faq summary::marker { content: ""; }
+    .about-faq summary::before { content: ""; width: 7px; height: 7px; border-right: 1.5px solid var(--accent-muted); border-bottom: 1.5px solid var(--accent-muted); transform: rotate(-45deg) translateY(-1px); transform-origin: center; opacity: .82; }
+    .about-faq details[open] summary::before { transform: rotate(45deg) translateY(-2px); }
+    .about-faq p { padding-left: 26px; font-size: .94rem; line-height: 1.48; }
+    .about-faq__action { margin-left: 26px; }
     .about-organisers__layout { grid-template-columns: 1fr; gap: 24px; }
     .about-organisers__copy { padding-bottom: 0; border-bottom: 0; }
-    .about-organisers__groups { gap: 26px; margin-top: 24px; }
-    .about-organisers__group { grid-template-columns: 1fr; gap: 10px; padding-left: 14px; border-left: 1px solid rgba(154, 126, 116, .24); }
-    .about-section--organisers .about-organisers__group-title { font-size: .76rem; letter-spacing: .08em; line-height: 1.25; }
-    .about-organisers__items { gap: 12px; }
-    .about-organisers__item { font-size: .98rem; line-height: 1.42; }
+    .about-organisers__groups { gap: 32px; margin-top: 30px; }
+    .about-organisers__group { grid-template-columns: 1fr; gap: 15px; padding-top: 24px; border-top: 1px solid rgba(154, 126, 116, .22); }
+    .about-organisers__group:first-child { padding-top: 0; border-top: 0; }
+    .about-section--organisers .about-organisers__group-title { max-width: 18rem; color: color-mix(in srgb, var(--accent-muted) 86%, var(--ink)); font-size: .86rem; font-weight: 680; letter-spacing: .045em; line-height: 1.28; }
+    .about-organisers__items { gap: 15px; }
+    .about-organisers__item { font-size: .98rem; line-height: 1.38; }
+    .about-organisers__names { display: block; color: var(--muted); font-weight: 390; }
     .about-organisers__names, .about-organisers__role { overflow-wrap: anywhere; }
-    .about-organisers__role { font-size: .88em; }
+    .about-organisers__role { margin-top: 4px; color: color-mix(in srgb, var(--muted) 72%, var(--soft)); font-size: .82em; line-height: 1.38; }
     .about-organisers__media { margin-top: 0; max-height: none; aspect-ratio: 3 / 2; }
     .about-organisers__media img { height: auto; }
     .about-explore { gap: 22px; margin-top: 64px; padding-bottom: 8px; }
