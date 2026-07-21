@@ -7,7 +7,7 @@ const media = {
   why: ['/media/about/why-01.jpg', '/media/about/why-02.jpg', '/media/about/why-03.jpg', '/media/about/festival-encounter.jpg', '/media/about/performance-lab.jpg'],
   who: ['/media/about/festival-flow.jpg', '/media/about/DSC03637.jpg'],
   city: '/media/about/movement-outside.jpg',
-  organisers: '/media/about/festival-welcome.jpg',
+  organisers: '/media/about/Org-3.jpg',
   closing: '/media/about/performance-1.jpg',
 };
 

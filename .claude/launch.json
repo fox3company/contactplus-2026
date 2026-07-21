@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "astro-dev",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "PATH=/Users/jenia/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin:$PATH npx astro dev --host 127.0.0.1 --port 4321"],
+      "port": 4321
+    }
+  ]
+}
