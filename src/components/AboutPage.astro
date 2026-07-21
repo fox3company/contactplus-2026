@@ -324,9 +324,9 @@ const organiserGroups = [
     .about-section--city > div { order: -1; }
     .about-practical { gap: var(--about-space-l); padding: 0; }
     .about-practical h2 { margin-bottom: 14px; }
-    .about-section--participation { text-align: center; }
-    .about-section--participation p { max-width: 34rem; margin: 0 auto; font-size: .98rem; line-height: 1.5; }
-    .about-section--participation .about-actions { justify-content: center; margin-top: 20px; }
+    .about-section--participation { width: 82%; margin-inline: auto; text-align: left; }
+    .about-section--participation p { max-width: 34rem; margin: 0; font-size: .98rem; line-height: 1.5; }
+    .about-section--participation .about-actions { justify-content: flex-start; margin-top: 20px; }
     .about-faq { border-top-color: rgba(154, 126, 116, .24); }
     .about-faq details { border-bottom-color: rgba(154, 126, 116, .24); }
     .about-faq summary { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 14px; align-items: baseline; padding: 17px 0; font-size: .96rem; font-weight: 520; line-height: 1.38; list-style: none; }
@@ -336,10 +336,11 @@ const organiserGroups = [
     .about-faq details[open] summary::before { transform: rotate(45deg) translateY(-2px); }
     .about-faq p { padding-left: 26px; font-size: .94rem; line-height: 1.48; }
     .about-faq__action { margin-left: 26px; }
-    .about-section--faq h2 { text-align: center; }
+    .about-section--faq { width: 82%; margin-inline: auto; }
+    .about-section--faq h2 { text-align: left; }
     .about-organisers__layout { grid-template-columns: 1fr; gap: 24px; }
     .about-organisers__copy { padding-bottom: 0; border-bottom: 0; }
-    .about-organisers__groups { gap: 30px; margin-top: 26px; }
+    .about-organisers__groups { gap: 30px; max-width: 88%; margin: 26px auto 0; }
     .about-organisers__group { grid-template-columns: 1fr; gap: 6px; }
     .about-section--organisers .about-organisers__group-title { max-width: 18rem; color: color-mix(in srgb, var(--accent-muted) 86%, var(--ink)); font-size: .86rem; font-weight: 680; letter-spacing: .045em; line-height: 1.28; }
     .about-organisers__items { gap: 9px; padding-left: 14px; }
@@ -350,10 +351,10 @@ const organiserGroups = [
     .about-organisers__media { margin-top: 0; max-height: none; aspect-ratio: 3 / 2; }
     .about-organisers__media img { height: auto; }
     .about-explore { gap: 22px; margin-top: var(--about-space-l); padding-bottom: 8px; }
-    .about-page .about-explore > div { order: 0; text-align: center; }
+    .about-page .about-explore > div { order: 0; width: 82%; margin-inline: auto; text-align: left; }
     .about-page .about-explore > img { order: 0; }
-    .about-explore nav { display: flex; flex-direction: column; align-items: center; gap: 0; margin-top: 16px; font-size: .98rem; }
-    .about-explore nav a { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 46px; padding: 14px 0; border-bottom: 1px solid rgba(154, 126, 116, .22); }
+    .about-explore nav { display: flex; flex-direction: column; align-items: flex-start; gap: 0; margin-top: 16px; font-size: .98rem; }
+    .about-explore nav a { display: flex; align-items: center; justify-content: flex-start; width: 100%; min-height: 46px; padding: 14px 0; border-bottom: 1px solid rgba(154, 126, 116, .22); }
     .about-explore nav a:last-child { border-bottom: none; }
   }
   @media (max-width: 860px) {
