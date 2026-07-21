@@ -317,7 +317,7 @@ const organiserGroups = [
     .about-festival-film { padding-top: 0; }
     .about-who__copy > p { margin-bottom: 22px; font-size: 1rem; line-height: 1.52; }
     .about-who__entry { grid-column: auto; margin-top: 22px; padding-top: 18px; }
-    .about-who__copy ul { --who-list-indent: clamp(14px, 4vw, 20px); grid-template-columns: 1fr; gap: 8px; width: calc(100% - var(--who-list-indent)); margin-left: var(--who-list-indent); }
+    .about-who__copy ul { --who-list-indent: clamp(20px, 5.5vw, 28px); grid-template-columns: 1fr; gap: 8px; width: calc(100% - var(--who-list-indent)); margin-left: var(--who-list-indent); }
     .about-who__media { justify-self: stretch; width: 100%; height: auto; max-height: none; }
     .about-who__media img { height: auto; }
     .about-section--city { padding-top: 0; }
@@ -336,7 +336,7 @@ const organiserGroups = [
     .about-faq details[open] summary::before { transform: rotate(45deg) translateY(-2px); }
     .about-faq p { padding-left: 26px; font-size: .94rem; line-height: 1.48; }
     .about-faq__action { margin-left: 26px; }
-    .about-section--faq { width: 82%; margin-inline: auto; }
+    .about-practical .about-section--faq { justify-self: start; width: 72%; margin-left: 9%; margin-right: 0; }
     .about-section--faq h2 { text-align: left; }
     .about-organisers__layout { grid-template-columns: 1fr; gap: 24px; }
     .about-organisers__copy { padding-bottom: 0; border-bottom: 0; }
@@ -354,7 +354,7 @@ const organiserGroups = [
     .about-page .about-explore > div { order: 0; width: 82%; margin-inline: auto; text-align: left; }
     .about-page .about-explore > img { order: 0; }
     .about-explore nav { display: flex; flex-direction: column; align-items: flex-start; gap: 0; margin-top: 16px; font-size: .98rem; }
-    .about-explore nav a { display: flex; align-items: center; justify-content: flex-start; width: 100%; min-height: 46px; padding: 14px 0; border-bottom: 1px solid rgba(154, 126, 116, .22); }
+    .about-explore nav a { display: inline-flex; align-items: center; width: fit-content; min-height: 46px; padding: 14px 6px 14px 0; border-bottom: 1px solid rgba(154, 126, 116, .22); }
     .about-explore nav a:last-child { border-bottom: none; }
   }
   @media (max-width: 860px) {
