@@ -11,7 +11,7 @@ role_summary:
 short_profile:
   en: Dancer and performer bringing the solo theatre work Descent and appearing in FIELD with DUNE Dance Company.
   ro: Dansator și performer care aduce lucrarea teatrală solo Descent și apare în FIELD cu DUNE Dance Company.
-  ru: Танцовщик и перформер, представляющий сольную работу Descent и участвующий в FIELD вместе с DUNE Dance Company.
+  ru: Его участие соединяет сольную театральную работу Descent и коллективный сценический язык FIELD вместе с DUNE Dance Company.
 extended_profile:
   en: In Descent, his stage presence moves through memory, childhood wonder and inner landscapes. In FIELD, he appears within DUNE Dance Company’s collective performance language of listening, resonance and transformation.
   ro: În Descent, prezența lui scenică trece prin memorie, mirarea copilăriei și peisaje interioare. În FIELD, el apare în limbajul performativ colectiv al DUNE Dance Company, construit pe ascultare, rezonanță și transformare.

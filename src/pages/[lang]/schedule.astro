@@ -9,7 +9,7 @@ import {
   getLocalizedDayRangeLabel,
   getLocalizedDayTheme,
 } from '../../lib/festivalDates';
-import { getLocalized, isLocale } from '../../lib/locales';
+import { getLocalized, getLocalizedCountryDisplay, isLocale } from '../../lib/locales';
 import { locations } from '../../lib/locations';
 import {
   filterProgramEvents,
@@ -78,7 +78,7 @@ const labels = {
     ru: 'Только классы и перформансы',
   }, lang),
   all: getLocalized({ en: 'All', ro: 'Toate', ru: 'Все' }, lang),
-  ci: getLocalized({ en: 'CI', ro: 'CI', ru: 'КИ' }, lang),
+  ci: getLocalized({ en: 'CI', ro: 'Improvizație de contact', ru: 'КИ' }, lang),
   performanceLabs: getLocalized({
     en: 'Perf Labs',
     ro: 'Perf Labs',
@@ -205,7 +205,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
         return {
           label: getPersonLabel(person, event.data.people_label),
           name: formatPersonName(person.person_id),
-          country: profile?.data.country_display || '',
+          country: getLocalizedCountryDisplay(profile?.data.country_display, lang),
           href: profile && isPublicPerson(profile) ? `/${lang}/artists/${profile.slug}` : '',
         };
       });

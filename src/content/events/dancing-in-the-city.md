@@ -10,7 +10,7 @@ title:
 meta:
   category:
     en: CI
-    ro: CI
+    ro: Improvizație de contact
     ru: КИ
 summary:
   en: A closing-day movement experience where the city becomes a partner.

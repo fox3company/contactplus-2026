@@ -10,7 +10,7 @@ title:
 meta:
   category:
     en: CI
-    ro: CI
+    ro: Improvizație de contact
     ru: КИ
 summary:
   en: A soft morning practice to arrive in the body before the main program.

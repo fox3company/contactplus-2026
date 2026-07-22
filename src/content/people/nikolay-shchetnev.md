@@ -11,7 +11,7 @@ role_summary:
 short_profile:
   en: Nikolay appears in Outside/Inside, Samovarteateret’s interdisciplinary film / presentation at Contact+ 2026. After the screening, he joins the audience for a discussion.
   ro: Nikolay apare în Outside/Inside, filmul / prezentarea interdisciplinară Samovarteateret la Contact+ 2026. După proiecție, el intră în dialog cu publicul.
-  ru: Nikolay участвует в Outside/Inside, междисциплинарном фильме / презентации Samovarteateret на Contact+ 2026. После показа он выходит к зрителям для обсуждения.
+  ru: После показа Outside/Inside он выходит к зрителям для обсуждения и связывает сценический контекст Samovarteateret с аудиторией Contact+.
 extended_profile:
   en: The original stage work combines improvised music, dance, theatre, scenographic storytelling and video. Nikolay is part of the source credits for the stage work and the public discussion at Contact+.
   ro: Lucrarea scenică originală combină muzica improvizată, dansul, teatrul, narațiunea scenografică și video-ul. Nikolay face parte din creditele sursă ale lucrării și din discuția publică de la Contact+.

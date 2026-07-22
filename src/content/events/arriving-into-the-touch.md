@@ -10,7 +10,7 @@ title:
 meta:
   category:
     en: CI base intensive
-    ro: Intensiv de bază CI
+    ro: Intensiv de bază în Improvizație de contact
     ru: КИ базовый интенсив
   format:
     en: 2 days
@@ -29,7 +29,7 @@ focus_label:
   ru: Фокус практики
 focus:
   en: Arriving · falling · touch · landing · CI base
-  ro: A ajunge · cădere · atingere · aterizare · bază CI
+  ro: A ajunge · cădere · atingere · aterizare · bază în Improvizație de contact
   ru: Приход · падение · прикосновение · приземление · база КИ
 body:
   en: >-

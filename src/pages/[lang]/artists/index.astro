@@ -4,7 +4,7 @@ import PersonCard from '../../../components/PersonCard.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHero from '../../../components/PageHero.astro';
 import { isPublicPerson } from '../../../lib/content';
-import { getLocalized, isLocale } from '../../../lib/locales';
+import { getLocalized, getLocalizedCountryDisplay, isLocale } from '../../../lib/locales';
 import { getFestivalRelationSummary, getFestivalRoleLabel } from '../../../lib/people';
 import { getProgramFilterGroup } from '../../../lib/program';
 
@@ -113,7 +113,7 @@ const artistDetails = Object.fromEntries(people.map((person) => {
     person.slug,
     {
       name: person.data.name,
-      country: person.data.country_display || '',
+      country: getLocalizedCountryDisplay(person.data.country_display, lang),
       role: getFestivalRoleLabel(person, lang),
       roleSummary: getLocalized(person.data.role_summary, lang),
       shortProfile: getLocalized(person.data.short_profile, lang),

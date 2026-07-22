@@ -9,7 +9,7 @@ import {
   getLocalizedDayRangeLabel,
   getLocalizedDayTheme,
 } from '../../../lib/festivalDates';
-import { getLocalized, isLocale } from '../../../lib/locales';
+import { getLocalized, getLocalizedCountryDisplay, isLocale } from '../../../lib/locales';
 import { locations } from '../../../lib/locations';
 import {
   filterProgramEvents,
@@ -59,7 +59,7 @@ const labels = {
   full: getLocalized({ en: 'Full festival', ro: 'Festival complet', ru: 'Весь фестиваль' }, lang),
   classes: getLocalized({ en: 'Classes & performances only', ro: 'Doar clase și performance-uri', ru: 'Только классы и перформансы' }, lang),
   all: getLocalized({ en: 'All', ro: 'Toate', ru: 'Все' }, lang),
-  ci: getLocalized({ en: 'CI', ro: 'CI', ru: 'КИ' }, lang),
+  ci: getLocalized({ en: 'CI', ro: 'Improvizație de contact', ru: 'КИ' }, lang),
   performanceLabs: getLocalized({ en: 'Perf Labs', ro: 'Perf Labs', ru: 'Перформанс-лабы' }, lang),
   family: getLocalized({ en: 'Family & Youth', ro: 'Familie și copii', ru: 'Семья и дети' }, lang),
   performances: getLocalized({ en: 'Perf', ro: 'Perf', ru: 'Перформансы' }, lang),
@@ -110,7 +110,7 @@ function formatPersonName(personId: string) {
 }
 
 function formatPersonCountry(personId: string) {
-  return peopleById.get(personId)?.data.country_display || '';
+  return getLocalizedCountryDisplay(peopleById.get(personId)?.data.country_display, lang);
 }
 
 function getEventDetailKey(eventSlug: string, occurrenceDate: string, occurrenceDateLabel: string) {
@@ -253,7 +253,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
       return {
         label: getPersonLabel(person, event.data.people_label),
         name: formatPersonName(person.person_id),
-        country: profile?.data.country_display || '',
+        country: getLocalizedCountryDisplay(profile?.data.country_display, lang),
         href: profile && isPublicPerson(profile) ? `/${lang}/artists/${profile.slug}` : '',
       };
     });

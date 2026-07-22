@@ -5,12 +5,12 @@ program_line: ci
 filters: [ci]
 title:
   en: CI as ArtSport
-  ro: CI ca ArtSport
+  ro: Improvizația de contact ca ArtSport
   ru: КИ как ArtSport
 meta:
   category:
     en: CI Intensive
-    ro: Intensiv CI
+    ro: Intensiv de Improvizație de contact
     ru: КИ интенсив
   format:
     en: 3 days

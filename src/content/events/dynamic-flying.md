@@ -10,7 +10,7 @@ title:
 meta:
   category:
     en: CI Intensive
-    ro: Intensiv CI
+    ro: Intensiv de Improvizație de contact
     ru: КИ интенсив
   format:
     en: 3 days
@@ -100,7 +100,7 @@ Recommended media: workshop photo, flying / lift image, short movement video.
 ## RO
 
 **Meta**  
-Intensiv CI de 3 zile
+Intensiv de Improvizație de contact de 3 zile
 
 **Titlu**  
 Zbor dinamic

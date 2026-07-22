@@ -1,5 +1,5 @@
 ---
-import { getLocalized, type Locale } from '../lib/locales';
+import { getLocalized, getLocalizedCountryDisplay, type Locale } from '../lib/locales';
 import { getFestivalRoleLabel } from '../lib/people';
 
 interface Props {
@@ -12,6 +12,7 @@ interface Props {
 
 const { person, lang, eventCount = 0, relationSummary = '', filterGroup = '' } = Astro.props;
 const entityLabel = getFestivalRoleLabel(person, lang);
+const country = getLocalizedCountryDisplay(person.data.country_display, lang);
 const eventCountLabel = eventCount === 1
   ? getLocalized({ en: '1 festival event', ro: '1 eveniment', ru: '1 событие' }, lang)
   : getLocalized({
@@ -31,8 +32,8 @@ const eventCountLabel = eventCount === 1
   aria-label={`${person.data.name}`}
 >
   <div>
-    <p class={`person-meta ${person.data.country_display ? 'person-meta--has-country' : ''}`}>
-      {person.data.country_display && <span class="person-meta__country">{person.data.country_display}</span>}
+    <p class={`person-meta ${country ? 'person-meta--has-country' : ''}`}>
+      {country && <span class="person-meta__country">{country}</span>}
       <span class="person-meta__role">{entityLabel}</span>
     </p>
     <h2>{person.data.name}</h2>

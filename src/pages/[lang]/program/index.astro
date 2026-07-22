@@ -6,7 +6,7 @@ import {
   getLocalizedDateLabel,
   getLocalizedDayRangeLabel,
 } from '../../../lib/festivalDates';
-import { getLocalized, isLocale, type Locale } from '../../../lib/locales';
+import { getLocalized, getLocalizedCountryDisplay, isLocale, type Locale } from '../../../lib/locales';
 import { locations } from '../../../lib/locations';
 import {
   filterProgramEvents,
@@ -196,7 +196,7 @@ const eventDetails = Object.fromEntries([...detailEventsBySlug.values()].map((ev
     return {
       label: getPersonLabel(person, event.data.people_label),
       name: formatPersonName(person.person_id),
-      country: profile?.data.country_display || '',
+      country: getLocalizedCountryDisplay(profile?.data.country_display, lang),
       href: profile && isPublicPerson(profile) ? `/${lang}/artists/${profile.slug}` : '',
     };
   });

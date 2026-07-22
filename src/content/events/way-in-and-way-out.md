@@ -10,13 +10,13 @@ title:
 meta:
   category:
     en: CI class
-    ro: Clasă CI
+    ro: Clasă de Improvizație de contact
     ru: КИ-класс
 summary:
   en: >-
     A CI class around entering and leaving relation: solo, duet, trio, and the way back to solo.
   ro: >-
-    O clasă CI despre intrarea și ieșirea din relație: solo, duet, trio și drumul înapoi spre solo.
+    O clasă de Improvizație de contact despre intrarea și ieșirea din relație: solo, duet, trio și drumul înapoi spre solo.
   ru: >-
     КИ-класс о входе в отношения и выходе из них: соло, дуэт, трио и возвращение обратно к соло.
 focus_label:

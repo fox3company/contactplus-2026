@@ -10,12 +10,12 @@ role_summary:
   ru: Преподаватель перформанс-лаборатории.
 short_profile:
   en: Professional dancer, choreographer and teacher of Contact Improvisation and contemporary dance with extensive international teaching experience.
-  ro: Dansatoare profesionistă, coregrafă și profesoară de Contact Improvisation și dans contemporan, cu o amplă experiență internațională de predare.
-  ru: Профессиональная танцовщица, хореограф и преподаватель Contact Improvisation и contemporary dance с большим международным опытом.
+  ro: Dansatoare profesionistă, coregrafă și profesoară de Improvizație de contact și dans contemporan, cu o amplă experiență internațională de predare.
+  ru: Профессиональная танцовщица, хореограф и преподаватель Контактной импровизации и contemporary dance с большим международным опытом.
 extended_profile:
   en: Her practice moves between performance, teaching, body therapy, contemporary dance and Contact Improvisation.
-  ro: Practica ei se mișcă între performance, predare, terapie corporală, dans contemporan și Contact Improvisation.
-  ru: Её практика соединяет performance, преподавание, body therapy, contemporary dance и Contact Improvisation.
+  ro: Practica ei se mișcă între performance, predare, terapie corporală, dans contemporan și Improvizație de contact.
+  ru: Её практика соединяет performance, преподавание, body therapy, contemporary dance и Контактную импровизацию.
 festival_events:
   - event_id: choice-as-bodily-experience
     relation: teacher

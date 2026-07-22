@@ -10,7 +10,7 @@ title:
 meta:
   category:
     en: CI Intensive
-    ro: Intensiv CI
+    ro: Intensiv de Improvizație de contact
     ru: КИ интенсив
   format:
     en: 2 days

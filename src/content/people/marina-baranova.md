@@ -6,12 +6,12 @@ name: Marina Baranova
 country_display: Ukraine
 role_summary:
   en: Contact Improvisation teacher.
-  ro: Profesoară de Contact Improvisation.
-  ru: Преподаватель Contact Improvisation.
+  ro: Profesoară de Improvizație de contact.
+  ru: Преподаватель Контактной импровизации.
 short_profile:
   en: CI teacher working with transitions between solo, duet and trio, and the way relation changes the dance.
-  ro: Profesoară CI care lucrează cu tranziții între solo, duet și trio și cu felul în care relația schimbă dansul.
-  ru: Преподаватель CI, работающая с переходами между соло, дуэтом и трио и с тем, как отношения меняют танец.
+  ro: Profesoară de Improvizație de contact care lucrează cu tranziții între solo, duet și trio și cu felul în care relația schimbă dansul.
+  ru: Её работа исследует переходы между соло, дуэтом и трио и то, как отношения меняют танец.
 extended_profile:
   en: >-
     Her Contact+ class, Way in and Way Out, focuses on entering and leaving relation: solo, duet, trio and the return to solo. This profile is based on event context and should be expanded when final artist-approved biography is available.

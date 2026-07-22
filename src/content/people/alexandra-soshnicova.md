@@ -9,13 +9,13 @@ role_summary:
   ro: Coregrafă, dansatoare, performeră, profesoară internațională, co-lider Contact+ și facilitatoare de laborator performativ.
   ru: Хореограф, танцовщица, перформер, международный преподаватель, со-руководитель Contact+ и фасилитатор перформанс-лаборатории.
 short_profile:
-  en: Choreographer, dancer, performer and Contact+ co-leader based in Moldova.
-  ro: Coregrafă, dansatoare, performeră și co-lider Contact+, stabilită în Moldova.
-  ru: Хореограф, танцовщица, перформер и со-руководитель Contact+ из Молдовы.
+  en: Based in Moldova, she shapes Contact+ through teaching, performance work and local contemporary dance practice.
+  ro: Stabilită în Moldova, ea modelează Contact+ prin predare, performance și practica locală de dans contemporan.
+  ru: В Молдове она формирует Contact+ через преподавание, перформанс и локальную практику contemporary dance.
 extended_profile:
   en: Her work connects contemporary dance, improvisation, partnering and Contact Improvisation through teaching, performance and local festival culture.
-  ro: Practica ei leagă dansul contemporan, improvizația, partneringul și Contact Improvisation prin predare, performance și cultura festivalieră locală.
-  ru: Её работа соединяет contemporary dance, improvisation, partnering и Contact Improvisation через преподавание, performance и локальную фестивальную культуру.
+  ro: Practica ei leagă dansul contemporan, improvizația, partneringul și Improvizația de contact prin predare, performance și cultura festivalieră locală.
+  ru: Её работа соединяет contemporary dance, improvisation, partnering и Контактную импровизацию через преподавание, performance и локальную фестивальную культуру.
 festival_events:
   - event_id: choice-as-bodily-experience
     relation: facilitator

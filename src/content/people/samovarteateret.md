@@ -11,7 +11,7 @@ role_summary:
 short_profile:
   en: Norwegian company behind Outside/Inside, a stage work moving between improvised music, dance, theatre, scenographic storytelling and video.
   ro: Companie norvegiană din spatele Outside/Inside, o lucrare scenică între muzică improvizată, dans, teatru, narațiune scenografică și video.
-  ru: Норвежская компания, стоящая за Outside/Inside, сценической работой между импровизационной музыкой, танцем, театром, сценографическим повествованием и видео.
+  ru: Outside/Inside соединяет импровизационную музыку, танец, театр, сценографическое повествование и видео.
 extended_profile:
   en: At Contact+, Outside/Inside is presented through film / presentation, bringing this Norwegian stage context into conversation with the festival audience.
   ro: La Contact+, Outside/Inside este prezentat prin film / prezentare, aducând acest context scenic norvegian în dialog cu publicul festivalului.

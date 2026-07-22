@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import MediaBlock from '../../../components/MediaBlock.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { isPublicPerson } from '../../../lib/content';
-import { getLocalized, isLocale } from '../../../lib/locales';
+import { getLocalized, getLocalizedCountryDisplay, isLocale } from '../../../lib/locales';
 import { getFestivalRoleLabel } from '../../../lib/people';
 import { getProgramFilterGroup } from '../../../lib/program';
 
@@ -21,6 +21,7 @@ if (!isLocale(lang)) {
 const role = getLocalized(person.data.role_summary, lang);
 const profile = getLocalized(person.data.short_profile, lang);
 const extendedProfile = getLocalized(person.data.extended_profile, lang);
+const country = getLocalizedCountryDisplay(person.data.country_display, lang);
 const entityLabel = getFestivalRoleLabel(person, lang);
 const credits = getLocalized(person.data.credits_note, lang);
 const creditsLabel = getLocalized({ en: 'Credits', ro: 'Credite', ru: 'Кредиты' }, lang);
@@ -91,8 +92,8 @@ const linkedCreditParts = credits && creditTitlePattern
 
     <header class="detail-hero">
       <p class="program-meta">
-        {person.data.country_display && <span class="program-meta__category">{person.data.country_display}</span>}
-        {person.data.country_display && <span class="program-meta__divider" aria-hidden="true"></span>}
+        {country && <span class="program-meta__category">{country}</span>}
+        {country && <span class="program-meta__divider" aria-hidden="true"></span>}
         <span class="program-meta__format">{entityLabel}</span>
       </p>
       <h1>{person.data.name}</h1>

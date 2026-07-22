@@ -10,7 +10,7 @@ title:
 meta:
   category:
     en: CI & Performance class
-    ro: Clasă CI & performance
+    ro: Clasă de Improvizație de contact & performance
     ru: КИ и Перформанс класс
   format:
     en: 2 days
@@ -26,7 +26,7 @@ focus_label:
   ru: Фокус практики / перформанса
 focus:
   en: Shared awareness · CI as communication · presence · touch · performative score
-  ro: Atenție împărtășită · CI ca comunicare · prezență · atingere · scor performativ
+  ro: Atenție împărtășită · Improvizație de contact ca comunicare · prezență · atingere · scor performativ
   ru: Совместное внимание · КИ как коммуникация · присутствие · прикосновение · перформативная партитура
 body:
   en: >-

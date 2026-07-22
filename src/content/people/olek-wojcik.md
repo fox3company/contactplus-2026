@@ -6,16 +6,16 @@ name: Olek Wójcik
 country_display: "Poland / Spain"
 role_summary:
   en: Contact Improvisation teacher and performer.
-  ro: Profesor de Contact Improvisation și performer.
-  ru: Преподаватель Contact Improvisation и перформер.
+  ro: Profesor de Improvizație de contact și performer.
+  ru: Преподаватель Контактной импровизации и перформер.
 short_profile:
   en: Teacher and performer working with risk, falling, flying, explosive movement, family play and playful physical response.
   ro: Profesor și performer care lucrează cu riscul, căderea, zborul, mișcarea explozivă, jocul în familie și răspunsul fizic jucăuș.
   ru: Преподаватель и перформер, работающий с риском, падением, полётом, взрывным движением, семейной игрой и игровым физическим откликом.
 extended_profile:
   en: His Contact Improvisation work treats risk as something that can be trained through awareness, curiosity and safe physical tools. At Contact+ he also appears in the Family & Youth line, where play and curiosity become a shared language between adults and children.
-  ro: Practica lui de Contact Improvisation privește riscul ca pe ceva ce poate fi antrenat prin atenție, curiozitate și instrumente fizice sigure. La Contact+ apare și în linia Family & Youth, unde jocul și curiozitatea devin un limbaj comun între adulți și copii.
-  ru: В его практике Contact Improvisation риск рассматривается как то, что можно тренировать через внимание, любопытство и безопасные физические инструменты. В Contact+ он также участвует в линии Family & Youth, где игра и любопытство становятся общим языком взрослых и детей.
+  ro: Practica lui de Improvizație de contact privește riscul ca pe ceva ce poate fi antrenat prin atenție, curiozitate și instrumente fizice sigure. La Contact+ apare și în linia Family & Youth, unde jocul și curiozitatea devin un limbaj comun între adulți și copii.
+  ru: В его практике Контактной импровизации риск рассматривается как то, что можно тренировать через внимание, любопытство и безопасные физические инструменты. В Contact+ он также участвует в линии Family & Youth, где игра и любопытство становятся общим языком взрослых и детей.
 festival_events:
   - event_id: little-curiosity-family-baby-6
     relation: teacher

@@ -65,14 +65,14 @@ At Contact+ 2026, his laboratory Seeing and being seen explores the dialogue bet
 Profesor al laboratorului de performance.
 
 **Profil scurt**  
-Performer, coregraf și pedagog internațional originar din Țările de Jos, stabilit în Suedia din 1995. Practica lui unește Contact Improvisation, improvizația compozițională și potențialul narativ al corpului în mișcare, cu cercetări recente în zona video-ului în performance.
+Performer, coregraf și pedagog internațional originar din Țările de Jos, stabilit în Suedia din 1995. Practica lui unește Improvizația de contact, improvizația compozițională și potențialul narativ al corpului în mișcare, cu cercetări recente în zona video-ului în performance.
 
 **Evenimente în festival**  
 - Seeing and being seen — laborator de performance / 3 zile
 - Outside/Inside (Norway) — credit pentru coregrafie / mișcare
 
 **Profil extins**  
-Benno Voorham a absolvit School for New Dance Development din Amsterdam în 1986. De atunci, lucrează internațional ca artist independent, dezvoltând propriile creații și colaborând în contexte performative atât fixe, cât și improvizate. Este cunoscut ca profesor de Contact Improvisation și Compositional Improvisation.
+Benno Voorham a absolvit School for New Dance Development din Amsterdam în 1986. De atunci, lucrează internațional ca artist independent, dezvoltând propriile creații și colaborând în contexte performative atât fixe, cât și improvizate. Este cunoscut ca profesor de Improvizație de contact și Compositional Improvisation.
 
 La Contact+ 2026, laboratorul său Seeing and being seen explorează dialogul dintre corpul în mișcare și imaginea video în performance.
 
@@ -82,13 +82,13 @@ La Contact+ 2026, laboratorul său Seeing and being seen explorează dialogul di
 Преподаватель performance lab.
 
 **Короткий профиль**  
-Международный исполнитель, хореограф и педагог из Нидерландов, с 1995 года живущий в Швеции. Его практика соединяет Contact Improvisation, композиционную импровизацию и нарративный потенциал движущегося тела, а в последние годы — исследование видео в перформансе.
+Международный исполнитель, хореограф и педагог из Нидерландов, с 1995 года живущий в Швеции. Его практика соединяет Контактную импровизацию, композиционную импровизацию и нарративный потенциал движущегося тела, а в последние годы — исследование видео в перформансе.
 
 **События фестиваля**  
 - Seeing and being seen — Performance lab / 3-day laboratory
 - Outside/Inside (Norway) — choreography / movement credit
 
 **Расширенный профиль**  
-Benno Voorham окончил School for New Dance Development в Амстердаме в 1986 году. С тех пор он работает международно как независимый dance artist, создавая собственные работы и сотрудничая в постановочных и импровизационных перформативных контекстах. Он известен как преподаватель Contact Improvisation и Compositional Improvisation.
+Benno Voorham окончил School for New Dance Development в Амстердаме в 1986 году. С тех пор он работает международно как независимый dance artist, создавая собственные работы и сотрудничая в постановочных и импровизационных перформативных контекстах. Он известен как преподаватель Контактной импровизации и Compositional Improvisation.
 
 На Contact+ 2026 его лаборатория Seeing and being seen исследует диалог между движущимся телом и видеоизображением в перформансе.

@@ -10,7 +10,7 @@ title:
 meta:
   category:
     en: CI & JAM
-    ro: CI & JAM
+    ro: Improvizație de contact & JAM
     ru: КИ & JAM
 summary:
   en: A workshop moving from bodywork into contact dance and JAM, asking how inner organization can make interaction clear, light and effective.

@@ -11,7 +11,7 @@ role_summary:
 short_profile:
   en: Independent contemporary dance company from Burgas, Bulgaria, bringing FIELD to Contact+ 2026.
   ro: Companie independentă de dans contemporan din Burgas, Bulgaria, care aduce FIELD la Contact+ 2026.
-  ru: Независимая компания contemporary dance из Бургаса, Болгария, представляющая FIELD на Contact+ 2026.
+  ru: Их работа FIELD приходит на Contact+ 2026 из Бургаса, Болгария, и разворачивает движение как пространство связи и резонанса.
 extended_profile:
   en: FIELD approaches movement as a tool for connection, awareness and collective resonance, inviting the audience into a living field of listening, impulse and transformation.
   ro: FIELD abordează mișcarea ca instrument de conexiune, conștientizare și rezonanță colectivă, invitând publicul într-un câmp viu de ascultare, impuls și transformare.

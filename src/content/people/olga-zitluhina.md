@@ -11,7 +11,7 @@ role_summary:
 short_profile:
   en: Performance lab teacher working with touch as a source of stories, memory, relation and shared composition.
   ro: Profesoară de laborator performativ care lucrează cu atingerea ca sursă de povești, memorie, relație și compoziție comună.
-  ru: Преподаватель перформанс-лаборатории, работающая с прикосновением как источником историй, памяти, отношений и общей композиции.
+  ru: Её лаборатория работает с прикосновением как источником историй, памяти, отношений и общей композиции.
 extended_profile:
   en: Her Contact+ laboratory, Touching Stories, approaches touch as a source of stories, memory, relation and composition. This profile is based on event context and should be expanded when final artist-approved biography is available.
   ro: Laboratorul ei la Contact+, Touching Stories, abordează atingerea ca sursă de povești, memorie, relație și compoziție. Profilul este bazat pe contextul evenimentului și trebuie extins când va exista biografia finală aprobată de artistă.

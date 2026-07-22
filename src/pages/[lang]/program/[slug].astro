@@ -7,7 +7,7 @@ import {
   getLocalizedDateLabel,
   getLocalizedDayName,
 } from '../../../lib/festivalDates';
-import { getLocalized, isLocale } from '../../../lib/locales';
+import { getLocalized, getLocalizedCountryDisplay, isLocale } from '../../../lib/locales';
 import { locations } from '../../../lib/locations';
 import { getProgramCategoryLabel, getProgramFilterGroup } from '../../../lib/program';
 
@@ -123,7 +123,7 @@ const visiblePeopleFacts = visiblePeople.map((person) => {
   return {
     label: getPersonLabel(person),
     name: formatPersonName(person.person_id),
-    country: profile?.data.country_display || '',
+    country: getLocalizedCountryDisplay(profile?.data.country_display, lang),
     href: profile && isPublicPerson(profile) ? `/${lang}/artists/${profile.slug}` : '',
   };
 });

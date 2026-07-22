@@ -5,6 +5,18 @@ import type { Locale } from '../lib/locales';
 interface Props { lang: Locale; }
 const { lang } = Astro.props;
 const copy = aboutCopy[lang];
+const imageAlt = {
+  what: {
+    en: 'People sharing movement and attention in a Contact Improvisation practice',
+    ro: 'Oameni care împărtășesc mișcare și atenție într-o practică de Improvizație de contact',
+    ru: 'Люди разделяют движение и внимание в практике Контактной импровизации',
+  },
+  why: {
+    en: 'Performers sharing movement and attention on stage',
+    ro: 'Performeri care împărtășesc mișcare și atenție pe scenă',
+    ru: 'Перформеры разделяют движение и внимание на сцене',
+  },
+};
 const registrationUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdkDT1NjKXxzbAg_8dqSLEDnYPstOaBZ8oE6mxqNHkLTUbBlg/viewform?usp=header';
 const vimeoPlayerUrl = 'https://player.vimeo.com/video/1211155266?title=0&byline=0&portrait=0';
 const organiserGroups = [
@@ -49,12 +61,12 @@ const organiserGroups = [
 
   <section class="about-section about-section--what" aria-labelledby="about-what">
     <div class="about-section__text"><h2 id="about-what">{copy.what.title}</h2><p class="about-section__lead">{copy.what.text}</p></div>
-    <div class="about-media--landscape"><img src={aboutMedia.what} alt="People sharing movement and attention in a Contact Improvisation practice" width="2048" height="1365" loading="lazy" decoding="async" /></div>
+    <div class="about-media--landscape"><img src={aboutMedia.what} alt={imageAlt.what[lang]} width="2048" height="1365" loading="lazy" decoding="async" /></div>
   </section>
 
   <section class="about-section about-section--why" aria-labelledby="about-why">
     <div class="about-why__layout">
-      <div class="about-why__media about-media--landscape"><img src={aboutMedia.why[4]} alt="Performers sharing movement and attention on stage" width="2048" height="1367" loading="lazy" decoding="async" /></div>
+      <div class="about-why__media about-media--landscape"><img src={aboutMedia.why[4]} alt={imageAlt.why[lang]} width="2048" height="1367" loading="lazy" decoding="async" /></div>
       <div class="about-why__copy"><h2 id="about-why">{copy.why.title}</h2><ul>{copy.why.items.map((item: string) => <li><span class="about-why__marker" aria-hidden="true"></span><span class="about-why__item-text">{item}</span></li>)}</ul></div>
     </div>
   </section>
@@ -255,7 +267,6 @@ const organiserGroups = [
   .about-page .about-explore > img { order: 1; }
   .about-explore h2 { font-size: clamp(2rem, 3vw, 2.85rem); }
   .about-explore nav { margin-top: 18px; gap: 14px 30px; font-size: 1.02rem; }
-  .about-explore nav a:first-child { color: var(--ink); font-weight: 720; }
   @media (min-width: 861px) {
     .about-why__marker { display: none; }
   }
