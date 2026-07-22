@@ -26,18 +26,6 @@ export async function onRequestPost(context) {
     return new Response('Invalid JSON', { status: 400 });
   }
 
-  if (body.debug) {
-    return new Response(
-      JSON.stringify({
-        receivedLength: (body.secret || '').length,
-        expectedLength: env.LEAD_WEBHOOK_SECRET.length,
-        receivedTrimmedMatch: (body.secret || '').trim() === env.LEAD_WEBHOOK_SECRET.trim(),
-        exactMatch: body.secret === env.LEAD_WEBHOOK_SECRET,
-      }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
-    );
-  }
-
   if (body.secret !== env.LEAD_WEBHOOK_SECRET) {
     return new Response('Unauthorized', { status: 401 });
   }
@@ -51,6 +39,7 @@ export async function onRequestPost(context) {
         action_source: 'website',
         event_source_url: body.source_url || 'https://contactplus-2026.pages.dev/',
         user_data: {
+          em: body.em ? [body.em] : undefined,
           client_ip_address: body.client_ip || undefined,
           client_user_agent: body.client_user_agent || undefined,
         },
