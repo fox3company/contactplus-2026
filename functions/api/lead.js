@@ -40,6 +40,7 @@ export async function onRequestPost(context) {
         event_source_url: body.source_url || 'https://contactplus-2026.pages.dev/',
         user_data: {
           em: body.em ? [body.em] : undefined,
+          fbc: body.fbc || undefined,
           client_ip_address: body.client_ip || undefined,
           client_user_agent: body.client_user_agent || undefined,
         },
