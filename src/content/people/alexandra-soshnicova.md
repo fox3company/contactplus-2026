@@ -20,7 +20,7 @@ festival_events:
   - event_id: choice-as-bodily-experience
     relation: facilitator
   - event_id: light-from-the-shadow
-    relation: credit_only
+    relation: performer
   - event_id: voice-under-the-skin
     relation: credit_only
 source_confidence: confirmed

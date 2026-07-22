@@ -5,8 +5,8 @@ program_line: theatre_performance
 filters: [performance]
 title:
   en: FIELD
-  ro: FIELD
-  ru: FIELD
+  ro: Câmp
+  ru: Поле
 meta:
   category:
     en: Theatre Performance
@@ -15,7 +15,7 @@ meta:
 summary:
   en: A contemporary dance performance by DUNE Dance Company about deep listening, shared attention and the invisible forces moving between bodies.
   ro: Un performance de dans contemporan de DUNE Dance Company despre ascultare profundă, atenție comună și forțele invizibile dintre corpuri.
-  ru: Перформанс contemporary dance от DUNE Dance Company о глубоком слушании, общем внимании и невидимых силах между телами.
+  ru: Перформанс современного танца от DUNE Dance Company о глубоком слушании, общем внимании и невидимых силах между телами.
 focus_label:
   en: Performance focus
   ro: Focus performativ
@@ -28,9 +28,9 @@ body:
   en: >-
     FIELD creates a living stage space where movement, energy and consciousness meet and keep transforming one another. The dancers enter a magnetic field of tension, silence and impulse, allowing individual presence to shift toward collective resonance.
   ro: >-
-    FIELD creează un spațiu scenic viu în care mișcarea, energia și conștiința se întâlnesc și se transformă continuu una pe alta. Dansatorii intră într-un câmp magnetic de tensiune, tăcere și impuls, lăsând prezența individuală să se deplaseze spre rezonanță colectivă.
+    Câmp creează un spațiu scenic viu în care mișcarea, energia și conștiința se întâlnesc și se transformă continuu una pe alta. Dansatorii intră într-un câmp magnetic de tensiune, tăcere și impuls, lăsând prezența individuală să se deplaseze spre rezonanță colectivă.
   ru: >-
-    FIELD создаёт живое сценическое пространство, где движение, энергия и сознание встречаются и постоянно трансформируют друг друга. Танцовщики входят в магнитное поле напряжения, тишины и импульса, позволяя индивидуальному присутствию перейти в коллективный резонанс.
+    Поле создаёт живое сценическое пространство, где движение, энергия и сознание встречаются и постоянно трансформируют друг друга. Танцовщики входят в магнитное поле напряжения, тишины и импульса, позволяя индивидуальному присутствию перейти в коллективный резонанс.
 source_confidence: confirmed
 localization_status:
   en: ready_for_review

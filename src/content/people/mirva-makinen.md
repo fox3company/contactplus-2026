@@ -10,8 +10,8 @@ role_summary:
   ru: Преподаватель Контактной импровизации.
 short_profile:
   en: Finnish dance artist and Contact Improvisation teacher whose work follows flow, gravity, falling, rhythm and kinetic energy.
-  ro: Artistă de dans și profesoară de Improvizație de contact din Finlanda, cu o practică orientată spre flow, gravitație, cădere, ritm și energie cinetică.
-  ru: Её практика из Финляндии работает с flow, гравитацией, падением, ритмом и кинетической энергией.
+  ro: Artistă de dans și profesoară de Improvizație de contact din Finlanda, cu o practică orientată spre flux, gravitație, cădere, ritm și energie cinetică.
+  ru: Её практика из Финляндии работает с потоком, гравитацией, падением, ритмом и кинетической энергией.
 extended_profile:
   en: Her teaching brings technical clarity together with a physical sense of momentum, weight and shared flight.
   ro: Predarea ei aduce împreună claritatea tehnică și o înțelegere fizică a impulsului, greutății și zborului împărtășit.

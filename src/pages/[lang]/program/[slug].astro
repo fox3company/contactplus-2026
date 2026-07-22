@@ -32,7 +32,7 @@ const body = getLocalized(event.data.body, lang);
 const credits = getLocalized(event.data.credits?.short, lang);
 const sourceCredit = getLocalized(event.data.credits?.full_source, lang);
 const accentGroup = getProgramFilterGroup(event);
-const creditsLabel = getLocalized({ en: 'Credits', ro: 'Credite', ru: 'Кредиты' }, lang);
+const creditsLabel = getLocalized({ en: 'Credits', ro: 'Credite', ru: 'Авторы и команда' }, lang);
 const relatedLabel = getLocalized({ en: 'Related', ro: 'Conexiuni', ru: 'Связи' }, lang);
 const peopleLabel = getLocalized({
   en: event.data.people_label || 'With',

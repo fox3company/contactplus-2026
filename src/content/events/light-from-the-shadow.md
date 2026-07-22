@@ -50,6 +50,12 @@ people:
   - person_id: voices-dance-company
     display_role: company
     public_visibility: visible
+  - person_id: alexandra-soshnicova
+    display_role: choreography / dance
+    public_visibility: visible
+  - person_id: sergey-golovnea
+    display_role: choreography / dance
+    public_visibility: visible
 credits:
   items:
     - label:

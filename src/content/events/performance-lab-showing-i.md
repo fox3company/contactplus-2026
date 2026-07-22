@@ -5,7 +5,7 @@ program_line: performance
 filters: [performance]
 title:
   en: Performance Lab Showing I
-  ro: Showing-ul laboratorului performativ I
+  ro: Prezentarea laboratorului performativ I
   ru: Показ перформанс-лаборатории I
 meta:
   category:
@@ -18,19 +18,19 @@ summary:
   ru: Первый публичный показ материала, созданного внутри фестивальных лабораторий.
 focus_label:
   en: Showing frame
-  ro: Cadru de showing
+  ro: Cadru de prezentare
   ru: Рамка показа
 focus:
   en: Lab sharing · work-in-process · performance research
-  ro: Sharing de laborator · work-in-process · cercetare performativă
-  ru: Лабораторный показ · work-in-process · перформанс-исследование
+  ro: Prezentare de laborator · lucru în proces · cercetare performativă
+  ru: Лабораторный показ · работа в процессе · перформанс-исследование
 body:
   en: >-
     It is framed as work-in-process: a chance to witness research while it is still alive and changing.
   ro: >-
-    Este încadrat ca work-in-process: o ocazie de a vedea cercetarea cât timp este încă vie și în schimbare.
+    Este încadrat ca lucru în proces: o ocazie de a vedea cercetarea cât timp este încă vie și în schimbare.
   ru: >-
-    Это work-in-process: возможность увидеть исследование, пока оно ещё живое и меняется.
+    Это работа в процессе: возможность увидеть исследование, пока оно ещё живое и меняется.
 source_confidence: working
 localization_status:
   en: ready_for_review

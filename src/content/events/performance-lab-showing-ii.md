@@ -5,7 +5,7 @@ program_line: performance
 filters: [performance]
 title:
   en: Performance Lab Showing II
-  ro: Showing-ul laboratorului performativ II
+  ro: Prezentarea laboratorului performativ II
   ru: Показ перформанс-лаборатории II
 meta:
   category:
@@ -18,11 +18,11 @@ summary:
   ru: Второй публичный показ лабораторного материала, созданного во время фестиваля.
 focus_label:
   en: Showing frame
-  ro: Cadru de showing
+  ro: Cadru de prezentare
   ru: Рамка показа
 focus:
   en: Lab sharing · process · presence · collective composition
-  ro: Sharing de laborator · proces · prezență · compoziție colectivă
+  ro: Prezentare de laborator · proces · prezență · compoziție colectivă
   ru: Лабораторный показ · процесс · присутствие · коллективная композиция
 body:
   en: The emphasis is on process, presence and collective composition rather than finished theatrical form.

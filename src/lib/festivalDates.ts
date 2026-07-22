@@ -19,8 +19,8 @@ export const dayThemeByLabel = {
   'Sep 29': { en: 'Practice / research / jam', ro: 'Practică / cercetare / jam', ru: 'Практика / исследование / джем' },
   'Sep 30': { en: 'Performance night', ro: 'Seară de performance', ru: 'Вечер перформансов' },
   'Oct 1': { en: 'New intensives / performance night', ro: 'Noi intensive / seară de performance', ru: 'Новые интенсивы / вечер перформансов' },
-  'Oct 2': { en: 'Lab showings / teachers performance', ro: 'Showing-uri de laborator / performance-ul profesorilor', ru: 'Показы лабораторий / перформанс преподавателей' },
-  'Oct 3': { en: 'Film / showings / celebration', ro: 'Film / showing-uri / celebrare', ru: 'Фильм / показы / празднование' },
+  'Oct 2': { en: 'Lab showings / teachers performance', ro: 'Prezentări de laborator / performance-ul profesorilor', ru: 'Показы лабораторий / перформанс преподавателей' },
+  'Oct 3': { en: 'Film / showings / celebration', ro: 'Film / prezentări / celebrare', ru: 'Фильм / показы / празднование' },
   'Oct 4': { en: 'Closing day / dancing in the city', ro: 'Zi de închidere / dansând în oraș', ru: 'Закрытие / танцуя город' },
 } as const;
 

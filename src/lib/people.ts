@@ -16,7 +16,7 @@ export function getFestivalRoleLabel(person: PersonLike, lang: Locale) {
     return getLocalized({
       en: 'Production company',
       ro: 'Companie de producție',
-      ru: 'Продакшн-компания',
+      ru: 'Производственная компания',
     }, lang);
   }
 
@@ -78,8 +78,8 @@ export function getFestivalRoleLabel(person: PersonLike, lang: Locale) {
 
   return getLocalized({
     en: 'Source credit',
-    ro: 'Credit sursă',
-    ru: 'Source credit',
+    ro: 'Menționat în sursă',
+    ru: 'Указан в источнике',
   }, lang);
 }
 
@@ -91,7 +91,7 @@ export function getFestivalRelationSummary(relations: string[], lang: Locale) {
     (relationSet.has('performer') || relationSet.has('artist')) && getLocalized({ en: 'performing', ro: 'performance', ru: 'перформанс' }, lang),
     relationSet.has('discussion') && getLocalized({ en: 'discussion', ro: 'discuție', ru: 'дискуссия' }, lang),
     relationSet.has('company') && getLocalized({ en: 'company work', ro: 'companie', ru: 'компания' }, lang),
-    relationSet.has('production') && getLocalized({ en: 'production', ro: 'producție', ru: 'продакшн' }, lang),
+    relationSet.has('production') && getLocalized({ en: 'production', ro: 'producție', ru: 'производство' }, lang),
   ].filter(Boolean);
 
   return labels.join(' / ');

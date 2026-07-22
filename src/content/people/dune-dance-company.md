@@ -6,16 +6,16 @@ name: DUNE Dance Company
 country_display: Bulgaria
 role_summary:
   en: Contemporary dance company presenting FIELD.
-  ro: Companie de dans contemporan care prezintă FIELD.
-  ru: Компания contemporary dance, представляющая FIELD.
+  ro: Companie de dans contemporan care prezintă Câmp.
+  ru: Компания современного танца, представляющая «Поле».
 short_profile:
   en: Independent contemporary dance company from Burgas, Bulgaria, bringing FIELD to Contact+ 2026.
-  ro: Companie independentă de dans contemporan din Burgas, Bulgaria, care aduce FIELD la Contact+ 2026.
-  ru: Их работа FIELD приходит на Contact+ 2026 из Бургаса, Болгария, и разворачивает движение как пространство связи и резонанса.
+  ro: Companie independentă de dans contemporan din Burgas, Bulgaria, care aduce Câmp la Contact+ 2026.
+  ru: Их работа «Поле» приходит на Contact+ 2026 из Бургаса, Болгария, и разворачивает движение как пространство связи и резонанса.
 extended_profile:
   en: FIELD approaches movement as a tool for connection, awareness and collective resonance, inviting the audience into a living field of listening, impulse and transformation.
-  ro: FIELD abordează mișcarea ca instrument de conexiune, conștientizare și rezonanță colectivă, invitând publicul într-un câmp viu de ascultare, impuls și transformare.
-  ru: FIELD рассматривает движение как инструмент связи, осознанности и коллективного резонанса, приглашая зрителей в живое поле слушания, импульса и трансформации.
+  ro: Câmp abordează mișcarea ca instrument de conexiune, conștientizare și rezonanță colectivă, invitând publicul într-un câmp viu de ascultare, impuls și transformare.
+  ru: «Поле» рассматривает движение как инструмент связи, осознанности и коллективного резонанса, приглашая зрителей в живое поле слушания, импульса и трансформации.
 festival_events:
   - event_id: field
     relation: company

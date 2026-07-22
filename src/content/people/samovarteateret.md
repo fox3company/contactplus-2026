@@ -6,16 +6,16 @@ name: Samovarteateret
 country_display: Norway
 role_summary:
   en: Production company behind Outside/Inside (Norway).
-  ro: Compania de producție din spatele Outside/Inside (Norway).
-  ru: Продакшн-компания, стоящая за Outside/Inside (Norway).
+  ro: Compania de producție din spatele Exterior/Interior (Norvegia).
+  ru: Производственная компания работы «Снаружи/Внутри (Норвегия)».
 short_profile:
   en: Norwegian company behind Outside/Inside, a stage work moving between improvised music, dance, theatre, scenographic storytelling and video.
-  ro: Companie norvegiană din spatele Outside/Inside, o lucrare scenică între muzică improvizată, dans, teatru, narațiune scenografică și video.
-  ru: Outside/Inside соединяет импровизационную музыку, танец, театр, сценографическое повествование и видео.
+  ro: Companie norvegiană din spatele Exterior/Interior, o lucrare scenică între muzică improvizată, dans, teatru, narațiune scenografică și video.
+  ru: «Снаружи/Внутри» соединяет импровизационную музыку, танец, театр, сценографическое повествование и видео.
 extended_profile:
   en: At Contact+, Outside/Inside is presented through film / presentation, bringing this Norwegian stage context into conversation with the festival audience.
-  ro: La Contact+, Outside/Inside este prezentat prin film / prezentare, aducând acest context scenic norvegian în dialog cu publicul festivalului.
-  ru: В Contact+ Outside/Inside представлен как фильм / презентация, вводя норвежский сценический контекст в разговор со зрителями фестиваля.
+  ro: La Contact+, Exterior/Interior este prezentat prin film / prezentare, aducând acest context scenic norvegian în dialog cu publicul festivalului.
+  ru: В Contact+ «Снаружи/Внутри» представлен как фильм / презентация, вводя норвежский сценический контекст в разговор со зрителями фестиваля.
 festival_events:
   - event_id: outside-inside-norway
     relation: production

@@ -10,12 +10,12 @@ role_summary:
   ru: Фасилитатор Family & Youth и перформер.
 short_profile:
   en: Artist, dancer, somatic coach and mindfulness practitioner working with movement, embodiment, creativity and authentic connection.
-  ro: Artistă, dansatoare, coach somatic și practicantă mindfulness, lucrând cu mișcarea, întruparea, creativitatea și conexiunea autentică.
-  ru: Артистка, танцовщица, соматический коуч и mindfulness-практик, работающая с движением, телесностью, творчеством и живым контактом.
+  ro: Artistă, dansatoare, coach somatic și practicantă a atenției conștiente, lucrând cu mișcarea, întruparea, creativitatea și conexiunea autentică.
+  ru: Артистка, танцовщица, соматический коуч и практик осознанности, работающая с движением, телесностью, творчеством и живым контактом.
 extended_profile:
   en: Laura brings body-mind practices, movement, embodiment and mindfulness into work with presence, personal growth and creative relationship.
-  ro: Laura aduce practici body-mind, mișcare, întrupare și mindfulness în lucrul cu prezența, creșterea personală și relația creativă.
-  ru: Laura соединяет body-mind практики, движение, телесность и mindfulness в работе с присутствием, личным развитием и творческими отношениями.
+  ro: Laura aduce practici corp-minte, mișcare, întrupare și atenție conștientă în lucrul cu prezența, creșterea personală și relația creativă.
+  ru: Laura соединяет практики тела и ума, движение, телесность и осознанность в работе с присутствием, личным развитием и творческими отношениями.
 festival_events:
   - event_id: little-curiosity-family-baby-6
     relation: teacher

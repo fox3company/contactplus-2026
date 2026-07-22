@@ -14,8 +14,8 @@ short_profile:
   ru: Её лаборатория работает с прикосновением как источником историй, памяти, отношений и общей композиции.
 extended_profile:
   en: Her Contact+ laboratory, Touching Stories, approaches touch as a source of stories, memory, relation and composition. This profile is based on event context and should be expanded when final artist-approved biography is available.
-  ro: Laboratorul ei la Contact+, Touching Stories, abordează atingerea ca sursă de povești, memorie, relație și compoziție. Profilul este bazat pe contextul evenimentului și trebuie extins când va exista biografia finală aprobată de artistă.
-  ru: Её лаборатория Contact+ Touching Stories рассматривает прикосновение как источник историй, памяти, отношений и композиции. Профиль основан на контексте события и должен быть расширен, когда появится финальная биография, одобренная артисткой.
+  ro: Laboratorul ei la Contact+, Povești ale atingerii, abordează atingerea ca sursă de povești, memorie, relație și compoziție. Profilul este bazat pe contextul evenimentului și trebuie extins când va exista biografia finală aprobată de artistă.
+  ru: Её лаборатория Contact+ «Истории прикосновения» рассматривает прикосновение как источник историй, памяти, отношений и композиции. Профиль основан на контексте события и должен быть расширен, когда появится финальная биография, одобренная артисткой.
 festival_events:
   - event_id: touching-stories
     relation: teacher

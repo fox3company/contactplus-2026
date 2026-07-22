@@ -16,9 +16,9 @@ extended_profile:
   en: >-
     Her Contact+ class, Way in and Way Out, focuses on entering and leaving relation: solo, duet, trio and the return to solo. This profile is based on event context and should be expanded when final artist-approved biography is available.
   ro: >-
-    Clasa ei la Contact+, Way in and Way Out, se concentrează pe intrarea și ieșirea din relație: solo, duet, trio și întoarcerea la solo. Profilul este bazat pe contextul evenimentului și trebuie extins când va exista biografia finală aprobată de artistă.
+    Clasa ei la Contact+, Intrare și ieșire, se concentrează pe intrarea și ieșirea din relație: solo, duet, trio și întoarcerea la solo. Profilul este bazat pe contextul evenimentului și trebuie extins când va exista biografia finală aprobată de artistă.
   ru: >-
-    Её класс Contact+ Way in and Way Out сосредоточен на входе в отношения и выходе из них: соло, дуэт, трио и возвращение к соло. Профиль основан на контексте события и должен быть расширен, когда появится финальная биография, одобренная артисткой.
+    Её класс Contact+ «Вход и выход» сосредоточен на входе в отношения и выходе из них: соло, дуэт, трио и возвращение к соло. Профиль основан на контексте события и должен быть расширен, когда появится финальная биография, одобренная артисткой.
 festival_events:
   - event_id: way-in-and-way-out
     relation: teacher

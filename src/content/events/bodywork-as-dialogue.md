@@ -6,7 +6,7 @@ filters: [ci, jam]
 title:
   en: Bodywork as Dialogue
   ro: Bodywork ca dialog
-  ru: Bodywork как диалог
+  ru: Бодиворк как диалог
 meta:
   category:
     en: CI & JAM
@@ -14,8 +14,8 @@ meta:
     ru: КИ & JAM
 summary:
   en: A workshop moving from bodywork into contact dance and JAM, asking how inner organization can make interaction clear, light and effective.
-  ro: Un atelier care trece de la bodywork spre contact dance și JAM, întrebând cum organizarea interioară poate face interacțiunea clară, ușoară și eficientă.
-  ru: Воркшоп, переходящий от bodywork к contact dance и JAM, о том, как внутренняя организация делает взаимодействие ясным, лёгким и эффективным.
+  ro: Un atelier care trece de la bodywork spre dans de contact și JAM, întrebând cum organizarea interioară poate face interacțiunea clară, ușoară și eficientă.
+  ru: Воркшоп, переходящий от бодиворка к контактному танцу и JAM, о том, как внутренняя организация делает взаимодействие ясным, лёгким и эффективным.
 focus_label:
   en: Practice / jam focus
   ro: Focus practic / jam
@@ -28,9 +28,9 @@ body:
   en: >-
     Instead of asking what to do to a partner, the practice asks how to organize one’s own body so interaction becomes clear, effortless and effective. Attention replaces force; subtle response, structure and center of gravity gradually transform bodywork into living contact dance.
   ro: >-
-    În loc să întrebe ce facem cu corpul partenerului, practica întreabă cum ne organizăm propriul corp pentru ca interacțiunea să devină clară, ușoară și eficientă. Atenția înlocuiește forța; răspunsul subtil, structura și centrul de greutate transformă treptat bodywork-ul în contact dance viu.
+    În loc să întrebe ce facem cu corpul partenerului, practica întreabă cum ne organizăm propriul corp pentru ca interacțiunea să devină clară, ușoară și eficientă. Atenția înlocuiește forța; răspunsul subtil, structura și centrul de greutate transformă treptat bodywork-ul în dans de contact viu.
   ru: >-
-    Вместо вопроса, что делать с телом партнёра, практика спрашивает, как организовать собственное тело, чтобы взаимодействие стало ясным, лёгким и эффективным. Внимание заменяет силу; тонкий отклик, структура и центр тяжести постепенно превращают bodywork в живой contact dance.
+    Вместо вопроса, что делать с телом партнёра, практика спрашивает, как организовать собственное тело, чтобы взаимодействие стало ясным, лёгким и эффективным. Внимание заменяет силу; тонкий отклик, структура и центр тяжести постепенно превращают бодиворк в живой контактный танец.
 source_confidence: confirmed
 localization_status:
   en: ready_for_review

@@ -14,8 +14,8 @@ short_profile:
   ru: Его практика соединяет техническую точность, спортивный интеллект, игру и телесное присутствие.
 extended_profile:
   en: His teaching works with weight-sharing, rolling point of contact, spirals, momentum, gravity and flow, grounded in deep listening.
-  ro: Predarea lui lucrează cu greutatea împărtășită, punctul de contact, spiralele, impulsul, gravitația și flow-ul, având ca bază ascultarea profundă.
-  ru: Его преподавание работает с общим весом, rolling point, спиралями, импульсом, гравитацией и flow, опираясь на глубокое слушание.
+  ro: Predarea lui lucrează cu greutatea împărtășită, punctul rulant de contact, spiralele, impulsul, gravitația și fluxul, având ca bază ascultarea profundă.
+  ru: Его преподавание работает с общим весом, катящейся точкой контакта, спиралями, импульсом, гравитацией и потоком, опираясь на глубокое слушание.
 festival_events:
   - event_id: ci-as-artsport
     relation: teacher

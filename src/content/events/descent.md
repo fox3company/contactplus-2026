@@ -29,9 +29,9 @@ body:
   en: >-
     Descent turns inward material into a direct, sensual stage presence. Through one performer’s body, the work moves through memory, vulnerability and the silence between thoughts without explaining them away.
   ro: >-
-    Descent transformă materialul interior într-o prezență scenică directă și senzorială. Prin corpul unui singur performer, lucrarea trece prin memorie, vulnerabilitate și liniștea dintre gânduri fără să le explice până la capăt.
+    Coborâre transformă materialul interior într-o prezență scenică directă și senzorială. Prin corpul unui singur performer, lucrarea trece prin memorie, vulnerabilitate și liniștea dintre gânduri fără să le explice până la capăt.
   ru: >-
-    Descent превращает внутренний материал в непосредственное, чувственное сценическое присутствие. Через тело одного исполнителя работа проходит через память, уязвимость и тишину между мыслями, не объясняя их до конца.
+    Спуск превращает внутренний материал в непосредственное, чувственное сценическое присутствие. Через тело одного исполнителя работа проходит через память, уязвимость и тишину между мыслями, не объясняя их до конца.
 source_confidence: confirmed
 localization_status:
   en: ready_for_review
@@ -63,8 +63,8 @@ related:
 credits:
   full_source:
     en: "Full source credits can remain in the internal source context."
-    ro: "Creditele complete pot rămâne în contextul intern de sursă."
-    ru: "Полные source credits могут оставаться во внутреннем исходном контексте."
+    ro: "Lista completă a autorilor și colaboratorilor poate rămâne în contextul intern al sursei."
+    ru: "Полный список авторов и участников может оставаться во внутреннем исходном контексте."
   items:
     - label:
         en: Dancer
