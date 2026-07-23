@@ -46,6 +46,7 @@ export async function onRequestPost(context) {
         },
       },
     ],
+    test_event_code: body.test_event_code || undefined,
   };
 
   const metaResponse = await fetch(
