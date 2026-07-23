@@ -40,7 +40,11 @@ export async function onRequestPost(context) {
         event_source_url: body.source_url || 'https://contactplus-2026.pages.dev/',
         user_data: {
           em: body.em ? [body.em] : undefined,
+          ph: body.ph ? [body.ph] : undefined,
+          fn: body.fn ? [body.fn] : undefined,
+          ln: body.ln ? [body.ln] : undefined,
           fbc: body.fbc || undefined,
+          fbp: body.fbp || undefined,
           client_ip_address: body.client_ip || request.headers.get('CF-Connecting-IP') || undefined,
           client_user_agent: body.client_user_agent || request.headers.get('User-Agent') || undefined,
         },
