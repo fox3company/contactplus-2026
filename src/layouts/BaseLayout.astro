@@ -58,22 +58,26 @@ const footerLabels = {
       fbq('track', 'PageView');
     </script>
     <script is:inline>
-      // Set FBC_ENTRY_ID to the Google Form's hidden "Ad Click ID" question
-      // entry number once that question has been created (see docs/TASKS.md).
+      // Set FBC_ENTRY_ID / FBP_ENTRY_ID to the Google Form's hidden question
+      // entry numbers once those questions have been created (see docs/TASKS.md).
       var FBC_ENTRY_ID = '94192550';
+      var FBP_ENTRY_ID = '724598572';
       document.addEventListener('click', function (e) {
         var link = e.target.closest('a[href*="1FAIpQLSdkDT1NjKXxzbAg_8dqSLEDnYPstOaBZ8oE6mxqNHkLTUbBlg"]');
         if (!link) return;
         if (window.fbq) {
           fbq('track', 'Lead');
         }
-        if (FBC_ENTRY_ID) {
-          var match = document.cookie.match(/(?:^|;\s*)_fbc=([^;]+)/);
+        function appendCookieEntry(entryId, cookieName) {
+          if (!entryId) return;
+          var match = document.cookie.match(new RegExp('(?:^|;\\s*)' + cookieName + '=([^;]+)'));
           if (match) {
             var separator = link.href.indexOf('?') === -1 ? '?' : '&';
-            link.href = link.href + separator + 'entry.' + FBC_ENTRY_ID + '=' + encodeURIComponent(match[1]);
+            link.href = link.href + separator + 'entry.' + entryId + '=' + encodeURIComponent(match[1]);
           }
         }
+        appendCookieEntry(FBC_ENTRY_ID, '_fbc');
+        appendCookieEntry(FBP_ENTRY_ID, '_fbp');
       });
     </script>
     <noscript><img height="1" width="1" style="display:none"
