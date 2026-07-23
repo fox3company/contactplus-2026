@@ -41,8 +41,8 @@ export async function onRequestPost(context) {
         user_data: {
           em: body.em ? [body.em] : undefined,
           fbc: body.fbc || undefined,
-          client_ip_address: body.client_ip || undefined,
-          client_user_agent: body.client_user_agent || undefined,
+          client_ip_address: body.client_ip || request.headers.get('CF-Connecting-IP') || undefined,
+          client_user_agent: body.client_user_agent || request.headers.get('User-Agent') || undefined,
         },
       },
     ],
