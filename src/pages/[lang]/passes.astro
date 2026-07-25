@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PassesPage from '../../components/PassesPage.astro';
+import { isLocale } from '../../lib/locales';
+import { passesCopy } from '../../lib/passes';
+
+export async function getStaticPaths() {
+  return ['en', 'ro', 'ru'].map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props;
+if (!isLocale(lang)) return Astro.redirect('/en/passes');
+const copy = passesCopy[lang];
+---
+
+<BaseLayout lang={lang} title={`${copy.title} · Contact+ 2026`} description={copy.lead}>
+  <PassesPage lang={lang} />
+</BaseLayout>

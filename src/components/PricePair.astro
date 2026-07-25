@@ -1,0 +1,94 @@
+---
+interface Props {
+  regular: string;
+  late: string;
+  regularLabel: string;
+  lateLabel: string;
+  regularNote: string;
+  lateNote: string;
+  ariaLabel?: string;
+  compact?: boolean;
+}
+
+const { regular, late, regularLabel, lateLabel, regularNote, lateNote, ariaLabel, compact = false } = Astro.props;
+---
+
+<dl class:list={['price-pair', { 'price-pair--compact': compact }]} aria-label={ariaLabel}>
+  <div>
+    <dt>{regularLabel}</dt>
+    <dd>{regular}</dd>
+    <small>{regularNote}</small>
+  </div>
+  <div>
+    <dt>{lateLabel}</dt>
+    <dd>{late}</dd>
+    <small>{lateNote}</small>
+  </div>
+</dl>
+
+<style>
+  .price-pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 22px 0 0;
+    border-block: 1px solid var(--line);
+  }
+
+  .price-pair > div {
+    padding: 18px 18px 18px 0;
+  }
+
+  .price-pair > div + div {
+    padding-left: 18px;
+    border-left: 1px solid var(--line);
+  }
+
+  dt {
+    color: var(--muted);
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 4px 0 2px;
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 3vw, 2.65rem);
+    line-height: 1;
+  }
+
+  small {
+    color: var(--muted);
+    font-size: .76rem;
+  }
+
+  .price-pair--compact {
+    margin-top: 12px;
+  }
+
+  .price-pair--compact > div {
+    padding-block: 12px;
+  }
+
+  .price-pair--compact dd {
+    font-size: clamp(1.45rem, 2vw, 1.8rem);
+  }
+
+  .price-pair--compact dt,
+  .price-pair--compact small {
+    font-size: .7rem;
+  }
+
+  @media (max-width: 480px) {
+    .price-pair {
+      grid-template-columns: 1fr;
+    }
+
+    .price-pair > div + div {
+      padding-left: 0;
+      border-top: 1px solid var(--line);
+      border-left: 0;
+    }
+  }
+</style>

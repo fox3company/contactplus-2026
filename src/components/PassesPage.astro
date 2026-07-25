@@ -1,0 +1,4040 @@
+---
+import { getCollection } from 'astro:content';
+import InclusionList from './InclusionList.astro';
+import PricePair from './PricePair.astro';
+import EventDetailPanel from './EventDetailPanel.astro';
+import { getLocalized, type Locale } from '../lib/locales';
+import { passesCopy, passesShared } from '../lib/passes';
+import { buildEventDetails } from '../lib/eventDetails';
+import { getProgramFilterGroup } from '../lib/program';
+
+interface Props { lang: Locale; }
+const { lang } = Astro.props;
+const copy = passesCopy[lang];
+const events = await getCollection('events');
+const people = await getCollection('people');
+const eventsBySlug = new Map(events.map((event) => [event.slug, event]));
+const eventDetails = buildEventDetails(events, people, lang);
+const youthEvent = eventLink('youth-dance-class');
+
+function eventLink(slug: string) {
+  const event = eventsBySlug.get(slug);
+  if (!event) return { title: slug, slug, accent: '' };
+  return {
+    title: getLocalized(event.data.title, lang),
+    slug,
+    accent: getProgramFilterGroup(event),
+  };
+}
+
+const priceProps = {
+  regularLabel: copy.pricing.regular,
+  lateLabel: copy.pricing.late,
+  regularNote: copy.pricing.regularNote,
+  lateNote: copy.pricing.lateNote,
+  ariaLabel: copy.pricing.label,
+};
+
+const ui = {
+  choosePass: getLocalized({ en: 'Choose a pass', ro: 'Alege un abonament', ru: 'Выбрать вариант участия' }, lang),
+  importantDetails: getLocalized({ en: 'Important participation details', ro: 'Detalii importante despre participare', ru: 'Важные условия участия' }, lang),
+  additionalDetails: getLocalized({ en: 'What else to know', ro: 'Ce mai trebuie să știi', ru: 'Что ещё важно знать' }, lang),
+  ageDetails: getLocalized({ en: 'Age and participation details', ro: 'Detalii despre vârstă și participare', ru: 'Возраст и условия участия' }, lang),
+  viewDetails: getLocalized({ en: 'View event details', ro: 'Vezi detaliile evenimentului', ru: 'Посмотреть детали события' }, lang),
+  openingCta: getLocalized({ en: 'Register for the Opening Weekend Pass', ro: 'Înscrie-te pentru Opening Weekend Pass', ru: 'Зарегистрироваться на Opening Weekend Pass' }, lang),
+  ciChooserTitle: getLocalized({ en: 'Choose your CI format', ro: 'Alege formatul de Contact Improvisation', ru: 'Выберите формат Контактной импровизации' }, lang),
+  labsChooserTitle: getLocalized({ en: 'Choose your Performance Lab format', ro: 'Alege formatul Performance Lab', ru: 'Выберите формат Performance Lab' }, lang),
+  ciRegisterCtas: [
+    getLocalized({ en: 'Register for the 3-day CI intensive', ro: 'Înscrie-te la intensivul IC de 3 zile', ru: 'Записаться на интенсив КИ на 3 дня' }, lang),
+    getLocalized({ en: 'Register for Risk, Play & Flight', ro: 'Înscrie-te la Risk, Play & Flight', ru: 'Записаться на Risk, Play & Flight' }, lang),
+    getLocalized({ en: 'Register for both CI parts', ro: 'Înscrie-te la ambele etape IC', ru: 'Записаться на обе части КИ' }, lang),
+  ],
+  labsRegisterCtas: [
+    getLocalized({ en: 'Register for the 3-day Performance Lab', ro: 'Înscrie-te la Performance Lab de 3 zile', ru: 'Записаться на Performance Lab на 3 дня' }, lang),
+    getLocalized({ en: 'Register for Seeing and being seen', ro: 'Înscrie-te la Seeing and being seen', ru: 'Записаться на Seeing and being seen' }, lang),
+    getLocalized({ en: 'Register for both Performance Labs', ro: 'Înscrie-te la ambele Performance Labs', ru: 'Записаться на обе Performance Labs' }, lang),
+  ],
+  jamTitle: getLocalized({ en: 'Join one or more JAMs', ro: 'Participă la unul sau mai multe JAM-uri', ru: 'Присоединитесь к одному или нескольким JAM-ам' }, lang),
+  jamQuestion: getLocalized({ en: 'Do you already have a CI intensive or Performance Lab?', ro: 'Ai deja un intensiv CI sau un Performance Lab?', ru: 'У вас уже есть интенсив КИ или Performance Lab?' }, lang),
+  jamNo: getLocalized({ en: 'No, I am joining only JAMs', ro: 'Nu, particip doar la JAM-uri', ru: 'Нет, я участвую только в JAM-ах' }, lang),
+  jamYes: getLocalized({ en: 'Yes, I already have one', ro: 'Da, am deja unul', ru: 'Да, у меня уже есть один из них' }, lang),
+  jamDates: getLocalized({ en: 'View all 6 JAM dates', ro: 'Vezi toate cele 6 date JAM', ru: 'Посмотреть все 6 дат JAM' }, lang),
+  jamCta: getLocalized({ en: 'Register for JAMs', ro: 'Înscrie-te la JAM-uri', ru: 'Записаться на JAM-ы' }, lang),
+  familyChooserTitle: getLocalized({ en: 'Choose a family or youth format', ro: 'Alege un format pentru familie sau tineri', ru: 'Выберите семейный или молодёжный формат' }, lang),
+  familyPassCta: getLocalized({ en: 'Register for the Family Pass', ro: 'Înscrie-te pentru Family Pass', ru: 'Зарегистрироваться на Family Pass' }, lang),
+  youthCta: getLocalized({ en: 'Register for Youth Dance Class', ro: 'Înscrie-te pentru Youth Dance Class', ru: 'Зарегистрироваться на Youth Dance Class' }, lang),
+  addFamily: getLocalized({ en: 'Additional family member', ro: 'Membru suplimentar al familiei', ru: 'Дополнительный член семьи' }, lang),
+  performancesTitle: getLocalized({ en: 'Performance tickets', ro: 'Bilete la performance-uri', ru: 'Билеты на перформансы' }, lang),
+  registrationTitle: getLocalized({ en: 'How registration works', ro: 'Cum funcționează înscrierea', ru: 'Как проходит регистрация' }, lang),
+  registrationSteps: [
+    [getLocalized({ en: 'Choose your format', ro: 'Alege formatul', ru: 'Выберите формат' }, lang), getLocalized({ en: 'Choose the participation path that fits you.', ro: 'Alege forma de participare potrivită pentru tine.', ru: 'Выберите подходящий путь участия.' }, lang)],
+    [getLocalized({ en: 'Submit one registration form', ro: 'Trimite un singur formular', ru: 'Отправьте одну регистрационную форму' }, lang), getLocalized({ en: 'Indicate your format, event choice and selected JAMs.', ro: 'Indică formatul, evenimentul ales și JAM-urile selectate.', ru: 'Укажите формат, выбранное событие и JAM-ы.' }, lang)],
+    [getLocalized({ en: 'Confirm availability and payment', ro: 'Confirmă disponibilitatea și plata', ru: 'Подтвердите наличие места и оплату' }, lang), getLocalized({ en: 'The team confirms your place, sends payment instructions and later shares practical information.', ro: 'Echipa confirmă locul, trimite instrucțiunile de plată și apoi informațiile practice.', ru: 'Команда подтверждает место, присылает инструкции по оплате, а затем практическую информацию.' }, lang)],
+  ],
+  practicalTitle: getLocalized({ en: 'Before you register', ro: 'Înainte de înscriere', ru: 'Перед регистрацией' }, lang),
+  practicalGroups: [
+    getLocalized({ en: 'Participation rules', ro: 'Reguli de participare', ru: 'Правила участия' }, lang),
+    getLocalized({ en: 'Registration and payment', ro: 'Înscriere și plată', ru: 'Регистрация и оплата' }, lang),
+    getLocalized({ en: 'Support and cancellations', ro: 'Sprijin și anulări', ru: 'Поддержка и отмена' }, lang),
+  ],
+  faqTitle: getLocalized({ en: 'Frequently asked questions', ro: 'Întrebări frecvente', ru: 'Частые вопросы' }, lang),
+};
+---
+
+<main class="passes-page">
+  <header class="passes-hero">
+    <div class="passes-hero__main">
+      <p class="eyebrow">{copy.strapline}</p>
+      <h1>{copy.title}</h1>
+      <p class="passes-hero__lead">{copy.lead}</p>
+      <p class="passes-hero__text">{copy.heroText}</p>
+      <p class="passes-hero__facts"><span class="passes-hero__date">{copy.date}<span class="passes-hero__dot" aria-hidden="true">·</span></span><span class="passes-hero__place">{copy.place}</span></p>
+      <div class="passes-actions">
+        <a class="passes-action passes-action--primary" href="#choose-path">{ui.choosePass}</a>
+        <a class="passes-action passes-action--text" href={`/${lang}/program`}>{copy.actions.program} →</a>
+      </div>
+    </div>
+    <aside class="passes-hero__pricing" aria-label={copy.pricing.label}>
+      <div><span>{copy.pricing.regular}</span><strong>{copy.pricing.regularNote}</strong></div>
+      <div><span>{copy.pricing.late}</span><strong>{copy.pricing.lateNote}</strong></div>
+      <p>{copy.pricing.currency}</p>
+    </aside>
+  </header>
+
+  <nav class="path-index" aria-labelledby="choose-path">
+    <header><h2 id="choose-path">{copy.paths.title}</h2><p>{copy.paths.text}</p></header>
+    <ol>
+      {copy.paths.items.map(([id, label, meta, text]: [string, string, string, string], index: number) =>
+        <li>
+          <a href={`#${id}`}>
+            <span class="path-index__number">0{index + 1}</span>
+            <span class="path-index__label"><strong>{label}</strong><small>{meta}</small></span>
+            <span class="path-index__best">{text}</span>
+            <span class="path-index__arrow" aria-hidden="true">↓</span>
+          </a>
+        </li>
+      )}
+    </ol>
+  </nav>
+
+  <section class="full-pass section-wide" id="full-festival" aria-labelledby="full-festival-title">
+    <div class="full-pass__top">
+      <div class="full-pass__copy">
+        <p class="section-kicker">{copy.full.kicker}</p>
+        <h2 id="full-festival-title">{copy.full.title}</h2>
+        <p class="section-lead">{copy.full.text}</p>
+      </div>
+      <div class="full-pass__purchase">
+        <PricePair regular="€450" late="€550" {...priceProps} />
+        <div class="passes-actions">
+          <a class="passes-action passes-action--primary" href={passesShared.registrationUrl} rel="noopener" target="_blank">{copy.full.cta}</a>
+          <a class="passes-action passes-action--text" href={`/${lang}/schedule`}>{copy.actions.schedule} →</a>
+        </div>
+      </div>
+    </div>
+    <div class="full-pass__bottom">
+      <div>
+        <h3>{copy.full.includesTitle}</h3>
+        <InclusionList items={copy.full.includes.slice(0, 5)} />
+      </div>
+      <details class="full-pass__details">
+        <summary>{ui.importantDetails}</summary>
+        <div class="editorial-notes">
+          {[copy.full.parallel, copy.full.performances, copy.full.family].map((note: string, index: number) =>
+            <div><h3>{copy.full.noteLabels[index]}</h3><p>{note}</p></div>
+          )}
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="decision-section opening-package" id="opening" aria-labelledby="opening-title">
+    <header class="decision-section__header">
+      <div>
+        <p class="section-kicker">01</p>
+        <h2 id="opening-title">{copy.opening.title}</h2>
+        <p class="section-lead">{copy.opening.text}</p>
+      </div>
+      <PricePair regular="€120" late="€150" {...priceProps} />
+    </header>
+    <div class="package-map">
+      <h3>{copy.opening.packageTitle}</h3>
+      <section class="package-map__step">
+        <span class="package-map__number">1</span>
+        <div>
+          <h4>{copy.opening.chooseTitle}</h4>
+          <div class="event-choice-grid">
+            {passesShared.eventSlugs.opening.map((slug, index) => {
+              const event = eventLink(slug);
+              return (
+                <div class="event-select-card" data-event-accent={event.accent}>
+                  <label>
+                    <input type="radio" name="opening-intensive" value={event.slug} checked={index === 0} />
+                    <span><strong>{event.title}</strong><small>{copy.opening.meta}</small></span>
+                  </label>
+                  <button class="event-info-button" type="button" aria-label={`${ui.viewDetails}: ${event.title}`} data-event-detail-key={event.slug} data-event-accent={event.accent}>ⓘ</button>
+                </div>
+              );
+            })}
+          </div>
+          <p class="package-map__note">{copy.opening.unavailable}</p>
+        </div>
+      </section>
+      <section class="package-map__step">
+        <span class="package-map__number">2</span>
+        <div>
+          <h4>{copy.opening.includedTitle}</h4>
+          <p>{copy.opening.includedText}</p>
+          <div class="included-event-grid">
+            {passesShared.eventSlugs.openingIncluded.map((slug) => {
+              const event = eventLink(slug);
+              return (
+                <button class="included-event" type="button" data-event-detail-key={event.slug} data-event-accent={event.accent}>
+                  <span aria-hidden="true">✓</span>{event.title}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </div>
+    <footer class="decision-actions">
+      <p>{copy.opening.selectionNote}</p>
+      <a class="passes-action passes-action--primary" href={passesShared.registrationUrl} rel="noopener" target="_blank">{ui.openingCta}</a>
+    </footer>
+  </section>
+
+  <section class="decision-section path-builder" id="ci" aria-labelledby="ci-title">
+    <header class="decision-section__header decision-section__header--text">
+      <div>
+        <p class="section-kicker">02</p>
+        <h2 id="ci-title">{copy.ci.title}</h2>
+        <p class="section-lead">{copy.ci.intro}</p>
+      </div>
+    </header>
+    <div class="interactive-choice" data-option-chooser>
+      <div class="choice-prompt"><span>01</span><h3>{ui.ciChooserTitle}</h3></div>
+      <div class="choice-tabs" role="tablist" aria-label={ui.ciChooserTitle}>
+        {copy.ci.optionTitles.map((title: string, index: number) =>
+          <button type="button" role="tab" id={`ci-tab-${index}`} aria-controls={`ci-panel-${index}`} aria-selected={index === 0 ? 'true' : 'false'} tabindex={index === 0 ? '0' : '-1'} data-option-tab={String(index)} data-cta-label={ui.ciRegisterCtas[index]}>
+            <span>0{index + 1}</span><strong>{title}</strong><small>{copy.ci.optionMeta[index]}</small>
+          </button>
+        )}
+      </div>
+      <div class="participation-options">
+      <article class="participation-option" id="ci-panel-0" role="tabpanel" aria-labelledby="ci-tab-0" data-option-panel="0">
+        <header><span>01</span><div><h3>{copy.ci.optionTitles[0]}</h3><p>{copy.ci.optionMeta[0]}</p></div></header>
+        <div class="participation-option__content">
+          <p>{copy.ci.optionNotes[0]}</p>
+          <div class="event-choice-grid event-choice-grid--compact">
+            {passesShared.eventSlugs.ciMain.map((slug, index) => {
+              const event = eventLink(slug);
+              return <div class="event-select-card" data-event-accent={event.accent}><label><input type="radio" name="ci-main" value={event.slug} checked={index === 0} /><span><strong>{event.title}</strong><small>{copy.ci.mainMeta}</small></span></label><button class="event-info-button" type="button" aria-label={`${ui.viewDetails}: ${event.title}`} data-event-detail-key={event.slug} data-event-accent={event.accent}>ⓘ</button></div>;
+            })}
+          </div>
+        </div>
+        <PricePair regular="€165" late="€215" compact {...priceProps} />
+      </article>
+      <article class="participation-option" id="ci-panel-1" role="tabpanel" aria-labelledby="ci-tab-1" data-option-panel="1" hidden>
+        <header><span>02</span><div><h3>{copy.ci.optionTitles[1]}</h3><p>{copy.ci.optionMeta[1]}</p></div></header>
+        <div class="participation-option__content">
+          <p>{copy.ci.optionNotes[1]}</p>
+          {(() => {
+            const event = eventLink('risk-play-flight');
+            return <button class="event-choice event-choice--single" type="button" data-event-detail-key={event.slug} data-event-accent={event.accent}><strong>{event.title}</strong><small>{copy.ci.secondMeta}</small></button>;
+          })()}
+        </div>
+        <PricePair regular="€100" late="€130" compact {...priceProps} />
+      </article>
+      <article class="participation-option participation-option--complete" id="ci-panel-2" role="tabpanel" aria-labelledby="ci-tab-2" data-option-panel="2" hidden>
+        <header><span>03</span><div><h3>{copy.ci.optionTitles[2]}</h3><p>{copy.ci.optionMeta[2]}</p></div></header>
+        <div class="participation-option__content">
+          <p>{copy.ci.optionNotes[2]}</p>
+          <p class="composition-line"><span>{copy.ci.optionTitles[0]}</span><b aria-hidden="true">+</b><span>Risk, Play & Flight</span></p>
+          <div class="event-choice-grid event-choice-grid--compact">
+            {passesShared.eventSlugs.ciMain.map((slug, index) => {
+              const event = eventLink(slug);
+              return <div class="event-select-card" data-event-accent={event.accent}><label><input type="radio" name="ci-complete-main" value={event.slug} checked={index === 0} /><span><strong>{event.title}</strong><small>{copy.ci.mainMeta}</small></span></label><button class="event-info-button" type="button" aria-label={`${ui.viewDetails}: ${event.title}`} data-event-detail-key={event.slug} data-event-accent={event.accent}>ⓘ</button></div>;
+            })}
+          </div>
+        </div>
+        <PricePair regular="€245" late="€325" compact {...priceProps} />
+      </article>
+      </div>
+    </div>
+    <details class="path-disclosure">
+      <summary>{ui.additionalDetails}</summary>
+      <p>{copy.ci.excluded}</p>
+    </details>
+    <footer class="decision-actions">
+      <div><a class="passes-action passes-action--primary" data-selection-cta href={passesShared.registrationUrl} rel="noopener" target="_blank">{ui.ciRegisterCtas[0]}</a><a class="passes-action passes-action--text" href="#jams">{copy.ci.ctas[2]} ↓</a></div>
+    </footer>
+  </section>
+
+  <section class="decision-section path-builder" id="labs" aria-labelledby="labs-title">
+    <header class="decision-section__header decision-section__header--text">
+      <div>
+        <p class="section-kicker">03</p>
+        <h2 id="labs-title">{copy.labs.title}</h2>
+        <p class="section-lead">{copy.labs.intro}</p>
+      </div>
+    </header>
+    <div class="interactive-choice" data-option-chooser>
+      <div class="choice-prompt"><span>01</span><h3>{ui.labsChooserTitle}</h3></div>
+      <div class="choice-tabs" role="tablist" aria-label={ui.labsChooserTitle}>
+        {copy.labs.optionTitles.map((title: string, index: number) =>
+          <button type="button" role="tab" id={`labs-tab-${index}`} aria-controls={`labs-panel-${index}`} aria-selected={index === 0 ? 'true' : 'false'} tabindex={index === 0 ? '0' : '-1'} data-option-tab={String(index)} data-cta-label={ui.labsRegisterCtas[index]}>
+            <span>0{index + 1}</span><strong>{title}</strong><small>{copy.labs.optionMeta[index]}</small>
+          </button>
+        )}
+      </div>
+      <div class="participation-options">
+      <article class="participation-option" id="labs-panel-0" role="tabpanel" aria-labelledby="labs-tab-0" data-option-panel="0">
+        <header><span>01</span><div><h3>{copy.labs.optionTitles[0]}</h3><p>{copy.labs.optionMeta[0]}</p></div></header>
+        <div class="participation-option__content">
+          <p>{copy.labs.optionNotes[0]}</p>
+          <div class="event-choice-grid event-choice-grid--compact">
+            {passesShared.eventSlugs.labsMain.map((slug, index) => {
+              const event = eventLink(slug);
+              return <div class="event-select-card" data-event-accent={event.accent}><label><input type="radio" name="labs-main" value={event.slug} checked={index === 0} /><span><strong>{event.title}</strong><small>{copy.labs.mainMeta}</small></span></label><button class="event-info-button" type="button" aria-label={`${ui.viewDetails}: ${event.title}`} data-event-detail-key={event.slug} data-event-accent={event.accent}>ⓘ</button></div>;
+            })}
+          </div>
+        </div>
+        <PricePair regular="€165" late="€215" compact {...priceProps} />
+      </article>
+      <article class="participation-option" id="labs-panel-1" role="tabpanel" aria-labelledby="labs-tab-1" data-option-panel="1" hidden>
+        <header><span>02</span><div><h3>{copy.labs.optionTitles[1]}</h3><p>{copy.labs.optionMeta[1]}</p></div></header>
+        <div class="participation-option__content">
+          <p>{copy.labs.optionNotes[1]}</p>
+          {(() => {
+            const event = eventLink('seeing-and-being-seen');
+            return <button class="event-choice event-choice--single" type="button" data-event-detail-key={event.slug} data-event-accent={event.accent}><strong>{event.title}</strong><small>{copy.labs.secondMeta}</small></button>;
+          })()}
+        </div>
+        <PricePair regular="€165" late="€215" compact {...priceProps} />
+      </article>
+      <article class="participation-option participation-option--complete" id="labs-panel-2" role="tabpanel" aria-labelledby="labs-tab-2" data-option-panel="2" hidden>
+        <header><span>03</span><div><h3>{copy.labs.optionTitles[2]}</h3><p>{copy.labs.optionMeta[2]}</p></div></header>
+        <div class="participation-option__content">
+          <p>{copy.labs.optionNotes[2]}</p>
+          <p class="composition-line"><span>{copy.labs.optionTitles[0]}</span><b aria-hidden="true">+</b><span>Seeing and being seen</span></p>
+          <div class="event-choice-grid event-choice-grid--compact">
+            {passesShared.eventSlugs.labsMain.map((slug, index) => {
+              const event = eventLink(slug);
+              return <div class="event-select-card" data-event-accent={event.accent}><label><input type="radio" name="labs-complete-main" value={event.slug} checked={index === 0} /><span><strong>{event.title}</strong><small>{copy.labs.mainMeta}</small></span></label><button class="event-info-button" type="button" aria-label={`${ui.viewDetails}: ${event.title}`} data-event-detail-key={event.slug} data-event-accent={event.accent}>ⓘ</button></div>;
+            })}
+          </div>
+        </div>
+        <PricePair regular="€295" late="€380" compact {...priceProps} />
+      </article>
+      </div>
+    </div>
+    <details class="path-disclosure">
+      <summary>{ui.additionalDetails}</summary>
+      <p>{copy.labs.note}</p>
+    </details>
+    <footer class="decision-actions">
+      <div><a class="passes-action passes-action--primary" data-selection-cta href={passesShared.registrationUrl} rel="noopener" target="_blank">{ui.labsRegisterCtas[0]}</a><a class="passes-action passes-action--text" href="#jams">{copy.labs.ctas[2]} ↓</a></div>
+    </footer>
+  </section>
+
+  <section class="jam-section section-wide" id="jams" aria-labelledby="jams-title">
+    <div class="jam-section__grid">
+      <header>
+        <h2 id="jams-title">{ui.jamTitle}</h2>
+        <p class="section-lead">{copy.jams.intro}</p>
+        <details class="jam-dates">
+          <summary>{ui.jamDates}</summary>
+          <ul class="event-inline-list">{copy.jams.events.map((event: string, index: number) => {
+            const detail = eventLink(passesShared.eventSlugs.jams[index]);
+            return <li><button type="button" data-event-detail-key={detail.slug} data-event-accent={detail.accent}>{event}<span aria-hidden="true">ⓘ</span></button></li>;
+          })}</ul>
+        </details>
+      </header>
+      <div class="jam-section__decision">
+        <div class="jam-choice" data-jam-choice>
+          <h3>{ui.jamQuestion}</h3>
+          <div role="group" aria-label={ui.jamQuestion}>
+            <button type="button" data-jam-choice-button="general" aria-pressed="true">{ui.jamNo}</button>
+            <button type="button" data-jam-choice-button="participant" aria-pressed="false">{ui.jamYes}</button>
+          </div>
+        </div>
+        <div class="jam-pricing jam-pricing--single">
+          <article data-jam-panel="general">
+            <h3>{copy.jams.generalTitle}</h3>
+            <p>{copy.jams.generalNote}</p>
+            <dl class="jam-price-list">
+              <div><dt>{copy.jams.single}</dt><dd><span><small>{copy.pricing.regular}</small><strong>€20</strong></span><span><small>{copy.pricing.late}</small><strong>€25</strong></span></dd></div>
+              <div><dt>{copy.jams.three}<small>{copy.jams.perJam}</small></dt><dd><span><small>{copy.pricing.regular}</small><strong>€14</strong></span><span><small>{copy.pricing.late}</small><strong>€18</strong></span></dd></div>
+            </dl>
+          </article>
+          <article data-jam-panel="participant" hidden>
+            <h3>{copy.jams.participantTitle}</h3>
+            <p>{copy.jams.participantNote}</p>
+            <dl class="jam-price-list">
+              <div><dt>{copy.jams.one}</dt><dd><span><small>{copy.pricing.regular}</small><strong>€10</strong></span><span><small>{copy.pricing.late}</small><strong>€12</strong></span></dd></div>
+              <div><dt>3 JAMs</dt><dd><span><small>{copy.pricing.regular}</small><strong>€25</strong></span><span><small>{copy.pricing.late}</small><strong>€30</strong></span></dd></div>
+              <div><dt>{copy.jams.all}</dt><dd><span><small>{copy.pricing.regular}</small><strong>€40</strong></span><span><small>{copy.pricing.late}</small><strong>€55</strong></span></dd></div>
+            </dl>
+          </article>
+        </div>
+        <p class="capacity-note">{copy.jams.capacity}</p>
+        <a class="passes-action passes-action--primary jam-register" href={passesShared.registrationUrl} rel="noopener" target="_blank">{ui.jamCta}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="decision-section family-section" id="family" aria-labelledby="family-title">
+    <header class="decision-section__header decision-section__header--text">
+      <div><p class="section-kicker">04</p><h2 id="family-title">{copy.family.title}</h2><p class="section-lead">{copy.family.intro}</p></div>
+    </header>
+    <div class="interactive-choice family-choice" data-option-chooser>
+      <div class="choice-prompt"><span>01</span><h3>{ui.familyChooserTitle}</h3></div>
+      <div class="choice-tabs choice-tabs--family" role="tablist" aria-label={ui.familyChooserTitle}>
+        <button type="button" role="tab" id="family-tab-0" aria-controls="family-panel-0" aria-selected="true" tabindex="0" data-option-tab="0"><strong>{copy.family.passTitle}</strong><small>€55 / €65</small></button>
+        <button type="button" role="tab" id="family-tab-1" aria-controls="family-panel-1" aria-selected="false" tabindex="-1" data-option-tab="1"><strong>{youthEvent.title}</strong><small>€40 / €50</small></button>
+      </div>
+      <div class="family-products">
+      <article class="family-product" id="family-panel-0" role="tabpanel" aria-labelledby="family-tab-0" data-option-panel="0">
+        <header><h3>{copy.family.passTitle}</h3><p>{copy.family.includes}</p></header>
+        <h4>{copy.family.includedTitle}</h4>
+        <div class="included-event-grid included-event-grid--family">
+          {passesShared.eventSlugs.family.slice(0, 4).map((slug) => {
+            const event = eventLink(slug);
+            return <button class="included-event" type="button" data-event-detail-key={event.slug} data-event-accent={event.accent}><span aria-hidden="true">✓</span>{event.title}</button>;
+          })}
+        </div>
+        <PricePair regular="€55" late="€65" {...priceProps} />
+        <details class="family-age-details">
+          <summary>{ui.ageDetails}</summary>
+          <p>{copy.family.age}</p>
+        </details>
+        <details class="family-add-on">
+          <summary>{ui.addFamily}</summary>
+          <div><h4>{copy.family.additional}</h4><p>{copy.family.additionalText}</p><PricePair regular="€12" late="€18" compact {...priceProps} /></div>
+        </details>
+        <a class="passes-action passes-action--primary product-cta" href={passesShared.registrationUrl} rel="noopener" target="_blank">{ui.familyPassCta}</a>
+      </article>
+      <article class="family-product" id="family-panel-1" role="tabpanel" aria-labelledby="family-tab-1" data-option-panel="1" hidden>
+        <button class="family-product__event" type="button" data-event-detail-key={youthEvent.slug} data-event-accent={youthEvent.accent}><span>{copy.family.youthMeta}</span><strong>{youthEvent.title}</strong><i aria-hidden="true">ⓘ</i></button>
+        <p>{copy.family.youthText}</p>
+        <PricePair regular="€40" late="€50" {...priceProps} />
+        <a class="passes-action passes-action--primary product-cta" href={passesShared.registrationUrl} rel="noopener" target="_blank">{ui.youthCta}</a>
+      </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="performances-section section-grid" aria-labelledby="performances-title">
+    <h2 id="performances-title">{ui.performancesTitle}</h2>
+    <div>
+      <p>{copy.performances.text}</p>
+      <p class="status-note">{copy.actions.soon}</p>
+    </div>
+  </section>
+
+  <section class="registration-section section-wide" aria-labelledby="registration-title">
+    <header>
+      <h2 id="registration-title">{ui.registrationTitle}</h2>
+      <a class="passes-action passes-action--primary" href={passesShared.registrationUrl} rel="noopener" target="_blank">{copy.actions.register}</a>
+    </header>
+    <ol class="registration-timeline">
+      {ui.registrationSteps.map(([title, text]: string[], index: number) => <li><span>0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}
+    </ol>
+  </section>
+
+  <section class="practical-section compact-section" aria-labelledby="practical-title">
+    <h2 id="practical-title">{ui.practicalTitle}</h2>
+    <div class="practical-groups">
+      {[
+        copy.practical.items.slice(0, 3),
+        copy.practical.items.slice(3, 5),
+        copy.practical.items.slice(5, 7),
+      ].map((items: [string, string][], index: number) =>
+        <details>
+          <summary>{ui.practicalGroups[index]}</summary>
+          <dl>{items.map(([term, text]) => <div><dt>{term}</dt><dd>{text}</dd></div>)}</dl>
+        </details>
+      )}
+    </div>
+  </section>
+
+  <section class="faq-section compact-section" aria-labelledby="faq-title">
+    <h2 id="faq-title">{ui.faqTitle}</h2>
+    <div class="faq-list">
+      {copy.faq.map(([question, answer]: [string, string]) => <details><summary>{question}</summary><p>{answer}</p></details>)}
+    </div>
+  </section>
+
+  <section class="final-cta" aria-labelledby="final-title">
+    <h2 id="final-title">{copy.final.title}</h2>
+    <p>{copy.final.text}</p>
+    <div class="final-cta__primary">
+      <a class="passes-action passes-action--primary" href={passesShared.registrationUrl} rel="noopener" target="_blank">{copy.actions.register}</a>
+    </div>
+    <div class="final-cta__secondary">
+      <a href={`/${lang}/program`}>{copy.actions.program} →</a>
+      <a href={`/${lang}/schedule`}>{copy.actions.schedule} →</a>
+    </div>
+  </section>
+  <EventDetailPanel lang={lang} eventDetails={eventDetails} showFullPageLink={false} />
+</main>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    const choice = document.querySelector('[data-jam-choice]');
+    if (choice) {
+      const buttons = [...choice.querySelectorAll('[data-jam-choice-button]')];
+      const panels = [...document.querySelectorAll('[data-jam-panel]')];
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const selected = button.getAttribute('data-jam-choice-button');
+          buttons.forEach((item) => item.setAttribute(
+            'aria-pressed',
+            String(item === button),
+          ));
+          panels.forEach((panel) => {
+            panel.hidden = panel.getAttribute('data-jam-panel') !== selected;
+          });
+        });
+      });
+    }
+
+    document.querySelectorAll('[data-option-chooser]').forEach((chooser) => {
+      const tabs = [...chooser.querySelectorAll('[data-option-tab]')];
+      const panels = [...chooser.querySelectorAll('[data-option-panel]')];
+
+      const selectTab = (tab) => {
+        const selected = tab.getAttribute('data-option-tab');
+        const selectionCta = chooser.closest('.path-builder')?.querySelector('[data-selection-cta]');
+        tabs.forEach((item) => {
+          const active = item === tab;
+          item.setAttribute('aria-selected', String(active));
+          item.setAttribute('tabindex', active ? '0' : '-1');
+        });
+        panels.forEach((panel) => {
+          panel.hidden = panel.getAttribute('data-option-panel') !== selected;
+        });
+        if (selectionCta && tab.dataset.ctaLabel) {
+          selectionCta.textContent = tab.dataset.ctaLabel;
+        }
+      };
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => selectTab(tab));
+        tab.addEventListener('keydown', (event) => {
+          let nextIndex = index;
+          if (event.key === 'ArrowRight') nextIndex = (index + 1) % tabs.length;
+          else if (event.key === 'ArrowLeft') nextIndex = (index - 1 + tabs.length) % tabs.length;
+          else if (event.key === 'Home') nextIndex = 0;
+          else if (event.key === 'End') nextIndex = tabs.length - 1;
+          else return;
+          event.preventDefault();
+          selectTab(tabs[nextIndex]);
+          tabs[nextIndex].focus();
+        });
+      });
+    });
+
+    document.querySelectorAll('.faq-list, .practical-groups').forEach((group) => {
+      group.querySelectorAll('details').forEach((item) => {
+        item.addEventListener('toggle', () => {
+          if (!item.open) return;
+          group.querySelectorAll('details[open]').forEach((openItem) => {
+            if (openItem !== item) openItem.open = false;
+          });
+        });
+      });
+    });
+  });
+</script>
+
+<style is:global>
+  /* Refinement layer: a quieter, decision-first editorial hierarchy. */
+  .passes-page {
+    --passes-section-space: clamp(64px, 7.5vw, 104px);
+    --passes-subtle: color-mix(in srgb, var(--muted) 88%, var(--ink));
+    width: min(1240px, calc(100% - 48px));
+    margin: 0 auto;
+    padding-top: clamp(38px, 4.5vw, 62px);
+    padding-bottom: clamp(64px, 8vw, 104px);
+  }
+
+  .passes-page h1,
+  .passes-page h2 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1.06;
+  }
+
+  .passes-page h1 {
+    max-width: 900px;
+    margin: 12px 0 18px;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+  }
+
+  .passes-page h2 {
+    font-size: clamp(2.05rem, 3.8vw, 3.35rem);
+  }
+
+  .passes-page h3 {
+    margin: 0 0 10px;
+    line-height: 1.35;
+  }
+
+  .passes-page h4 {
+    font-size: .76rem;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+  }
+
+  .passes-page a {
+    text-underline-offset: .22em;
+  }
+
+  .eyebrow,
+  .section-kicker {
+    color: var(--accent-muted);
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+  }
+
+  .passes-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    margin-top: 24px;
+  }
+
+  .passes-action {
+    display: inline-flex;
+    min-height: 45px;
+    align-items: center;
+    padding: 10px 0;
+    color: var(--accent-muted);
+    font-weight: 670;
+    text-decoration: none;
+  }
+
+  .passes-action--primary {
+    padding: 10px 18px;
+    color: var(--paper);
+    background: var(--accent);
+  }
+
+  .passes-action:hover,
+  .text-action:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+
+  .passes-action--primary:hover {
+    color: #fff;
+    background: var(--ink);
+    text-decoration: none;
+  }
+
+  .passes-page :is(a, summary):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  .passes-page h2 {
+    margin-bottom: 18px;
+  }
+
+  .passes-page h3 {
+    font-size: .98rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .passes-page h4 {
+    margin-top: 20px;
+    color: var(--passes-subtle);
+  }
+
+  .passes-page p {
+    color: var(--passes-subtle);
+  }
+
+  .passes-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 8fr) minmax(245px, 3fr);
+    gap: clamp(48px, 8vw, 110px);
+    max-width: none;
+    padding-bottom: clamp(46px, 5vw, 68px);
+  }
+
+  .passes-hero__main {
+    max-width: 900px;
+  }
+
+  .passes-hero h1 {
+    margin-bottom: 16px;
+  }
+
+  .passes-hero__lead {
+    margin: 0;
+    color: var(--ink) !important;
+    font-size: clamp(1.28rem, 2.2vw, 1.75rem);
+  }
+
+  .passes-hero__text {
+    max-width: 720px;
+    margin: 16px 0 0;
+    font-size: 1.08rem;
+  }
+
+  .passes-hero__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 28px;
+    color: var(--accent-muted) !important;
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+  }
+
+  .passes-hero__dot {
+    margin-left: 8px;
+  }
+
+  .passes-hero__pricing {
+    align-self: end;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .passes-hero__pricing > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .passes-hero__pricing span {
+    color: var(--muted);
+  }
+
+  .passes-hero__pricing strong {
+    color: var(--ink);
+    font-weight: 650;
+    text-align: right;
+  }
+
+  .passes-hero__pricing p {
+    margin: 12px 0 0;
+    font-size: .82rem;
+  }
+
+  .passes-action--text {
+    color: var(--accent-muted);
+  }
+
+  .section-grid,
+  .section-wide,
+  .compact-section,
+  .path-index,
+  .final-cta {
+    margin-top: var(--passes-section-space);
+  }
+
+  .section-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: clamp(44px, 7vw, 92px);
+  }
+
+  .section-wide {
+    padding: clamp(34px, 4.5vw, 56px);
+    background: var(--paper-deep);
+  }
+
+  .compact-section {
+    width: min(100%, 900px);
+    margin-inline: auto;
+  }
+
+  .section-lead {
+    font-size: clamp(1.08rem, 1.6vw, 1.3rem);
+    line-height: 1.55;
+  }
+
+  .price-period-note,
+  .quiet-note,
+  .capacity-note {
+    padding-left: 16px;
+    border-left: 2px solid var(--line-strong);
+  }
+
+  .passes-intro {
+    margin-top: 0;
+    padding-top: clamp(34px, 4vw, 52px);
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .passes-intro__copy p {
+    max-width: 510px;
+  }
+
+  .participation-steps li {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 12px;
+    padding: 13px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .participation-steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .participation-steps li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .participation-steps p {
+    margin: 0;
+  }
+
+  .participation-steps span,
+  .registration-section li > span,
+  .path-index__number {
+    color: var(--muted);
+  }
+
+  .path-index {
+    grid-template-columns: minmax(240px, 4fr) minmax(0, 8fr);
+    gap: clamp(44px, 7vw, 92px);
+    padding-top: clamp(30px, 4vw, 48px);
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .path-index h2 {
+    font-size: clamp(2rem, 3.3vw, 3rem);
+  }
+
+  .path-index ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top-color: var(--line-strong);
+    border-top-style: solid;
+    border-top-width: 1px;
+  }
+
+  .path-index li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .path-index a {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 36px minmax(170px, 1.35fr) minmax(170px, 1fr) 22px;
+    gap: 14px;
+    min-height: 76px;
+    padding: 10px 0;
+    text-decoration: none;
+  }
+
+  .path-index__label {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .path-index__label strong {
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+
+  .path-index__label small,
+  .path-index__best {
+    color: var(--muted);
+    font-size: .8rem;
+    line-height: 1.4;
+  }
+
+  .path-index__arrow {
+    color: var(--accent-muted);
+    font-size: 1rem;
+    text-align: right;
+  }
+
+  .full-pass {
+    display: block;
+    scroll-margin-top: 32px;
+    padding: clamp(34px, 4.5vw, 56px);
+  }
+
+  .full-pass__top {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(300px, 4fr);
+    gap: clamp(48px, 7vw, 90px);
+    align-items: end;
+  }
+
+  .full-pass__copy h2 {
+    max-width: 560px;
+    font-size: clamp(2.7rem, 5vw, 4.7rem);
+  }
+
+  .full-pass__purchase .price-pair {
+    margin-top: 0;
+  }
+
+  .full-pass__bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(48px, 7vw, 90px);
+    margin-top: clamp(34px, 4vw, 54px);
+    padding-top: clamp(28px, 3.5vw, 44px);
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .editorial-notes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .editorial-notes > div {
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+
+  .editorial-notes p {
+    margin: 8px 0 0;
+    font-size: .84rem;
+    line-height: 1.55;
+  }
+
+  .path-section {
+    padding-top: clamp(28px, 3.5vw, 44px);
+  }
+
+  .path-section__intro > h3 {
+    margin-top: 28px;
+  }
+
+  .path-section__body {
+    padding-top: 6px;
+  }
+
+  .format-choice {
+    margin: 14px 0 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  .format-choice article {
+    padding: 13px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .format-choice a,
+  .event-detail-link {
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    text-decoration: underline;
+  }
+
+  .format-choice p,
+  .format-meta {
+    color: var(--muted);
+  }
+
+  .option-stack {
+    display: grid;
+    gap: 24px;
+  }
+
+  .option-block {
+    padding: clamp(22px, 3vw, 32px);
+  }
+
+  .option-block--secondary {
+    border-left: 2px solid var(--line-strong);
+    background: color-mix(in srgb, var(--paper-deep) 48%, transparent);
+  }
+
+  .option-block--primary {
+    background: var(--paper-deep);
+  }
+
+  .option-block h3 a {
+    text-decoration: underline;
+  }
+
+  .option-pricing {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+  }
+
+  .combined-total {
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+
+  .quiet-note,
+  .capacity-note,
+  .price-period-note {
+    color: var(--muted) !important;
+    font-size: .84rem;
+    line-height: 1.55;
+  }
+
+  .path-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    margin-top: 6px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+
+  .path-actions a {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    color: var(--accent-muted);
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .path-actions a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+
+  .included-title {
+    margin-bottom: 10px;
+  }
+
+  .related-events {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 20px;
+    margin-top: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .related-events a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: .95rem;
+  }
+
+  .jam-section {
+    padding-block: clamp(34px, 4.5vw, 54px);
+  }
+
+  .jam-section > header {
+    max-width: 800px;
+  }
+
+  .event-inline-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 22px;
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .event-inline-list li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .event-inline-list a {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    color: var(--ink);
+  }
+
+  .jam-pricing {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 5vw, 62px);
+    margin-top: 34px;
+    padding-top: 30px;
+    border-top: 1px solid var(--line-strong);
+    background: transparent;
+  }
+
+  .jam-pricing > article {
+    padding: 0;
+    background: transparent;
+  }
+
+  .jam-pricing > article + article {
+    padding-left: clamp(32px, 5vw, 62px);
+    border-left: 1px solid var(--line-strong);
+  }
+
+  .jam-price-list {
+    margin: 20px 0 0;
+  }
+
+  .jam-price-list > div {
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) minmax(190px, 1.25fr);
+    gap: 20px;
+    align-items: end;
+    padding: 13px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .jam-price-list dt {
+    color: var(--ink);
+    font-weight: 650;
+  }
+
+  .jam-price-list dt > small {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .jam-price-list dd {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0;
+  }
+
+  .jam-price-list dd span {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .jam-price-list dd small {
+    color: var(--muted);
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .jam-price-list dd strong {
+    font-family: var(--font-serif);
+    font-size: 1.55rem;
+    font-weight: 400;
+  }
+
+  .performances-section {
+    align-items: start;
+    padding-block: clamp(28px, 3.5vw, 42px);
+    border-block: 1px solid var(--line-strong);
+  }
+
+  .performances-section h2 {
+    margin: 0;
+  }
+
+  .performances-section p:first-child {
+    margin-top: 4px;
+  }
+
+  .status-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    color: var(--ink) !important;
+    font-weight: 650;
+  }
+
+  .status-note span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-muted);
+  }
+
+  .registration-section header {
+    display: flex;
+    justify-content: space-between;
+    gap: 28px;
+    align-items: center;
+  }
+
+  .registration-section ol.registration-timeline {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1px;
+    margin-top: 30px;
+    margin-bottom: 0;
+    padding: 0;
+    list-style: none;
+    background: var(--line-strong);
+  }
+
+  .registration-timeline li {
+    display: grid;
+    grid-column: span 2;
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 10px;
+    padding: 22px 18px;
+    background: var(--paper);
+  }
+
+  .registration-timeline li:nth-child(n + 4) {
+    grid-column: span 3;
+  }
+
+  .registration-section li h3 {
+    margin-bottom: 7px;
+    font-size: .9rem;
+    line-height: 1.35;
+  }
+
+  .registration-section li p {
+    margin: 0;
+    font-size: .9rem;
+  }
+
+  .practical-section,
+  .faq-section {
+    width: min(100%, 900px);
+  }
+
+  .practical-section dl > div {
+    display: grid;
+    grid-template-columns: minmax(130px, 2fr) minmax(0, 5fr);
+    gap: 30px;
+    padding: 13px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .practical-section dl {
+    margin: 0;
+  }
+
+  .practical-section dl > div:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .practical-section dt {
+    font-weight: 700;
+  }
+
+  .practical-section dd {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .faq-list {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .faq-list details {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .faq-list summary {
+    position: relative;
+    display: flex;
+    min-height: 58px;
+    align-items: center;
+    padding: 14px 52px 14px 0;
+    list-style: none;
+  }
+
+  .faq-list summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-list summary::after {
+    position: absolute;
+    right: 8px;
+    content: "+";
+    color: var(--accent-muted);
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+
+  .faq-list details[open] summary::after {
+    content: "−";
+  }
+
+  .faq-list p {
+    max-width: 700px;
+    margin: 0;
+    padding: 0 44px 22px 0;
+  }
+
+  .final-cta {
+    width: min(100%, 820px);
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .final-cta p {
+    max-width: 620px;
+    margin-inline: auto;
+  }
+
+  .final-cta__primary {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+  }
+
+  .final-cta__secondary {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 24px;
+    margin-top: 16px;
+  }
+
+  .final-cta__secondary a {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    color: var(--accent-muted);
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  @media (max-width: 900px) {
+    .section-grid,
+    .path-index {
+      grid-template-columns: 1fr;
+      gap: 34px;
+    }
+
+    .passes-hero,
+    .full-pass__top,
+    .full-pass__bottom {
+      grid-template-columns: 1fr;
+      gap: 34px;
+    }
+
+    .passes-hero__pricing {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0 24px;
+    }
+
+    .passes-hero__pricing p {
+      grid-column: 1 / -1;
+    }
+
+    .path-index a {
+      grid-template-columns: 32px minmax(170px, 1fr) minmax(170px, 1fr) 20px;
+    }
+
+    .editorial-notes {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .registration-section ol.registration-timeline {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .registration-timeline li,
+    .registration-timeline li:nth-child(n + 4) {
+      grid-column: auto;
+    }
+
+    .registration-timeline li:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .jam-pricing {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .passes-page {
+      --passes-section-space: 62px;
+      width: min(100% - 28px, 1240px);
+    }
+
+    .passes-hero h1 {
+      font-size: clamp(2.5rem, 13vw, 3.5rem);
+    }
+
+    .passes-hero__facts {
+      flex-direction: column;
+      gap: 0;
+      line-height: 1.65;
+    }
+
+    .passes-hero__dot {
+      display: none;
+    }
+
+    .passes-hero {
+      padding-bottom: 38px;
+    }
+
+    .passes-hero__pricing {
+      grid-template-columns: 1fr;
+    }
+
+    .passes-hero__pricing p {
+      grid-column: auto;
+    }
+
+    .path-index {
+      gap: 18px;
+    }
+
+    .path-index a {
+      grid-template-columns: 26px minmax(0, 1fr) 18px;
+      gap: 10px;
+      min-height: 84px;
+    }
+
+    .path-index__best {
+      grid-column: 2;
+      margin-top: -8px;
+    }
+
+    .path-index__arrow {
+      grid-column: 3;
+      grid-row: 1 / span 2;
+      align-self: center;
+    }
+
+    .full-pass {
+      margin-inline: -14px;
+      padding-inline: 14px;
+    }
+
+    .full-pass__bottom {
+      margin-top: 30px;
+      padding-top: 26px;
+    }
+
+    .option-pricing,
+    .event-inline-list,
+    .related-events {
+      grid-template-columns: 1fr;
+    }
+
+    .jam-pricing {
+      gap: 30px;
+    }
+
+    .jam-pricing > article + article {
+      padding: 28px 0 0;
+      border-top: 1px solid var(--line-strong);
+      border-left: 0;
+    }
+
+    .jam-price-list > div {
+      grid-template-columns: minmax(90px, 1fr) minmax(160px, 1.4fr);
+      gap: 14px;
+    }
+
+    .registration-section ol.registration-timeline {
+      grid-template-columns: 1fr;
+    }
+
+    .registration-timeline li:last-child {
+      grid-column: auto;
+    }
+
+    .registration-section header .passes-action {
+      margin-top: 14px;
+    }
+
+    .registration-section header {
+      display: block;
+    }
+
+    .practical-section dl > div {
+      grid-template-columns: 1fr;
+      gap: 5px;
+    }
+
+    .passes-actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .final-cta__primary .passes-action {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Final pass-selection system: one grid, four interaction primitives. */
+  .passes-page {
+    --passes-decision-width: 1040px;
+    --passes-reading-width: 800px;
+    --passes-section-space: clamp(58px, 6.5vw, 88px);
+  }
+
+  .passes-page :is(.path-index, .decision-section, .jam-section, .performances-section, .registration-section) {
+    width: min(100%, var(--passes-decision-width));
+    margin-inline: auto;
+  }
+
+  .passes-page :is(.practical-section, .faq-section) {
+    width: min(100%, var(--passes-reading-width));
+  }
+
+  .passes-page .passes-hero {
+    padding-bottom: clamp(34px, 4vw, 52px);
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .passes-page .path-index {
+    margin-top: clamp(42px, 5vw, 64px);
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .passes-page .path-index header {
+    max-width: 760px;
+    margin-bottom: 24px;
+  }
+
+  .passes-page .path-index ol {
+    gap: 10px;
+  }
+
+  .passes-page .path-index a {
+    min-height: 128px;
+    padding: 18px 42px 18px 18px;
+    border-color: color-mix(in srgb, var(--line) 82%, transparent);
+    background: color-mix(in srgb, var(--paper-deep) 22%, transparent);
+  }
+
+  .passes-page .path-index a:hover,
+  .passes-page .path-index a:focus-visible {
+    border-color: var(--line-strong);
+    background: color-mix(in srgb, var(--paper-deep) 65%, transparent);
+    outline: 0;
+    transform: translateY(-1px);
+  }
+
+  .passes-page .path-index__label strong {
+    font-size: 1.25rem;
+  }
+
+  .passes-page .path-index__label small,
+  .passes-page .path-index__best {
+    font-size: .82rem;
+  }
+
+  .passes-page .full-pass {
+    margin-top: clamp(54px, 6vw, 82px);
+  }
+
+  .passes-page .full-pass__bottom {
+    grid-template-columns: minmax(260px, 4fr) minmax(0, 6fr);
+    align-items: start;
+  }
+
+  .passes-page .full-pass__bottom > div:first-child {
+    max-width: none;
+  }
+
+  .passes-page .full-pass__bottom h3 {
+    max-width: 430px;
+  }
+
+  .passes-page .decision-section {
+    padding-top: clamp(32px, 4vw, 46px);
+  }
+
+  .passes-page .decision-section__header,
+  .passes-page .decision-section__header--text {
+    display: block;
+  }
+
+  .passes-page .decision-section__header > div:first-child {
+    max-width: 700px;
+  }
+
+  .passes-page .decision-section__header:not(.decision-section__header--text) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+    gap: clamp(34px, 5vw, 64px);
+    align-items: end;
+  }
+
+  .passes-page .decision-section__header h2 {
+    margin-bottom: 12px;
+  }
+
+  .passes-page .section-lead {
+    font-size: clamp(1.02rem, 1.4vw, 1.18rem);
+  }
+
+  .passes-page .package-map {
+    margin-top: 30px;
+    padding: clamp(22px, 3vw, 32px);
+    border-color: var(--line);
+  }
+
+  .passes-page .package-map > h3 {
+    font-size: clamp(1.45rem, 2.3vw, 1.9rem);
+  }
+
+  .passes-page .package-map__step {
+    padding-block: 22px;
+  }
+
+  .passes-page .package-map__step:last-child {
+    padding-bottom: 4px;
+  }
+
+  .passes-page .choice-prompt {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .passes-page .choice-prompt span {
+    color: var(--muted);
+    font-size: .76rem;
+  }
+
+  .passes-page .choice-prompt h3 {
+    margin: 0;
+    font-size: .92rem;
+    font-weight: 680;
+  }
+
+  .passes-page .interactive-choice {
+    margin-top: 30px;
+  }
+
+  .passes-page .choice-tabs,
+  .passes-page .choice-tabs--family {
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--paper-deep) 68%, transparent);
+  }
+
+  .passes-page .choice-tabs button,
+  .passes-page .choice-tabs--family button {
+    position: relative;
+    min-height: 92px;
+    padding: 14px 40px 14px 14px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .passes-page .choice-tabs button::after {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    color: transparent;
+    content: "✓";
+    font-size: .9rem;
+  }
+
+  .passes-page .choice-tabs button:hover {
+    background: color-mix(in srgb, white 62%, transparent);
+  }
+
+  .passes-page .choice-tabs button[aria-selected="true"] {
+    border: 0;
+    background: white;
+    box-shadow: 0 1px 5px color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  .passes-page .choice-tabs button[aria-selected="true"]::after {
+    color: var(--accent-muted);
+  }
+
+  .passes-page .choice-tabs button:focus-visible {
+    outline: 2px solid var(--accent-muted);
+    outline-offset: -2px;
+  }
+
+  .passes-page .choice-tabs button > span {
+    display: none;
+  }
+
+  .passes-page .choice-tabs button > strong {
+    font-size: 1.12rem;
+  }
+
+  .passes-page .choice-tabs button > small {
+    margin-top: 6px;
+    font-size: .8rem;
+  }
+
+  .passes-page .interactive-choice .participation-options {
+    margin-top: 12px;
+  }
+
+  .passes-page .interactive-choice .participation-option {
+    min-height: 0;
+    padding: clamp(22px, 3vw, 32px);
+    border-color: var(--line);
+    background: color-mix(in srgb, white 78%, var(--paper));
+  }
+
+  .passes-page .event-select-card {
+    border-color: color-mix(in srgb, var(--line) 88%, transparent);
+  }
+
+  .passes-page .event-select-card label {
+    min-height: 80px;
+  }
+
+  .passes-page .included-event::after {
+    opacity: 0;
+    transition: opacity 140ms ease;
+  }
+
+  .passes-page .included-event:is(:hover, :focus-visible)::after {
+    opacity: 1;
+  }
+
+  .passes-page .path-disclosure,
+  .passes-page .family-age-details {
+    max-width: none;
+    margin: 14px 0 0;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .88rem;
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details) > summary {
+    position: relative;
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    padding: 10px 38px 10px 0;
+    color: var(--ink);
+    font-weight: 670;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details) > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details) > summary::after {
+    position: absolute;
+    right: 6px;
+    color: var(--accent-muted);
+    content: "+";
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details)[open] > summary::after {
+    content: "−";
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details) > p {
+    max-width: 760px;
+    margin: 0;
+    padding: 2px 0 16px;
+  }
+
+  .passes-page .decision-actions {
+    justify-content: flex-end;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 0;
+  }
+
+  .passes-page .jam-section.section-wide {
+    padding: clamp(30px, 4vw, 44px) 0;
+  }
+
+  .passes-page .jam-section__grid {
+    display: grid;
+    grid-template-columns: minmax(280px, .9fr) minmax(400px, 1.1fr);
+    gap: clamp(48px, 7vw, 86px);
+    align-items: start;
+  }
+
+  .passes-page .jam-section__grid > header {
+    position: sticky;
+    top: 92px;
+  }
+
+  .passes-page .jam-choice {
+    max-width: none;
+    margin-top: 0;
+  }
+
+  .passes-page .jam-choice > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--paper-deep) 68%, transparent);
+  }
+
+  .passes-page .jam-choice button {
+    min-height: 58px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--ink);
+    text-align: left;
+  }
+
+  .passes-page .jam-choice button[aria-pressed="true"] {
+    border: 0;
+    background: white;
+    color: var(--ink);
+    box-shadow: 0 1px 5px color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  .passes-page .jam-pricing--single {
+    max-width: none;
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  .passes-page .jam-price-list dd small {
+    font-size: .72rem;
+  }
+
+  .passes-page .jam-price-list dd strong {
+    font-size: 1.7rem;
+  }
+
+  .passes-page .jam-register {
+    margin-top: 18px;
+  }
+
+  .passes-page .family-choice,
+  .passes-page .family-product {
+    max-width: none;
+  }
+
+  .passes-page .family-choice .family-products {
+    margin-top: 12px;
+  }
+
+  .passes-page .family-product {
+    padding: clamp(24px, 3.5vw, 36px);
+  }
+
+  .passes-page .family-age-details {
+    margin-top: 12px;
+  }
+
+  .passes-page .performances-section {
+    display: grid;
+    grid-template-columns: minmax(220px, .75fr) minmax(0, 1.25fr);
+    gap: clamp(38px, 6vw, 76px);
+    min-height: 0;
+    padding-block: 28px;
+  }
+
+  .passes-page .performances-section h2 {
+    font-size: clamp(1.8rem, 3vw, 2.65rem);
+  }
+
+  .passes-page .performances-section p {
+    margin-block: 0;
+  }
+
+  .passes-page .performances-section .status-note {
+    margin-top: 10px;
+  }
+
+  .passes-page .registration-section.section-wide {
+    padding: clamp(28px, 4vw, 40px) 0;
+  }
+
+  .passes-page .registration-section ol.registration-timeline {
+    margin-top: 22px;
+    background: transparent;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .passes-page .registration-timeline li {
+    background: transparent;
+    border-right: 1px solid var(--line);
+  }
+
+  .passes-page .registration-section li h3 {
+    font-size: .92rem;
+  }
+
+  .passes-page .registration-section li p {
+    font-size: .88rem;
+  }
+
+  .passes-page .practical-groups summary,
+  .passes-page .faq-list summary {
+    min-height: 56px;
+    font-size: .95rem;
+  }
+
+  .passes-page .final-cta {
+    width: min(100%, 900px);
+    margin-inline: auto;
+  }
+
+  @media (max-width: 900px) {
+    .passes-page .full-pass__bottom {
+      grid-template-columns: 1fr;
+    }
+
+    .passes-page .jam-section__grid {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .passes-page .jam-section__grid > header {
+      position: static;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .passes-page {
+      width: min(100% - 28px, 1240px);
+      --passes-section-space: 54px;
+    }
+
+    .passes-page .passes-hero {
+      padding-bottom: 28px;
+    }
+
+    .passes-page .path-index ol {
+      gap: 8px;
+    }
+
+    .passes-page .path-index a {
+      padding-block: 16px;
+    }
+
+    .passes-page .decision-section__header:not(.decision-section__header--text) {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .passes-page .choice-tabs,
+    .passes-page .choice-tabs--family {
+      grid-template-columns: 1fr;
+    }
+
+    .passes-page .choice-tabs button,
+    .passes-page .choice-tabs--family button {
+      min-height: 72px;
+      grid-template-columns: 1fr;
+      padding: 12px 40px 12px 12px;
+    }
+
+    .passes-page .choice-tabs button > small {
+      grid-column: auto;
+      margin-top: 2px;
+    }
+
+    .passes-page .interactive-choice .participation-option,
+    .passes-page .family-product {
+      padding: 20px 14px;
+    }
+
+    .passes-page .jam-choice > div {
+      grid-template-columns: 1fr;
+    }
+
+    .passes-page .jam-choice button {
+      min-height: 50px;
+    }
+
+    .passes-page .jam-price-list > div {
+      grid-template-columns: minmax(100px, .8fr) minmax(160px, 1.2fr);
+      gap: 12px;
+    }
+
+    .passes-page .performances-section {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .passes-page .registration-section header {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Final cascade guards for the decision-first components. */
+  .passes-page .package-map {
+    padding: clamp(22px, 3vw, 34px);
+    border: 1px solid var(--line);
+    background: transparent;
+  }
+
+  .passes-page .package-map__step {
+    grid-template-columns: 34px minmax(0, 1fr);
+    padding: 24px 0;
+  }
+
+  .passes-page .package-map__number {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: var(--choice-surface);
+  }
+
+  .passes-page .package-map__step h4 {
+    margin-top: 2px;
+    color: var(--ink);
+    font-size: 1rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .passes-page .interactive-choice .participation-option {
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 300px);
+    gap: clamp(30px, 5vw, 66px);
+    min-height: 252px;
+    margin-inline: 0;
+    padding: clamp(26px, 4vw, 44px);
+    border: 1px solid var(--line);
+    background: white;
+  }
+
+  .passes-page .interactive-choice .participation-option > header {
+    display: none;
+  }
+
+  .passes-page .interactive-choice .participation-option > .price-pair {
+    grid-column: 2;
+  }
+
+  .passes-page .jam-choice button[aria-pressed="true"] {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: white;
+  }
+
+  .passes-page .family-choice .family-products {
+    display: block;
+    margin-top: 14px;
+  }
+
+  .passes-page .family-product {
+    display: block;
+    max-width: 940px;
+    margin-inline: 0;
+    padding: clamp(26px, 4vw, 42px);
+    border: 1px solid var(--line);
+    background: white;
+  }
+
+  .passes-page .family-add-on {
+    margin-top: 24px;
+    padding-top: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  @media (max-width: 900px) {
+    .passes-page .path-index ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .passes-page .interactive-choice .participation-option {
+      grid-template-columns: 1fr;
+    }
+
+    .passes-page .interactive-choice .participation-option > .price-pair {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .passes-page .path-index ol {
+      grid-template-columns: 1fr;
+    }
+
+    .passes-page .path-index a {
+      min-height: 0;
+    }
+
+    .passes-page .package-map {
+      margin-inline: 0;
+      padding-inline: 16px;
+    }
+
+    .passes-page .interactive-choice .participation-option,
+    .passes-page .family-product {
+      padding: 22px 16px;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Keep this final: it normalises the accumulated legacy refinements above. */
+  .passes-page :is(.path-index, .decision-section, .jam-section, .performances-section, .registration-section) {
+    width: min(100%, var(--passes-decision-width));
+    margin-inline: auto;
+  }
+
+  .passes-page :is(.practical-section, .faq-section) {
+    width: min(100%, var(--passes-reading-width));
+  }
+
+  .passes-page .path-index {
+    margin-top: clamp(42px, 5vw, 64px);
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .passes-page .path-index header {
+    max-width: 760px;
+    margin-bottom: 24px;
+  }
+
+  .passes-page .path-index ol {
+    gap: 10px;
+  }
+
+  .passes-page .path-index a {
+    min-height: 128px;
+    padding: 18px 42px 18px 18px;
+    border-color: color-mix(in srgb, var(--line) 82%, transparent);
+    background: color-mix(in srgb, var(--paper-deep) 22%, transparent);
+  }
+
+  .passes-page .path-index a:hover,
+  .passes-page .path-index a:focus-visible {
+    border-color: var(--line-strong);
+    background: color-mix(in srgb, var(--paper-deep) 65%, transparent);
+    outline: 0;
+    transform: translateY(-1px);
+  }
+
+  .passes-page .full-pass__bottom {
+    grid-template-columns: minmax(260px, 4fr) minmax(0, 6fr);
+    align-items: start;
+  }
+
+  .passes-page .decision-section__header,
+  .passes-page .decision-section__header--text {
+    display: block;
+  }
+
+  .passes-page .decision-section__header:not(.decision-section__header--text) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+    gap: clamp(34px, 5vw, 64px);
+  }
+
+  .passes-page .decision-section__header > div:first-child {
+    max-width: 700px;
+  }
+
+  .passes-page .package-map {
+    margin-top: 30px;
+    padding: clamp(22px, 3vw, 32px);
+  }
+
+  .passes-page .package-map__step {
+    padding-block: 22px;
+  }
+
+  .passes-page .choice-prompt {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .passes-page .choice-prompt span {
+    color: var(--muted);
+    font-size: .76rem;
+  }
+
+  .passes-page .choice-prompt h3 {
+    margin: 0;
+    font-size: .92rem;
+    font-weight: 680;
+  }
+
+  .passes-page .interactive-choice {
+    margin-top: 30px;
+  }
+
+  .passes-page .choice-tabs,
+  .passes-page .choice-tabs--family {
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--paper-deep) 68%, transparent);
+  }
+
+  .passes-page .choice-tabs button,
+  .passes-page .choice-tabs--family button {
+    position: relative;
+    min-height: 92px;
+    padding: 14px 40px 14px 14px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .passes-page .choice-tabs button::after {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    color: transparent;
+    content: "✓";
+    font-size: .9rem;
+  }
+
+  .passes-page .choice-tabs button:hover {
+    background: color-mix(in srgb, white 62%, transparent);
+  }
+
+  .passes-page .choice-tabs button[aria-selected="true"] {
+    border: 0;
+    background: white;
+    box-shadow: 0 1px 5px color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  .passes-page .choice-tabs button[aria-selected="true"]::after {
+    color: var(--accent-muted);
+  }
+
+  .passes-page .choice-tabs button > span {
+    display: none;
+  }
+
+  .passes-page .choice-tabs button > small {
+    grid-column: auto;
+    margin-top: 5px;
+  }
+
+  .passes-page .interactive-choice .participation-options {
+    margin-top: 12px;
+  }
+
+  .passes-page .interactive-choice .participation-option {
+    min-height: 0;
+    padding: clamp(22px, 3vw, 32px);
+    border-color: var(--line);
+    background: color-mix(in srgb, white 78%, var(--paper));
+  }
+
+  .passes-page .path-disclosure,
+  .passes-page .family-age-details {
+    max-width: none;
+    margin: 14px 0 0;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .88rem;
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details) > summary {
+    position: relative;
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    padding: 10px 38px 10px 0;
+    color: var(--ink);
+    font-weight: 670;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details) > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details) > summary::after {
+    position: absolute;
+    right: 6px;
+    color: var(--accent-muted);
+    content: "+";
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details)[open] > summary::after {
+    content: "−";
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details) > p {
+    max-width: 760px;
+    margin: 0;
+    padding: 2px 0 16px;
+  }
+
+  .passes-page .decision-actions {
+    justify-content: flex-end;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 0;
+  }
+
+  .passes-page .jam-section.section-wide {
+    padding: clamp(30px, 4vw, 44px) 0;
+  }
+
+  .passes-page .jam-section__grid {
+    display: grid;
+    grid-template-columns: minmax(280px, .9fr) minmax(400px, 1.1fr);
+    gap: clamp(48px, 7vw, 86px);
+    align-items: start;
+  }
+
+  .passes-page .jam-section__grid > header {
+    position: sticky;
+    top: 92px;
+  }
+
+  .passes-page .jam-choice {
+    max-width: none;
+    margin-top: 0;
+  }
+
+  .passes-page .jam-choice > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--paper-deep) 68%, transparent);
+  }
+
+  .passes-page .jam-choice button,
+  .passes-page .jam-choice button[aria-pressed="true"] {
+    min-height: 58px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--ink);
+    text-align: left;
+  }
+
+  .passes-page .jam-choice button[aria-pressed="true"] {
+    background: white;
+    box-shadow: 0 1px 5px color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  .passes-page .jam-pricing--single {
+    max-width: none;
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  .passes-page .jam-register {
+    margin-top: 18px;
+  }
+
+  .passes-page .family-choice,
+  .passes-page .family-product {
+    max-width: none;
+  }
+
+  .passes-page .family-choice .family-products {
+    margin-top: 12px;
+  }
+
+  .passes-page .family-product {
+    padding: clamp(24px, 3.5vw, 36px);
+  }
+
+  .passes-page .performances-section {
+    display: grid;
+    grid-template-columns: minmax(220px, .75fr) minmax(0, 1.25fr);
+    gap: clamp(38px, 6vw, 76px);
+    min-height: 0;
+    padding-block: 28px;
+  }
+
+  .passes-page .performances-section h2 {
+    font-size: clamp(1.8rem, 3vw, 2.65rem);
+  }
+
+  .passes-page .registration-section.section-wide {
+    padding: clamp(28px, 4vw, 40px) 0;
+  }
+
+  .passes-page .registration-section ol.registration-timeline {
+    margin-top: 22px;
+    background: transparent;
+    border-block: 1px solid var(--line);
+  }
+
+  .passes-page .registration-timeline li {
+    background: transparent;
+    border-right: 1px solid var(--line);
+  }
+
+  @media (max-width: 900px) {
+    .passes-page .full-pass__bottom,
+    .passes-page .jam-section__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .passes-page .jam-section__grid {
+      gap: 30px;
+    }
+
+    .passes-page .jam-section__grid > header {
+      position: static;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .passes-page {
+      width: min(100% - 28px, 1240px);
+    }
+
+    .passes-page .decision-section__header:not(.decision-section__header--text),
+    .passes-page .choice-tabs,
+    .passes-page .choice-tabs--family,
+    .passes-page .jam-choice > div,
+    .passes-page .performances-section {
+      grid-template-columns: 1fr;
+    }
+
+    .passes-page .choice-tabs button,
+    .passes-page .choice-tabs--family button {
+      min-height: 72px;
+    }
+
+    .passes-page .interactive-choice .participation-option,
+    .passes-page .family-product {
+      padding: 20px 14px;
+    }
+  }
+</style>
+
+<style is:global>
+  /* Minimal interaction layer: reveal detail after a decision, not before it. */
+  .passes-page {
+    --choice-surface: color-mix(in srgb, var(--paper-deep) 66%, white);
+  }
+
+  .passes-page :is(button, input, summary):focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .passes-intro {
+    align-items: start;
+  }
+
+  .passes-intro__copy p {
+    margin-bottom: 0;
+    font-size: 1rem;
+  }
+
+  .participation-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .participation-steps li,
+  .participation-steps li:last-child {
+    display: block;
+    min-height: 138px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--paper-deep) 30%, transparent);
+  }
+
+  .participation-steps span {
+    display: block;
+    margin-bottom: 22px;
+    font-size: .78rem;
+  }
+
+  .path-index {
+    display: block;
+  }
+
+  .path-index header {
+    max-width: 720px;
+    margin-bottom: 28px;
+  }
+
+  .path-index ol {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    border: 0;
+  }
+
+  .path-index li {
+    min-width: 0;
+    border: 0;
+  }
+
+  .path-index a {
+    position: relative;
+    display: flex;
+    min-height: 142px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+    padding: 20px 44px 20px 20px;
+    border: 1px solid var(--line);
+    background: transparent;
+    transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  }
+
+  .path-index a:hover {
+    border-color: var(--line-strong);
+    background: var(--choice-surface);
+    transform: translateY(-2px);
+  }
+
+  .path-index__number {
+    display: none;
+  }
+
+  .path-index__label {
+    gap: 6px;
+  }
+
+  .path-index__label strong {
+    font-size: 1.35rem;
+  }
+
+  .path-index__best {
+    display: block;
+    margin-top: auto;
+  }
+
+  .path-index__arrow {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+  }
+
+  .full-pass__bottom {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 26px;
+  }
+
+  .full-pass__bottom > div:first-child {
+    max-width: 760px;
+  }
+
+  .full-pass__details {
+    border-top: 1px solid var(--line);
+  }
+
+  .full-pass__details > summary,
+  .jam-dates > summary,
+  .family-add-on > summary {
+    position: relative;
+    display: flex;
+    min-height: 54px;
+    align-items: center;
+    padding: 12px 44px 12px 0;
+    list-style: none;
+    color: var(--ink);
+    font-weight: 670;
+    cursor: pointer;
+  }
+
+  .full-pass__details > summary::-webkit-details-marker,
+  .jam-dates > summary::-webkit-details-marker,
+  .family-add-on > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .full-pass__details > summary::after,
+  .jam-dates > summary::after,
+  .family-add-on > summary::after {
+    position: absolute;
+    right: 6px;
+    content: "+";
+    color: var(--accent-muted);
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+  }
+
+  .full-pass__details[open] > summary::after,
+  .jam-dates[open] > summary::after,
+  .family-add-on[open] > summary::after {
+    content: "−";
+  }
+
+  .full-pass__details .editorial-notes {
+    padding: 10px 0 6px;
+  }
+
+  .package-map {
+    padding: clamp(22px, 3vw, 34px);
+    border: 1px solid var(--line);
+    background: transparent;
+  }
+
+  .package-map > h3 {
+    margin-bottom: 10px;
+  }
+
+  .package-map__step {
+    grid-template-columns: 34px minmax(0, 1fr);
+    padding: 24px 0;
+  }
+
+  .package-map__number {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: var(--choice-surface);
+  }
+
+  .package-map__step h4 {
+    margin-top: 2px;
+    color: var(--ink);
+    font-size: 1rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .event-select-card {
+    --event-choice-accent: var(--accent-muted);
+    position: relative;
+    min-width: 0;
+    border: 1px solid var(--line);
+    background: white;
+  }
+
+  .event-select-card[data-event-accent="ci"] { --event-choice-accent: #738b5f; }
+  .event-select-card[data-event-accent="performance_labs"] { --event-choice-accent: #a06f42; }
+
+  .event-select-card label {
+    display: block;
+    min-height: 88px;
+    padding: 16px 48px 16px 18px;
+    cursor: pointer;
+  }
+
+  .event-select-card label > span {
+    display: grid;
+    gap: 6px;
+  }
+
+  .event-select-card input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .event-select-card strong {
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: 1.12rem;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .event-select-card small {
+    color: var(--muted);
+    font-size: .76rem;
+  }
+
+  .event-select-card:has(input:checked) {
+    border-color: var(--event-choice-accent);
+    box-shadow: inset 3px 0 0 var(--event-choice-accent);
+    background: color-mix(in srgb, var(--event-choice-accent) 7%, white);
+  }
+
+  .event-info-button {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .event-info-button:hover {
+    background: var(--paper-deep);
+    color: var(--ink);
+  }
+
+  .included-event {
+    grid-template-columns: 20px minmax(0, 1fr) 24px;
+  }
+
+  .included-event::after {
+    content: "ⓘ";
+    color: var(--muted);
+  }
+
+  .builder-intro {
+    border-left-width: 1px;
+  }
+
+  .interactive-choice {
+    margin-top: clamp(30px, 4vw, 46px);
+  }
+
+  .choice-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .choice-tabs button {
+    display: grid;
+    min-width: 0;
+    min-height: 118px;
+    align-content: start;
+    gap: 6px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease;
+  }
+
+  .choice-tabs button > span {
+    color: var(--muted);
+    font-size: .75rem;
+  }
+
+  .choice-tabs button > strong {
+    font-family: var(--font-serif);
+    font-size: 1.18rem;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .choice-tabs button > small {
+    margin-top: auto;
+    color: var(--muted);
+    font-size: .78rem;
+    line-height: 1.4;
+  }
+
+  .choice-tabs button[aria-selected="true"] {
+    border-color: var(--accent-muted);
+    background: var(--choice-surface);
+    box-shadow: inset 0 -3px 0 var(--accent-muted);
+  }
+
+  .interactive-choice .participation-options {
+    margin-top: 14px;
+    border: 0;
+  }
+
+  .interactive-choice .participation-option {
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 300px);
+    gap: clamp(30px, 5vw, 66px);
+    min-height: 252px;
+    padding: clamp(26px, 4vw, 44px);
+    border: 1px solid var(--line);
+    background: white;
+  }
+
+  .interactive-choice .participation-option > header {
+    display: none;
+  }
+
+  .interactive-choice .participation-option > .price-pair {
+    grid-column: 2;
+    align-self: start;
+  }
+
+  .interactive-choice .participation-option__content > p:first-child {
+    color: var(--ink);
+    font-size: 1rem;
+  }
+
+  .participation-option--complete {
+    margin-inline: 0;
+  }
+
+  .path-disclosure {
+    border-left-width: 1px;
+  }
+
+  .jam-section.section-wide,
+  .registration-section.section-wide {
+    padding-inline: 0;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+  }
+
+  .jam-section > header {
+    max-width: 760px;
+  }
+
+  .jam-dates {
+    margin-top: 18px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .event-inline-list {
+    margin: 0 0 12px;
+  }
+
+  .event-inline-list button {
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .jam-choice {
+    max-width: 800px;
+    margin-top: 30px;
+    padding-top: 0;
+    border: 0;
+  }
+
+  .jam-choice h3 {
+    font-size: 1.05rem;
+  }
+
+  .jam-choice button[aria-pressed="true"] {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: white;
+  }
+
+  .jam-pricing--single {
+    max-width: 760px;
+    padding-top: 12px;
+    border-top: 0;
+  }
+
+  .family-choice {
+    max-width: 940px;
+  }
+
+  .choice-tabs--family {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .choice-tabs--family button {
+    min-height: 94px;
+  }
+
+  .family-choice .family-products {
+    display: block;
+    margin-top: 14px;
+  }
+
+  .family-product {
+    display: block;
+    max-width: 940px;
+    padding: clamp(26px, 4vw, 42px);
+    border: 1px solid var(--line);
+    background: white;
+  }
+
+  .family-add-on {
+    margin-top: 24px;
+    padding-top: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .family-add-on > div {
+    padding-bottom: 24px;
+  }
+
+  .family-add-on h4 {
+    margin-top: 0;
+  }
+
+  .product-cta {
+    margin-top: 26px;
+  }
+
+  .family-product__event {
+    position: relative;
+    padding-right: 44px;
+  }
+
+  .family-product__event i {
+    position: absolute;
+    top: 14px;
+    right: 10px;
+    color: var(--muted);
+    font-style: normal;
+  }
+
+  .performances-section {
+    align-items: center;
+    padding-block: 30px;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .performances-section h2 {
+    margin: 0;
+  }
+
+  .registration-section header {
+    align-items: center;
+  }
+
+  .registration-section ol.registration-timeline {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .registration-timeline li,
+  .registration-timeline li:nth-child(n + 4) {
+    grid-column: auto;
+    border-bottom: 0;
+  }
+
+  .registration-timeline li:last-child {
+    border-right: 0;
+  }
+
+  .practical-groups summary,
+  .faq-list summary {
+    min-height: 62px;
+    font-size: .95rem;
+  }
+
+  .practical-groups dl {
+    padding-left: 22px;
+  }
+
+  @media (max-width: 900px) {
+    .participation-steps,
+    .path-index ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .interactive-choice .participation-option {
+      grid-template-columns: 1fr;
+    }
+
+    .interactive-choice .participation-option > .price-pair {
+      grid-column: auto;
+    }
+
+    .registration-section ol.registration-timeline {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .participation-steps,
+    .path-index ol,
+    .choice-tabs,
+    .choice-tabs--family {
+      grid-template-columns: 1fr;
+    }
+
+    .participation-steps li,
+    .path-index a {
+      min-height: 0;
+    }
+
+    .path-index a {
+      padding-block: 16px;
+    }
+
+    .choice-tabs {
+      gap: 8px;
+    }
+
+    .choice-tabs button {
+      min-height: 0;
+      grid-template-columns: 28px minmax(0, 1fr);
+      padding: 14px;
+    }
+
+    .choice-tabs button > small {
+      grid-column: 2;
+    }
+
+    .interactive-choice .participation-option,
+    .family-product {
+      margin-inline: 0;
+      padding: 22px 16px;
+    }
+
+    .event-select-card label {
+      min-height: 80px;
+    }
+
+    .full-pass__details .editorial-notes {
+      grid-template-columns: 1fr;
+    }
+
+    .jam-section.section-wide,
+    .registration-section.section-wide {
+      margin-inline: 0;
+    }
+
+    .event-inline-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<style is:global>
+  .decision-section {
+    scroll-margin-top: 96px;
+    margin-top: var(--passes-section-space);
+    padding-top: clamp(30px, 4vw, 48px);
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .decision-section__header {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(280px, 4fr);
+    gap: clamp(44px, 7vw, 88px);
+    align-items: end;
+  }
+
+  .decision-section__header--text {
+    grid-template-columns: minmax(0, 5fr) minmax(300px, 5fr);
+    align-items: start;
+  }
+
+  .decision-section__header h2 {
+    margin-bottom: 16px;
+  }
+
+  .decision-section__header .section-lead {
+    max-width: 620px;
+    margin-bottom: 0;
+  }
+
+  .decision-section__header > .price-pair {
+    margin-top: 0;
+  }
+
+  .builder-intro {
+    padding: 18px 0 0 22px;
+    border-left: 2px solid var(--line-strong);
+  }
+
+  .builder-intro p {
+    max-width: 470px;
+    margin: 6px 0 0;
+  }
+
+  .package-map {
+    margin-top: clamp(32px, 4vw, 48px);
+    padding: clamp(26px, 4vw, 44px);
+    background: var(--paper-deep);
+  }
+
+  .package-map > h3 {
+    margin-bottom: 24px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.55rem, 2.7vw, 2.2rem);
+    font-weight: 400;
+  }
+
+  .package-map__step {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 18px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .package-map__step:last-child {
+    padding-bottom: 0;
+  }
+
+  .package-map__number {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    color: var(--accent-muted);
+    font-weight: 700;
+  }
+
+  .package-map__step h4 {
+    margin: 4px 0 12px;
+    color: var(--ink);
+    font-size: .82rem;
+  }
+
+  .package-map__note {
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: .82rem;
+  }
+
+  .event-choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .event-choice-grid--compact {
+    margin-top: 14px;
+  }
+
+  .event-choice,
+  .included-event,
+  .family-product__event,
+  .event-inline-list button {
+    --event-choice-accent: var(--accent-muted);
+    appearance: none;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  :is(.event-choice, .included-event, .family-product__event, .event-inline-list button)[data-event-accent="ci"] {
+    --event-choice-accent: #738b5f;
+  }
+
+  :is(.event-choice, .included-event, .family-product__event, .event-inline-list button)[data-event-accent="performance_labs"] {
+    --event-choice-accent: #a06f42;
+  }
+
+  :is(.event-choice, .included-event, .family-product__event, .event-inline-list button)[data-event-accent="performances"] {
+    --event-choice-accent: #8d4f67;
+  }
+
+  :is(.event-choice, .included-event, .family-product__event, .event-inline-list button)[data-event-accent="family_youth"] {
+    --event-choice-accent: #62869a;
+  }
+
+  :is(.event-choice, .included-event, .family-product__event, .event-inline-list button)[data-event-accent="jams_gatherings"] {
+    --event-choice-accent: #736e96;
+  }
+
+  .event-choice {
+    display: grid;
+    gap: 5px;
+    min-height: 76px;
+    padding: 15px 16px;
+    border-left: 2px solid var(--event-choice-accent);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--event-choice-accent) 8%, transparent), transparent 78%);
+  }
+
+  .event-choice strong,
+  .family-product__event strong {
+    font-family: var(--font-serif);
+    font-size: 1.12rem;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .event-choice small,
+  .family-product__event span {
+    color: var(--muted);
+    font-size: .74rem;
+  }
+
+  .event-choice:hover,
+  .event-choice:focus-visible,
+  .family-product__event:hover,
+  .family-product__event:focus-visible {
+    background: linear-gradient(90deg, color-mix(in srgb, var(--event-choice-accent) 14%, transparent), transparent 82%);
+    outline: 1px solid color-mix(in srgb, var(--event-choice-accent) 46%, var(--line));
+    outline-offset: 3px;
+  }
+
+  .included-event-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 18px;
+    margin-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .included-event {
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    gap: 8px;
+    align-items: center;
+    min-height: 56px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .included-event span {
+    color: var(--event-choice-accent);
+  }
+
+  .included-event:hover,
+  .included-event:focus-visible,
+  .event-inline-list button:hover,
+  .event-inline-list button:focus-visible {
+    color: var(--event-choice-accent);
+    outline: 0;
+  }
+
+  .decision-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 22px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  .decision-actions > p {
+    max-width: 600px;
+    margin: 0;
+    font-size: .86rem;
+  }
+
+  .decision-actions > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+  }
+
+  .decision-actions .passes-action {
+    margin: 0;
+  }
+
+  .participation-options {
+    margin-top: clamp(30px, 4vw, 46px);
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .participation-option {
+    display: grid;
+    grid-template-columns: minmax(220px, 2.2fr) minmax(300px, 3fr) minmax(250px, 2.2fr);
+    gap: clamp(24px, 4vw, 52px);
+    align-items: start;
+    padding: clamp(24px, 3vw, 34px) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .participation-option--complete {
+    margin-inline: -18px;
+    padding-inline: 18px;
+    background: color-mix(in srgb, var(--paper-deep) 64%, transparent);
+  }
+
+  .participation-option > header {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .participation-option > header > span {
+    color: var(--muted);
+    font-size: .72rem;
+  }
+
+  .participation-option header h3 {
+    margin-bottom: 5px;
+    font-family: var(--font-serif);
+    font-size: 1.28rem;
+    font-weight: 400;
+  }
+
+  .participation-option header p,
+  .participation-option__content > p {
+    margin: 0;
+    font-size: .82rem;
+  }
+
+  .participation-option > .price-pair {
+    margin-top: 0;
+  }
+
+  .composition-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px !important;
+    color: var(--ink) !important;
+    font-weight: 650;
+  }
+
+  .composition-line b {
+    color: var(--accent-muted);
+  }
+
+  .path-disclosure {
+    max-width: 860px;
+    margin: 18px 0 0;
+    padding-left: 16px;
+    border-left: 2px solid var(--line-strong);
+    font-size: .82rem;
+  }
+
+  .event-inline-list button {
+    display: flex;
+    width: 100%;
+    min-height: 44px;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .jam-choice {
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .jam-choice > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .jam-choice button {
+    min-height: 44px;
+    padding: 10px 16px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    font: inherit;
+    font-weight: 650;
+    cursor: pointer;
+  }
+
+  .jam-choice button[aria-pressed="true"] {
+    border-color: var(--accent-muted);
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .jam-choice button:hover,
+  .jam-choice button:focus-visible {
+    border-color: var(--accent-muted);
+    outline: 0;
+  }
+
+  .jam-pricing--single {
+    grid-template-columns: minmax(0, 760px);
+    gap: 0;
+    margin-top: 28px;
+  }
+
+  .jam-pricing--single > article + article {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .family-products {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: clamp(24px, 4vw, 42px);
+    margin-top: clamp(30px, 4vw, 46px);
+  }
+
+  .family-product {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: clamp(24px, 3.5vw, 38px);
+    border-top: 2px solid var(--line-strong);
+    background: color-mix(in srgb, var(--paper-deep) 62%, transparent);
+  }
+
+  .family-product > header h3 {
+    font-family: var(--font-serif);
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    font-weight: 400;
+  }
+
+  .family-product > h4 {
+    margin-bottom: 10px;
+  }
+
+  .included-event-grid--family {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .family-product > .price-pair {
+    margin-top: 24px;
+  }
+
+  .family-add-on {
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .family-add-on__label {
+    margin: 0 0 8px;
+    color: var(--accent-muted) !important;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+  }
+
+  .family-add-on h4 {
+    margin: 0 0 8px;
+    color: var(--ink);
+    font-size: .86rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .family-product__event {
+    display: grid;
+    gap: 7px;
+    padding: 0 0 20px 16px;
+    border-left: 2px solid var(--event-choice-accent);
+  }
+
+  .family-product__event strong {
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  }
+
+  .performances-section {
+    padding-block: 24px;
+  }
+
+  .practical-section > h2 {
+    margin-bottom: 20px;
+  }
+
+  .practical-groups {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .practical-groups > details {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .practical-groups summary {
+    position: relative;
+    display: flex;
+    min-height: 56px;
+    align-items: center;
+    padding: 14px 48px 14px 0;
+    list-style: none;
+    cursor: pointer;
+    font-weight: 650;
+  }
+
+  .practical-groups summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .practical-groups summary::after {
+    position: absolute;
+    right: 8px;
+    color: var(--accent-muted);
+    content: "+";
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  .practical-groups details[open] summary::after {
+    content: "−";
+  }
+
+  .practical-groups dl {
+    margin: 0 0 18px;
+  }
+
+  @media (max-width: 900px) {
+    .decision-section__header,
+    .decision-section__header--text {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .builder-intro {
+      padding-top: 0;
+    }
+
+    .participation-option {
+      grid-template-columns: minmax(180px, 1fr) minmax(0, 1.5fr);
+    }
+
+    .participation-option > .price-pair {
+      grid-column: 2;
+    }
+
+    .family-products {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .decision-section {
+      scroll-margin-top: 76px;
+    }
+
+    .package-map {
+      margin-inline: -14px;
+      padding-inline: 14px;
+    }
+
+    .package-map__step {
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 10px;
+    }
+
+    .event-choice-grid,
+    .included-event-grid,
+    .included-event-grid--family {
+      grid-template-columns: 1fr;
+    }
+
+    .decision-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .decision-actions > div,
+    .decision-actions .passes-action--primary {
+      width: 100%;
+    }
+
+    .decision-actions .passes-action--primary {
+      justify-content: center;
+    }
+
+    .participation-option {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .participation-option > .price-pair {
+      grid-column: auto;
+    }
+
+    .participation-option--complete {
+      margin-inline: -14px;
+      padding-inline: 14px;
+    }
+
+    .jam-choice > div {
+      display: grid;
+    }
+
+    .jam-choice button {
+      border-radius: 0;
+      text-align: left;
+    }
+
+    .family-product {
+      margin-inline: -14px;
+      padding-inline: 14px;
+    }
+  }
+</style>
+
+<style is:global>
+  /* These rules intentionally close the cascade after the legacy refinement layer. */
+  .passes-page :is(.path-index, .decision-section, .jam-section, .performances-section, .registration-section) {
+    width: min(100%, var(--passes-decision-width));
+    margin-inline: auto;
+  }
+
+  .passes-page :is(.practical-section, .faq-section) {
+    width: min(100%, var(--passes-reading-width));
+  }
+
+  .passes-page [hidden] {
+    display: none !important;
+  }
+
+  .passes-page :is(.full-pass, .jam-section) {
+    scroll-margin-top: 96px;
+  }
+
+  .passes-page .path-index__label,
+  .passes-page .path-index__best {
+    width: 100%;
+  }
+
+  .passes-page .path-index {
+    display: block;
+    margin-top: clamp(42px, 5vw, 64px);
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .passes-page .path-index header {
+    max-width: 760px;
+    margin-bottom: 24px;
+  }
+
+  .passes-page .path-index ol {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    border: 0;
+  }
+
+  .passes-page .path-index li {
+    border: 0;
+  }
+
+  .passes-page .path-index a {
+    position: relative;
+    display: flex;
+    min-height: 128px;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 6px;
+    padding: 18px 42px 18px 18px;
+    border: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
+    background: color-mix(in srgb, var(--paper-deep) 22%, transparent);
+  }
+
+  .passes-page .path-index a:hover,
+  .passes-page .path-index a:focus-visible {
+    border-color: var(--line-strong);
+    background: color-mix(in srgb, var(--paper-deep) 65%, transparent);
+    outline: 0;
+    transform: translateY(-1px);
+  }
+
+  .passes-page .path-index__number {
+    display: none;
+  }
+
+  .passes-page .path-index__best {
+    margin-top: auto;
+  }
+
+  .passes-page .path-index__arrow {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+  }
+
+  .passes-page .package-map {
+    margin-inline: 0;
+    margin-top: 30px;
+    padding: clamp(22px, 3vw, 32px);
+    border: 1px solid var(--line);
+    background: transparent;
+  }
+
+  .passes-page .package-map__step {
+    grid-template-columns: 34px minmax(0, 1fr);
+    padding: 22px 0;
+  }
+
+  .passes-page .package-map__number {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: var(--choice-surface);
+  }
+
+  .passes-page .package-map__step h4 {
+    margin-top: 2px;
+    color: var(--ink);
+    font-size: 1rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .passes-page .interactive-choice .participation-option {
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 300px);
+    gap: clamp(30px, 5vw, 66px);
+    min-height: 0;
+    margin-inline: 0;
+    padding: clamp(22px, 3vw, 32px);
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, white 78%, var(--paper));
+  }
+
+  .passes-page .interactive-choice .participation-option > header {
+    display: none;
+  }
+
+  .passes-page .interactive-choice .participation-option > .price-pair {
+    grid-column: 2;
+  }
+
+  .passes-page .jam-choice button[aria-pressed="true"] {
+    border-color: transparent;
+    background: white;
+    color: var(--ink);
+    box-shadow: 0 1px 5px color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  .passes-page .family-choice .family-products {
+    display: block;
+    margin-top: 14px;
+  }
+
+  .passes-page .family-product {
+    display: block;
+    max-width: none;
+    margin-inline: 0;
+    padding: clamp(24px, 3.5vw, 36px);
+    border: 1px solid var(--line);
+    background: white;
+  }
+
+  .passes-page .family-add-on {
+    margin-top: 24px;
+    padding-top: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .passes-page .full-pass__bottom {
+    grid-template-columns: minmax(260px, 4fr) minmax(0, 6fr);
+    align-items: start;
+  }
+
+  .passes-page .decision-section__header,
+  .passes-page .decision-section__header--text {
+    display: block;
+  }
+
+  .passes-page .decision-section__header:not(.decision-section__header--text) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+    gap: clamp(34px, 5vw, 64px);
+  }
+
+  .passes-page .decision-section__header > div:first-child {
+    max-width: 700px;
+  }
+
+  .passes-page .choice-prompt {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .passes-page .choice-prompt span {
+    color: var(--muted);
+    font-size: .76rem;
+  }
+
+  .passes-page .choice-prompt h3 {
+    margin: 0;
+    font-size: .92rem;
+    font-weight: 680;
+  }
+
+  .passes-page .interactive-choice {
+    margin-top: 30px;
+  }
+
+  .passes-page .choice-tabs,
+  .passes-page .choice-tabs--family {
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--paper-deep) 68%, transparent);
+  }
+
+  .passes-page .choice-tabs button,
+  .passes-page .choice-tabs--family button {
+    position: relative;
+    min-height: 92px;
+    padding: 14px 40px 14px 14px;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .passes-page .choice-tabs button::after {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    color: transparent;
+    content: "✓";
+    font-size: .9rem;
+  }
+
+  .passes-page .choice-tabs button:hover {
+    background: color-mix(in srgb, white 62%, transparent);
+  }
+
+  .passes-page .choice-tabs button[aria-selected="true"] {
+    border: 0;
+    background: white;
+    box-shadow: 0 1px 5px color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  .passes-page .choice-tabs button[aria-selected="true"]::after {
+    color: var(--accent-muted);
+  }
+
+  .passes-page .choice-tabs button > span {
+    display: none;
+  }
+
+  .passes-page .choice-tabs button > small {
+    grid-column: auto;
+    margin-top: 5px;
+  }
+
+  .passes-page .interactive-choice .participation-options {
+    margin-top: 12px;
+  }
+
+  .passes-page .path-disclosure,
+  .passes-page .family-age-details {
+    max-width: none;
+    margin: 14px 0 0;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .88rem;
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details) > summary {
+    position: relative;
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    padding: 10px 38px 10px 0;
+    color: var(--ink);
+    font-weight: 670;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details) > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details) > summary::after {
+    position: absolute;
+    right: 6px;
+    color: var(--accent-muted);
+    content: "+";
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details)[open] > summary::after {
+    content: "−";
+  }
+
+  .passes-page :is(.path-disclosure, .family-age-details) > p {
+    max-width: 760px;
+    margin: 0;
+    padding: 2px 0 16px;
+  }
+
+  .passes-page .decision-actions {
+    justify-content: flex-end;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 0;
+  }
+
+  .passes-page .jam-section.section-wide {
+    padding: clamp(30px, 4vw, 44px) 0;
+  }
+
+  .passes-page .jam-section__grid {
+    display: grid;
+    grid-template-columns: minmax(280px, .9fr) minmax(400px, 1.1fr);
+    gap: clamp(48px, 7vw, 86px);
+    align-items: start;
+  }
+
+  .passes-page .jam-section__grid > header {
+    position: sticky;
+    top: 92px;
+  }
+
+  .passes-page .jam-choice {
+    max-width: none;
+    margin-top: 0;
+  }
+
+  .passes-page .jam-choice > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--paper-deep) 68%, transparent);
+  }
+
+  .passes-page .jam-choice button {
+    min-height: 58px;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--ink);
+    text-align: left;
+  }
+
+  .passes-page .jam-pricing--single {
+    max-width: none;
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  .passes-page .jam-register {
+    margin-top: 18px;
+  }
+
+  .passes-page .family-choice {
+    max-width: none;
+  }
+
+  .passes-page .family-choice .family-products {
+    margin-top: 12px;
+  }
+
+  .passes-page .performances-section {
+    display: grid;
+    grid-template-columns: minmax(220px, .75fr) minmax(0, 1.25fr);
+    gap: clamp(38px, 6vw, 76px);
+    min-height: 0;
+    padding-block: 28px;
+  }
+
+  .passes-page .performances-section h2 {
+    font-size: clamp(1.8rem, 3vw, 2.65rem);
+  }
+
+  .passes-page .registration-section.section-wide {
+    padding: clamp(28px, 4vw, 40px) 0;
+  }
+
+  .passes-page .registration-section ol.registration-timeline {
+    margin-top: 22px;
+    background: transparent;
+    border-block: 1px solid var(--line);
+  }
+
+  .passes-page .registration-timeline li {
+    background: transparent;
+    border-right: 1px solid var(--line);
+  }
+
+  @media (max-width: 900px) {
+    .passes-page .full-pass__bottom,
+    .passes-page .jam-section__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .passes-page .jam-section__grid {
+      gap: 30px;
+    }
+
+    .passes-page .jam-section__grid > header {
+      position: static;
+    }
+
+    .passes-page .path-index ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .passes-page .interactive-choice .participation-option {
+      grid-template-columns: 1fr;
+    }
+
+    .passes-page .interactive-choice .participation-option > .price-pair {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .passes-page {
+      width: min(100% - 28px, 1240px);
+    }
+
+    .passes-page .path-index ol {
+      grid-template-columns: 1fr;
+    }
+
+    .passes-page .path-index a {
+      min-height: 0;
+    }
+
+    .passes-page .package-map {
+      padding-inline: 16px;
+    }
+
+    .passes-page .interactive-choice .participation-option,
+    .passes-page .family-product {
+      padding: 20px 14px;
+    }
+
+    .passes-page .decision-section__header:not(.decision-section__header--text),
+    .passes-page .choice-tabs,
+    .passes-page .choice-tabs--family,
+    .passes-page .jam-choice > div,
+    .passes-page .performances-section {
+      grid-template-columns: 1fr;
+    }
+
+    .passes-page .choice-tabs button,
+    .passes-page .choice-tabs--family button {
+      min-height: 72px;
+    }
+  }
+</style>

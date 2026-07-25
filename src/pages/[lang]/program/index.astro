@@ -2,6 +2,8 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHero from '../../../components/PageHero.astro';
+import EventDetailPanel from '../../../components/EventDetailPanel.astro';
+import { buildEventDetails } from '../../../lib/eventDetails';
 import {
   getLocalizedDateLabel,
   getLocalizedDayRangeLabel,
@@ -189,42 +191,7 @@ const programLines = lineDefinitions
   .map((line) => ({ ...line, events: getEventsForLine(line) }))
   .filter((line) => line.events.length > 0);
 const detailEventsBySlug = new Map(programLines.flatMap((line) => line.events.map((event) => [event.slug, event])));
-const eventDetails = Object.fromEntries([...detailEventsBySlug.values()].map((event) => {
-  const visiblePeople = (event.data.people || []).filter((person) => person.public_visibility === 'visible');
-  const people = visiblePeople.map((person) => {
-    const profile = peopleById.get(person.person_id);
-    return {
-      label: getPersonLabel(person, event.data.people_label),
-      name: formatPersonName(person.person_id),
-      country: getLocalizedCountryDisplay(profile?.data.country_display, lang),
-      href: profile && isPublicPerson(profile) ? `/${lang}/artists/${profile.slug}` : '',
-    };
-  });
-  const category = getProgramCategoryLabel(getLocalized(event.data.meta?.category, lang), event.data.program_line);
-  const format = getLocalized(event.data.meta?.format, lang);
-  const places = getOccurrenceLocationFacts(event);
-  const firstPlace = places[0];
-
-  return [
-    event.slug,
-    {
-      title: getLocalized(event.data.title, lang),
-      category: category || event.data.program_line,
-      format,
-      dateLines: getEventDateLines(event),
-      time: event.data.schedule.time_display,
-      place: firstPlace?.name || event.data.location_ref || '',
-      placeAddress: firstPlace?.address || '',
-      placeHref: firstPlace?.href || '',
-      places,
-      people,
-      description: getLocalized(event.data.body, lang) || getLocalized(event.data.summary, lang),
-      focusLabel: getLocalized(event.data.focus_label, lang),
-      focus: getLocalized(event.data.focus, lang),
-      fullPageHref: isPublicDetailEvent(event) ? `/${lang}/program/${event.slug}` : '',
-    },
-  ];
-}));
+const eventDetails = buildEventDetails([...detailEventsBySlug.values()], allPeople, lang);
 ---
 <BaseLayout lang={lang} title={`${pageTitle} · Contact+ 2026`} description={intro}>
   <main class="program-lines-page">
@@ -258,8 +225,8 @@ const eventDetails = Object.fromEntries([...detailEventsBySlug.values()].map((ev
               return (
                 <article
                   class={`program-line-card program-accent program-accent--${accentGroup} ${href ? 'program-line-card--linked' : ''}`}
-                  data-program-detail-key={event.slug}
-                  data-program-accent={accentGroup}
+                  data-event-detail-key={event.slug}
+                  data-event-accent={accentGroup}
                   role="button"
                   tabindex="0"
                   aria-label={`${labels.openDetails}: ${title}`}
@@ -284,45 +251,7 @@ const eventDetails = Object.fromEntries([...detailEventsBySlug.values()].map((ev
       ))}
     </div>
 
-    <div class="detail-overlay" data-detail-overlay hidden></div>
-    <aside class="detail-panel" data-detail-panel aria-hidden="true" aria-modal="true" role="dialog" aria-labelledby="program-detail-title">
-      <button class="detail-close" type="button" data-detail-close aria-label={labels.close}>×</button>
-      <p class="program-meta detail-kicker">
-        <span class="program-meta__category" data-detail-category></span>
-        <span class="program-meta__divider" data-detail-format-divider aria-hidden="true"></span>
-        <span class="program-meta__format" data-detail-format></span>
-      </p>
-      <h2 id="program-detail-title" data-detail-title></h2>
-      <dl class="detail-facts">
-        <div class="detail-fact">
-          <dt>{labels.date}</dt>
-          <dd data-detail-date></dd>
-        </div>
-        <div class="detail-fact">
-          <dt>{labels.time}</dt>
-          <dd data-detail-time></dd>
-        </div>
-        <div class="detail-fact detail-fact--wide" data-detail-place-wrap>
-          <dt>{labels.place}</dt>
-          <dd data-detail-place-list>
-            <a class="detail-place-link" href="#" data-detail-place-link rel="noopener" target="_blank">
-              <span data-detail-place></span>
-              <small data-detail-place-address></small>
-            </a>
-          </dd>
-        </div>
-        <div class="detail-fact detail-fact--wide detail-people" data-detail-people-wrap>
-          <dt data-detail-people-label>{labels.with}</dt>
-          <dd data-detail-people></dd>
-        </div>
-      </dl>
-      <div class="detail-description" data-detail-description></div>
-      <section class="detail-focus" data-detail-focus-wrap hidden>
-        <h3 data-detail-focus-label></h3>
-        <p data-detail-focus></p>
-      </section>
-      <a class="detail-full-link" href="#" data-detail-full-page>{labels.fullPage}</a>
-    </aside>
+    <EventDetailPanel lang={lang} eventDetails={eventDetails} />
   </main>
 </BaseLayout>
 
@@ -330,6 +259,7 @@ const eventDetails = Object.fromEntries([...detailEventsBySlug.values()].map((ev
 
 <script is:inline>
   window.addEventListener('DOMContentLoaded', () => {
+    if (!document.querySelector('[data-detail-panel]')) return;
     const cards = [...document.querySelectorAll('[data-program-detail-key]')];
     const detailData = JSON.parse(document.getElementById('program-detail-data')?.textContent || '{}');
     const detailOverlay = document.querySelector('[data-detail-overlay]');
@@ -337,17 +267,19 @@ const eventDetails = Object.fromEntries([...detailEventsBySlug.values()].map((ev
     const detailClose = document.querySelector('[data-detail-close]');
     const detailFullPage = document.querySelector('[data-detail-full-page]');
     let lastFocusedCard = null;
+    let openedFromUrl = false;
 
     function setText(selector, value) {
       const element = document.querySelector(selector);
       if (element) element.textContent = value || '';
     }
 
-    function openDetail(key, trigger) {
+    function openDetail(key, trigger, fromUrl = false) {
       const data = detailData[key];
       if (!data || !detailPanel || !detailOverlay) return;
 
       lastFocusedCard = trigger;
+      openedFromUrl = fromUrl;
       detailPanel.setAttribute('data-accent', trigger?.getAttribute('data-program-accent') || '');
       setText('[data-detail-category]', data.category);
       setText('[data-detail-format]', data.format);
@@ -491,6 +423,12 @@ const eventDetails = Object.fromEntries([...detailEventsBySlug.values()].map((ev
       detailOverlay.classList.remove('open');
       detailPanel.setAttribute('aria-hidden', 'true');
       detailOverlay.hidden = true;
+      if (openedFromUrl) {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('event');
+        window.history.replaceState({}, '', url);
+        openedFromUrl = false;
+      }
       lastFocusedCard?.focus?.();
     }
 
@@ -509,6 +447,15 @@ const eventDetails = Object.fromEntries([...detailEventsBySlug.values()].map((ev
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') closeDetail();
     });
+
+    const requestedEvent = new URLSearchParams(window.location.search).get('event');
+    const requestedCard = requestedEvent
+      ? cards.find((card) => card.getAttribute('data-program-detail-key') === requestedEvent)
+      : null;
+    if (requestedCard) {
+      requestedCard.scrollIntoView({ block: 'center' });
+      openDetail(requestedEvent, requestedCard, true);
+    }
   });
 </script>
 

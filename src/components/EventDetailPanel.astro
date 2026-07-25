@@ -1,0 +1,471 @@
+---
+import { getLocalized, type Locale } from '../lib/locales';
+import type { EventDetailMap } from '../lib/eventDetails';
+
+interface Props {
+  lang: Locale;
+  eventDetails: EventDetailMap;
+  showFullPageLink?: boolean;
+}
+
+const { lang, eventDetails, showFullPageLink = true } = Astro.props;
+const labels = {
+  close: getLocalized({ en: 'Close', ro: 'Închide', ru: 'Закрыть' }, lang),
+  date: getLocalized({ en: 'Date', ro: 'Dată', ru: 'Дата' }, lang),
+  time: getLocalized({ en: 'Time', ro: 'Oră', ru: 'Время' }, lang),
+  place: getLocalized({ en: 'Place', ro: 'Loc', ru: 'Место' }, lang),
+  with: getLocalized({ en: 'With', ro: 'Cu', ru: 'С кем' }, lang),
+  fullPage: getLocalized({ en: 'Full event page', ro: 'Pagina completă', ru: 'Полная страница события' }, lang),
+};
+---
+
+<div data-event-detail-root>
+  <div class="event-detail-overlay" data-event-detail-overlay hidden></div>
+  <aside
+    class="event-detail-panel"
+    data-event-detail-panel
+    aria-hidden="true"
+    aria-modal="true"
+    role="dialog"
+    aria-labelledby="event-detail-title"
+  >
+    <button class="event-detail-close" type="button" data-event-detail-close aria-label={labels.close}>×</button>
+    <p class="event-detail-kicker">
+      <span data-event-detail-category></span>
+      <span class="event-detail-divider" data-event-detail-format-divider aria-hidden="true"></span>
+      <span data-event-detail-format></span>
+    </p>
+    <h2 id="event-detail-title" data-event-detail-title></h2>
+    <dl class="event-detail-facts">
+      <div>
+        <dt>{labels.date}</dt>
+        <dd data-event-detail-date></dd>
+      </div>
+      <div>
+        <dt>{labels.time}</dt>
+        <dd data-event-detail-time></dd>
+      </div>
+      <div data-event-detail-place-wrap>
+        <dt>{labels.place}</dt>
+        <dd data-event-detail-place-list></dd>
+      </div>
+      <div class="event-detail-people" data-event-detail-people-wrap>
+        <dt data-event-detail-people-label>{labels.with}</dt>
+        <dd data-event-detail-people></dd>
+      </div>
+    </dl>
+    <div class="event-detail-description" data-event-detail-description></div>
+    <section class="event-detail-focus" data-event-detail-focus-wrap hidden>
+      <h3 data-event-detail-focus-label></h3>
+      <p data-event-detail-focus></p>
+    </section>
+    {showFullPageLink && <a class="event-detail-full-link" href="#" data-event-detail-full-page>{labels.fullPage}</a>}
+  </aside>
+  <script type="application/json" data-event-detail-data set:html={JSON.stringify(eventDetails)}></script>
+</div>
+
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    const root = document.querySelector('[data-event-detail-root]');
+    if (!root) return;
+
+    const triggers = [...document.querySelectorAll('[data-event-detail-key]')];
+    const data = JSON.parse(root.querySelector('[data-event-detail-data]')?.textContent || '{}');
+    const overlay = root.querySelector('[data-event-detail-overlay]');
+    const panel = root.querySelector('[data-event-detail-panel]');
+    const closeButton = root.querySelector('[data-event-detail-close]');
+    const fullPageLink = root.querySelector('[data-event-detail-full-page]');
+    let lastFocusedTrigger = null;
+
+    const setText = (selector, value) => {
+      const element = root.querySelector(selector);
+      if (element) element.textContent = value || '';
+    };
+
+    function syncUrl(key) {
+      const url = new URL(window.location.href);
+      if (key) url.searchParams.set('event', key);
+      else url.searchParams.delete('event');
+      window.history.replaceState({}, '', url);
+    }
+
+    function openDetail(key, trigger, updateUrl = true) {
+      const event = data[key];
+      if (!event || !panel || !overlay) return;
+
+      lastFocusedTrigger = trigger || null;
+      panel.setAttribute('data-accent', trigger?.getAttribute('data-event-accent') || '');
+      setText('[data-event-detail-category]', event.category);
+      setText('[data-event-detail-format]', event.format);
+      setText('[data-event-detail-title]', event.title);
+      setText('[data-event-detail-time]', event.time);
+      setText('[data-event-detail-description]', event.description);
+
+      const formatDivider = root.querySelector('[data-event-detail-format-divider]');
+      const formatLabel = root.querySelector('[data-event-detail-format]');
+      if (formatDivider) formatDivider.hidden = !event.format;
+      if (formatLabel) formatLabel.hidden = !event.format;
+
+      const dateList = root.querySelector('[data-event-detail-date]');
+      if (dateList) {
+        dateList.innerHTML = '';
+        (event.dateLines || []).forEach((dateLine) => {
+          const item = document.createElement('span');
+          item.className = 'event-detail-date-line';
+          item.textContent = dateLine;
+          dateList.appendChild(item);
+        });
+      }
+
+      const placeWrap = root.querySelector('[data-event-detail-place-wrap]');
+      const placeList = root.querySelector('[data-event-detail-place-list]');
+      const places = event.places?.length ? event.places : [];
+      if (placeWrap) placeWrap.hidden = !places.length;
+      if (placeList) {
+        placeList.innerHTML = '';
+        places.forEach((place) => {
+          const item = place.href ? document.createElement('a') : document.createElement('span');
+          item.className = 'event-detail-place-link';
+          if (place.href) {
+            item.setAttribute('href', place.href);
+            item.setAttribute('rel', 'noopener');
+            item.setAttribute('target', '_blank');
+          }
+          if (place.localizedDateLabel && places.length > 1) {
+            const date = document.createElement('small');
+            date.className = 'event-detail-place-date';
+            date.textContent = place.localizedDateLabel;
+            item.appendChild(date);
+          }
+          const name = document.createElement('span');
+          name.textContent = place.name;
+          item.appendChild(name);
+          if (place.address) {
+            const address = document.createElement('small');
+            address.textContent = place.address;
+            item.appendChild(address);
+          }
+          placeList.appendChild(item);
+        });
+      }
+
+      const peopleWrap = root.querySelector('[data-event-detail-people-wrap]');
+      const peopleLabel = root.querySelector('[data-event-detail-people-label]');
+      const peopleList = root.querySelector('[data-event-detail-people]');
+      if (peopleWrap && peopleList) {
+        peopleWrap.hidden = !event.people?.length;
+        peopleList.innerHTML = '';
+        if (event.people?.length) {
+          if (peopleLabel) peopleLabel.textContent = event.people[0].label || peopleLabel.textContent;
+          event.people.forEach((person) => {
+            const row = document.createElement('span');
+            row.className = 'event-detail-person-row';
+            const personName = person.href ? document.createElement('a') : document.createElement('span');
+            personName.textContent = person.name;
+            if (person.href) personName.setAttribute('href', person.href);
+            row.appendChild(personName);
+            if (person.country) {
+              const country = document.createElement('small');
+              country.textContent = ` · ${person.country}`;
+              row.appendChild(country);
+            }
+            peopleList.appendChild(row);
+          });
+        }
+      }
+
+      const focusWrap = root.querySelector('[data-event-detail-focus-wrap]');
+      if (focusWrap) {
+        focusWrap.hidden = !event.focus;
+        setText('[data-event-detail-focus-label]', event.focusLabel);
+        setText('[data-event-detail-focus]', event.focus);
+      }
+
+      if (fullPageLink) {
+        fullPageLink.hidden = !event.fullPageHref;
+        fullPageLink.setAttribute('href', event.fullPageHref || '#');
+      }
+
+      overlay.hidden = false;
+      overlay.classList.add('open');
+      panel.classList.add('open');
+      panel.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('event-detail-open');
+      if (updateUrl) syncUrl(key);
+      closeButton?.focus();
+    }
+
+    function closeDetail() {
+      if (!panel || !overlay || panel.getAttribute('aria-hidden') === 'true') return;
+      panel.classList.remove('open');
+      overlay.classList.remove('open');
+      panel.setAttribute('aria-hidden', 'true');
+      overlay.hidden = true;
+      document.documentElement.classList.remove('event-detail-open');
+      syncUrl('');
+      lastFocusedTrigger?.focus?.();
+    }
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
+        if (trigger instanceof HTMLAnchorElement) event.preventDefault();
+        openDetail(trigger.getAttribute('data-event-detail-key'), trigger);
+      });
+      trigger.addEventListener('keydown', (event) => {
+        if (!(trigger instanceof HTMLButtonElement) && (event.key === 'Enter' || event.key === ' ')) {
+          event.preventDefault();
+          openDetail(trigger.getAttribute('data-event-detail-key'), trigger);
+        }
+      });
+    });
+
+    closeButton?.addEventListener('click', closeDetail);
+    overlay?.addEventListener('click', closeDetail);
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeDetail();
+    });
+
+    const requestedEvent = new URLSearchParams(window.location.search).get('event');
+    const requestedTrigger = requestedEvent
+      ? triggers.find((trigger) => trigger.getAttribute('data-event-detail-key') === requestedEvent)
+      : null;
+    if (requestedTrigger) {
+      requestedTrigger.scrollIntoView({ block: 'center' });
+      openDetail(requestedEvent, requestedTrigger, false);
+    }
+  });
+</script>
+
+<style>
+  :global(html.event-detail-open) {
+    overflow: hidden;
+  }
+
+  :global(html.event-detail-open .back-top) {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .event-detail-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: rgba(36, 32, 28, 0.16);
+  }
+
+  .event-detail-overlay.open {
+    display: block;
+  }
+
+  .event-detail-panel {
+    --event-accent: var(--accent-muted);
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 90;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    width: min(500px, calc(100% - 28px));
+    height: 100vh;
+    padding: clamp(24px, 3.6vw, 38px);
+    border-left: 1px solid var(--line);
+    background: rgba(251, 250, 247, 0.98);
+    box-shadow: -18px 0 60px rgba(47, 39, 33, 0.12);
+    overflow-y: auto;
+    transform: translateX(102%);
+    transition: transform 220ms ease;
+  }
+
+  .event-detail-panel[data-accent="ci"] { --event-accent: #738b5f; }
+  .event-detail-panel[data-accent="performance_labs"] { --event-accent: #a06f42; }
+  .event-detail-panel[data-accent="performances"] { --event-accent: #8d4f67; }
+  .event-detail-panel[data-accent="family_youth"] { --event-accent: #62869a; }
+  .event-detail-panel[data-accent="jams_gatherings"] { --event-accent: #736e96; }
+
+  .event-detail-panel.open {
+    transform: translateX(0);
+  }
+
+  .event-detail-close {
+    position: absolute;
+    top: clamp(20px, 3vw, 28px);
+    right: clamp(20px, 3vw, 28px);
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--soft);
+    font-size: 0;
+    cursor: pointer;
+  }
+
+  .event-detail-close::before,
+  .event-detail-close::after {
+    position: absolute;
+    width: 12px;
+    height: 1.5px;
+    background: currentColor;
+    content: "";
+  }
+
+  .event-detail-close::before { transform: rotate(45deg); }
+  .event-detail-close::after { transform: rotate(-45deg); }
+
+  .event-detail-close:hover,
+  .event-detail-close:focus-visible {
+    border-color: var(--line-strong);
+    color: var(--ink);
+    outline: 0;
+  }
+
+  .event-detail-kicker {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 2px;
+    padding-right: 58px;
+    color: var(--event-accent);
+    font-size: .78rem;
+    font-weight: 650;
+  }
+
+  .event-detail-divider {
+    width: 14px;
+    height: 1px;
+    background: var(--line-strong);
+  }
+
+  .event-detail-panel h2 {
+    max-width: 400px;
+    margin: 0 0 4px;
+    font-family: var(--font-serif);
+    font-size: clamp(1.62rem, 2.45vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.08;
+  }
+
+  .event-detail-facts {
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .event-detail-facts > div {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .event-detail-facts dt,
+  .event-detail-focus h3 {
+    margin: 0 0 7px;
+    color: var(--soft);
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .095em;
+    text-transform: uppercase;
+  }
+
+  .event-detail-facts dd {
+    margin: 0;
+    color: var(--muted);
+    font-size: .94rem;
+    line-height: 1.4;
+  }
+
+  :global(.event-detail-date-line) {
+    display: block;
+  }
+
+  :global(.event-detail-place-link) {
+    display: grid;
+    gap: 2px;
+    width: fit-content;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :global(.event-detail-place-link + .event-detail-place-link) {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+  }
+
+  :global(.event-detail-place-link small),
+  :global(.event-detail-person-row small) {
+    color: var(--soft);
+    font-size: .72rem;
+  }
+
+  :global(.event-detail-place-date) {
+    color: var(--event-accent) !important;
+    font-weight: 650;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .event-detail-people dd {
+    display: grid;
+    gap: 7px;
+  }
+
+  :global(.event-detail-person-row) {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+
+  :global(.event-detail-person-row a) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .event-detail-description {
+    max-width: 400px;
+    color: var(--muted);
+    font-size: .94rem;
+    line-height: 1.56;
+    white-space: pre-line;
+  }
+
+  .event-detail-focus {
+    max-width: 400px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+
+  .event-detail-focus p {
+    margin: 0;
+    color: var(--accent-muted);
+    font-size: .86rem;
+    line-height: 1.48;
+  }
+
+  .event-detail-full-link {
+    align-self: flex-start;
+    color: var(--soft);
+    font-size: .82rem;
+    font-weight: 600;
+    text-underline-offset: .24em;
+  }
+
+  @media (max-width: 640px) {
+    .event-detail-panel {
+      top: auto;
+      bottom: 0;
+      width: 100%;
+      height: min(86vh, 760px);
+      border-top: 1px solid var(--line);
+      border-left: 0;
+      border-radius: 22px 22px 0 0;
+      box-shadow: 0 -18px 60px rgba(47, 39, 33, 0.14);
+      transform: translateY(104%);
+    }
+
+    .event-detail-panel.open {
+      transform: translateY(0);
+    }
+  }
+</style>

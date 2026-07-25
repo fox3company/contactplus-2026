@@ -50,7 +50,7 @@ const organiserGroups = [
       <p class="eyebrow">{copy.strapline}</p>
       <h1>{copy.title}</h1>
       <p class="lead">{copy.lead}</p>
-      <p class="about-hero__facts">{copy.date}<span aria-hidden="true">·</span>{copy.place}</p>
+      <p class="about-hero__facts"><span class="about-hero__facts-date">{copy.date}<span class="about-hero__facts-dot" aria-hidden="true">·</span></span><wbr /><span class="about-hero__facts-place">{copy.place}</span></p>
     </div>
     <div class="about-hero__media about-media--hero">
       <video data-autoplay-video autoplay muted loop playsinline preload="metadata" poster={aboutMedia.heroPoster} aria-label={copy.video.heroLabel}>
@@ -124,7 +124,7 @@ const organiserGroups = [
     </div>
   </section>
 
-  <section class="about-practical" id="passes-participation"><section class="about-section about-section--participation" aria-labelledby="about-participation"><h2 id="about-participation">{copy.participation.title}</h2><p>{copy.participation.text}</p><div class="about-actions"><a class="about-action about-action--primary" href={registrationUrl} rel="noopener" target="_blank">{copy.participation.register}</a></div></section><section class="about-section about-section--faq" aria-labelledby="about-faq"><h2 id="about-faq">{copy.faqTitle}</h2><div class="about-faq">{copy.faq.map(([question, answer]: [string, string], index: number) => <details><summary>{question}</summary>{index === copy.faq.length - 1 ? <><p>{answer}</p><a class="about-faq__action" href={registrationUrl} rel="noopener" target="_blank">{copy.participation.register}</a></> : <p>{answer}</p>}</details>)}</div></section></section>
+  <section class="about-practical" id="passes-participation"><section class="about-section about-section--participation" aria-labelledby="about-participation"><h2 id="about-participation">{copy.participation.title}</h2><p>{copy.participation.text}</p><div class="about-actions"><a class="about-action about-action--primary" href={registrationUrl} rel="noopener" target="_blank">{copy.participation.register}</a><a class="about-action" href={`/${lang}/passes`}>{copy.participation.passes}</a></div></section><section class="about-section about-section--faq" aria-labelledby="about-faq"><h2 id="about-faq">{copy.faqTitle}</h2><div class="about-faq">{copy.faq.map(([question, answer]: [string, string], index: number) => <details><summary>{question}</summary>{index === copy.faq.length - 1 ? <><p>{answer}</p><a class="about-faq__action" href={registrationUrl} rel="noopener" target="_blank">{copy.participation.register}</a></> : <p>{answer}</p>}</details>)}</div></section></section>
 
   <section class="about-explore" aria-labelledby="about-explore"><div><h2 id="about-explore">{copy.explore.title}</h2><nav aria-label={copy.explore.title}><a href={`/${lang}/program`}>{copy.explore.program}</a><a href={`/${lang}/schedule`}>{copy.explore.schedule}</a><a href={`/${lang}/artists`}>{copy.explore.artists}</a></nav></div><img src={aboutMedia.closing} alt="A group of performers sharing a vivid stage moment" width="3600" height="2384" loading="lazy" decoding="async" /></section>
 </main>
@@ -153,7 +153,8 @@ const organiserGroups = [
   .about-hero { margin-bottom: var(--about-space-s); }
   .about-hero__copy { max-width: 810px; margin-bottom: clamp(22px, 3.2vw, 42px); }
   .about-hero h1 { max-width: 760px; margin: 12px 0 18px; }
-  .about-hero__facts { display: flex; flex-wrap: wrap; gap: 7px; margin: 24px 0 0; color: var(--accent-muted); font-size: .78rem; font-weight: 650; letter-spacing: .07em; text-transform: uppercase; }
+  .about-hero__facts { display: flex; flex-wrap: wrap; gap: 0; margin: 24px 0 0; color: var(--accent-muted); font-size: .78rem; font-weight: 650; letter-spacing: .07em; text-transform: uppercase; }
+  .about-hero__facts-dot { margin: 0 .4em; }
   .about-hero__media, .about-day__media, .about-media--hero, .about-media--landscape, .about-media--portrait, .about-media--sequence, .about-media--video { position: relative; overflow: hidden; background: #222; }
   .about-day__media { background: transparent; }
   .about-media--hero { aspect-ratio: 16 / 9; }
@@ -286,7 +287,8 @@ const organiserGroups = [
     .about-hero h1 { margin: 0 0 16px; font-size: clamp(2.4rem, 10.5vw, 3.05rem); }
     .about-hero .lead { margin: 0; font-size: 1rem; line-height: 1.5; }
     .about-hero__facts { display: block; margin-top: 24px; font-size: .7rem; line-height: 1.4; }
-    .about-hero__facts span { margin: 0 .5em; }
+    .about-hero__facts .about-hero__facts-date { margin: 0; white-space: nowrap; }
+    .about-hero__facts .about-hero__facts-place { margin: 0; white-space: nowrap; }
     .about-hero video, .about-hero__media { aspect-ratio: 16 / 9; }
     .about-section h2, .about-explore h2 { margin-bottom: 16px; font-size: clamp(1.9rem, 8vw, 2.15rem); line-height: 1.08; }
     .about-section__lead { font-size: 1.02rem; line-height: 1.52; }
