@@ -164,7 +164,6 @@ const artistDetails = Object.fromEntries(people.map((person) => {
         <span class="program-meta__format" data-artist-detail-role></span>
       </p>
       <h2 id="artist-detail-title" data-artist-detail-title></h2>
-      <p class="detail-lead" data-artist-detail-role-summary></p>
       <div class="detail-description" data-artist-detail-profile></div>
       <section class="detail-events" data-artist-detail-events-wrap hidden>
         <h3>{detailLabels.events}</h3>
@@ -210,8 +209,6 @@ const artistDetails = Object.fromEntries(people.map((person) => {
       setText('[data-artist-detail-country]', data.country);
       setText('[data-artist-detail-role]', data.role);
       setText('[data-artist-detail-title]', data.name);
-      setText('[data-artist-detail-role-summary]', data.roleSummary);
-
       const divider = detailPanel.querySelector('[data-artist-detail-divider]');
       if (divider) divider.hidden = !data.country || !data.role;
 
@@ -531,14 +528,6 @@ const artistDetails = Object.fromEntries(people.map((person) => {
     font-weight: 400;
     line-height: 1.06;
     letter-spacing: 0;
-  }
-
-  .detail-lead {
-    max-width: 420px;
-    margin: 0;
-    color: var(--muted);
-    font-size: 1.02rem;
-    line-height: 1.5;
   }
 
   .detail-description {

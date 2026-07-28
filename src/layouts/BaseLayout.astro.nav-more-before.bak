@@ -9,21 +9,14 @@ interface Props {
 }
 
 const { lang, title = 'Contact+ 2026', description = '' } = Astro.props;
-const registrationUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdkDT1NjKXxzbAg_8dqSLEDnYPstOaBZ8oE6mxqNHkLTUbBlg/viewform?usp=header';
-const mainNav = [
+const nav = [
   { href: `/${lang}/about`, label: { en: 'About', ro: 'Despre Contact+', ru: 'О фестивале' } },
   { href: `/${lang}/program`, label: { en: 'Program Lines', ro: 'Linii de program', ru: 'Линии программы' } },
   { href: `/${lang}/schedule`, label: { en: 'Schedule', ro: 'Orar', ru: 'Расписание' } },
-];
-const secondaryNav = [
   { href: `/${lang}/artists`, label: { en: 'Teachers & Artists', ro: 'Profesori și artiști', ru: 'Преподаватели и артисты' } },
   { href: `/${lang}/passes`, label: { en: 'Passes & Participation', ro: 'Abonamente și participare', ru: 'Абонементы и участие' } },
-  { href: registrationUrl, label: { en: 'Registration', ro: 'Înregistrare', ru: 'Регистрация' }, external: true },
 ];
-const mobileNav = [...mainNav, ...secondaryNav];
-const moreLabel = getLocalized({ en: 'More', ro: 'Mai mult', ru: 'Ещё' }, lang);
 const menuLabel = getLocalized({ en: 'Menu', ro: 'Meniu', ru: 'Меню' }, lang);
-const closeMenuLabel = getLocalized({ en: 'Close menu', ro: 'Închide meniul', ru: 'Закрыть меню' }, lang);
 const footerLabels = {
   closing: getLocalized({
     en: 'Movement · Contact Improvisation · Performance',
@@ -97,33 +90,15 @@ const footerLabels = {
     <header class="site-header">
       <a class="brand" href={`/${lang}/about`}>Contact+ 2026</a>
       <nav class="primary-nav" aria-label="Primary navigation">
-        {mainNav.map((item) => <a href={item.href}>{getLocalized(item.label, lang)}</a>)}
-        <details class="nav-more">
-          <summary aria-label={moreLabel}>
-            <span>{moreLabel}</span>
-            <span class="nav-more__chevron" aria-hidden="true"></span>
-          </summary>
-          <div class="nav-more__menu">
-            {secondaryNav.map((item) => (
-              <a href={item.href} rel={item.external ? 'noopener' : undefined} target={item.external ? '_blank' : undefined}>
-                {getLocalized(item.label, lang)}
-              </a>
-            ))}
-          </div>
-        </details>
+        {nav.map((item) => <a href={item.href}>{getLocalized(item.label, lang)}</a>)}
       </nav>
       <details class="mobile-nav">
         <summary aria-label={menuLabel}>
           <span>{menuLabel}</span>
           <span class="mobile-nav__chevron" aria-hidden="true"></span>
         </summary>
-        <button class="mobile-nav__backdrop" type="button" aria-label={closeMenuLabel} tabindex="-1"></button>
         <nav class="mobile-nav__menu" aria-label="Primary navigation">
-          {mobileNav.map((item) => (
-            <a href={item.href} rel={item.external ? 'noopener' : undefined} target={item.external ? '_blank' : undefined}>
-              {getLocalized(item.label, lang)}
-            </a>
-          ))}
+          {nav.map((item) => <a href={item.href}>{getLocalized(item.label, lang)}</a>)}
         </nav>
       </details>
       <LanguageSwitcher lang={lang} />
@@ -137,7 +112,7 @@ const footerLabels = {
         <div class="site-footer__next">
           <p class="site-footer__place">{footerLabels.place}</p>
           <nav class="site-footer__links" aria-label={footerLabels.contacts}>
-        <a class="site-footer__registration" href={registrationUrl} rel="noopener" target="_blank">{footerLabels.registration}</a>
+        <a class="site-footer__registration" href="https://docs.google.com/forms/d/e/1FAIpQLSdkDT1NjKXxzbAg_8dqSLEDnYPstOaBZ8oE6mxqNHkLTUbBlg/viewform?usp=header" rel="noopener" target="_blank">{footerLabels.registration}</a>
         <a href="https://www.instagram.com/fest.contactplus/" rel="noopener" target="_blank">Instagram</a>
         <a href="https://www.facebook.com/fest.contactplus" rel="noopener" target="_blank">Facebook</a>
         <a href="mailto:fest.contactplus@gmail.com">fest.contactplus@gmail.com</a>
@@ -153,28 +128,6 @@ const footerLabels = {
       </div>
     </footer>
     <a class="back-top" href="#top" aria-label={getLocalized({ en: 'Back to top', ro: 'Înapoi sus', ru: 'Наверх' }, lang)}>↑</a>
-    <script is:inline>
-      (() => {
-        const menu = document.querySelector('.mobile-nav');
-        if (!menu) return;
-        const summary = menu.querySelector('summary');
-        const close = () => {
-          menu.open = false;
-          document.body.removeAttribute('data-mobile-nav-open');
-        };
-        menu.addEventListener('toggle', () => {
-          if (menu.open) document.body.setAttribute('data-mobile-nav-open', '');
-          else document.body.removeAttribute('data-mobile-nav-open');
-        });
-        menu.querySelector('.mobile-nav__backdrop')?.addEventListener('click', close);
-        menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', close));
-        document.addEventListener('keydown', (event) => {
-          if (event.key !== 'Escape' || !menu.open) return;
-          close();
-          summary?.focus();
-        });
-      })();
-    </script>
   </body>
 </html>
 
@@ -287,91 +240,13 @@ const footerLabels = {
     display: none;
   }
 
-  .nav-more {
-    position: relative;
-  }
-
-  .nav-more summary {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    color: var(--muted);
-    font-size: 0.95rem;
-    line-height: 1;
-    list-style: none;
-    cursor: pointer;
-  }
-
-  .nav-more summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .nav-more summary:hover,
-  .nav-more[open] summary {
-    color: var(--ink);
-  }
-
-  .nav-more summary:focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--accent-muted) 42%, transparent);
-    outline-offset: 5px;
-    border-radius: 999px;
-  }
-
-  .nav-more__chevron {
-    width: 6px;
-    height: 6px;
-    border-right: 1px solid currentColor;
-    border-bottom: 1px solid currentColor;
-    opacity: 0.72;
-    transform: translateY(-2px) rotate(45deg);
-    transition: transform 160ms ease;
-  }
-
-  .nav-more[open] .nav-more__chevron {
-    transform: translateY(1px) rotate(225deg);
-  }
-
-  .nav-more__menu {
-    position: absolute;
-    top: calc(100% + 12px);
-    right: 0;
-    z-index: 30;
-    display: grid;
-    min-width: 210px;
-    padding: 7px;
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    background: rgba(251, 250, 247, 0.98);
-    box-shadow: 0 16px 36px rgba(33, 31, 29, 0.1);
-  }
-
-  .nav-more__menu a {
-    display: flex;
-    align-items: center;
-    min-height: 36px;
-    padding: 0 12px;
-    border-radius: 13px;
-    color: var(--muted);
-    font-size: 0.86rem;
-    line-height: 1.15;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .nav-more__menu a:hover,
-  .nav-more__menu a:focus-visible {
-    background: color-mix(in srgb, var(--paper-deep) 58%, var(--paper));
-    color: var(--ink);
-    outline: 0;
-  }
-
-  .primary-nav > a {
+  .primary-nav a {
     color: var(--muted);
     font-size: 0.95rem;
     text-decoration: none;
   }
 
-  .primary-nav > a:hover {
+  .primary-nav a:hover {
     color: var(--ink);
   }
 
@@ -735,7 +610,7 @@ const footerLabels = {
 
   @media (max-width: 860px) {
     .site-header {
-      position: relative;
+      position: static;
       display: grid;
       grid-template-columns: minmax(0, 1fr) max-content max-content;
       align-items: center;
@@ -770,18 +645,16 @@ const footerLabels = {
     }
 
     :global(.mobile-nav summary) {
-      position: relative;
-      z-index: 32;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 7px;
       min-height: 34px;
-      padding: 0 4px;
-      border: 0;
-      border-radius: 0;
-      background: transparent;
-      box-shadow: none;
+      padding: 0 12px 0 14px;
+      border: 1px solid color-mix(in srgb, var(--line) 86%, var(--paper));
+      border-radius: 999px;
+      background: rgba(251, 250, 247, 0.86);
+      box-shadow: 0 4px 16px rgba(47, 39, 33, 0.035);
       color: color-mix(in srgb, var(--muted) 78%, var(--ink));
       font-size: 0.76rem;
       font-weight: 650;
@@ -798,9 +671,10 @@ const footerLabels = {
 
     :global(.mobile-nav summary:hover),
     :global(.mobile-nav[open] summary) {
-      background: transparent;
+      border-color: var(--line-strong);
+      background: color-mix(in srgb, var(--paper-deep) 64%, var(--paper));
       color: var(--ink);
-      box-shadow: none;
+      box-shadow: 0 6px 18px rgba(47, 39, 33, 0.055);
     }
 
     :global(.mobile-nav summary:focus-visible) {
@@ -822,70 +696,38 @@ const footerLabels = {
       transform: translateY(1px) rotate(225deg);
     }
 
-    :global(.mobile-nav__backdrop) {
-      position: fixed;
-      inset: 65px 0 0;
-      z-index: 20;
-      display: none;
-      width: 100%;
-      padding: 0;
-      border: 0;
-      background: color-mix(in srgb, var(--ink) 18%, transparent);
-      backdrop-filter: blur(1.5px);
-    }
-
-    :global(.mobile-nav[open] .mobile-nav__backdrop) {
-      display: block;
-    }
-
     :global(.mobile-nav__menu) {
-      position: fixed;
-      top: 65px;
+      position: absolute;
+      top: calc(100% + 8px);
       right: 0;
-      left: 0;
-      z-index: 30;
       display: grid;
-      width: auto;
-      min-width: 0;
-      max-width: none;
-      padding: 5px 20px 10px;
-      border: 0;
-      border-top: 1px solid color-mix(in srgb, var(--line) 65%, transparent);
-      border-bottom: 1px solid var(--line);
-      border-radius: 0;
-      background: rgba(251, 250, 247, 0.99);
-      box-shadow: none;
+      min-width: min(280px, calc(100vw - 40px));
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(251, 250, 247, 0.98);
+      box-shadow: 0 18px 42px rgba(33, 31, 29, 0.12);
     }
 
     :global(.mobile-nav__menu a) {
       display: flex;
       align-items: center;
-      min-height: 42px;
-      padding: 0;
-      border-bottom: 1px solid color-mix(in srgb, var(--line) 58%, transparent);
-      border-radius: 0;
+      min-height: 40px;
+      padding: 0 13px;
+      border-radius: 14px;
       color: var(--muted);
       font-size: 0.9rem;
       font-weight: 560;
       line-height: 1.15;
       text-decoration: none;
-      white-space: normal;
+      white-space: nowrap;
     }
 
     :global(.mobile-nav__menu a:hover),
     :global(.mobile-nav__menu a:focus-visible) {
-      padding-left: 8px;
-      background: transparent;
-      color: var(--accent);
+      background: color-mix(in srgb, var(--paper-deep) 58%, var(--paper));
+      color: var(--ink);
       outline: 0;
-    }
-
-    :global(.mobile-nav__menu a:last-child) {
-      border-bottom: 0;
-    }
-
-    :global(body[data-mobile-nav-open]) {
-      overflow: hidden;
     }
 
     :global(.site-footer) {

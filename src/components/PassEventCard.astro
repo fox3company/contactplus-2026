@@ -1,0 +1,240 @@
+---
+interface Props {
+  title: string;
+  meta?: string;
+  slug: string;
+  accent?: string;
+  viewDetailsLabel: string;
+  state?: 'selectable' | 'included' | 'standalone';
+  status?: string;
+  inputName?: string;
+  inputValue?: string;
+  checked?: boolean;
+}
+
+const {
+  title,
+  meta = '',
+  slug,
+  accent = '',
+  viewDetailsLabel,
+  state = 'standalone',
+  status = '',
+  inputName,
+  inputValue = slug,
+  checked = false,
+} = Astro.props;
+---
+
+<div
+  class:list={['pass-event-card', `pass-event-card--${state}`]}
+  data-event-accent={accent}
+>
+  {state === 'selectable' ? (
+    <>
+      <label>
+        <input type="radio" name={inputName} value={inputValue} checked={checked} />
+        <span class="pass-event-card__body">
+          {status && <span class="pass-event-card__status">{status}</span>}
+          <strong>{title}</strong>
+          {meta && <small>{meta}</small>}
+        </span>
+      </label>
+      <button
+        class="pass-event-card__info"
+        type="button"
+        aria-label={`${viewDetailsLabel}: ${title}`}
+        data-event-detail-key={slug}
+        data-event-accent={accent}
+      >ⓘ</button>
+    </>
+  ) : (
+    <button
+      class="pass-event-card__trigger"
+      type="button"
+      aria-label={`${viewDetailsLabel}: ${title}`}
+      data-event-detail-key={slug}
+      data-event-accent={accent}
+    >
+      <span class="pass-event-card__body">
+        {status && <span class="pass-event-card__status">{status}</span>}
+        <strong>{title}</strong>
+        {meta && <small>{meta}</small>}
+      </span>
+      <span class="pass-event-card__info" aria-hidden="true">ⓘ</span>
+    </button>
+  )}
+</div>
+
+<style>
+  .pass-event-card {
+    --pass-event-accent: var(--accent-muted);
+    position: relative;
+    min-width: 0;
+    min-height: 82px;
+    border-left: 3px solid var(--pass-event-accent);
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--pass-event-accent) 8%, transparent),
+        transparent 72%
+      ),
+      color-mix(in srgb, white 74%, transparent);
+    transition:
+      background-color 180ms ease,
+      box-shadow 180ms ease,
+      transform 180ms ease;
+  }
+
+  .pass-event-card[data-event-accent="ci"] { --pass-event-accent: #738b5f; }
+  .pass-event-card[data-event-accent="performance_labs"] { --pass-event-accent: #a06f42; }
+  .pass-event-card[data-event-accent="performances"] { --pass-event-accent: #8d4f67; }
+  .pass-event-card[data-event-accent="family_youth"] { --pass-event-accent: #62869a; }
+  .pass-event-card[data-event-accent="jams_gatherings"] { --pass-event-accent: #736e96; }
+
+  .pass-event-card:hover,
+  .pass-event-card:focus-within {
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--pass-event-accent) 13%, transparent),
+        transparent 78%
+      ),
+      color-mix(in srgb, white 90%, transparent);
+    box-shadow: 0 3px 16px color-mix(in srgb, var(--ink) 7%, transparent);
+  }
+
+  label,
+  .pass-event-card__trigger {
+    display: flex;
+    width: 100%;
+    min-height: 82px;
+    align-items: center;
+    padding: 14px 46px 14px 16px;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .pass-event-card__body {
+    display: grid;
+    min-width: 0;
+    gap: 4px;
+  }
+
+  strong {
+    font-family: var(--font-serif);
+    font-size: 1.02rem;
+    font-weight: 500;
+    line-height: 1.18;
+  }
+
+  small {
+    color: var(--muted);
+    font-size: .72rem;
+    line-height: 1.35;
+  }
+
+  .pass-event-card__status {
+    width: max-content;
+    color: var(--pass-event-accent);
+    font-size: .62rem;
+    font-weight: 760;
+    letter-spacing: .08em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .pass-event-card__info {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    display: grid;
+    width: 28px;
+    height: 28px;
+    place-items: center;
+    padding: 0;
+    transform: translateY(-50%);
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--muted);
+    font: 400 .9rem/1 var(--font-sans);
+    cursor: pointer;
+  }
+
+  .pass-event-card__info:hover,
+  .pass-event-card__info:focus-visible {
+    background: color-mix(in srgb, var(--pass-event-accent) 12%, transparent);
+    color: var(--ink);
+    outline: 1px solid color-mix(in srgb, var(--pass-event-accent) 40%, transparent);
+  }
+
+  .pass-event-card:has(input:checked) {
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--pass-event-accent) 15%, transparent),
+        transparent 82%
+      ),
+      white;
+    box-shadow:
+      inset 0 0 0 1px color-mix(in srgb, var(--pass-event-accent) 60%, var(--line)),
+      0 3px 16px color-mix(in srgb, var(--ink) 6%, transparent);
+  }
+
+  .pass-event-card:has(input:checked)::after {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    color: var(--pass-event-accent);
+    content: "✓";
+    font-size: .78rem;
+    pointer-events: none;
+  }
+
+  .pass-event-card:has(input:checked) .pass-event-card__info {
+    top: auto;
+    bottom: 6px;
+    transform: none;
+  }
+
+  .pass-event-card--included {
+    background:
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--pass-event-accent) 7%, transparent),
+        transparent 74%
+      ),
+      color-mix(in srgb, white 58%, transparent);
+  }
+
+  .pass-event-card--included .pass-event-card__status::before {
+    margin-right: 5px;
+    content: "✓";
+  }
+
+  @media (max-width: 620px) {
+    .pass-event-card,
+    label,
+    .pass-event-card__trigger {
+      min-height: 76px;
+    }
+
+    label,
+    .pass-event-card__trigger {
+      padding: 12px 42px 12px 14px;
+    }
+  }
+</style>

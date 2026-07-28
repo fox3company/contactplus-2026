@@ -33,7 +33,7 @@ export const passesCopy: Record<Locale, any> = {
     full: {
       title: 'Full Festival Pass', kicker: 'The complete festival rhythm',
       text: 'For participants who want to enter the complete rhythm of Contact+. The pass gives access to the full festival program across practice, performance and shared festival life, within the possibilities of the schedule.',
-      includesTitle: 'Everything included in the Full Festival Pass',
+      includesTitle: 'Included in the Full Festival Pass',
       includes: ['All Contact Improvisation intensives', 'All Performance Labs', 'All JAMs', 'Showings and performances', 'Gatherings and shared festival events', 'Family & Youth Program formats when the participant matches the age and participation frame', 'Family Time & Discussion'],
       parallel: 'Some events run in parallel. In these cases, Full Festival Pass holders choose which event to attend.',
       performances: 'A dedicated section of each performance venue is reserved for Full Festival Pass holders, so individual performances do not need to be selected in advance.',
@@ -102,8 +102,8 @@ export const passesCopy: Record<Locale, any> = {
     jams: {
       title: 'JAM Access', intro: 'Choose individual JAMs or create a longer JAM path through the festival. During registration, indicate which JAMs you plan to attend.',
       events: ['First Meetings JAM', 'Welcoming Open Circle & JAM', 'JAM — 28 September', 'JAM — 29 September', 'JAM — 3 October', 'JAM — 4 October'],
-      generalTitle: 'General JAM access', generalNote: 'For visitors not purchasing a CI intensive or Performance Lab.',
-      participantTitle: 'Participant JAM Add-on', participantNote: 'For someone purchasing a CI intensive or Performance Lab. Extend your practice into the JAMs and stay connected to the shared festival rhythm.',
+      generalTitle: 'JAM-only pricing', generalNote: 'For visitors not purchasing a CI intensive or Performance Lab.',
+      participantTitle: 'Participant add-on pricing', participantNote: 'For someone purchasing a CI intensive or Performance Lab. Extend your practice into the JAMs and stay connected to the shared festival rhythm.',
       single: 'Single JAM', three: 'Three or more', perJam: 'per JAM', one: '1 JAM', all: 'All 6 JAMs',
       capacity: 'Advance registration and payment are preferred. Entry and payment on the door are possible only when capacity remains.',
       choiceTitle: 'Which JAM price applies to you?',
@@ -113,8 +113,8 @@ export const passesCopy: Record<Locale, any> = {
     family: {
       title: 'Family & Youth Program', intro: 'Choose family participation or the complete two-day Youth Dance Class.',
       passTitle: 'Family Pass', includedTitle: 'Included formats', includes: 'One Family Pass includes one child and one accompanying adult, one age-appropriate Little Curiosity class, The Wild One and Family Time & Discussion.',
-      age: 'Little Curiosity is for children under 6 on day 1 and children over 6 on day 2. The appropriate class depends on the child’s age. The accompanying adult must participate in The Wild One.',
-      additional: 'Additional child or adult from the same family', additionalText: 'One additional child or one additional adult from the same family can join at this reduced rate.',
+      age: 'Choose Little Curiosity by the child’s age: under 6 on day 1, 6+ on day 2. The accompanying adult takes part in The Wild One.',
+      additional: 'Additional child or adult from the same family', additionalText: 'Add one child or adult from the same family at the reduced price below.',
       wild: 'The Wild One will also be sold separately as a performance ticket.',
       youthTitle: 'Youth Dance Class', youthMeta: 'Complete 2-day format', youthText: 'A two-day movement format created primarily for teenagers and young adults. It is sold only as the complete two-day format.',
       productsTitle: 'Choose one participation product',
@@ -158,7 +158,7 @@ export const passesCopy: Record<Locale, any> = {
     full: {
       title: 'Full Festival Pass', kicker: 'Ritmul complet al festivalului',
       text: 'Pentru cei care vor să intre în ritmul complet Contact+. Abonamentul oferă acces la întregul program de practică, performance și viață comună a festivalului, în limitele orarului.',
-      includesTitle: 'Tot ce include Full Festival Pass',
+      includesTitle: 'Inclus în Full Festival Pass',
       includes: ['Toate intensivele de Improvizație de contact', 'Toate Performance Labs', 'Toate JAM-urile', 'Prezentări și performance-uri', 'Întâlniri și evenimente comune ale festivalului', 'Formatele Programului pentru familii și tineri potrivite vârstei și cadrului de participare', 'Family Time & Discussion'],
       parallel: 'Unele evenimente au loc în paralel. În aceste cazuri, deținătorii Full Festival Pass aleg evenimentul la care participă.',
       performances: 'La fiecare performance este rezervată o zonă pentru deținătorii Full Festival Pass, astfel încât nu este necesară alegerea în avans a fiecărui spectacol.',
@@ -227,8 +227,8 @@ export const passesCopy: Record<Locale, any> = {
     jams: {
       title: 'Acces la JAM-uri', intro: 'Alege JAM-uri individuale sau creează un traseu mai lung prin festival. În formular, indică JAM-urile la care intenționezi să participi.',
       events: ['JAM-ul primelor întâlniri', 'Cerc de bun-venit și JAM', 'JAM — 28 septembrie', 'JAM — 29 septembrie', 'JAM — 3 octombrie', 'JAM — 4 octombrie'],
-      generalTitle: 'Acces general la JAM-uri', generalNote: 'Pentru vizitatorii care nu cumpără un intensiv de IC sau un Performance Lab.',
-      participantTitle: 'Participant JAM Add-on', participantNote: 'Pentru cei care cumpără un intensiv de IC sau un Performance Lab. Continuă practica în JAM-uri și rămâi conectat la ritmul comun al festivalului.',
+      generalTitle: 'Prețuri doar pentru JAM-uri', generalNote: 'Pentru vizitatorii care nu cumpără un intensiv de IC sau un Performance Lab.',
+      participantTitle: 'Prețuri add-on pentru participanți', participantNote: 'Pentru cei care cumpără un intensiv de IC sau un Performance Lab. Continuă practica în JAM-uri și rămâi conectat la ritmul comun al festivalului.',
       single: 'Un JAM', three: 'Trei sau mai multe', perJam: 'per JAM', one: '1 JAM', all: 'Toate cele 6 JAM-uri',
       capacity: 'Înregistrarea și plata în avans sunt preferate. Intrarea și plata la ușă sunt posibile doar dacă mai sunt locuri.',
       choiceTitle: 'Ce preț pentru JAM-uri ți se aplică?',
@@ -238,8 +238,8 @@ export const passesCopy: Record<Locale, any> = {
     family: {
       title: 'Program pentru familii și tineri', intro: 'Alege participarea în familie sau formatul complet Youth Dance Class de două zile.',
       passTitle: 'Family Pass', includedTitle: 'Formate incluse', includes: 'Un Family Pass include un copil și un adult însoțitor, o clasă Little Curiosity potrivită vârstei, The Wild One și Family Time & Discussion.',
-      age: 'Little Curiosity este pentru copii sub 6 ani în ziua 1 și pentru copii peste 6 ani în ziua 2. Clasa potrivită depinde de vârsta copilului. Participarea adultului însoțitor la The Wild One este obligatorie.',
-      additional: 'Copil sau adult suplimentar din aceeași familie', additionalText: 'Un copil suplimentar sau un adult suplimentar din aceeași familie poate participa la acest preț redus.',
+      age: 'Alege Little Curiosity după vârsta copilului: sub 6 ani în ziua 1, 6+ în ziua 2. Adultul însoțitor participă la The Wild One.',
+      additional: 'Copil sau adult suplimentar din aceeași familie', additionalText: 'Adaugă un copil sau un adult din aceeași familie la prețul redus de mai jos.',
       wild: 'The Wild One va fi vândut și separat ca bilet la performance.',
       youthTitle: 'Youth Dance Class', youthMeta: 'Format complet de 2 zile', youthText: 'Un format de mișcare de două zile creat în primul rând pentru adolescenți și tineri. Se vinde doar ca format complet de două zile.',
       productsTitle: 'Alege un produs de participare',
@@ -283,7 +283,7 @@ export const passesCopy: Record<Locale, any> = {
     full: {
       title: 'Full Festival Pass', kicker: 'Полный ритм фестиваля',
       text: 'Для тех, кто хочет войти в полный ритм Contact+. Абонемент открывает всю программу практики, перформанса и общей фестивальной жизни в пределах возможностей расписания.',
-      includesTitle: 'Всё, что входит в Full Festival Pass',
+      includesTitle: 'Входит в Full Festival Pass',
       includes: ['Все интенсивы по Контактной импровизации', 'Все Performance Labs', 'Все JAM-ы', 'Показы и перформансы', 'Встречи и общие события фестиваля', 'Форматы программы для семей и молодёжи при соответствии возрасту и условиям участия', 'Family Time & Discussion'],
       parallel: 'Некоторые события идут параллельно. В таких случаях владельцы Full Festival Pass выбирают, какое событие посетить.',
       performances: 'На каждой площадке для владельцев Full Festival Pass резервируется отдельная зона, поэтому выбирать перформансы заранее не нужно.',
@@ -352,8 +352,8 @@ export const passesCopy: Record<Locale, any> = {
     jams: {
       title: 'Доступ к JAM-ам', intro: 'Выберите отдельные JAM-ы или создайте более длинный путь через фестиваль. При регистрации укажите, какие JAM-ы планируете посетить.',
       events: ['JAM первых встреч', 'Приветственный круг и JAM', 'JAM — 28 сентября', 'JAM — 29 сентября', 'JAM — 3 октября', 'JAM — 4 октября'],
-      generalTitle: 'Общий доступ к JAM-ам', generalNote: 'Для гостей, которые не покупают интенсив КИ или Performance Lab.',
-      participantTitle: 'Participant JAM Add-on', participantNote: 'Для участников интенсива КИ или Performance Lab. Продолжите практику в JAM-ах и оставайтесь в общем ритме фестиваля.',
+      generalTitle: 'Цена при участии только в JAM-ах', generalNote: 'Для гостей, которые не покупают интенсив КИ или Performance Lab.',
+      participantTitle: 'Дополнительная цена для участников', participantNote: 'Для участников интенсива КИ или Performance Lab. Продолжите практику в JAM-ах и оставайтесь в общем ритме фестиваля.',
       single: 'Один JAM', three: 'Три и более', perJam: 'за JAM', one: '1 JAM', all: 'Все 6 JAM-ов',
       capacity: 'Предпочтительны предварительная регистрация и оплата. Вход и оплата на месте возможны, только если остаются свободные места.',
       choiceTitle: 'Какая цена на JAM-ы относится к вам?',
@@ -363,8 +363,8 @@ export const passesCopy: Record<Locale, any> = {
     family: {
       title: 'Программа для семей и молодёжи', intro: 'Выберите семейное участие или полный двухдневный формат Youth Dance Class.',
       passTitle: 'Family Pass', includedTitle: 'Включённые форматы', includes: 'Один Family Pass включает одного ребёнка и одного сопровождающего взрослого, подходящий по возрасту класс Little Curiosity, The Wild One и Family Time & Discussion.',
-      age: 'Little Curiosity предназначен для детей младше 6 лет в день 1 и старше 6 лет в день 2. Подходящий класс зависит от возраста ребёнка. Участие сопровождающего взрослого в The Wild One обязательно.',
-      additional: 'Дополнительный ребёнок или взрослый из той же семьи', additionalText: 'Один дополнительный ребёнок или взрослый из той же семьи может присоединиться по этой сниженной цене.',
+      age: 'Выберите Little Curiosity по возрасту ребёнка: до 6 лет в день 1, 6+ в день 2. Сопровождающий взрослый участвует в The Wild One.',
+      additional: 'Дополнительный ребёнок или взрослый из той же семьи', additionalText: 'Добавьте одного ребёнка или взрослого из той же семьи по сниженной цене ниже.',
       wild: 'The Wild One будет также продаваться отдельно как билет на перформанс.',
       youthTitle: 'Youth Dance Class', youthMeta: 'Полный формат · 2 дня', youthText: 'Двухдневный формат движения, созданный прежде всего для подростков и молодых взрослых. Продаётся только как полный двухдневный формат.',
       productsTitle: 'Выберите один формат участия',
