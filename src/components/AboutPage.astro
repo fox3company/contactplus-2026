@@ -138,6 +138,17 @@ const organiserGroups = [
     }
   });
 
+  document.querySelectorAll('.about-faq').forEach((group) => {
+    group.querySelectorAll('details').forEach((item) => {
+      item.addEventListener('toggle', () => {
+        if (!item.open) return;
+        group.querySelectorAll('details[open]').forEach((openItem) => {
+          if (openItem !== item) openItem.open = false;
+        });
+      });
+    });
+  });
+
 </script>
 
 <style>

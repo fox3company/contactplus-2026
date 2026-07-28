@@ -152,7 +152,7 @@ const footerLabels = {
         </div>
       </div>
     </footer>
-    <a class="back-top" href="#top" aria-label={getLocalized({ en: 'Back to top', ro: 'Înapoi sus', ru: 'Наверх' }, lang)}>↑</a>
+    <a class="back-top" href="#top" aria-label={getLocalized({ en: 'Back to top', ro: 'Înapoi sus', ru: 'Наверх' }, lang)} aria-hidden="true" tabindex="-1">↑</a>
     <script is:inline>
       (() => {
         const menu = document.querySelector('.mobile-nav');
@@ -173,6 +173,29 @@ const footerLabels = {
           close();
           summary?.focus();
         });
+      })();
+    </script>
+    <script is:inline>
+      (() => {
+        const control = document.querySelector('.back-top');
+        if (!control) return;
+        let scheduled = false;
+        const update = () => {
+          const visible = window.matchMedia('(max-width: 620px)').matches
+            || window.scrollY > Math.max(560, window.innerHeight * 0.8);
+          control.toggleAttribute('data-visible', visible);
+          control.setAttribute('aria-hidden', String(!visible));
+          control.setAttribute('tabindex', visible ? '0' : '-1');
+          scheduled = false;
+        };
+        const scheduleUpdate = () => {
+          if (scheduled) return;
+          scheduled = true;
+          window.requestAnimationFrame(update);
+        };
+        window.addEventListener('scroll', scheduleUpdate, { passive: true });
+        window.addEventListener('resize', scheduleUpdate);
+        update();
       })();
     </script>
   </body>
@@ -404,6 +427,16 @@ const footerLabels = {
     box-shadow: 0 8px 24px rgba(47, 39, 33, 0.08);
     color: var(--accent-muted);
     text-decoration: none;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 160ms ease, transform 160ms ease, border-color 160ms ease, color 160ms ease;
+  }
+
+  :global(.back-top[data-visible]) {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
   }
 
   :global(.back-top:hover),
@@ -411,6 +444,16 @@ const footerLabels = {
     border-color: var(--line-strong);
     color: var(--ink);
     outline: 0;
+  }
+
+  @media (max-width: 620px) {
+    :global(.back-top) {
+      right: 14px;
+      bottom: max(14px, env(safe-area-inset-bottom));
+      display: grid;
+      width: 46px;
+      height: 46px;
+    }
   }
 
   :global(main) {
