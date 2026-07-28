@@ -105,7 +105,7 @@ const footerLabels = {
           </summary>
           <div class="nav-more__menu">
             {secondaryNav.map((item) => (
-              <a href={item.href} rel={item.external ? 'noopener' : undefined} target={item.external ? '_blank' : undefined}>
+              <a class={item.external ? 'is-cta' : undefined} href={item.href} rel={item.external ? 'noopener' : undefined} target={item.external ? '_blank' : undefined}>
                 {getLocalized(item.label, lang)}
               </a>
             ))}
@@ -120,7 +120,7 @@ const footerLabels = {
         <button class="mobile-nav__backdrop" type="button" aria-label={closeMenuLabel} tabindex="-1"></button>
         <nav class="mobile-nav__menu" aria-label="Primary navigation">
           {mobileNav.map((item) => (
-            <a href={item.href} rel={item.external ? 'noopener' : undefined} target={item.external ? '_blank' : undefined}>
+            <a class={item.external ? 'is-cta' : undefined} href={item.href} rel={item.external ? 'noopener' : undefined} target={item.external ? '_blank' : undefined}>
               {getLocalized(item.label, lang)}
             </a>
           ))}
@@ -363,6 +363,20 @@ const footerLabels = {
     background: color-mix(in srgb, var(--paper-deep) 58%, var(--paper));
     color: var(--ink);
     outline: 0;
+  }
+
+  .nav-more__menu a.is-cta {
+    margin-top: 5px;
+    border-top: 1px solid color-mix(in srgb, var(--line) 64%, transparent);
+    border-radius: 0;
+    color: color-mix(in srgb, var(--accent-muted) 84%, var(--muted));
+    font-weight: 580;
+  }
+
+  .nav-more__menu a.is-cta:hover,
+  .nav-more__menu a.is-cta:focus-visible {
+    background: transparent;
+    color: var(--accent);
   }
 
   .primary-nav > a {
@@ -878,6 +892,25 @@ const footerLabels = {
       background: transparent;
       color: var(--accent);
       outline: 0;
+    }
+
+    :global(.mobile-nav__menu a.is-cta) {
+      min-height: 42px;
+      margin-top: 0;
+      padding-top: 0;
+      border-bottom: 0;
+      border-top: 0;
+      border-radius: 0;
+      background: transparent;
+      color: color-mix(in srgb, var(--accent-muted) 82%, var(--muted));
+      font-weight: 620;
+    }
+
+    :global(.mobile-nav__menu a.is-cta:hover),
+    :global(.mobile-nav__menu a.is-cta:focus-visible) {
+      padding-left: 8px;
+      background: transparent;
+      color: var(--accent);
     }
 
     :global(.mobile-nav__menu a:last-child) {

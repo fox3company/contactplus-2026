@@ -73,17 +73,11 @@ const {
     min-width: 0;
     min-height: 82px;
     border-left: 3px solid var(--pass-event-accent);
-    background:
-      linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--pass-event-accent) 8%, transparent),
-        transparent 72%
-      ),
-      color-mix(in srgb, white 74%, transparent);
+    background: color-mix(in srgb, white 56%, transparent);
     transition:
       background-color 180ms ease,
       box-shadow 180ms ease,
-      transform 180ms ease;
+      outline-color 180ms ease;
   }
 
   .pass-event-card[data-event-accent="ci"] { --pass-event-accent: #738b5f; }
@@ -92,16 +86,14 @@ const {
   .pass-event-card[data-event-accent="family_youth"] { --pass-event-accent: #62869a; }
   .pass-event-card[data-event-accent="jams_gatherings"] { --pass-event-accent: #736e96; }
 
-  .pass-event-card:hover,
-  .pass-event-card:focus-within {
-    background:
-      linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--pass-event-accent) 13%, transparent),
-        transparent 78%
-      ),
-      color-mix(in srgb, white 90%, transparent);
-    box-shadow: 0 3px 16px color-mix(in srgb, var(--ink) 7%, transparent);
+  .pass-event-card:hover {
+    background: color-mix(in srgb, var(--pass-event-accent) 5%, white);
+  }
+
+  .pass-event-card:has(input:focus-visible),
+  .pass-event-card:has(.pass-event-card__trigger:focus-visible) {
+    outline: 2px solid color-mix(in srgb, var(--pass-event-accent) 62%, transparent);
+    outline-offset: 2px;
   }
 
   label,
@@ -182,16 +174,8 @@ const {
   }
 
   .pass-event-card:has(input:checked) {
-    background:
-      linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--pass-event-accent) 15%, transparent),
-        transparent 82%
-      ),
-      white;
-    box-shadow:
-      inset 0 0 0 1px color-mix(in srgb, var(--pass-event-accent) 60%, var(--line)),
-      0 3px 16px color-mix(in srgb, var(--ink) 6%, transparent);
+    background: color-mix(in srgb, var(--pass-event-accent) 9%, white);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pass-event-accent) 58%, var(--line));
   }
 
   .pass-event-card:has(input:checked)::after {
@@ -211,13 +195,7 @@ const {
   }
 
   .pass-event-card--included {
-    background:
-      linear-gradient(
-        90deg,
-        color-mix(in srgb, var(--pass-event-accent) 7%, transparent),
-        transparent 74%
-      ),
-      color-mix(in srgb, white 58%, transparent);
+    background: color-mix(in srgb, var(--pass-event-accent) 3%, white 74%);
   }
 
   .pass-event-card--included .pass-event-card__status::before {

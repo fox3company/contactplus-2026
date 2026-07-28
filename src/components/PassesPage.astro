@@ -44,7 +44,7 @@ const priceProps = {
 };
 
 const ui = {
-  choosePass: getLocalized({ en: 'Choose a pass', ro: 'Alege un abonament', ru: 'Выбрать вариант участия' }, lang),
+  choosePass: getLocalized({ en: 'See participation options', ro: 'Vezi opțiunile de participare', ru: 'Посмотреть варианты участия' }, lang),
   goodToKnow: getLocalized({ en: 'Good to know', ro: 'Bine de știut', ru: 'Важно знать' }, lang),
   included: getLocalized({ en: 'Included', ro: 'Inclus', ru: 'Включено' }, lang),
   includedInPass: getLocalized({ en: 'Included in this pass', ro: 'Inclus în acest abonament', ru: 'Включено в этот абонемент' }, lang),
@@ -65,14 +65,16 @@ const ui = {
     getLocalized({ en: 'Register for both Performance Labs', ro: 'Înscrie-te la ambele Performance Labs', ru: 'Записаться на обе Performance Labs' }, lang),
   ],
   jamTitle: getLocalized({ en: 'Join one or more JAMs', ro: 'Participă la unul sau mai multe JAM-uri', ru: 'Присоединитесь к одному или нескольким JAM-ам' }, lang),
-  jamQuestion: getLocalized({ en: 'Which JAM price applies to you?', ro: 'Ce tarif JAM ți se aplică?', ru: 'Какой тариф JAM вам подходит?' }, lang),
+  jamQuestion: copy.jams.choiceTitle,
   jamPriceTitle: getLocalized({ en: 'Your JAM price', ro: 'Tariful tău JAM', ru: 'Ваш тариф JAM' }, lang),
   optionLabel: getLocalized({ en: 'Option', ro: 'Opțiune', ru: 'Вариант' }, lang),
-  jamNo: getLocalized({ en: 'No, I am joining only JAMs', ro: 'Nu, particip doar la JAM-uri', ru: 'Нет, я участвую только в JAM-ах' }, lang),
-  jamYes: getLocalized({ en: 'Yes, I already have one', ro: 'Da, am deja unul', ru: 'Да, у меня уже есть один из них' }, lang),
-  jamDates: getLocalized({ en: 'View all 6 JAM dates', ro: 'Vezi toate cele 6 date JAM', ru: 'Посмотреть все 6 дат JAM' }, lang),
+  jamNo: copy.jams.generalChoice,
+  jamYes: copy.jams.participantChoice,
+  jamDates: getLocalized({ en: 'View 6 JAM dates', ro: 'Vezi cele 6 date JAM', ru: 'Посмотреть 6 дат JAM' }, lang),
+  hideJamDates: getLocalized({ en: 'Hide JAM dates', ro: 'Ascunde datele JAM', ru: 'Скрыть даты JAM' }, lang),
   jamCta: getLocalized({ en: 'Register for JAMs', ro: 'Înscrie-te la JAM-uri', ru: 'Записаться на JAM-ы' }, lang),
   familyChooserTitle: getLocalized({ en: 'Choose a family or youth format', ro: 'Alege un format pentru familie sau tineri', ru: 'Выберите семейный или молодёжный формат' }, lang),
+  includedFormat: getLocalized({ en: 'Included format', ro: 'Format inclus', ru: 'Включённый формат' }, lang),
   familyPassCta: getLocalized({ en: 'Register for the Family Pass', ro: 'Înscrie-te pentru Family Pass', ru: 'Зарегистрироваться на Family Pass' }, lang),
   youthCta: getLocalized({ en: 'Register for Youth Dance Class', ro: 'Înscrie-te pentru Youth Dance Class', ru: 'Зарегистрироваться на Youth Dance Class' }, lang),
   addFamily: getLocalized({ en: 'Add another family member', ro: 'Adaugă un membru al familiei', ru: 'Добавить члена семьи' }, lang),
@@ -104,12 +106,6 @@ const ui = {
         <a class="passes-action passes-action--primary" href="#choose-path">{ui.choosePass}</a>
         <a class="passes-action passes-action--text" href={`/${lang}/program`}>{copy.actions.program} →</a>
       </div>
-      <p class="passes-hero__pricing-note">
-        <span>{copy.pricing.regular}: <strong>{copy.pricing.regularNote}</strong></span>
-        <span aria-hidden="true">·</span>
-        <span>{copy.pricing.late}: <strong>{copy.pricing.lateNote}</strong></span>
-        <small>{copy.pricing.currency}</small>
-      </p>
     </div>
   </header>
 
@@ -268,10 +264,12 @@ const ui = {
         <div class="participation-option__content">
           <p>{copy.ci.optionNotes[1]}</p>
           <div class="participation-option__selection">
-            {(() => {
-              const event = eventLink('risk-play-flight');
-              return <PassEventCard title={event.title} meta={copy.ci.secondMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />;
-            })()}
+            <div class="event-choice-grid event-choice-grid--compact">
+              {(() => {
+                const event = eventLink('risk-play-flight');
+                return <PassEventCard title={event.title} meta={copy.ci.secondMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />;
+              })()}
+            </div>
             <PricePair regular="€100" late="€130" compact {...priceProps} />
           </div>
         </div>
@@ -348,10 +346,12 @@ const ui = {
         <div class="participation-option__content">
           <p>{copy.labs.optionNotes[1]}</p>
           <div class="participation-option__selection">
-            {(() => {
-              const event = eventLink('seeing-and-being-seen');
-              return <PassEventCard title={event.title} meta={copy.labs.secondMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />;
-            })()}
+            <div class="event-choice-grid event-choice-grid--compact">
+              {(() => {
+                const event = eventLink('seeing-and-being-seen');
+                return <PassEventCard title={event.title} meta={copy.labs.secondMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />;
+              })()}
+            </div>
             <PricePair regular="€165" late="€215" compact {...priceProps} />
           </div>
         </div>
@@ -391,7 +391,10 @@ const ui = {
         <h2 id="jams-title">{ui.jamTitle}</h2>
         <p class="section-lead">{copy.jams.intro}</p>
         <details class="jam-dates">
-          <summary>{ui.jamDates}</summary>
+          <summary>
+            <span class="jam-dates__closed">{ui.jamDates}</span>
+            <span class="jam-dates__open">{ui.hideJamDates}</span>
+          </summary>
           <ul class="event-inline-list">{copy.jams.events.map((event: string, index: number) => {
             const detail = eventLink(passesShared.eventSlugs.jams[index]);
             return <li><PassEventCard title={event} meta={detail.meta || 'JAM'} slug={detail.slug} accent={detail.accent} viewDetailsLabel={ui.viewDetails} state="standalone" /></li>;
@@ -400,7 +403,6 @@ const ui = {
       </header>
       <div class="jam-section__decision">
         <div class="jam-choice" data-jam-choice>
-          <h3>{ui.jamQuestion}</h3>
           <div role="group" aria-label={ui.jamQuestion}>
             <button type="button" data-jam-choice-button="general" aria-pressed="true">{ui.jamNo}</button>
             <button type="button" data-jam-choice-button="participant" aria-pressed="false">{ui.jamYes}</button>
@@ -460,15 +462,21 @@ const ui = {
         </div>
         <p class="family-age-note"><strong>{ui.ageDetails}.</strong> {copy.family.age}</p>
         <PricePair regular="€55" late="€65" {...priceProps} />
-        <details class="family-add-on">
-          <summary>{ui.addFamily}</summary>
-          <div><p>{copy.family.additionalText}</p><PricePair regular="€12" late="€18" compact {...priceProps} /></div>
-        </details>
+        <section class="family-add-on-card" aria-labelledby="family-add-on-title">
+          <div>
+            <h4 id="family-add-on-title">{ui.addFamily}</h4>
+            <p>{copy.family.additionalText}</p>
+          </div>
+          <PricePair regular="€12" late="€18" compact {...priceProps} />
+        </section>
         <a class="passes-action passes-action--primary product-cta" href={passesShared.registrationUrl} rel="noopener" target="_blank">{ui.familyPassCta}</a>
       </article>
       <article class="family-product" id="family-panel-1" role="tabpanel" aria-labelledby="family-tab-1" data-option-panel="1" hidden>
-        <PassEventCard title={youthEvent.title} meta={copy.family.youthMeta} slug={youthEvent.slug} accent={youthEvent.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />
-        <p>{copy.family.youthText}</p>
+        <header><h3>{copy.family.youthTitle}</h3><p>{copy.family.youthText}</p></header>
+        <h4>{ui.includedFormat}</h4>
+        <div class="event-choice-grid event-choice-grid--compact event-choice-grid--single">
+          <PassEventCard title={youthEvent.title} meta={copy.family.youthMeta} slug={youthEvent.slug} accent={youthEvent.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />
+        </div>
         <PricePair regular="€40" late="€50" {...priceProps} />
         <a class="passes-action passes-action--primary product-cta" href={passesShared.registrationUrl} rel="noopener" target="_blank">{ui.youthCta}</a>
       </article>
@@ -5168,6 +5176,251 @@ const ui = {
 
     .passes-page .registration-timeline li + li {
       margin-top: 22px;
+    }
+  }
+</style>
+
+<style is:inline>
+  /* Final visual-polish layer: one grid, one event grammar, fewer disclosure surfaces. */
+  .passes-page.passes-page--system .passes-hero {
+    width: min(100%, var(--passes-decision-width));
+    max-width: none;
+    margin-inline: auto;
+    padding-bottom: var(--page-hero-bottom-space);
+    border-bottom: 0;
+  }
+
+  .passes-page.passes-page--system .passes-hero__main {
+    max-width: var(--page-hero-default-width);
+  }
+
+  .passes-page.passes-page--system {
+    padding-top: clamp(48px, 8vw, 92px);
+  }
+
+  .passes-page.passes-page--system .passes-hero h1 {
+    max-width: var(--page-hero-default-width);
+    margin: 0 0 var(--page-hero-title-gap);
+    font-size: var(--page-hero-title-size);
+    line-height: var(--page-hero-title-line-height);
+  }
+
+  .passes-page.passes-page--system .passes-hero__lead {
+    max-width: var(--page-hero-subtitle-max-width);
+    margin: 0;
+    color: var(--muted) !important;
+    font-size: var(--page-hero-subtitle-size);
+    line-height: var(--page-hero-subtitle-line-height);
+  }
+
+  .passes-page.passes-page--system .passes-hero__facts {
+    gap: 0;
+    margin-top: var(--page-hero-context-gap);
+    color: var(--accent-muted) !important;
+    font-size: var(--page-hero-context-size);
+    line-height: 1.3;
+  }
+
+  .passes-page.passes-page--system .full-pass__details {
+    border-top: 0;
+  }
+
+  .passes-page.passes-page--system .participation-option__selection > .event-choice-grid {
+    align-self: start;
+    margin-top: 14px;
+  }
+
+  .passes-page.passes-page--system .jam-dates {
+    width: max-content;
+    max-width: 100%;
+    margin-top: 22px;
+    border: 0;
+  }
+
+  .passes-page.passes-page--system .jam-dates > summary {
+    position: relative;
+    display: inline-flex;
+    width: auto;
+    min-height: 38px;
+    align-items: center;
+    padding: 6px 28px 6px 0;
+    border: 0;
+    color: var(--ink);
+    font-size: .84rem;
+    font-weight: 680;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .passes-page.passes-page--system .jam-dates > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .passes-page.passes-page--system .jam-dates > summary::after {
+    position: absolute;
+    right: 2px;
+    color: var(--accent-muted);
+    content: "⌄";
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .passes-page.passes-page--system .jam-dates[open] > summary::after {
+    content: "⌃";
+  }
+
+  .passes-page.passes-page--system .jam-dates__open {
+    display: none;
+  }
+
+  .passes-page.passes-page--system .jam-dates[open] .jam-dates__closed {
+    display: none;
+  }
+
+  .passes-page.passes-page--system .jam-dates[open] .jam-dates__open {
+    display: inline;
+  }
+
+  .passes-page.passes-page--system .jam-dates > summary:focus-visible {
+    border-radius: 0;
+    outline: 0;
+    box-shadow: inset 0 -1px 0 var(--accent-muted);
+  }
+
+  .passes-page.passes-page--system .event-inline-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .passes-page.passes-page--system .jam-choice > div {
+    margin-top: 0;
+  }
+
+  .passes-page.passes-page--system .jam-pricing--single {
+    margin-top: 18px;
+  }
+
+  .passes-page.passes-page--system .event-choice-grid--single {
+    width: calc((100% - 16px) / 2);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .passes-page.passes-page--system .family-add-on-card {
+    display: grid;
+    max-width: 820px;
+    grid-template-columns: minmax(0, 1fr) minmax(230px, 280px);
+    gap: 24px;
+    align-items: center;
+    margin-top: 24px;
+    padding: 18px 20px;
+    background: color-mix(in srgb, var(--paper-deep) 46%, transparent);
+  }
+
+  .passes-page.passes-page--system .family-add-on-card h4 {
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-size: .92rem;
+    font-weight: 650;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .passes-page.passes-page--system .family-add-on-card p {
+    max-width: 520px;
+    margin: 0;
+    color: var(--muted);
+    font-size: .78rem;
+    line-height: 1.5;
+  }
+
+  .passes-page.passes-page--system .family-add-on-card .price-pair {
+    margin: 0;
+  }
+
+  .passes-page.passes-page--system .practical-groups {
+    gap: 12px;
+  }
+
+  .passes-page.passes-page--system .practical-groups > article {
+    padding: 24px;
+    background: color-mix(in srgb, var(--paper-deep) 30%, transparent);
+  }
+
+  .passes-page.passes-page--system .practical-groups h3 {
+    margin-bottom: 18px;
+    font-size: 1.08rem;
+  }
+
+  .passes-page.passes-page--system .practical-groups dl {
+    gap: 16px;
+  }
+
+  .passes-page.passes-page--system .practical-groups dt {
+    margin-bottom: 5px;
+    font-size: .71rem;
+  }
+
+  .passes-page.passes-page--system .practical-groups dd {
+    margin-top: 0;
+    font-size: .74rem;
+    line-height: 1.55;
+  }
+
+  @media (max-width: 620px) {
+    .passes-page.passes-page--system {
+      padding-top: 48px;
+    }
+
+    .passes-page.passes-page--system .passes-hero {
+      width: 100%;
+      padding-bottom: var(--page-hero-bottom-space);
+      text-align: left;
+    }
+
+    .passes-page.passes-page--system .passes-hero h1 {
+      margin: 0 0 var(--page-hero-title-gap);
+      font-size: var(--page-hero-title-size);
+    }
+
+    .passes-page.passes-page--system .passes-hero__lead {
+      margin: 0;
+      font-size: var(--page-hero-subtitle-size);
+      line-height: var(--page-hero-subtitle-line-height);
+    }
+
+    .passes-page.passes-page--system .participation-option__selection > .event-choice-grid,
+    .passes-page.passes-page--system .event-choice-grid--single {
+      width: 100%;
+      grid-template-columns: 1fr;
+    }
+
+    .passes-page.passes-page--system .jam-dates {
+      width: auto;
+    }
+
+    .passes-page.passes-page--system .event-inline-list {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .passes-page.passes-page--system .family-add-on-card {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      padding: 18px;
+    }
+
+    .passes-page.passes-page--system .family-add-on-card .price-pair {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .passes-page.passes-page--system .family-add-on-card .price-pair > div + div {
+      padding-left: 16px;
+      border-top: 0;
+      border-left: 1px solid var(--line);
+    }
+
+    .passes-page.passes-page--system .practical-groups > article {
+      padding: 22px 20px;
     }
   }
 </style>
