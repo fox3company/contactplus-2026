@@ -44,7 +44,8 @@ const priceProps = {
 };
 
 const ui = {
-  choosePass: getLocalized({ en: 'See participation options', ro: 'Vezi opțiunile de participare', ru: 'Посмотреть варианты участия' }, lang),
+  choosePass: getLocalized({ en: 'Choose a pass', ro: 'Alege un abonament', ru: 'Выбрать абонемент' }, lang),
+  heroShortLead: getLocalized({ en: 'Choose your way into Contact+.', ro: 'Alege cum vrei să participi la Contact+.', ru: 'Выберите свой путь в Contact+.' }, lang),
   goodToKnow: getLocalized({ en: 'Good to know', ro: 'Bine de știut', ru: 'Важно знать' }, lang),
   included: getLocalized({ en: 'Included', ro: 'Inclus', ru: 'Включено' }, lang),
   includedInPass: getLocalized({ en: 'Included in this pass', ro: 'Inclus în acest abonament', ru: 'Включено в этот абонемент' }, lang),
@@ -108,7 +109,8 @@ const ui = {
     <div class="passes-hero__main">
       <p class="eyebrow">{copy.strapline}</p>
       <h1>{copy.title}</h1>
-      <p class="passes-hero__lead">{copy.lead}</p>
+      <p class="passes-hero__lead passes-hero__lead--full">{copy.lead}</p>
+      <p class="passes-hero__lead passes-hero__lead--short">{ui.heroShortLead}</p>
       <p class="passes-hero__facts"><span class="passes-hero__date">{copy.date}<span class="passes-hero__dot" aria-hidden="true">·</span></span><span class="passes-hero__place">{copy.place}</span></p>
       <div class="passes-actions">
         <a class="passes-action passes-action--primary" href="#choose-path">{ui.choosePass}</a>
@@ -1593,6 +1595,76 @@ const ui = {
       width: 100%;
       justify-content: center;
     }
+  }
+</style>
+
+<style>
+  .passes-page.passes-page--system .passes-hero__lead--short { display: none !important; }
+
+  @media (max-width: 620px) {
+    .passes-page.passes-page--system .passes-hero .eyebrow { display: none !important; }
+    .passes-page.passes-page--system .passes-hero__lead--full { display: none !important; }
+    .passes-page.passes-page--system .passes-hero__lead--short {
+      display: block !important;
+      max-width: 18rem;
+    }
+    .passes-page.passes-page--system .passes-hero__facts {
+      gap: 4px;
+      margin: 0 0 12px;
+      color: var(--muted) !important;
+      font-size: .68rem;
+      font-weight: 520;
+      letter-spacing: .02em;
+      line-height: 1.35;
+      text-transform: none;
+    }
+    .passes-page.passes-page--system .passes-hero .passes-action--text {
+      margin-left: 0;
+    }
+
+    .passes-page.passes-page--system .passes-hero .passes-actions {
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .passes-page.passes-page--system .passes-hero .passes-action--primary {
+      min-height: 42px;
+      padding: 9px 16px;
+    }
+    .passes-page.passes-page--system .passes-hero {
+      width: min(100%, 620px);
+      margin-inline: auto;
+      padding-inline: 12px;
+      box-sizing: border-box;
+      text-align: center;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 62%, transparent);
+    }
+
+    .passes-page.passes-page--system .passes-hero__main {
+      align-items: center;
+    }
+
+    .passes-page.passes-page--system .passes-hero__lead--short {
+      margin-inline: auto;
+    }
+
+    .passes-page.passes-page--system .passes-hero__facts {
+      justify-content: center;
+    }
+
+    .passes-page.passes-page--system .passes-hero .passes-actions {
+      justify-content: center;
+    }
+
+    .passes-page.passes-page--system .passes-hero__main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .passes-page.passes-page--system .passes-hero__facts { order: 1; }
+    .passes-page.passes-page--system .passes-hero h1 { order: 2; }
+    .passes-page.passes-page--system .passes-hero__lead { order: 3; }
+    .passes-page.passes-page--system .passes-hero .passes-actions { order: 4; }
   }
 </style>
 
@@ -5263,6 +5335,10 @@ const ui = {
     line-height: var(--page-hero-subtitle-line-height);
   }
 
+  .passes-page.passes-page--system .passes-hero__lead--short {
+    display: none;
+  }
+
   .passes-page.passes-page--system .passes-hero__facts {
     gap: 0;
     margin-top: var(--page-hero-context-gap);
@@ -5539,7 +5615,7 @@ const ui = {
     .passes-page.passes-page--system .passes-hero {
       width: 100%;
       padding-bottom: 8px;
-      text-align: left;
+      text-align: center;
     }
 
     .passes-page.passes-page--system .passes-hero .eyebrow {
@@ -5558,19 +5634,39 @@ const ui = {
       line-height: var(--page-hero-subtitle-line-height);
     }
 
+    .passes-page.passes-page--system .passes-hero__lead--full {
+      display: none;
+    }
+
+    .passes-page.passes-page--system .passes-hero__lead--short {
+      display: block;
+      max-width: 18rem;
+    }
+
     .passes-page.passes-page--system .passes-hero__facts {
-      margin-top: 15px;
-      font-size: .7rem;
-      font-weight: 560;
+      gap: 4px;
+      margin: 0 0 12px;
+      color: var(--muted) !important;
+      font-size: .68rem;
+      font-weight: 520;
+      letter-spacing: .02em;
+      line-height: 1.35;
+      text-transform: none;
     }
 
     .passes-page.passes-page--system .passes-hero .passes-actions {
-      margin-top: 18px;
+      gap: 14px;
+      margin-top: 14px;
     }
 
     .passes-page.passes-page--system .passes-hero .passes-action--text {
+      margin-left: 0;
       font-size: .82rem;
       font-weight: 560;
+    }
+
+    .passes-page.passes-page--system .passes-hero {
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 62%, transparent);
     }
 
     .passes-page.passes-page--system .path-index {

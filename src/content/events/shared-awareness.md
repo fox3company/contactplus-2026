@@ -4,9 +4,9 @@ publishing_status: ready_for_review
 program_line: ci_performance
 filters: [ci, performance]
 title:
-  en: Shared Awareness
-  ro: Atenție împărtășită
-  ru: Совместное внимание
+  en: Sharing Presence
+  ro: Prezență împărtășită
+  ru: Совместное присутствие
 meta:
   category:
     en: CI & Performance class
@@ -17,24 +17,30 @@ meta:
     ro: 2 zile
     ru: 2 дня
 summary:
-  en: A two-day class exploring Contact Improvisation as communication, somatic language and shared awareness in relation to others and the space.
-  ro: O clasă de două zile care explorează improvizația de contact ca formă de comunicare, limbaj somatic și atenție împărtășită în relație cu ceilalți și cu spațiul.
-  ru: Двухдневный класс о контактной импровизации как коммуникации, соматическом языке и совместном внимании в отношениях с другими и пространством.
+  en: A two-day Contact Improvisation & Performance class on presence as a meeting point for communication, perception and collective creation.
+  ro: O clasă de două zile de Improvizație de contact & performance despre prezență ca punct de întâlnire pentru comunicare, percepție și creație colectivă.
+  ru: Двухдневный класс по контактной импровизации и перформансу о присутствии как точке встречи для коммуникации, восприятия и коллективного творчества.
 focus_label:
   en: Practice / performance focus
   ro: Focus practic / performativ
   ru: Фокус практики / перформанса
 focus:
-  en: Shared awareness · CI as communication · presence · touch · performative score
-  ro: Atenție împărtășită · Improvizație de contact ca comunicare · prezență · atingere · scor performativ
-  ru: Совместное внимание · КИ как коммуникация · присутствие · прикосновение · перформативная партитура
+  en: Presence · somatic language · perception · collective creation · witnessing
+  ro: Prezență · limbaj somatic · percepție · creație colectivă · martor activ
+  ru: Присутствие · соматический язык · восприятие · коллективное творчество · свидетельствование
 body:
   en: >-
-    Through attention, touch, body mechanics, stillness and collective presence, the class treats movement as a language shared with others and with the space. The process may naturally lead toward a short performative score later in the festival.
+    Sharing Presence studies Contact Improvisation as a form of communication applied to the performing arts. Movement becomes a somatic language of interaction, where attention is the source of action and perception becomes material for experiment and learning.
+
+    The class works with presence as a meeting point: a way to enter contact, relate with others and discover collective creative potential. Stillness and contemplation become the ground from which dynamic movement can appear, while performance is approached as witnessing and sharing collective presence.
   ro: >-
-    Prin atenție, atingere, mecanică corporală, liniște și prezență colectivă, clasa privește mișcarea ca pe un limbaj împărtășit cu ceilalți și cu spațiul. Procesul poate conduce firesc spre un scurt scor performativ mai târziu în festival.
+    Prezență împărtășită studiază Improvizația de contact ca formă de comunicare aplicată artelor performative. Mișcarea devine un limbaj somatic al interacțiunii, în care atenția este sursa acțiunii, iar percepția devine material pentru experiment și învățare.
+
+    Clasa lucrează cu prezența ca punct de întâlnire: o cale de a intra în contact, de a relaționa cu ceilalți și de a descoperi potențialul creativ colectiv. Liniștea și contemplația devin solul din care poate apărea mișcarea dinamică, iar performance-ul este abordat ca martor activ și împărtășire a prezenței colective.
   ru: >-
-    Через внимание, прикосновение, механику тела, тишину и коллективное присутствие класс рассматривает движение как язык, разделяемый с другими и с пространством. Процесс может естественно привести к короткой перформативной партитуре позже в фестивале.
+    «Совместное присутствие» рассматривает контактную импровизацию как форму коммуникации, применённую к исполнительским искусствам. Движение становится соматическим языком взаимодействия, где внимание является источником действия, а восприятие — материалом для эксперимента и обучения.
+
+    Класс работает с присутствием как точкой встречи: способом входить в контакт, выстраивать отношения с другими и открывать коллективный творческий потенциал. Тишина и созерцание становятся основой, из которой может проявляться динамичное движение, а перформанс понимается как свидетельствование и разделение коллективного присутствия.
 source_confidence: confirmed
 localization_status:
   en: ready_for_review
@@ -68,4 +74,4 @@ related:
   people: [daniel-rojasanta]
 ---
 
-# Shared Awareness
+# Sharing Presence
