@@ -5,17 +5,26 @@ public_listing: true
 name: Voices Dance Company
 country_display: Moldova
 role_summary:
-  en: Moldovan dance company presenting Light from the Shadow.
-  ro: Companie de dans din Moldova care prezintă Lumina din Umbră.
-  ru: Молдавская танцевальная компания, представляющая «Свет из тени».
+  en: Dance company presenting Light from the Shadow.
+  ro: Companie de dans care prezintă Lumina din Umbră.
+  ru: Танцевальная компания, представляющая «Свет из тени».
 short_profile:
-  en: Moldovan dance company presenting a multimedia work that combines contemporary dance, music, spoken text and projections.
-  ro: Companie de dans din Moldova care prezintă o lucrare multimedia cu dans contemporan, muzică, text rostit și proiecții.
-  ru: Молдавская танцевальная компания, представляющая мультимедийную работу с современным танцем, музыкой, текстом и проекциями.
+  en: Voices Dance Company is an independent contemporary dance and performance group from Chisinau, connected to Moldova's modern movement scene. At Contact+ it presents Light from the Shadow, a multimedia performance where movement, music, spoken text and projections trace a poetic journey.
+  ro: Voices Dance Company este un grup independent de dans contemporan și performance din Chișinău, legat de scena modernă de mișcare din Moldova. La Contact+ prezintă Lumina din Umbră, un performance multimedia în care mișcarea, muzica, textul rostit și proiecțiile urmăresc un parcurs poetic.
+  ru: Voices Dance Company — независимая группа современного танца и перформанса из Кишинёва, связанная с современной двигательной сценой Молдовы. На Contact+ она представляет «Свет из тени», мультимедийный перформанс, где движение, музыка, произнесённый текст и проекции прослеживают поэтический путь.
 extended_profile:
-  en: Light from the Shadow is inspired by life, love and creative memory, drawing on the writings and journey of a 19th-century poet and writer. Within the Contact+ context, Alexandra Soshnicova and Sergey Golovnea are also connected to Voices as choreographer-directors and dancers.
-  ro: Lumina din Umbră este inspirată de viață, iubire și memorie creativă, pornind de la scrierile și parcursul unui poet și scriitor din secolul al XIX-lea. În contextul Contact+, Alexandra Soshnicova și Sergey Golovnea sunt conectați cu Voices ca coregrafi-directori și dansatori.
-  ru: «Свет из тени» вдохновлён жизнью, любовью и творческой памятью, обращаясь к текстам и пути поэта и писателя XIX века. В контексте Contact+ Alexandra Soshnicova и Sergey Golovnea также связаны с Voices как хореографы-руководители и танцовщики.
+  en: >-
+    Voices is historically connected to Angela Doniy and now to the long-term creative duo Alexandra Soshnicova and Sergey Golovnea. Their work with the company and the wider Fantezia / Contact+ context brings together contemporary dance, Contact Improvisation, physical theatre, poetry, projections and educational practice.
+
+    Light from the Shadow turns biographical and poetic material into a layered stage language about love, memory and creative light. In the Contact+ credits, Alexandra and Sergey are connected to Voices as choreographer-directors and dancers.
+  ro: >-
+    Voices este conectată istoric cu Angela Doniy și, în prezent, cu duetul creativ de lungă durată Alexandra Soshnicova și Sergey Golovnea. Lucrul lor cu compania și cu contextul mai larg Fantezia / Contact+ aduce împreună dansul contemporan, Improvizația de contact, teatrul fizic, poezia, proiecțiile și practica educațională.
+
+    Lumina din Umbră transformă materialul biografic și poetic într-un limbaj scenic stratificat despre iubire, memorie și lumină creativă. În creditele Contact+, Alexandra și Sergey sunt conectați cu Voices ca coregrafi-directori și dansatori.
+  ru: >-
+    Voices исторически связана с Angela Doniy, а сейчас — с долгим творческим дуэтом Alexandra Soshnicova и Sergey Golovnea. Их работа с компанией и более широким контекстом Fantezia / Contact+ соединяет современный танец, Контактную импровизацию, физический театр, поэзию, проекции и образовательную практику.
+
+    «Свет из тени» превращает биографический и поэтический материал в многослойный сценический язык о любви, памяти и творческом свете. В credits Contact+ Alexandra и Sergey связаны с Voices как хореографы-руководители и танцовщики.
 festival_events:
   - event_id: light-from-the-shadow
     relation: company

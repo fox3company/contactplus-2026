@@ -5538,8 +5538,12 @@ const ui = {
 
     .passes-page.passes-page--system .passes-hero {
       width: 100%;
-      padding-bottom: 16px;
+      padding-bottom: 8px;
       text-align: left;
+    }
+
+    .passes-page.passes-page--system .passes-hero .eyebrow {
+      display: none;
     }
 
     .passes-page.passes-page--system .passes-hero h1 {
@@ -5557,7 +5561,7 @@ const ui = {
     .passes-page.passes-page--system .passes-hero__facts {
       margin-top: 15px;
       font-size: .7rem;
-      font-weight: 620;
+      font-weight: 560;
     }
 
     .passes-page.passes-page--system .passes-hero .passes-actions {
@@ -5580,6 +5584,16 @@ const ui = {
 
     .passes-page.passes-page--system .full-pass__copy .section-lead {
       margin-bottom: 0;
+    }
+
+    .passes-page.passes-page--system .full-pass__purchase .passes-actions {
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .passes-page.passes-page--system .full-pass__bottom {
+      margin-top: 18px;
+      padding-top: 18px;
     }
 
     .passes-page.passes-page--system .participation-option__selection > .event-choice-grid,
@@ -5818,7 +5832,11 @@ const ui = {
     }
 
     .passes-page.passes-page--system .registration-timeline li {
-      padding-block: 14px;
+      padding-block: 10px;
+    }
+
+    .passes-page.passes-page--system .registration-timeline li + li {
+      margin-top: 10px;
     }
 
     .passes-page.passes-page--system .practical-groups {

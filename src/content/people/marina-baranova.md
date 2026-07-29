@@ -5,20 +5,26 @@ public_listing: true
 name: Marina Baranova
 country_display: Ukraine
 role_summary:
-  en: Contact Improvisation teacher.
-  ro: Profesoară de Improvizație de contact.
-  ru: Преподаватель Контактной импровизации.
+  en: Contact Improvisation teacher and performer.
+  ro: Profesoară de Improvizație de contact și performeră.
+  ru: Преподаватель Контактной импровизации и исполнительница.
 short_profile:
-  en: CI teacher working with transitions between solo, duet and trio, and the way relation changes the dance.
-  ro: Profesoară de Improvizație de contact care lucrează cu tranziții între solo, duet și trio și cu felul în care relația schimbă dansul.
-  ru: Её работа исследует переходы между соло, дуэтом и трио и то, как отношения меняют танец.
+  en: Marina Baranova is a Contact Improvisation teacher, performer and organiser who has practiced and taught CI since 2006. Her work treats movement as non-verbal dialogue, connecting structure, emotion and awareness through weight, momentum and relation.
+  ro: Marina Baranova este profesoară de Improvizație de contact, performeră și organizatoare, practicând și predând CI din 2006. Lucrul ei privește mișcarea ca dialog nonverbal, legând structura, emoția și atenția prin greutate, impuls și relație.
+  ru: Marina Baranova — преподаватель Контактной импровизации, исполнительница и организатор, практикующая и преподающая CI с 2006 года. Её работа рассматривает движение как невербальный диалог, связывая структуру, эмоцию и внимание через вес, импульс и отношения.
 extended_profile:
   en: >-
-    Her Contact+ class, Way in and Way Out, focuses on entering and leaving relation: solo, duet, trio and the return to solo. This profile is based on event context and should be expanded when final artist-approved biography is available.
+    Marina has taught Contact Improvisation in workshop, community and institutional contexts, including work with non-dancers and classes connected to the Center for Contact Improvisation. Her teaching emphasizes spatial awareness, physical listening and the possibility of meeting another person when words are not enough.
+
+    Her Contact+ class, Way in and Way Out, explores how a dance changes when it moves from solo into duet or trio, and how the dancer finds a way back to solo. The class keeps the focus on entering relation, leaving it and returning with more clarity.
   ro: >-
-    Clasa ei la Contact+, Intrare și ieșire, se concentrează pe intrarea și ieșirea din relație: solo, duet, trio și întoarcerea la solo. Profilul este bazat pe contextul evenimentului și trebuie extins când va exista biografia finală aprobată de artistă.
+    Marina a predat Improvizație de contact în contexte de atelier, comunitate și instituție, inclusiv în lucrul cu non-dansatori și în clase legate de Center for Contact Improvisation. Predarea ei pune accent pe orientarea spațială, ascultarea fizică și posibilitatea de a întâlni o altă persoană atunci când cuvintele nu sunt suficiente.
+
+    Clasa ei la Contact+, Intrare și ieșire, explorează felul în care dansul se schimbă când trece din solo în duet sau trio și cum dansatorul găsește drumul înapoi spre solo. Clasa păstrează focusul pe intrarea în relație, ieșirea din ea și întoarcerea cu mai multă claritate.
   ru: >-
-    Её класс Contact+ «Вход и выход» сосредоточен на входе в отношения и выходе из них: соло, дуэт, трио и возвращение к соло. Профиль основан на контексте события и должен быть расширен, когда появится финальная биография, одобренная артисткой.
+    Marina преподавала Контактную импровизацию в воркшопах, сообществах и институциональных контекстах, включая работу с не-танцовщиками и классы, связанные с Center for Contact Improvisation. В её преподавании важны пространственное внимание, физическое слушание и возможность встретить другого человека там, где слов уже недостаточно.
+
+    Её класс Contact+ «Вход и выход» исследует, как меняется танец, когда он переходит из соло в дуэт или трио, и как танцовщик находит путь обратно к соло. Класс удерживает фокус на входе в отношения, выходе из них и возвращении с большей ясностью.
 festival_events:
   - event_id: way-in-and-way-out
     relation: teacher

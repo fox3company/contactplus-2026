@@ -117,7 +117,6 @@ const artistDetails = Object.fromEntries(people.map((person) => {
       role: getFestivalRoleLabel(person, lang),
       roleSummary: getLocalized(person.data.role_summary, lang),
       shortProfile: getLocalized(person.data.short_profile, lang),
-      extendedProfile: getLocalized(person.data.extended_profile, lang),
       eventCount: getPublicEventCount(person),
       relationSummary: getPublicRelationSummary(person),
       events: festivalEvents,
@@ -215,7 +214,7 @@ const artistDetails = Object.fromEntries(people.map((person) => {
       const profile = detailPanel.querySelector('[data-artist-detail-profile]');
       if (profile) {
         profile.innerHTML = '';
-        [data.shortProfile, data.extendedProfile].filter(Boolean).forEach((text) => {
+        [data.shortProfile].filter(Boolean).forEach((text) => {
           const paragraph = document.createElement('p');
           paragraph.textContent = text;
           profile.append(paragraph);

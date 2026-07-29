@@ -20,6 +20,10 @@ if (!isLocale(lang)) {
 
 const profile = getLocalized(person.data.short_profile, lang);
 const extendedProfile = getLocalized(person.data.extended_profile, lang);
+const profileParagraphs = [
+  profile,
+  ...extendedProfile.split(/\n+/),
+].map((paragraph) => paragraph.trim()).filter(Boolean);
 const country = getLocalizedCountryDisplay(person.data.country_display, lang);
 const entityLabel = getFestivalRoleLabel(person, lang);
 const credits = getLocalized(person.data.credits_note, lang);
@@ -101,8 +105,7 @@ const linkedCreditParts = credits && creditTitlePattern
     {mediaSrc && <MediaBlock title={person.data.name} label={portraitLabel} src={mediaSrc} type={media?.type} caption={media?.caption} />}
 
     <section class="body-copy">
-      <p>{profile}</p>
-      {extendedProfile && <p>{extendedProfile}</p>}
+      {profileParagraphs.map((paragraph) => <p>{paragraph}</p>)}
     </section>
 
     {festivalEventLinks.length > 0 && (
