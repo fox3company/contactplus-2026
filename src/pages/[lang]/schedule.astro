@@ -15,6 +15,7 @@ import {
   filterProgramEvents,
   getProgramCategoryLabel,
   getProgramFilterGroup,
+  getProgramFilterGroups,
   getProgramOccurrences,
   groupProgramEventsByDay,
   isPublicDetailEvent,
@@ -319,6 +320,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
                     const format = getLocalized(event.data.meta?.format, lang);
                     const summary = getLocalized(event.data.summary, lang);
                     const group = getProgramFilterGroup(event);
+                    const groups = getProgramFilterGroups(event).join(' ');
                     const detailKey = getEventDetailKey(event.slug, date, dateLabel);
                     const searchText = [
                       title,
@@ -333,6 +335,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
                         class={`schedule-card program-accent program-accent--${group}`}
                         data-event-card
                         data-filter-group={group}
+                        data-filter-groups={groups}
                         data-program-accent={group}
                         data-view-classes={isVisibleInProgramView(event, 'classes_performances') ? 'true' : 'false'}
                         data-search={searchText.toLowerCase()}
@@ -449,8 +452,8 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
 
       cards.forEach((card) => {
         const modeMatch = activeMode === 'full_festival' || card.getAttribute('data-view-classes') === 'true';
-        const filterGroup = card.getAttribute('data-filter-group') || '';
-        const filterMatch = activeFilters.size === 0 || activeFilters.has(filterGroup);
+        const filterGroups = (card.getAttribute('data-filter-groups') || card.getAttribute('data-filter-group') || '').split(/\s+/).filter(Boolean);
+        const filterMatch = activeFilters.size === 0 || filterGroups.some((filterGroup) => activeFilters.has(filterGroup));
         const searchMatch = !activeSearch || (card.getAttribute('data-search') || '').includes(activeSearch);
         const visible = modeMatch && filterMatch && searchMatch;
         card.hidden = !visible;

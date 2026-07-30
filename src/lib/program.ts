@@ -100,6 +100,20 @@ export function getProgramFilterGroup(event: ProgramEvent): Exclude<ProgramFilte
   return 'ci';
 }
 
+export function getProgramFilterGroups(event: ProgramEvent): Exclude<ProgramFilterGroup, 'all'>[] {
+  const groups = new Set<Exclude<ProgramFilterGroup, 'all'>>([getProgramFilterGroup(event)]);
+  const filters = new Set(event.data.filters || []);
+
+  if (filters.has('ci')) groups.add('ci');
+  if (filters.has('performance_lab')) groups.add('performance_labs');
+  if (filters.has('performance')) groups.add('performances');
+  if (filters.has('family') || filters.has('youth')) groups.add('family_youth');
+  if (filters.has('jam') || filters.has('gathering')) groups.add('jams_gatherings');
+  if (filters.has('meal')) groups.add('breaks');
+
+  return [...groups];
+}
+
 export function getProgramCategoryLabel(category: string | undefined, programLine: string): string {
   const value = category || programLine;
   const normalized = value.toLowerCase().replace(/[_-]/g, ' ');
@@ -111,7 +125,7 @@ export function getProgramCategoryLabel(category: string | undefined, programLin
 
 export function isVisibleForProgramFilter(event: ProgramEvent, filterGroup: ProgramFilterGroup): boolean {
   if (filterGroup === 'all') return true;
-  return getProgramFilterGroup(event) === filterGroup;
+  return getProgramFilterGroups(event).includes(filterGroup);
 }
 
 export function filterProgramEvents(

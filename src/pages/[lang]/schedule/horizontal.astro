@@ -15,6 +15,7 @@ import {
   filterProgramEvents,
   getProgramCategoryLabel,
   getProgramFilterGroup,
+  getProgramFilterGroups,
   getProgramOccurrences,
   groupProgramEventsByDay,
   isPublicDetailEvent,
@@ -351,6 +352,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
                           const summary = getLocalized(event.data.summary, lang);
                           const compactNote = getCompactCardNote(event, summary);
                           const filterGroup = getProgramFilterGroup(event);
+                          const filterGroups = getProgramFilterGroups(event).join(' ');
                           const detailKey = getEventDetailKey(event.slug, date, dateLabel);
                           const visiblePeople = (event.data.people || []).filter((person) => person.public_visibility === 'visible');
                           const compactPeople = event.slug === 'choice-as-bodily-experience'
@@ -368,6 +370,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
                               class={`horizontal-card horizontal-card--${filterGroup}`}
                               data-horizontal-card
                               data-filter-group={filterGroup}
+                              data-filter-groups={filterGroups}
                               data-card-kind={event.data.visibility === 'schedule_only' ? 'schedule-only' : 'detail'}
                               data-card-note={compactNote ? 'true' : 'false'}
                               data-density={isSecondary ? 'secondary' : 'primary'}
@@ -480,9 +483,9 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     }
 
     function passesFilters(card) {
-      const filterGroup = card.getAttribute('data-filter-group');
+      const filterGroups = (card.getAttribute('data-filter-groups') || card.getAttribute('data-filter-group') || '').split(/\s+/).filter(Boolean);
       const viewMatch = activeViewMode === 'full_festival' || card.getAttribute('data-view-classes') === 'true';
-      const filterMatch = activeFilters.has('all') || activeFilters.has(filterGroup);
+      const filterMatch = activeFilters.has('all') || filterGroups.some((filterGroup) => activeFilters.has(filterGroup));
       return viewMatch && filterMatch;
     }
 
