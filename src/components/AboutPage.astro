@@ -24,7 +24,10 @@ const organiserGroups = [
     label: copy.organisers.coreGroup,
     items: [
       { names: ['Alexandra Soshnicova', 'Sergey Golovnea'], links: ['https://www.facebook.com/alexandra.soshnicova', 'https://www.facebook.com/golovnea'], role: copy.organisers.dance },
-      { names: ['Anriana Celan'], links: ['https://www.facebook.com/adriana.celan'], role: copy.organisers.manager },
+      { people: [
+        { name: 'Anriana Celan', link: 'https://www.facebook.com/adriana.celan', role: copy.organisers.manager },
+        { name: 'Jenia Gheorghiev', link: 'https://www.instagram.com/jenia_gheorghiev', role: copy.organisers.programManager },
+      ] },
     ],
   },
   {
@@ -117,7 +120,7 @@ const organiserGroups = [
         <h2 id="about-organisers">{copy.organisers.title}</h2>
         <p class="about-section__lead">{copy.organisers.intro}</p>
         <div class="about-organisers__groups">
-          {organiserGroups.map((group) => <section class="about-organisers__group"><h3 class="about-organisers__group-title">{group.label}</h3><div class="about-organisers__items">{group.items.map((organiser) => <p class="about-organisers__item"><span class="about-organisers__names">{organiser.names.map((name, index) => <><a class="about-organisers__link" href={organiser.links[index]} rel="noopener" target="_blank">{name}</a>{index < organiser.names.length - 1 && ', '}</>)}</span>{organiser.role && <small class="about-organisers__role">{organiser.role}</small>}</p>)}</div></section>)}
+          {organiserGroups.map((group) => <section class="about-organisers__group"><h3 class="about-organisers__group-title">{group.label}</h3><div class="about-organisers__items">{group.items.map((organiser) => <div class:list={['about-organisers__item', organiser.people && 'about-organisers__item--people']}>{organiser.people ? organiser.people.map((person) => <span class="about-organisers__person"><span class="about-organisers__names"><a class="about-organisers__link" href={person.link} rel="noopener" target="_blank">{person.name}</a></span><small class="about-organisers__role">{person.role}</small></span>) : <><span class="about-organisers__names">{organiser.names.map((name, index) => <><a class="about-organisers__link" href={organiser.links[index]} rel="noopener" target="_blank">{name}</a>{index < organiser.names.length - 1 && ', '}</>)}</span>{organiser.role && <small class="about-organisers__role">{organiser.role}</small>}</>}</div>)}</div></section>)}
         </div>
       </div>
       <div class="about-organisers__media about-media--landscape"><img src={aboutMedia.organisers} alt="People greeting each other during the festival" width="2048" height="1365" loading="lazy" decoding="async" /></div>
@@ -245,6 +248,8 @@ const organiserGroups = [
   .about-section--organisers .about-organisers__group-title { margin: 0; padding-top: .18em; color: var(--accent-muted); font-size: .84rem; font-weight: 720; letter-spacing: .074em; line-height: 1.3; }
   .about-organisers__items { display: grid; gap: 8px; }
   .about-organisers__item { margin: 0; color: var(--muted); font-size: clamp(1.02rem, 1.04vw, 1.08rem); font-weight: 370; line-height: 1.44; }
+  .about-organisers__item--people { display: flex; flex-wrap: wrap; gap: 18px 34px; align-items: flex-start; }
+  .about-organisers__person { display: block; }
   .about-organisers__names { color: var(--muted); font-weight: 390; }
   .about-organisers__link { color: inherit; text-decoration: none; }
   .about-organisers__link:hover, .about-organisers__link:focus-visible { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
@@ -369,6 +374,7 @@ const organiserGroups = [
     .about-section--organisers .about-organisers__group-title { max-width: 18rem; color: color-mix(in srgb, var(--accent-muted) 86%, var(--ink)); font-size: .86rem; font-weight: 680; letter-spacing: .045em; line-height: 1.28; }
     .about-organisers__items { gap: 9px; padding-left: 14px; }
     .about-organisers__item { font-size: .98rem; line-height: 1.5; }
+    .about-organisers__item--people { display: grid; gap: 9px; }
     .about-organisers__names { display: block; color: var(--muted); font-weight: 390; }
     .about-organisers__names, .about-organisers__role { overflow-wrap: anywhere; }
     .about-organisers__role { margin-top: 2px; color: color-mix(in srgb, var(--muted) 72%, var(--soft)); font-size: .82em; line-height: 1.3; }
