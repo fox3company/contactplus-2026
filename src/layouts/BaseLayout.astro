@@ -456,6 +456,12 @@ const footerLabels = {
       width: 46px;
       height: 46px;
     }
+
+    :global(html.event-detail-open .back-top) {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+    }
   }
 
   :global(main) {

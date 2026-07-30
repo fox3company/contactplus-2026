@@ -623,6 +623,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
       detailPanel.classList.add('open');
       detailOverlay.classList.add('open');
       detailPanel.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('event-detail-open');
       detailClose?.focus();
     }
 
@@ -632,6 +633,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
       detailOverlay.classList.remove('open');
       detailPanel.setAttribute('aria-hidden', 'true');
       detailOverlay.hidden = true;
+      document.documentElement.classList.remove('event-detail-open');
       lastFocusedCard?.focus?.();
     }
 
