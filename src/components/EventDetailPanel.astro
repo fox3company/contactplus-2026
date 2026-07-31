@@ -30,10 +30,10 @@ const labels = {
     aria-labelledby="event-detail-title"
   >
     <button class="event-detail-close" type="button" data-event-detail-close aria-label={labels.close}>×</button>
-    <p class="event-detail-kicker">
-      <span data-event-detail-category></span>
-      <span class="event-detail-divider" data-event-detail-format-divider aria-hidden="true"></span>
-      <span data-event-detail-format></span>
+    <p class="program-meta event-detail-kicker">
+      <span class="program-meta__category" data-event-detail-category></span>
+      <span class="program-meta__divider" data-event-detail-format-divider aria-hidden="true"></span>
+      <span class="program-meta__format" data-event-detail-format></span>
     </p>
     <h2 id="event-detail-title" data-event-detail-title></h2>
     <dl class="event-detail-facts">
@@ -318,20 +318,17 @@ const labels = {
   }
 
   .event-detail-kicker {
-    display: flex;
-    align-items: center;
-    gap: 8px;
     margin: 0 0 2px;
     padding-right: 58px;
-    color: var(--event-accent);
     font-size: .78rem;
-    font-weight: 650;
   }
 
-  .event-detail-divider {
-    width: 14px;
-    height: 1px;
-    background: var(--line-strong);
+  .event-detail-panel .program-meta__category {
+    color: var(--event-accent);
+  }
+
+  .event-detail-panel .program-meta__divider {
+    background: color-mix(in srgb, var(--event-accent) 52%, var(--line-strong));
   }
 
   .event-detail-panel h2 {
