@@ -24,10 +24,7 @@ const organiserGroups = [
     label: copy.organisers.coreGroup,
     items: [
       { names: ['Alexandra Soshnicova', 'Sergey Golovnea'], links: ['https://www.facebook.com/alexandra.soshnicova', 'https://www.facebook.com/golovnea'], role: copy.organisers.dance },
-      { people: [
-        { name: 'Anriana Celan', link: 'https://www.facebook.com/adriana.celan', role: copy.organisers.manager },
-        { name: 'Jenia Gheorghiev', link: 'https://www.instagram.com/jenia_gheorghiev', role: copy.organisers.programManager },
-      ] },
+      { names: ['Anriana Celan', 'Jenia Gheorghiev', 'Asya Yakubovska', 'Kristina Mahu'], links: ['https://www.facebook.com/adriana.celan', 'https://www.instagram.com/jenia_gheorghiev', 'https://www.instagram.com/03asya/', 'https://www.instagram.com/philosophia.naturalis'], separator: ' · ', role: `${copy.organisers.manager} · ${copy.organisers.programManager} · ${copy.organisers.socialMediaStorytelling} · ${copy.organisers.administrativeSupport}` },
     ],
   },
   {
@@ -120,7 +117,7 @@ const organiserGroups = [
         <h2 id="about-organisers">{copy.organisers.title}</h2>
         <p class="about-section__lead">{copy.organisers.intro}</p>
         <div class="about-organisers__groups">
-          {organiserGroups.map((group) => <section class="about-organisers__group"><h3 class="about-organisers__group-title">{group.label}</h3><div class="about-organisers__items">{group.items.map((organiser) => <div class:list={['about-organisers__item', organiser.people && 'about-organisers__item--people']}>{organiser.people ? organiser.people.map((person) => <span class="about-organisers__person"><span class="about-organisers__names"><a class="about-organisers__link" href={person.link} rel="noopener" target="_blank">{person.name}</a></span><small class="about-organisers__role">{person.role}</small></span>) : <><span class="about-organisers__names">{organiser.names.map((name, index) => <><a class="about-organisers__link" href={organiser.links[index]} rel="noopener" target="_blank">{name}</a>{index < organiser.names.length - 1 && ', '}</>)}</span>{organiser.role && <small class="about-organisers__role">{organiser.role}</small>}</>}</div>)}</div></section>)}
+          {organiserGroups.map((group) => <section class="about-organisers__group"><h3 class="about-organisers__group-title">{group.label}</h3><div class="about-organisers__items">{group.items.map((organiser) => <div class:list={['about-organisers__item', organiser.people && 'about-organisers__item--people']}>{organiser.people ? organiser.people.map((person) => <span class="about-organisers__person"><span class="about-organisers__names"><a class="about-organisers__link" href={person.link} rel="noopener" target="_blank">{person.name}</a></span><small class="about-organisers__role">{person.role}</small></span>) : <><span class="about-organisers__names">{organiser.names.map((name, index) => <><a class="about-organisers__link" href={organiser.links[index]} rel="noopener" target="_blank">{name}</a>{index < organiser.names.length - 1 && (organiser.separator ?? ', ')}</>)}</span>{organiser.role && <small class="about-organisers__role">{organiser.role}</small>}</>}</div>)}</div></section>)}
         </div>
       </div>
       <div class="about-organisers__media about-media--landscape"><img src={aboutMedia.organisers} alt="People greeting each other during the festival" width="2048" height="1365" loading="lazy" decoding="async" /></div>
