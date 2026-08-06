@@ -17,9 +17,9 @@ meta:
     ro: Discuție
     ru: Обсуждение
 summary:
-  en: A film / presentation of Samovarteateret’s Outside/Inside, an interdisciplinary work on how outer tensions enter inner life, followed by a conversation with Nikolay Shchetnev.
-  ro: Film / prezentare a lucrării Exterior/Interior de Samovarteateret, o lucrare interdisciplinară despre felul în care tensiunile exterioare pătrund în viața interioară, urmată de o conversație cu Nikolay Shchetnev.
-  ru: Фильм / презентация работы Samovarteateret «Снаружи/Внутри» о том, как внешние напряжения проникают во внутреннюю жизнь, с последующим разговором с Nikolay Shchetnev.
+  en: A film / presentation of Samovarteateret’s Outside/Inside, an interdisciplinary work on how outer tensions enter inner life, followed by a conversation with Samovarteateret artist Nikolay Shchetnev.
+  ro: Film / prezentare a lucrării Exterior/Interior de Samovarteateret, o lucrare interdisciplinară despre felul în care tensiunile exterioare pătrund în viața interioară, urmată de o conversație cu artistul Samovarteateret Nikolay Shchetnev.
+  ru: Фильм / презентация работы Samovarteateret «Снаружи/Внутри» о том, как внешние напряжения проникают во внутреннюю жизнь, с последующим разговором с артистом Samovarteateret Nikolay Shchetnev.
 focus_label:
   en: Screening frame
   ro: Cadru de proiecție
@@ -29,9 +29,9 @@ focus:
   ro: Muzică improvizată · dans · teatru · video · tensiune interior / exterior · discuție
   ru: Импровизационная музыка · танец · театр · видео · напряжение внешнего / внутреннего · обсуждение
 body:
-  en: Outside/Inside moves between improvised music, dance, theatre, scenographic storytelling and video. At Contact+, the work is presented as a film / presentation, opening a conversation about identity, memory, destabilized conditions and the performance language of the piece with Nikolay Shchetnev.
-  ro: Exterior/Interior se mișcă între muzică improvizată, dans, teatru, narațiune scenografică și video. La Contact+, lucrarea este prezentată ca film / prezentare și deschide o conversație despre identitate, memorie, condiții destabilizate și limbajul performativ al piesei împreună cu Nikolay Shchetnev.
-  ru: «Снаружи/Внутри» соединяет импровизационную музыку, танец, театр, сценографическое повествование и видео. В Contact+ работа представлена как фильм и презентация и открывает разговор с Nikolay Shchetnev об идентичности, памяти, нестабильных условиях и перформативном языке работы.
+  en: Outside/Inside moves between improvised music, dance, theatre, scenographic storytelling and video. At Contact+, the work is presented as a film / presentation, opening a conversation about identity, memory, destabilized conditions and the performance language of the piece with Samovarteateret artist Nikolay Shchetnev.
+  ro: Exterior/Interior se mișcă între muzică improvizată, dans, teatru, narațiune scenografică și video. La Contact+, lucrarea este prezentată ca film / prezentare și deschide o conversație despre identitate, memorie, condiții destabilizate și limbajul performativ al piesei împreună cu artistul Samovarteateret Nikolay Shchetnev.
+  ru: «Снаружи/Внутри» соединяет импровизационную музыку, танец, театр, сценографическое повествование и видео. В Contact+ работа представлена как фильм и презентация и открывает разговор с артистом Samovarteateret Nikolay Shchetnev об идентичности, памяти, нестабильных условиях и перформативном языке работы.
 source_confidence: confirmed
 localization_status:
   en: ready_for_review
@@ -119,10 +119,10 @@ Outside/Inside (Norway)
 
 **By**  
 Samovarteateret · Norway  
-Discussion with Nikolay Shchetnev
+Discussion with Samovarteateret artist Nikolay Shchetnev
 
 **Short description**  
-An interdisciplinary performance by Samovarteateret combining improvised music and dance with theatre, scenographic storytelling and video. The presentation is followed by a discussion with Nikolay Shchetnev.
+An interdisciplinary performance by Samovarteateret combining improvised music and dance with theatre, scenographic storytelling and video. The presentation is followed by a discussion with Samovarteateret artist Nikolay Shchetnev.
 
 **Screening frame**  
 Improvised music · dance · theatre · video · inner / outer tension · discussion
@@ -130,7 +130,7 @@ Improvised music · dance · theatre · video · inner / outer tension · discus
 **Page body**  
 Outside/Inside looks at how tensions from the outside world enter the inner life of a person. The work moves between identity, dissonance, memory and the search for courage in a changing reality.
 
-Created by Samovarteateret, the performance combines improvised music and dance with theatre, scenographic storytelling and video. In Contact+, the film / presentation brings this Norwegian stage context into the festival’s performance program and opens into a conversation with Nikolay Shchetnev.
+Created by Samovarteateret, the performance combines improvised music and dance with theatre, scenographic storytelling and video. In Contact+, the film / presentation brings this Norwegian stage context into the festival’s performance program and opens into a conversation with Samovarteateret artist Nikolay Shchetnev.
 
 **Credits note**  
 Full production credits and support acknowledgements should appear in an expandable Credits section, not in the main page introduction.
@@ -148,10 +148,10 @@ Exterior/Interior (Norvegia)
 
 **De**  
 Samovarteateret · Norvegia  
-Discuție cu Nikolay Shchetnev
+Discuție cu artistul Samovarteateret Nikolay Shchetnev
 
 **Descriere scurtă**  
-O lucrare interdisciplinară semnată de Samovarteateret, care îmbină muzica improvizată și dansul cu teatrul, narațiunea scenografică și imaginea video. În cadrul Contact+, prezentarea filmului este urmată de o discuție cu Nikolay Shchetnev.
+O lucrare interdisciplinară semnată de Samovarteateret, care îmbină muzica improvizată și dansul cu teatrul, narațiunea scenografică și imaginea video. În cadrul Contact+, prezentarea filmului este urmată de o discuție cu artistul Samovarteateret Nikolay Shchetnev.
 
 **Cadru de proiecție**  
 Muzică improvizată · dans · teatru · video · tensiune interior / exterior · discuție
@@ -159,7 +159,7 @@ Muzică improvizată · dans · teatru · video · tensiune interior / exterior 
 **Text de pagină**  
 Exterior/Interior privește felul în care tensiunile lumii exterioare pătrund în viața interioară a unei persoane. Lucrarea se mișcă între identitate, disonanță, memorie și căutarea curajului într-o realitate aflată în schimbare.
 
-Creat de Samovarteateret, performance-ul combină muzica improvizată și dansul cu teatrul, narațiunea scenografică și video-ul. La Contact+, filmul / prezentarea aduce acest context scenic norvegian în programul de performance al festivalului și se deschide într-o conversație cu Nikolay Shchetnev.
+Creat de Samovarteateret, performance-ul combină muzica improvizată și dansul cu teatrul, narațiunea scenografică și video-ul. La Contact+, filmul / prezentarea aduce acest context scenic norvegian în programul de performance al festivalului și se deschide într-o conversație cu artistul Samovarteateret Nikolay Shchetnev.
 
 **Notă despre echipa lucrării**  
 Lista completă a echipei de producție și a susținătorilor ar trebui afișată într-o secțiune extensibilă, nu în introducerea principală a paginii.
@@ -177,10 +177,10 @@ Media recomandată: trailer, fotografie din producție, portret/fotografie cu Ni
 
 **By**  
 Samovarteateret · Норвегия  
-Обсуждение с Nikolay Shchetnev
+Обсуждение с артистом Samovarteateret Nikolay Shchetnev
 
 **Короткое описание**  
-Междисциплинарная работа Samovarteateret, соединяющая импровизационную музыку и танец с театром, сценографическим повествованием и видео. В программе Contact+ фильм / презентация продолжится обсуждением с Nikolay Shchetnev.
+Междисциплинарная работа Samovarteateret, соединяющая импровизационную музыку и танец с театром, сценографическим повествованием и видео. В программе Contact+ фильм / презентация продолжится обсуждением с артистом Samovarteateret Nikolay Shchetnev.
 
 **Рамка показа**  
 Импровизационная музыка · танец · театр · видео · напряжение внешнего / внутреннего · обсуждение
@@ -188,7 +188,7 @@ Samovarteateret · Норвегия
 **Текст страницы**  
 «Снаружи/Внутри» рассматривает, как напряжения внешнего мира проникают во внутреннюю жизнь человека. Работа движется между идентичностью, диссонансом, памятью и поиском смелости в меняющейся реальности.
 
-Созданный Samovarteateret, перформанс соединяет импровизационную музыку и танец с театром, сценографическим повествованием и видео. В Contact+ фильм / презентация вводит норвежский сценический контекст в перформанс-программу фестиваля и открывает разговор с Nikolay Shchetnev.
+Созданный Samovarteateret, перформанс соединяет импровизационную музыку и танец с театром, сценографическим повествованием и видео. В Contact+ фильм / презентация вводит норвежский сценический контекст в перформанс-программу фестиваля и открывает разговор с артистом Samovarteateret Nikolay Shchetnev.
 
 **Заметка об авторах и команде**  
 Полный список производственной команды и благодарностей лучше показывать в раскрываемом блоке, а не в основной вводной части страницы.

@@ -16,15 +16,15 @@ extended_profile:
   en: >-
     Founded in 1990 by artistic director Bente S. Andersen, Samovarteateret has developed an interdisciplinary language that brings together theatre, contemporary dance, physical acting, multilingual dialogue, live music and video. Its name refers to the samovar as a vessel that is refilled, emptied and kept at the boiling point.
 
-    At Contact+, the company presents Outside/Inside through film / presentation, bringing its northern stage context into the festival's performance program. The work looks at how outer tensions enter inner life and opens into a conversation with Nikolay Shchetnev.
+    At Contact+, the company presents Outside/Inside through film / presentation, bringing its northern stage context into the festival's performance program. The work looks at how outer tensions enter inner life and opens into a conversation with Samovarteateret artist Nikolay Shchetnev.
   ro: >-
     Fondată în 1990 de directoarea artistică Bente S. Andersen, Samovarteateret a dezvoltat un limbaj interdisciplinar care aduce împreună teatrul, dansul contemporan, jocul fizic, dialogul multilingv, muzica live și video-ul. Numele trimite la samovar ca vas care poate fi reumplut, golit și menținut în punctul de fierbere.
 
-    La Contact+, compania prezintă Exterior/Interior prin film / prezentare, aducând contextul său scenic nordic în programul de performance al festivalului. Lucrarea privește felul în care tensiunile exterioare intră în viața interioară și se deschide într-o conversație cu Nikolay Shchetnev.
+    La Contact+, compania prezintă Exterior/Interior prin film / prezentare, aducând contextul său scenic nordic în programul de performance al festivalului. Lucrarea privește felul în care tensiunile exterioare intră în viața interioară și se deschide într-o conversație cu artistul Samovarteateret Nikolay Shchetnev.
   ru: >-
     Основанная в 1990 году художественным руководителем Bente S. Andersen, Samovarteateret развила междисциплинарный язык, соединяющий театр, современный танец, физическую актёрскую работу, многоязычный диалог, живую музыку и видео. Название отсылает к самовару как сосуду, который наполняется, опустошается и остаётся в точке кипения.
 
-    На Contact+ компания представляет «Снаружи/Внутри» как фильм / презентацию, вводя свой северный сценический контекст в перформанс-программу фестиваля. Работа рассматривает, как внешние напряжения входят во внутреннюю жизнь, и открывается в разговор с Nikolay Shchetnev.
+    На Contact+ компания представляет «Снаружи/Внутри» как фильм / презентацию, вводя свой северный сценический контекст в перформанс-программу фестиваля. Работа рассматривает, как внешние напряжения входят во внутреннюю жизнь, и открывается в разговор с артистом Samovarteateret Nikolay Shchetnev.
 festival_events:
   - event_id: outside-inside-norway
     relation: production
