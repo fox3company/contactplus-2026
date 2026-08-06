@@ -1,6 +1,6 @@
 ---
 import LanguageSwitcher from '../components/LanguageSwitcher.astro';
-import { getLocalized, type Locale } from '../lib/locales';
+import { getLocalized, locales, type Locale } from '../lib/locales';
 
 interface Props {
   lang: Locale;
@@ -9,6 +9,16 @@ interface Props {
 }
 
 const { lang, title = 'Contact+ 2026', description = '' } = Astro.props;
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://contactplus-2026.pages.dev';
+const pathname = Astro.url.pathname.endsWith('/')
+  ? Astro.url.pathname
+  : `${Astro.url.pathname}/`;
+const canonicalUrl = `${siteUrl}${pathname}`;
+const alternateLinks = locales.map((locale) => ({
+  lang: locale,
+  href: `${siteUrl}${pathname.replace(/^\/(en|ro|ru)(?=\/)/, `/${locale}`)}`,
+}));
+const xDefaultUrl = `${siteUrl}${pathname.replace(/^\/(en|ro|ru)(?=\/)/, '/en')}`;
 const registrationUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdkDT1NjKXxzbAg_8dqSLEDnYPstOaBZ8oE6mxqNHkLTUbBlg/viewform?usp=header';
 const mainNav = [
   { href: `/${lang}/about`, label: { en: 'About', ro: 'Despre Contact+', ru: 'О фестивале' } },
@@ -51,6 +61,10 @@ const footerLabels = {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="google-site-verification" content="XnznW2Zj1E4FL_WiGliwaqjJMrPuB0AhEZ2VJHYDWEU" />
+    <link rel="canonical" href={canonicalUrl} />
+    {alternateLinks.map((link) => <link rel="alternate" hreflang={link.lang} href={link.href} />)}
+    <link rel="alternate" hreflang="x-default" href={xDefaultUrl} />
     <title>{title}</title>
     <!-- Meta Pixel Code -->
     <script is:inline>

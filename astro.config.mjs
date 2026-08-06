@@ -3,5 +3,5 @@ import mdx from '@astrojs/mdx';
 
 export default defineConfig({
   integrations: [mdx()],
-  site: 'https://contactplus.example',
+  site: 'https://contactplus-2026.pages.dev',
 });
