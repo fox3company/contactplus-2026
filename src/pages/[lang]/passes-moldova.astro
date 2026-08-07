@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PassesPage from '../../components/PassesPage.astro';
+import { getLocalized, isLocale } from '../../lib/locales';
+import { passesCopy } from '../../lib/passes';
+
+export async function getStaticPaths() {
+  return ['en', 'ro', 'ru'].map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props;
+if (!isLocale(lang)) return Astro.redirect('/en/passes-moldova');
+const copy = passesCopy[lang];
+const title = getLocalized({
+  en: 'Passes & Participation · Moldova community prices',
+  ro: 'Abonamente și participare · Prețuri pentru comunitatea din Moldova',
+  ru: 'Абонементы и участие · Цены для локального сообщества Молдовы',
+}, lang);
+const description = getLocalized({
+  en: 'Local community prices for participants living in Moldova.',
+  ro: 'Prețuri pentru comunitatea locală, pentru participanții care locuiesc în Moldova.',
+  ru: 'Локальные цены для участников, живущих в Молдове.',
+}, lang);
+---
+
+<BaseLayout lang={lang} title={`${title} · Contact+ 2026`} description={description || copy.lead} noindex>
+  <PassesPage lang={lang} audience="moldova" />
+</BaseLayout>

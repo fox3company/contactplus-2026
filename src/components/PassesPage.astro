@@ -9,9 +9,16 @@ import { passesCopy, passesShared } from '../lib/passes';
 import { buildEventDetails } from '../lib/eventDetails';
 import { getProgramFilterGroup } from '../lib/program';
 
-interface Props { lang: Locale; }
-const { lang } = Astro.props;
+type PriceAudience = 'standard' | 'moldova';
+
+interface Props {
+  lang: Locale;
+  audience?: PriceAudience;
+}
+
+const { lang, audience = 'standard' } = Astro.props;
 const copy = passesCopy[lang];
+const isMoldovaAudience = audience === 'moldova';
 const events = await getCollection('events');
 const people = await getCollection('people');
 const eventsBySlug = new Map(events.map((event) => [event.slug, event]));
@@ -42,6 +49,40 @@ const priceProps = {
   lateNote: copy.pricing.lateNote,
   ariaLabel: copy.pricing.label,
 };
+
+const prices = isMoldovaAudience
+  ? {
+      full: { regular: '€400', late: '€500' },
+      opening: { regular: '€90', late: '€120' },
+      ciMain: { regular: '€130', late: '€175' },
+      ciSecond: { regular: '€90', late: '€120' },
+      ciPath: { regular: '€200', late: '€275' },
+      labsMain: { regular: '€145', late: '€190' },
+      labsSecond: { regular: '€145', late: '€190' },
+      labsPath: { regular: '€270', late: '€360' },
+    }
+  : {
+      full: { regular: '€450', late: '€550' },
+      opening: { regular: '€120', late: '€150' },
+      ciMain: { regular: '€165', late: '€215' },
+      ciSecond: { regular: '€120', late: '€150' },
+      ciPath: { regular: '€240', late: '€325' },
+      labsMain: { regular: '€180', late: '€230' },
+      labsSecond: { regular: '€180', late: '€230' },
+      labsPath: { regular: '€320', late: '€420' },
+    };
+
+const pathItems = isMoldovaAudience
+  ? copy.paths.items.map(([id, label, meta, text]: [string, string, string, string]) => {
+      const localMeta: Record<string, string> = {
+        'full-festival': getLocalized({ en: '9 days · €400 Regular', ro: '9 zile · €400 standard', ru: '9 дней · €400 стандартная' }, lang),
+        opening: getLocalized({ en: '2 days · €90 Regular', ro: '2 zile · €90 standard', ru: '2 дня · €90 стандартная' }, lang),
+        ci: getLocalized({ en: '3–5 days · from €90 Regular', ro: '3–5 zile · de la €90 standard', ru: '3–5 дней · от €90 стандартная' }, lang),
+        labs: getLocalized({ en: '3–6 days · from €145 Regular', ro: '3–6 zile · de la €145 standard', ru: '3–6 дней · от €145 стандартная' }, lang),
+      };
+      return [id, label, localMeta[id] || meta, text];
+    })
+  : copy.paths.items;
 
 const ui = {
   choosePass: getLocalized({ en: 'Choose a pass', ro: 'Alege un abonament', ru: 'Выбрать абонемент' }, lang),
@@ -122,7 +163,7 @@ const ui = {
   <nav class="path-index" aria-labelledby="choose-path">
     <header><h2 id="choose-path">{copy.paths.title}</h2><p>{copy.paths.text}</p></header>
     <ol>
-      {copy.paths.items.map(([id, label, meta, text]: [string, string, string, string], index: number) =>
+      {pathItems.map(([id, label, meta, text]: [string, string, string, string], index: number) =>
         <li>
           <a href={`#${id}`}>
             <span class="path-index__number">0{index + 1}</span>
@@ -143,7 +184,7 @@ const ui = {
         <p class="section-lead">{copy.full.text}</p>
       </div>
       <div class="full-pass__purchase">
-        <PricePair regular="€450" late="€550" {...priceProps} />
+        <PricePair regular={prices.full.regular} late={prices.full.late} {...priceProps} />
         <div class="passes-actions">
           <a class="passes-action passes-action--primary" href={passesShared.registrationUrl} rel="noopener" target="_blank">{copy.full.cta}</a>
           <a class="passes-action passes-action--text" href={`/${lang}/schedule`}>{copy.actions.schedule} →</a>
@@ -181,7 +222,7 @@ const ui = {
         <h2 id="opening-title">{copy.opening.title}</h2>
         <p class="section-lead">{copy.opening.text}</p>
       </div>
-      <PricePair regular="€120" late="€150" {...priceProps} />
+      <PricePair regular={prices.opening.regular} late={prices.opening.late} {...priceProps} />
     </header>
     <div class="package-map">
       <h3>{copy.opening.packageTitle}</h3>
@@ -273,7 +314,7 @@ const ui = {
                 return <PassEventCard title={event.title} meta={copy.ci.mainMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="selectable" inputName="ci-main" checked={index === 0} />;
               })}
             </div>
-            <PricePair regular="€165" late="€215" compact {...priceProps} />
+            <PricePair regular={prices.ciMain.regular} late={prices.ciMain.late} compact {...priceProps} />
           </div>
         </div>
       </article>
@@ -288,7 +329,7 @@ const ui = {
                 return <PassEventCard title={event.title} meta={copy.ci.secondMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />;
               })()}
             </div>
-            <PricePair regular="€120" late="€150" compact {...priceProps} />
+            <PricePair regular={prices.ciSecond.regular} late={prices.ciSecond.late} compact {...priceProps} />
           </div>
         </div>
       </article>
@@ -309,7 +350,7 @@ const ui = {
                 return <div class="path-includes-card"><PassEventCard title={includedEvent.title} meta={copy.ci.secondMeta} slug={includedEvent.slug} accent={includedEvent.accent} viewDetailsLabel={ui.viewDetails} state="included" status={ui.alsoIncluded} /></div>;
               })()}
             </div>
-            <PricePair regular="€240" late="€325" compact {...priceProps} />
+            <PricePair regular={prices.ciPath.regular} late={prices.ciPath.late} compact {...priceProps} />
           </div>
         </div>
       </article>
@@ -355,7 +396,7 @@ const ui = {
                 return <PassEventCard title={event.title} meta={copy.labs.mainMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="selectable" inputName="labs-main" checked={index === 0} />;
               })}
             </div>
-            <PricePair regular="€180" late="€230" compact {...priceProps} />
+            <PricePair regular={prices.labsMain.regular} late={prices.labsMain.late} compact {...priceProps} />
           </div>
         </div>
       </article>
@@ -370,7 +411,7 @@ const ui = {
                 return <PassEventCard title={event.title} meta={copy.labs.secondMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />;
               })()}
             </div>
-            <PricePair regular="€180" late="€230" compact {...priceProps} />
+            <PricePair regular={prices.labsSecond.regular} late={prices.labsSecond.late} compact {...priceProps} />
           </div>
         </div>
       </article>
@@ -391,7 +432,7 @@ const ui = {
                 return <div class="path-includes-card"><PassEventCard title={includedEvent.title} meta={copy.labs.secondMeta} slug={includedEvent.slug} accent={includedEvent.accent} viewDetailsLabel={ui.viewDetails} state="included" status={ui.alsoIncluded} /></div>;
               })()}
             </div>
-            <PricePair regular="€320" late="€420" compact {...priceProps} />
+            <PricePair regular={prices.labsPath.regular} late={prices.labsPath.late} compact {...priceProps} />
           </div>
         </div>
       </article>

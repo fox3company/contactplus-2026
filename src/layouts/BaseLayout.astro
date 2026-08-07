@@ -6,9 +6,10 @@ interface Props {
   lang: Locale;
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
 
-const { lang, title = 'Contact+ 2026', description = '' } = Astro.props;
+const { lang, title = 'Contact+ 2026', description = '', noindex = false } = Astro.props;
 const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://contactplus-2026.pages.dev';
 const pathname = Astro.url.pathname.endsWith('/')
   ? Astro.url.pathname
@@ -61,6 +62,7 @@ const footerLabels = {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="google-site-verification" content="XnznW2Zj1E4FL_WiGliwaqjJMrPuB0AhEZ2VJHYDWEU" />
     <link rel="canonical" href={canonicalUrl} />
     {alternateLinks.map((link) => <link rel="alternate" hreflang={link.lang} href={link.href} />)}
