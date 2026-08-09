@@ -82,26 +82,31 @@ const footerLabels = {
       fbq('track', 'PageView');
     </script>
     <script is:inline>
-      // Set FBC_ENTRY_ID / FBP_ENTRY_ID to the Google Form's hidden question
-      // entry numbers once those questions have been created (see docs/TASKS.md).
-      var FBC_ENTRY_ID = '94192550';
-      var FBP_ENTRY_ID = '724598572';
+      var REGISTRATION_TRACKING_PATH = '/api/registration-click';
       document.addEventListener('click', function (e) {
-        var link = e.target.closest('a[href*="1FAIpQLSdkDT1NjKXxzbAg_8dqSLEDnYPstOaBZ8oE6mxqNHkLTUbBlg"]');
+        var link = e.target && e.target.closest
+          ? e.target.closest('a[href*="1FAIpQLSdkDT1NjKXxzbAg_8dqSLEDnYPstOaBZ8oE6mxqNHkLTUbBlg"]')
+          : null;
         if (!link) return;
+        var eventId = window.crypto && window.crypto.randomUUID
+          ? window.crypto.randomUUID()
+          : 'lead-' + Date.now() + '-' + Math.random().toString(36).slice(2);
         if (window.fbq) {
-          fbq('track', 'Lead');
+          fbq('track', 'Lead', {}, { eventID: eventId });
         }
-        function appendCookieEntry(entryId, cookieName) {
-          if (!entryId) return;
+        var trackingUrl = new URL(REGISTRATION_TRACKING_PATH, window.location.origin);
+        trackingUrl.searchParams.set('event_id', eventId);
+        ['fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (name) {
+          var value = new URLSearchParams(window.location.search).get(name);
+          if (value) trackingUrl.searchParams.set(name, value);
+        });
+        function appendTrackingCookie(paramName, cookieName) {
           var match = document.cookie.match(new RegExp('(?:^|;\\s*)' + cookieName + '=([^;]+)'));
-          if (match) {
-            var separator = link.href.indexOf('?') === -1 ? '?' : '&';
-            link.href = link.href + separator + 'entry.' + entryId + '=' + encodeURIComponent(match[1]);
-          }
+          if (match) trackingUrl.searchParams.set(paramName, decodeURIComponent(match[1]));
         }
-        appendCookieEntry(FBC_ENTRY_ID, '_fbc');
-        appendCookieEntry(FBP_ENTRY_ID, '_fbp');
+        appendTrackingCookie('fbc', '_fbc');
+        appendTrackingCookie('fbp', '_fbp');
+        link.href = trackingUrl.toString();
       });
     </script>
     <noscript><img height="1" width="1" style="display:none"
