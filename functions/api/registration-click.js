@@ -1,7 +1,7 @@
 const REGISTRATION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdkDT1NjKXxzbAg_8dqSLEDnYPstOaBZ8oE6mxqNHkLTUbBlg/viewform?usp=header';
 const FBC_ENTRY_ID = '94192550';
 const FBP_ENTRY_ID = '724598572';
-const TRACKING_PARAM_NAMES = ['fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+const TRACKING_PARAM_NAMES = ['fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'test_event_code'];
 
 function cookieValue(request, name) {
   const cookies = request.headers.get('Cookie') || '';
@@ -25,10 +25,14 @@ function getTrackingValues(url, request) {
   return values;
 }
 
-function buildRegistrationUrl(values) {
+function buildRegistrationUrl(values, env) {
   const target = new URL(REGISTRATION_URL);
   if (values.fbc) target.searchParams.set(`entry.${FBC_ENTRY_ID}`, values.fbc);
   if (values.fbp) target.searchParams.set(`entry.${FBP_ENTRY_ID}`, values.fbp);
+  const testEventEntryId = cleanValue(env.GOOGLE_FORM_TEST_EVENT_ENTRY_ID, 100);
+  if (values.test_event_code && testEventEntryId) {
+    target.searchParams.set(`entry.${testEventEntryId}`, values.test_event_code);
+  }
   return target.toString();
 }
 
@@ -66,8 +70,7 @@ async function sendMetaEvent({ context, eventId, values }) {
       ...(Object.keys(customData).length > 0 ? { custom_data: customData } : {}),
     }],
   };
-  const testEventCode = cleanValue(new URL(request.url).searchParams.get('test_event_code'), 100);
-  if (testEventCode) payload.test_event_code = testEventCode;
+  if (values.test_event_code) payload.test_event_code = values.test_event_code;
 
   const endpoint = `https://graph.facebook.com/${apiVersion}/${encodeURIComponent(pixelId)}/events?access_token=${encodeURIComponent(accessToken)}`;
   const response = await fetch(endpoint, {
@@ -83,5 +86,5 @@ export async function onRequestGet(context) {
   const eventId = cleanValue(url.searchParams.get('event_id'), 100) || crypto.randomUUID();
   const values = getTrackingValues(url, context.request);
   context.waitUntil(sendMetaEvent({ context, eventId, values }));
-  return Response.redirect(buildRegistrationUrl(values), 302);
+  return Response.redirect(buildRegistrationUrl(values, context.env), 302);
 }
