@@ -66,6 +66,8 @@ async function sendMetaEvent({ context, eventId, values }) {
       ...(Object.keys(customData).length > 0 ? { custom_data: customData } : {}),
     }],
   };
+  const testEventCode = cleanValue(new URL(request.url).searchParams.get('test_event_code'), 100);
+  if (testEventCode) payload.test_event_code = testEventCode;
 
   const endpoint = `https://graph.facebook.com/${apiVersion}/${encodeURIComponent(pixelId)}/events?access_token=${encodeURIComponent(accessToken)}`;
   const response = await fetch(endpoint, {

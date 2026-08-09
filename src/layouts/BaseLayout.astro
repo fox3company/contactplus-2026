@@ -96,7 +96,7 @@ const footerLabels = {
         }
         var trackingUrl = new URL(REGISTRATION_TRACKING_PATH, window.location.origin);
         trackingUrl.searchParams.set('event_id', eventId);
-        ['fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (name) {
+        ['fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'test_event_code'].forEach(function (name) {
           var value = new URLSearchParams(window.location.search).get(name);
           if (value) trackingUrl.searchParams.set(name, value);
         });
