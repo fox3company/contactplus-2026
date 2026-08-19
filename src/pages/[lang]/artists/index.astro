@@ -66,28 +66,34 @@ function getPublicRelationSummary(person: typeof people[number]) {
   return getFestivalRelationSummary(getPublicFestivalEvents(person).map((event) => event.relation), lang);
 }
 
-function getPersonGroup(person: typeof people[number]) {
-  if (person.data.participation_status === 'production_company') return 'production';
-  if (person.data.entity_type !== 'person') return 'performers';
-  if (person.data.participation_status.includes('teacher')) return 'teachers';
-  return 'performers';
+function getPersonGroups(person: typeof people[number]) {
+  if (person.data.participation_status === 'production_company') return ['production'];
+  if (person.data.entity_type !== 'person') return ['performers'];
+
+  const groups = [];
+  if (person.data.participation_status.includes('teacher')) groups.push('teachers');
+  if ((person.data.festival_events || []).some((event) => event.relation === 'performer')) {
+    groups.push('performers');
+  }
+
+  return groups.length > 0 ? groups : ['performers'];
 }
 
 const groupedPeople = [
   {
     key: 'teachers',
     title: groupLabels.teachers,
-    people: people.filter((person) => getPersonGroup(person) === 'teachers'),
+    people: people.filter((person) => getPersonGroups(person).includes('teachers')),
   },
   {
     key: 'performers',
     title: groupLabels.performers,
-    people: people.filter((person) => getPersonGroup(person) === 'performers'),
+    people: people.filter((person) => getPersonGroups(person).includes('performers')),
   },
   {
     key: 'companies',
     title: groupLabels.production,
-    people: people.filter((person) => getPersonGroup(person) === 'production'),
+    people: people.filter((person) => getPersonGroups(person).includes('production')),
   },
 ].filter((group) => group.people.length > 0);
 
@@ -121,7 +127,7 @@ const artistDetails = Object.fromEntries(people.map((person) => {
       relationSummary: getPublicRelationSummary(person),
       events: festivalEvents,
       fullPageHref: `/${lang}/artists/${person.slug}`,
-      accent: getPersonGroup(person),
+      accent: getPersonGroups(person)[0],
     },
   ];
 }));
