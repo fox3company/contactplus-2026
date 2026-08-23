@@ -13,9 +13,9 @@ meta:
     ro: Clasă de Improvizație de contact
     ru: КИ-класс
 summary:
-  en: A Contact Improvisation class on freedom, commitment and the conditions for moving together.
-  ro: O clasă de Improvizație de contact despre libertate, angajament și condițiile mișcării împreună.
-  ru: Класс по Контактной импровизации о свободе, обязательстве и условиях совместного движения.
+  en: A Contact Improvisation class exploring freedom, commitment and how a shared dance can emerge without losing individual presence.
+  ro: O clasă de Improvizație de contact despre libertate, angajament și apariția unui dans comun fără pierderea prezenței individuale.
+  ru: Класс по Контактной импровизации о свободе, обязательстве и возникновении общего танца без утраты индивидуального присутствия.
 focus_label:
   en: Practice focus
   ro: Focus practic
@@ -26,11 +26,11 @@ focus:
   ru: Свобода · обязательство · взаимное создание · сосуществование · единство
 body:
   en: >-
-    Through Contact Improvisation, the class explores how freedom and commitment can support coexistence without erasing individual presence.
+    Through Contact Improvisation, the class explores how freedom and commitment can support coexistence. It follows the tension between moving towards unity and returning to oneself.
   ro: >-
-    Prin Improvizație de contact, clasa explorează cum libertatea și angajamentul pot susține coexistența fără a șterge prezența individuală.
+    Prin Improvizație de contact, clasa explorează cum libertatea și angajamentul pot susține coexistența. Urmărește tensiunea dintre apropierea de unitate și întoarcerea spre sine.
   ru: >-
-    Через Контактную импровизацию класс исследует, как свобода и обязательство могут поддерживать сосуществование, не стирая индивидуального присутствия.
+    Через Контактную импровизацию класс исследует, как свобода и обязательство могут поддерживать сосуществование. Он следует за напряжением между движением к единству и возвращением к себе.
 full_body:
   en: >-
     Dance is never a linear process. It is alive: sometimes it brings us together immediately, and sometimes it leads us back to ourselves. Way in and Way Out asks what freedom we can offer one another in order to coexist, and what commitment is needed for something meaningful to be created between us.

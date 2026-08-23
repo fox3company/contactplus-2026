@@ -17,9 +17,9 @@ meta:
     ro: 3 zile
     ru: 3 дня
 summary:
-  en: A performance laboratory on practicing togetherness while remaining distinct.
-  ro: Un laborator de performance despre practica de a fi împreună fără a pierde diferența.
-  ru: Перформанс-лаборатория о совместности, в которой различия сохраняются.
+  en: A performance laboratory exploring how individuality and collectivity can meet through freedom, support and embodied togetherness.
+  ro: Un laborator de performance despre întâlnirea dintre individualitate și colectivitate prin libertate, susținere și practică corporală împărtășită.
+  ru: Перформанс-лаборатория о встрече индивидуальности и коллективности через свободу, поддержку и телесную совместность.
 focus_label:
   en: Research focus
   ro: Focus de cercetare
@@ -30,11 +30,11 @@ focus:
   ru: Совместность · различие · поддержка · инициатива · коллективное тело
 body:
   en: >-
-    BARÉLIEF uses the body to explore togetherness as an ongoing practice: staying connected, supporting without controlling and belonging without dissolving into the whole.
+    BARÉLIEF uses the body to explore togetherness as an ongoing practice. It asks how we can stay connected, support one another without control and belong without dissolving into the whole.
   ro: >-
-    BARÉLIEF folosește corpul pentru a explora faptul de a fi împreună ca practică continuă: să rămâi conectat, să susții fără să controlezi și să aparții fără să te dizolvi în întreg.
+    BARÉLIEF folosește corpul pentru a explora faptul de a fi împreună ca practică continuă. Clasa întreabă cum putem rămâne conectați, cum ne putem susține fără control și cum putem aparține fără să ne dizolvăm în întreg.
   ru: >-
-    BARÉLIEF использует тело, чтобы исследовать совместность как непрерывную практику: оставаться в связи, поддерживать, не контролируя, и быть частью целого, не растворяясь в нём.
+    BARÉLIEF использует тело, чтобы исследовать совместность как непрерывную практику. Лаборатория спрашивает, как оставаться в связи, поддерживать друг друга без контроля и быть частью целого, не растворяясь в нём.
 full_body:
   en: >-
     BARÉLIEF investigates how individuality and collectivity can create one another. They are not the same; they are connected. In a world that constantly produces political, social, geographical, cultural and digital separation, the laboratory approaches togetherness not as a final result, but as a practice.

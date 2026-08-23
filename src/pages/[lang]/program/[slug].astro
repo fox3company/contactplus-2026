@@ -30,6 +30,7 @@ const focusLabel = getLocalized(event.data.focus_label, lang);
 const focus = getLocalized(event.data.focus, lang);
 const body = getLocalized(event.data.body, lang);
 const fullBody = getLocalized(event.data.full_body, lang) || body;
+const fullBodyParagraphs = fullBody.split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean);
 const credits = getLocalized(event.data.credits?.short, lang);
 const sourceCredit = getLocalized(event.data.credits?.full_source, lang);
 const accentGroup = getProgramFilterGroup(event);
@@ -248,7 +249,7 @@ function getLinkedCreditParts(value: string) {
     {mediaSrc && <MediaBlock title={title} label={mediaLabel} src={mediaSrc} type={media?.type} caption={media?.caption} />}
 
     <section class="body-copy">
-      <p>{fullBody}</p>
+      {fullBodyParagraphs.map((paragraph) => <p>{paragraph}</p>)}
     </section>
 
     {focus && (
