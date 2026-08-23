@@ -38,13 +38,13 @@ localization_status:
   ro: native_edit_needed
   ru: ready_for_review
 schedule:
-  date_display: "Sep 30"
+  date_display: "Sep 29"
   time_display: "19:30 — 21:30"
 occurrences:
-  - date: "2026-09-30"
-    date_label: "Sep 30"
+  - date: "2026-09-29"
+    date_label: "Sep 29"
     time_display: "19:30 — 21:30"
-    sort_start: "2026-09-30T19:30:00"
+    sort_start: "2026-09-29T19:30:00"
 location_ref: ginta-latina
 people_label: By
 people:
