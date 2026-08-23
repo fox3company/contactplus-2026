@@ -51,6 +51,7 @@ const groupLabels = {
     ru: 'Производственный контекст',
   }, lang),
 };
+const companyRepresentedArtists = new Set(['alexandra-soshnicova', 'sergey-golovnea']);
 
 function getPublicFestivalEvents(person: typeof people[number]) {
   return (person.data.festival_events || [])
@@ -72,7 +73,8 @@ function getPersonGroups(person: typeof people[number]) {
 
   const groups = [];
   if (person.data.participation_status.includes('teacher')) groups.push('teachers');
-  if ((person.data.festival_events || []).some((event) => event.relation === 'performer')) {
+  const representedThroughCompany = companyRepresentedArtists.has(person.slug);
+  if (!representedThroughCompany && (person.data.festival_events || []).some((event) => event.relation === 'performer')) {
     groups.push('performers');
   }
 
