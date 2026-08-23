@@ -13,12 +13,9 @@ meta:
     ro: Clasă de Improvizație de contact
     ru: КИ-класс
 summary:
-  en: >-
-    A Contact Improvisation class exploring freedom, commitment and coexistence through solo, duet and shared movement.
-  ro: >-
-    O clasă de Improvizație de contact despre libertate, angajament și coexistență prin mișcare solo, în duet și împărtășită.
-  ru: >-
-    Класс по Контактной импровизации о свободе, обязательстве и сосуществовании через сольное и совместное движение.
+  en: A Contact Improvisation class on freedom, commitment and the conditions for moving together.
+  ro: O clasă de Improvizație de contact despre libertate, angajament și condițiile mișcării împreună.
+  ru: Класс по Контактной импровизации о свободе, обязательстве и условиях совместного движения.
 focus_label:
   en: Practice focus
   ro: Focus practic
@@ -29,17 +26,24 @@ focus:
   ru: Свобода · обязательство · взаимное создание · сосуществование · единство
 body:
   en: >-
-    Dance is never a linear process: it is alive, bringing us together at times and leading us back to ourselves at others. The class explores what freedom we can offer one another in order to coexist, and what commitment is needed for something meaningful to be created between us.
-
-    Through Contact Improvisation, participants enter territories of freedom, commitment, coexistence, mutual creation, being oneself and feeling unity. The practice asks how we can move towards togetherness without giving up individual presence.
+    Through Contact Improvisation, the class explores how freedom and commitment can support coexistence without erasing individual presence.
   ro: >-
-    Dansul nu este niciodată un proces liniar: este viu, uneori ne aduce imediat împreună, iar alteori ne conduce înapoi spre noi înșine. Clasa explorează ce libertate ne putem oferi pentru a coexista și ce angajament este necesar pentru ca între noi să se nască ceva cu sens.
-
-    Prin Improvizație de contact, participanții intră în teritorii ale libertății, angajamentului, coexistenței, creației reciproce, păstrării sinelui și sentimentului de unitate. Practica întreabă cum putem merge spre împreună fără să renunțăm la prezența individuală.
+    Prin Improvizație de contact, clasa explorează cum libertatea și angajamentul pot susține coexistența fără a șterge prezența individuală.
   ru: >-
-    Танец никогда не бывает линейным процессом: он живой, иногда сразу соединяет нас, а иногда возвращает к самим себе. Класс исследует, какую свободу мы можем дать друг другу, чтобы сосуществовать, и какое обязательство необходимо, чтобы между нами могло родиться что-то значимое.
+    Через Контактную импровизацию класс исследует, как свобода и обязательство могут поддерживать сосуществование, не стирая индивидуального присутствия.
+full_body:
+  en: >-
+    Dance is never a linear process. It is alive: sometimes it brings us together immediately, and sometimes it leads us back to ourselves. Way in and Way Out asks what freedom we can offer one another in order to coexist, and what commitment is needed for something meaningful to be created between us.
 
-    Через Контактную импровизацию участники входят в территории свободы, обязательства, сосуществования, взаимного создания, сохранения себя и ощущения единства. Практика спрашивает, как двигаться навстречу совместности, не отказываясь от индивидуального присутствия.
+    Through Contact Improvisation, participants explore freedom, commitment, coexistence, mutual creation, being oneself and feeling unity. The class follows the conditions in which a shared dance can emerge without anyone losing their own presence.
+  ro: >-
+    Dansul nu este niciodată un proces liniar. Este viu: uneori ne aduce imediat împreună, iar alteori ne conduce înapoi spre noi înșine. Intrare și ieșire întreabă ce libertate ne putem oferi pentru a coexista și ce angajament este necesar pentru ca între noi să se nască ceva cu sens.
+
+    Prin Improvizație de contact, participanții explorează libertatea, angajamentul, coexistența, creația reciprocă, păstrarea sinelui și sentimentul de unitate. Clasa urmărește condițiile în care poate apărea un dans comun fără ca nimeni să-și piardă propria prezență.
+  ru: >-
+    Танец никогда не бывает линейным. Он живой: иногда сразу соединяет нас, а иногда возвращает к самим себе. «Вход и выход» исследует, какую свободу мы можем дать друг другу, чтобы сосуществовать, и какое обязательство необходимо, чтобы между нами могло родиться что-то значимое.
+
+    Через Контактную импровизацию участники исследуют свободу, обязательство, сосуществование, взаимное создание, сохранение себя и ощущение единства. Класс следует за условиями, в которых может возникнуть общий танец, не лишая никого собственного присутствия.
 source_confidence: confirmed
 localization_status:
   en: ready_for_review

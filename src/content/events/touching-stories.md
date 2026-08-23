@@ -17,9 +17,9 @@ meta:
     ro: 3 zile
     ru: 3 дня
 summary:
-  en: A performance laboratory exploring how individuality and collectivity can create one another through the embodied practice of togetherness.
-  ro: Un laborator de performance care explorează cum individualitatea și colectivitatea se pot crea reciproc prin practica corporală de a fi împreună.
-  ru: Перформанс-лаборатория о том, как индивидуальность и коллективность могут создавать друг друга через телесную практику совместности.
+  en: A performance laboratory on practicing togetherness while remaining distinct.
+  ro: Un laborator de performance despre practica de a fi împreună fără a pierde diferența.
+  ru: Перформанс-лаборатория о совместности, в которой различия сохраняются.
 focus_label:
   en: Research focus
   ro: Focus de cercetare
@@ -30,17 +30,24 @@ focus:
   ru: Совместность · различие · поддержка · инициатива · коллективное тело
 body:
   en: >-
-    BARÉLIEF investigates how individuality and collectivity can create one another. They are not the same; they are connected. The laboratory approaches togetherness not as a final result, but as a practice in a world that constantly produces political, social, geographical, cultural and digital separation.
-
-    Through the body, participants explore what it means to stay together while remaining different, to support another person without controlling them, to follow without losing initiative, and to be part of a whole without dissolving into it. The laboratory looks for connection not through sameness, but through embodied attention and shared practice.
+    BARÉLIEF uses the body to explore togetherness as an ongoing practice: staying connected, supporting without controlling and belonging without dissolving into the whole.
   ro: >-
-    BARÉLIEF cercetează felul în care individualitatea și colectivitatea se pot crea reciproc. Ele nu sunt același lucru, dar sunt legate. Laboratorul abordează faptul de a fi împreună nu ca pe un rezultat final, ci ca pe o practică într-o lume care produce constant separare politică, socială, geografică, culturală și digitală.
-
-    Prin corp, participanții explorează ce înseamnă să rămâi împreună cu ceilalți păstrându-ți diferența, să susții fără să controlezi, să urmezi fără să-ți pierzi inițiativa și să faci parte dintr-un întreg fără să te dizolvi în el. Laboratorul caută conexiunea nu prin asemănare, ci prin atenție corporală și practică împărtășită.
+    BARÉLIEF folosește corpul pentru a explora faptul de a fi împreună ca practică continuă: să rămâi conectat, să susții fără să controlezi și să aparții fără să te dizolvi în întreg.
   ru: >-
-    BARÉLIEF исследует, как индивидуальность и коллективность могут создавать друг друга. Они не одинаковы, но связаны. Лаборатория рассматривает совместность не как конечный результат, а как практику в мире, который постоянно производит политическое, социальное, географическое, культурное и цифровое разделение.
+    BARÉLIEF использует тело, чтобы исследовать совместность как непрерывную практику: оставаться в связи, поддерживать, не контролируя, и быть частью целого, не растворяясь в нём.
+full_body:
+  en: >-
+    BARÉLIEF investigates how individuality and collectivity can create one another. They are not the same; they are connected. In a world that constantly produces political, social, geographical, cultural and digital separation, the laboratory approaches togetherness not as a final result, but as a practice.
 
-    Через тело участники исследуют, что значит быть вместе, оставаясь разными; поддерживать другого, не контролируя его; следовать, не теряя собственной инициативы; быть частью целого и не растворяться в нём. Лаборатория ищет связь не через сходство, а через телесное внимание и совместную практику.
+    Through the body, participants ask whether it is possible to be together while remaining different, to support another person without controlling them, to follow without losing initiative and to be part of a whole without dissolving into it. BARÉLIEF looks for connection not through sameness, but through embodied attention and mutual creation.
+  ro: >-
+    BARÉLIEF cercetează felul în care individualitatea și colectivitatea se pot crea reciproc. Ele nu sunt același lucru, dar sunt legate. Într-o lume care produce constant separare politică, socială, geografică, culturală și digitală, laboratorul abordează faptul de a fi împreună nu ca pe un rezultat final, ci ca pe o practică.
+
+    Prin corp, participanții se întreabă dacă este posibil să fim împreună păstrându-ne diferențele, să susținem fără să controlăm, să urmăm fără să ne pierdem inițiativa și să facem parte dintr-un întreg fără să ne dizolvăm în el. BARÉLIEF caută conexiunea nu prin asemănare, ci prin atenție corporală și creație reciprocă.
+  ru: >-
+    BARÉLIEF исследует, как индивидуальность и коллективность могут создавать друг друга. Они не одинаковы, но связаны. В мире, который постоянно производит политическое, социальное, географическое, культурное и цифровое разделение, лаборатория рассматривает совместность не как конечный результат, а как практику.
+
+    Через тело участники спрашивают, возможно ли быть вместе, оставаясь разными; поддерживать другого, не контролируя его; следовать, не теряя собственной инициативы; быть частью целого и не растворяться в нём. BARÉLIEF ищет связь не через сходство, а через телесное внимание и взаимное создание.
 source_confidence: confirmed
 localization_status:
   en: ready_for_review
