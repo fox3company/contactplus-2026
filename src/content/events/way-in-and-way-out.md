@@ -1,6 +1,6 @@
 ---
 visibility: public_page
-publishing_status: working
+publishing_status: ready_for_review
 program_line: ci
 filters: [ci]
 title:
@@ -14,27 +14,33 @@ meta:
     ru: КИ-класс
 summary:
   en: >-
-    A CI class around entering and leaving relation: solo, duet, trio, and the way back to solo.
+    A Contact Improvisation class exploring freedom, commitment and coexistence through solo, duet and shared movement.
   ro: >-
-    O clasă de Improvizație de contact despre intrarea și ieșirea din relație: solo, duet, trio și drumul înapoi spre solo.
+    O clasă de Improvizație de contact despre libertate, angajament și coexistență prin mișcare solo, în duet și împărtășită.
   ru: >-
-    КИ-класс о входе в отношения и выходе из них: соло, дуэт, трио и возвращение обратно к соло.
+    Класс по Контактной импровизации о свободе, обязательстве и сосуществовании через сольное и совместное движение.
 focus_label:
   en: Practice focus
   ro: Focus practic
   ru: Фокус практики
 focus:
-  en: Solo-duet-trio transitions · relational attention · changing conditions
-  ro: Tranziții solo-duet-trio · atenție relațională · condiții schimbătoare
-  ru: Переходы соло-дуэт-трио · внимание к отношениям · меняющиеся условия
+  en: Freedom · commitment · coexistence · mutual creation · unity
+  ro: Libertate · angajament · coexistență · creație reciprocă · unitate
+  ru: Свобода · обязательство · взаимное создание · сосуществование · единство
 body:
   en: >-
-    The class asks how relation changes the dance without losing individual presence. Moving between solo, duet and trio becomes a way to study entry, exit, attention and choice under changing conditions.
+    Dance is never a linear process: it is alive, bringing us together at times and leading us back to ourselves at others. The class explores what freedom we can offer one another in order to coexist, and what commitment is needed for something meaningful to be created between us.
+
+    Through Contact Improvisation, participants enter territories of freedom, commitment, coexistence, mutual creation, being oneself and feeling unity. The practice asks how we can move towards togetherness without giving up individual presence.
   ro: >-
-    Clasa întreabă cum relația schimbă dansul fără a pierde prezența individuală. Trecerea între solo, duet și trio devine o metodă de a studia intrarea, ieșirea, atenția și alegerea în condiții schimbătoare.
+    Dansul nu este niciodată un proces liniar: este viu, uneori ne aduce imediat împreună, iar alteori ne conduce înapoi spre noi înșine. Clasa explorează ce libertate ne putem oferi pentru a coexista și ce angajament este necesar pentru ca între noi să se nască ceva cu sens.
+
+    Prin Improvizație de contact, participanții intră în teritorii ale libertății, angajamentului, coexistenței, creației reciproce, păstrării sinelui și sentimentului de unitate. Practica întreabă cum putem merge spre împreună fără să renunțăm la prezența individuală.
   ru: >-
-    Класс спрашивает, как отношения меняют танец, не стирая индивидуальное присутствие. Переходы между соло, дуэтом и трио становятся способом изучать вход, выход, внимание и выбор в меняющихся условиях.
-source_confidence: needs_artist_confirmation
+    Танец никогда не бывает линейным процессом: он живой, иногда сразу соединяет нас, а иногда возвращает к самим себе. Класс исследует, какую свободу мы можем дать друг другу, чтобы сосуществовать, и какое обязательство необходимо, чтобы между нами могло родиться что-то значимое.
+
+    Через Контактную импровизацию участники входят в территории свободы, обязательства, сосуществования, взаимного создания, сохранения себя и ощущения единства. Практика спрашивает, как двигаться навстречу совместности, не отказываясь от индивидуального присутствия.
+source_confidence: confirmed
 localization_status:
   en: ready_for_review
   ro: native_edit_needed
