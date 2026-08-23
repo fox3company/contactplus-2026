@@ -36,15 +36,15 @@ body:
   ru: >-
     BARÉLIEF использует тело, чтобы исследовать совместность как непрерывную практику. Лаборатория спрашивает, как оставаться в связи, поддерживать друг друга без контроля и быть частью целого, не растворяясь в нём.
 full_body:
-  en: >-
+  en: |-
     BARÉLIEF investigates how individuality and collectivity can create one another. They are not the same; they are connected. In a world that constantly produces political, social, geographical, cultural and digital separation, the laboratory approaches togetherness not as a final result, but as a practice.
 
     Through the body, participants ask whether it is possible to be together while remaining different, to support another person without controlling them, to follow without losing initiative and to be part of a whole without dissolving into it. BARÉLIEF looks for connection not through sameness, but through embodied attention and mutual creation.
-  ro: >-
+  ro: |-
     BARÉLIEF cercetează felul în care individualitatea și colectivitatea se pot crea reciproc. Ele nu sunt același lucru, dar sunt legate. Într-o lume care produce constant separare politică, socială, geografică, culturală și digitală, laboratorul abordează faptul de a fi împreună nu ca pe un rezultat final, ci ca pe o practică.
 
     Prin corp, participanții se întreabă dacă este posibil să fim împreună păstrându-ne diferențele, să susținem fără să controlăm, să urmăm fără să ne pierdem inițiativa și să facem parte dintr-un întreg fără să ne dizolvăm în el. BARÉLIEF caută conexiunea nu prin asemănare, ci prin atenție corporală și creație reciprocă.
-  ru: >-
+  ru: |-
     BARÉLIEF исследует, как индивидуальность и коллективность могут создавать друг друга. Они не одинаковы, но связаны. В мире, который постоянно производит политическое, социальное, географическое, культурное и цифровое разделение, лаборатория рассматривает совместность не как конечный результат, а как практику.
 
     Через тело участники спрашивают, возможно ли быть вместе, оставаясь разными; поддерживать другого, не контролируя его; следовать, не теряя собственной инициативы; быть частью целого и не растворяться в нём. BARÉLIEF ищет связь не через сходство, а через телесное внимание и взаимное создание.

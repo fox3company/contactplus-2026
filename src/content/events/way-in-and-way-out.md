@@ -32,15 +32,15 @@ body:
   ru: >-
     Через Контактную импровизацию класс исследует, как свобода и обязательство могут поддерживать сосуществование. Он следует за напряжением между движением к единству и возвращением к себе.
 full_body:
-  en: >-
+  en: |-
     Dance is never a linear process. It is alive: sometimes it brings us together immediately, and sometimes it leads us back to ourselves. Way in and Way Out asks what freedom we can offer one another in order to coexist, and what commitment is needed for something meaningful to be created between us.
 
     Through Contact Improvisation, participants explore freedom, commitment, coexistence, mutual creation, being oneself and feeling unity. The class follows the conditions in which a shared dance can emerge without anyone losing their own presence.
-  ro: >-
+  ro: |-
     Dansul nu este niciodată un proces liniar. Este viu: uneori ne aduce imediat împreună, iar alteori ne conduce înapoi spre noi înșine. Intrare și ieșire întreabă ce libertate ne putem oferi pentru a coexista și ce angajament este necesar pentru ca între noi să se nască ceva cu sens.
 
     Prin Improvizație de contact, participanții explorează libertatea, angajamentul, coexistența, creația reciprocă, păstrarea sinelui și sentimentul de unitate. Clasa urmărește condițiile în care poate apărea un dans comun fără ca nimeni să-și piardă propria prezență.
-  ru: >-
+  ru: |-
     Танец никогда не бывает линейным. Он живой: иногда сразу соединяет нас, а иногда возвращает к самим себе. «Вход и выход» исследует, какую свободу мы можем дать друг другу, чтобы сосуществовать, и какое обязательство необходимо, чтобы между нами могло родиться что-то значимое.
 
     Через Контактную импровизацию участники исследуют свободу, обязательство, сосуществование, взаимное создание, сохранение себя и ощущение единства. Класс следует за условиями, в которых может возникнуть общий танец, не лишая никого собственного присутствия.
