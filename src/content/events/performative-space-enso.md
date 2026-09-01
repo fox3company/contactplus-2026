@@ -38,11 +38,11 @@ localization_status:
   ru: ready_for_review
 schedule:
   date_display: "Sep 30"
-  time_display: "19:30 — 20:00"
+  time_display: "19:30 — 21:30"
 occurrences:
   - date: "2026-09-30"
     date_label: "Sep 30"
-    time_display: "19:30 — 20:00"
+    time_display: "19:30 — 21:30"
     sort_start: "2026-09-30T19:30:00"
 location_ref: iusty-art-gallery
 people_label: By
