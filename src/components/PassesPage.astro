@@ -143,9 +143,36 @@ const ui = {
   ],
   faqTitle: getLocalized({ en: 'Frequently asked questions', ro: 'Întrebări frecvente', ru: 'Частые вопросы' }, lang),
 };
+
+const moldovaNotice = {
+  title: getLocalized({
+    en: 'Community prices for participants from Moldova',
+    ro: 'Prețuri pentru comunitatea din Moldova',
+    ru: 'Цены для участников из Молдовы',
+  }, lang),
+  text: getLocalized({
+    en: 'Local community prices are available for participants living in Moldova.',
+    ro: 'Prețurile comunității locale sunt disponibile pentru participanții care locuiesc în Moldova.',
+    ru: 'Для участников, живущих в Молдове, доступны специальные цены локального сообщества.',
+  }, lang),
+  action: getLocalized({ en: 'View Moldova prices', ro: 'Vezi prețurile pentru Moldova', ru: 'Посмотреть цены для Молдовы' }, lang),
+  dismiss: getLocalized({ en: 'Not now', ro: 'Nu acum', ru: 'Не сейчас' }, lang),
+};
 ---
 
 <main class="passes-page passes-page--system">
+  {!isMoldovaAudience && (
+    <aside class="moldova-price-notice" data-moldova-price-notice hidden aria-live="polite">
+      <div>
+        <strong>{moldovaNotice.title}</strong>
+        <p>{moldovaNotice.text}</p>
+      </div>
+      <div class="moldova-price-notice__actions">
+        <a class="passes-action passes-action--primary" href={`/${lang}/passes-moldova/`}>{moldovaNotice.action}</a>
+        <button type="button" data-moldova-price-dismiss>{moldovaNotice.dismiss}</button>
+      </div>
+    </aside>
+  )}
   <header class="passes-hero">
     <div class="passes-hero__main">
       <p class="eyebrow">{copy.strapline}</p>
@@ -623,6 +650,27 @@ const ui = {
 
 <script is:inline>
   window.addEventListener('DOMContentLoaded', () => {
+    const moldovaNotice = document.querySelector('[data-moldova-price-notice]');
+    const moldovaDismiss = document.querySelector('[data-moldova-price-dismiss]');
+    const moldovaDismissKey = 'contactplus:moldova-prices-dismissed-until';
+
+    if (moldovaNotice && moldovaDismiss) {
+      const dismissedUntil = Number(localStorage.getItem(moldovaDismissKey) || 0);
+      if (dismissedUntil <= Date.now()) {
+        fetch('/api/geo', { credentials: 'same-origin' })
+          .then((response) => response.ok ? response.json() : null)
+          .then((data) => {
+            if (data?.country === 'MD') moldovaNotice.hidden = false;
+          })
+          .catch(() => {});
+      }
+
+      moldovaDismiss.addEventListener('click', () => {
+        localStorage.setItem(moldovaDismissKey, String(Date.now() + 30 * 24 * 60 * 60 * 1000));
+        moldovaNotice.hidden = true;
+      });
+    }
+
     const choice = document.querySelector('[data-jam-choice]');
     if (choice) {
       const buttons = [...choice.querySelectorAll('[data-jam-choice-button]')];
@@ -703,6 +751,70 @@ const ui = {
 
 <style is:global>
   /* Refinement layer: a quieter, decision-first editorial hierarchy. */
+  .moldova-price-notice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    width: min(1040px, 100%);
+    margin: 0 auto 32px;
+    padding: 18px 20px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 92%, var(--accent));
+  }
+
+  .moldova-price-notice[hidden] {
+    display: none;
+  }
+
+  .moldova-price-notice strong {
+    display: block;
+    color: var(--ink);
+  }
+
+  .moldova-price-notice p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: .92rem;
+  }
+
+  .moldova-price-notice__actions {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    gap: 12px;
+  }
+
+  .moldova-price-notice__actions button {
+    padding: 8px 4px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font: inherit;
+    white-space: nowrap;
+  }
+
+  .moldova-price-notice__actions button:hover,
+  .moldova-price-notice__actions button:focus-visible {
+    color: var(--ink);
+  }
+
+  @media (max-width: 680px) {
+    .moldova-price-notice {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 24px;
+      padding: 16px;
+    }
+
+    .moldova-price-notice__actions {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
   .passes-page {
     --passes-section-space: clamp(64px, 7.5vw, 104px);
     --passes-subtle: color-mix(in srgb, var(--muted) 88%, var(--ink));
