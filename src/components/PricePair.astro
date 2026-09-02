@@ -1,46 +1,33 @@
 ---
 interface Props {
-  regular: string;
-  late: string;
-  regularLabel: string;
-  lateLabel: string;
-  regularNote: string;
-  lateNote: string;
+  price: string;
+  priceLabel: string;
+  priceNote: string;
   ariaLabel?: string;
   compact?: boolean;
 }
 
-const { regular, late, regularLabel, lateLabel, regularNote, lateNote, ariaLabel, compact = false } = Astro.props;
+const { price, priceLabel, priceNote, ariaLabel, compact = false } = Astro.props;
 ---
 
 <dl class:list={['price-pair', { 'price-pair--compact': compact }]} aria-label={ariaLabel}>
   <div>
-    <dt>{regularLabel}</dt>
-    <dd>{regular}</dd>
-    <small>{regularNote}</small>
-  </div>
-  <div>
-    <dt>{lateLabel}</dt>
-    <dd>{late}</dd>
-    <small>{lateNote}</small>
+    <dt>{priceLabel}</dt>
+    <dd>{price}</dd>
+    <small>{priceNote}</small>
   </div>
 </dl>
 
 <style>
   .price-pair {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     margin: 22px 0 0;
     border-block: 1px solid var(--line);
   }
 
   .price-pair > div {
     padding: 18px 18px 18px 0;
-  }
-
-  .price-pair > div + div {
-    padding-left: 18px;
-    border-left: 1px solid var(--line);
   }
 
   dt {
@@ -82,17 +69,12 @@ const { regular, late, regularLabel, lateLabel, regularNote, lateNote, ariaLabel
 
   @media (max-width: 480px) {
     .price-pair {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .price-pair > div {
       min-width: 0;
       padding: 15px 14px;
-    }
-
-    .price-pair > div + div {
-      border-top: 0;
-      border-left: 1px solid var(--line);
     }
 
     dd {

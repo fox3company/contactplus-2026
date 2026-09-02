@@ -43,10 +43,8 @@ function eventLink(slug: string) {
 }
 
 const priceProps = {
-  regularLabel: copy.pricing.regular,
-  lateLabel: copy.pricing.late,
-  regularNote: copy.pricing.regularNote,
-  lateNote: copy.pricing.lateNote,
+  priceLabel: copy.pricing.current,
+  priceNote: copy.pricing.currentNote,
   ariaLabel: copy.pricing.label,
 };
 
@@ -75,14 +73,26 @@ const prices = isMoldovaAudience
 const pathItems = isMoldovaAudience
   ? copy.paths.items.map(([id, label, meta, text]: [string, string, string, string]) => {
       const localMeta: Record<string, string> = {
-        'full-festival': getLocalized({ en: '9 days · €400 Regular', ro: '9 zile · €400 standard', ru: '9 дней · €400 стандартная' }, lang),
-        opening: getLocalized({ en: '2 days · €90 Regular', ro: '2 zile · €90 standard', ru: '2 дня · €90 стандартная' }, lang),
-        ci: getLocalized({ en: '3–5 days · from €90 Regular', ro: '3–5 zile · de la €90 standard', ru: '3–5 дней · от €90 стандартная' }, lang),
-        labs: getLocalized({ en: '3–6 days · from €145 Regular', ro: '3–6 zile · de la €145 standard', ru: '3–6 дней · от €145 стандартная' }, lang),
+        'full-festival': getLocalized({ en: '9 days · €500', ro: '9 zile · €500', ru: '9 дней · €500' }, lang),
+        opening: getLocalized({ en: '2 days · €120', ro: '2 zile · €120', ru: '2 дня · €120' }, lang),
+        ci: getLocalized({ en: '3–5 days · from €120', ro: '3–5 zile · de la €120', ru: '3–5 дней · от €120' }, lang),
+        labs: getLocalized({ en: '3–6 days · from €190', ro: '3–6 zile · de la €190', ru: '3–6 дней · от €190' }, lang),
+        family: getLocalized({ en: '1–2 days · from €50', ro: '1–2 zile · de la €50', ru: '1–2 дня · от €50' }, lang),
+        jams: getLocalized({ en: 'Individual dates · from €10', ro: 'Date individuale · de la €10', ru: 'Отдельные даты · от €10' }, lang),
       };
       return [id, label, localMeta[id] || meta, text];
     })
-  : copy.paths.items;
+  : copy.paths.items.map(([id, label, meta, text]: [string, string, string, string]) => {
+      const currentMeta: Record<string, string> = {
+        'full-festival': getLocalized({ en: '9 days · €550', ro: '9 zile · €550', ru: '9 дней · €550' }, lang),
+        opening: getLocalized({ en: '2 days · €150', ro: '2 zile · €150', ru: '2 дня · €150' }, lang),
+        ci: getLocalized({ en: '3–5 days · from €150', ro: '3–5 zile · de la €150', ru: '3–5 дней · от €150' }, lang),
+        labs: getLocalized({ en: '3–6 days · from €230', ro: '3–6 zile · de la €230', ru: '3–6 дней · от €230' }, lang),
+        family: getLocalized({ en: '1–2 days · from €50', ro: '1–2 zile · de la €50', ru: '1–2 дня · от €50' }, lang),
+        jams: getLocalized({ en: 'Individual dates · from €10', ro: 'Date individuale · de la €10', ru: 'Отдельные даты · от €10' }, lang),
+      };
+      return [id, label, currentMeta[id] || meta, text];
+    });
 
 const ui = {
   choosePass: getLocalized({ en: 'Choose a pass', ro: 'Alege un abonament', ru: 'Выбрать абонемент' }, lang),
@@ -129,6 +139,19 @@ const ui = {
     ru: 'Продаются отдельно на билетной платформе фестиваля.',
   }, lang),
   performancesTitle: getLocalized({ en: 'Performance tickets', ro: 'Bilete la performance-uri', ru: 'Билеты на перформансы' }, lang),
+  supportTitle: getLocalized({ en: 'Participation support', ro: 'Sprijin pentru participare', ru: 'Поддержка участия' }, lang),
+  supportShare: getLocalized({
+    en: 'Share one of the official festival posts and receive 10% off your participation. Ask the festival team for details.',
+    ro: 'Distribuie una dintre postările oficiale ale festivalului și primește o reducere de 10% la participare. Cere detalii echipei festivalului.',
+    ru: 'Поделитесь одной из официальных публикаций фестиваля и получите скидку 10% на участие. Подробности можно уточнить у команды фестиваля.',
+  }, lang),
+  supportFacebook: getLocalized({ en: 'Open Facebook post', ro: 'Deschide postarea de pe Facebook', ru: 'Открыть публикацию в Facebook' }, lang),
+  supportInstagram: getLocalized({ en: 'Open Instagram post', ro: 'Deschide postarea de pe Instagram', ru: 'Открыть публикацию в Instagram' }, lang),
+  supportHost: getLocalized({
+    en: 'Participants from Moldova who host an out-of-town festival guest may receive a 25% discount.',
+    ro: 'Participanții din Moldova care găzduiesc un invitat din afara orașului pot primi o reducere de 25%.',
+    ru: 'Участники из Молдовы, которые принимают у себя гостя фестиваля из другого города, могут получить скидку 25%.',
+  }, lang),
   registrationTitle: getLocalized({ en: 'How registration works', ro: 'Cum funcționează înscrierea', ru: 'Как проходит регистрация' }, lang),
   registrationSteps: [
     [getLocalized({ en: 'Choose your format', ro: 'Alege formatul', ru: 'Выберите формат' }, lang), getLocalized({ en: 'Choose the participation path that fits you.', ro: 'Alege forma de participare potrivită pentru tine.', ru: 'Выберите подходящий путь участия.' }, lang)],
@@ -211,7 +234,7 @@ const moldovaNotice = {
         <p class="section-lead">{copy.full.text}</p>
       </div>
       <div class="full-pass__purchase">
-        <PricePair regular={prices.full.regular} late={prices.full.late} {...priceProps} />
+        <PricePair price={prices.full.late} {...priceProps} />
         <div class="passes-actions">
           <a class="passes-action passes-action--primary" href={passesShared.registrationUrl} rel="noopener" target="_blank">{copy.full.cta}</a>
           <a class="passes-action passes-action--text" href={`/${lang}/schedule`}>{copy.actions.schedule} →</a>
@@ -249,7 +272,7 @@ const moldovaNotice = {
         <h2 id="opening-title">{copy.opening.title}</h2>
         <p class="section-lead">{copy.opening.text}</p>
       </div>
-      <PricePair regular={prices.opening.regular} late={prices.opening.late} {...priceProps} />
+      <PricePair price={prices.opening.late} {...priceProps} />
     </header>
     <div class="package-map">
       <h3>{copy.opening.packageTitle}</h3>
@@ -341,7 +364,7 @@ const moldovaNotice = {
                 return <PassEventCard title={event.title} meta={copy.ci.mainMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="selectable" inputName="ci-main" checked={index === 0} />;
               })}
             </div>
-            <PricePair regular={prices.ciMain.regular} late={prices.ciMain.late} compact {...priceProps} />
+            <PricePair price={prices.ciMain.late} compact {...priceProps} />
           </div>
         </div>
       </article>
@@ -356,7 +379,7 @@ const moldovaNotice = {
                 return <PassEventCard title={event.title} meta={copy.ci.secondMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />;
               })()}
             </div>
-            <PricePair regular={prices.ciSecond.regular} late={prices.ciSecond.late} compact {...priceProps} />
+            <PricePair price={prices.ciSecond.late} compact {...priceProps} />
           </div>
         </div>
       </article>
@@ -377,7 +400,7 @@ const moldovaNotice = {
                 return <div class="path-includes-card"><PassEventCard title={includedEvent.title} meta={copy.ci.secondMeta} slug={includedEvent.slug} accent={includedEvent.accent} viewDetailsLabel={ui.viewDetails} state="included" status={ui.alsoIncluded} /></div>;
               })()}
             </div>
-            <PricePair regular={prices.ciPath.regular} late={prices.ciPath.late} compact {...priceProps} />
+            <PricePair price={prices.ciPath.late} compact {...priceProps} />
           </div>
         </div>
       </article>
@@ -423,7 +446,7 @@ const moldovaNotice = {
                 return <PassEventCard title={event.title} meta={copy.labs.mainMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="selectable" inputName="labs-main" checked={index === 0} />;
               })}
             </div>
-            <PricePair regular={prices.labsMain.regular} late={prices.labsMain.late} compact {...priceProps} />
+            <PricePair price={prices.labsMain.late} compact {...priceProps} />
           </div>
         </div>
       </article>
@@ -438,7 +461,7 @@ const moldovaNotice = {
                 return <PassEventCard title={event.title} meta={copy.labs.secondMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />;
               })()}
             </div>
-            <PricePair regular={prices.labsSecond.regular} late={prices.labsSecond.late} compact {...priceProps} />
+            <PricePair price={prices.labsSecond.late} compact {...priceProps} />
           </div>
         </div>
       </article>
@@ -459,7 +482,7 @@ const moldovaNotice = {
                 return <div class="path-includes-card"><PassEventCard title={includedEvent.title} meta={copy.labs.secondMeta} slug={includedEvent.slug} accent={includedEvent.accent} viewDetailsLabel={ui.viewDetails} state="included" status={ui.alsoIncluded} /></div>;
               })()}
             </div>
-            <PricePair regular={prices.labsPath.regular} late={prices.labsPath.late} compact {...priceProps} />
+            <PricePair price={prices.labsPath.late} compact {...priceProps} />
           </div>
         </div>
       </article>
@@ -499,20 +522,20 @@ const moldovaNotice = {
           <article data-jam-panel="general">
             <p>{copy.jams.generalNote}</p>
             <table class="jam-price-table">
-              <thead><tr><th>{ui.optionLabel}</th><th>{copy.pricing.regular}</th><th>{copy.pricing.late}</th></tr></thead>
+              <thead><tr><th>{ui.optionLabel}</th><th>{copy.pricing.current}</th></tr></thead>
               <tbody>
-                <tr><th>{copy.jams.single}</th><td>€20</td><td>€25</td></tr>
-                <tr><th>{copy.jams.three}<small>{copy.jams.perJam}</small></th><td>€14</td><td>€19</td></tr>
+                <tr><th>{copy.jams.single}</th><td>€25</td></tr>
+                <tr><th>{copy.jams.three}<small>{copy.jams.perJam}</small></th><td>€19</td></tr>
               </tbody>
             </table>
           </article>
           <article data-jam-panel="participant" hidden>
             <p>{copy.jams.participantNote}</p>
             <table class="jam-price-table">
-              <thead><tr><th>{ui.optionLabel}</th><th>{copy.pricing.regular}</th><th>{copy.pricing.late}</th></tr></thead>
+              <thead><tr><th>{ui.optionLabel}</th><th>{copy.pricing.current}</th></tr></thead>
               <tbody>
-                <tr><th>{copy.jams.single}</th><td>€10</td><td>€12</td></tr>
-                <tr><th>{copy.jams.three}<small>{copy.jams.perJam}</small></th><td>€8</td><td>€10</td></tr>
+                <tr><th>{copy.jams.single}</th><td>€12</td></tr>
+                <tr><th>{copy.jams.three}<small>{copy.jams.perJam}</small></th><td>€10</td></tr>
               </tbody>
             </table>
           </article>
@@ -529,8 +552,8 @@ const moldovaNotice = {
     <div class="interactive-choice family-choice" data-option-chooser>
       <div class="choice-prompt"><span>01</span><h3>{ui.familyChooserTitle}</h3></div>
       <div class="choice-tabs choice-tabs--family" role="tablist" aria-label={ui.familyChooserTitle}>
-        <button type="button" role="tab" id="family-tab-0" aria-controls="family-panel-0" aria-selected="true" tabindex="0" data-option-tab="0"><strong>{copy.family.passTitle}</strong><small>€55 / €65</small></button>
-        <button type="button" role="tab" id="family-tab-1" aria-controls="family-panel-1" aria-selected="false" tabindex="-1" data-option-tab="1"><strong>{youthEvent.title}</strong><small>€40 / €50</small></button>
+        <button type="button" role="tab" id="family-tab-0" aria-controls="family-panel-0" aria-selected="true" tabindex="0" data-option-tab="0"><strong>{copy.family.passTitle}</strong><small>€65</small></button>
+        <button type="button" role="tab" id="family-tab-1" aria-controls="family-panel-1" aria-selected="false" tabindex="-1" data-option-tab="1"><strong>{youthEvent.title}</strong><small>€50</small></button>
       </div>
       <select class="choice-select" data-option-select aria-label={ui.familyChooserTitle}>
         <option value="0">{copy.family.passTitle}</option>
@@ -548,12 +571,9 @@ const moldovaNotice = {
         </div>
         <p class="family-age-note"><strong>{ui.ageDetails}.</strong> {copy.family.age}</p>
         <section class="family-purchase-summary" aria-label={copy.pricing.label}>
-          <div class="family-purchase-prices">
+        <div class="family-purchase-prices">
             <div class="family-purchase-price">
-              <span>{copy.pricing.regular}</span><strong>€55</strong><small>{copy.pricing.regularNote}</small>
-            </div>
-            <div class="family-purchase-price">
-              <span>{copy.pricing.late}</span><strong>€65</strong><small>{copy.pricing.lateNote}</small>
+              <span>{copy.pricing.current}</span><strong>€65</strong><small>{copy.pricing.currentNote}</small>
             </div>
           </div>
           <div class="family-add-on-inline">
@@ -563,8 +583,7 @@ const moldovaNotice = {
               <p>{copy.family.additionalText}</p>
             </div>
             <p class="family-add-on-inline__prices">
-              <span><small>{copy.pricing.regular}</small><strong>€12</strong></span>
-              <span><small>{copy.pricing.late}</small><strong>€18</strong></span>
+              <span><small>{copy.pricing.current}</small><strong>€18</strong></span>
             </p>
           </div>
           <a class="passes-action passes-action--primary product-cta" href={passesShared.registrationUrl} rel="noopener" target="_blank">{ui.familyPassCta}</a>
@@ -577,12 +596,9 @@ const moldovaNotice = {
           <PassEventCard title={youthEvent.title} meta={copy.family.youthMeta} slug={youthEvent.slug} accent={youthEvent.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />
         </div>
         <section class="family-purchase-summary" aria-label={copy.pricing.label}>
-          <div class="family-purchase-prices">
+        <div class="family-purchase-prices">
             <div class="family-purchase-price">
-              <span>{copy.pricing.regular}</span><strong>€40</strong><small>{copy.pricing.regularNote}</small>
-            </div>
-            <div class="family-purchase-price">
-              <span>{copy.pricing.late}</span><strong>€50</strong><small>{copy.pricing.lateNote}</small>
+              <span>{copy.pricing.current}</span><strong>€50</strong><small>{copy.pricing.currentNote}</small>
             </div>
           </div>
           <a class="passes-action passes-action--primary product-cta" href={passesShared.registrationUrl} rel="noopener" target="_blank">{ui.youthCta}</a>
@@ -598,6 +614,18 @@ const moldovaNotice = {
       <p class="performances-section__desktop-copy">{copy.performances.text}</p>
       <p class="performances-section__mobile-copy">{ui.performancesShort}</p>
       <p class="status-note">{copy.actions.soon}</p>
+    </div>
+  </section>
+
+  <section class="support-section section-grid" aria-labelledby="support-title">
+    <h2 id="support-title">{ui.supportTitle}</h2>
+    <div>
+      <p>{ui.supportShare}</p>
+      <nav class="support-section__links" aria-label={ui.supportTitle}>
+        <a href="https://www.facebook.com/share/1HnB9mB26/?mibextid=wwXIfr" rel="noopener" target="_blank">{ui.supportFacebook} <span aria-hidden="true">↗</span></a>
+        <a href="https://www.instagram.com/p/DXJ9YhhgqBx/?igsi=M3NvazB1MzlkNmY0" rel="noopener" target="_blank">{ui.supportInstagram} <span aria-hidden="true">↗</span></a>
+      </nav>
+      {isMoldovaAudience && <p>{ui.supportHost}</p>}
     </div>
   </section>
 
@@ -1934,6 +1962,7 @@ const moldovaNotice = {
 
   .passes-page.passes-page--system .full-pass__top {
     gap: clamp(48px, 7vw, 88px);
+    align-items: center;
   }
 
   .passes-page.passes-page--system .full-pass__bottom {
@@ -1997,6 +2026,7 @@ const moldovaNotice = {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
     gap: clamp(44px, 7vw, 84px);
+    align-items: center;
   }
 
   .passes-page.passes-page--system .decision-section__header > div:first-child {
@@ -2140,7 +2170,7 @@ const moldovaNotice = {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(250px, 290px);
     gap: clamp(32px, 5vw, 68px);
-    align-items: start;
+    align-items: center;
   }
 
   .passes-page.passes-page--system .participation-option__selection > :is(.pass-event-card, div) {
@@ -2148,7 +2178,7 @@ const moldovaNotice = {
   }
 
   .passes-page.passes-page--system .participation-option__selection > .price-pair {
-    align-self: start;
+    align-self: center;
     margin-top: 0;
   }
 
@@ -2396,6 +2426,52 @@ const moldovaNotice = {
     padding-block: 30px;
     border-top: 1px solid color-mix(in srgb, var(--line) 48%, transparent);
     border-bottom: 1px solid color-mix(in srgb, var(--line) 48%, transparent);
+  }
+
+  .passes-page.passes-page--system .support-section {
+    width: min(100%, var(--passes-decision-width));
+    margin-inline: auto;
+    padding-block: 26px;
+    border-top: 1px solid color-mix(in srgb, var(--line) 48%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--line) 48%, transparent);
+    align-items: center;
+  }
+
+  .passes-page.passes-page--system .support-section h2 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .passes-page.passes-page--system .support-section p {
+    max-width: 700px;
+    margin: 0;
+    color: var(--muted);
+    font-size: .84rem;
+    line-height: 1.5;
+  }
+
+  .passes-page.passes-page--system .support-section p + p {
+    margin-top: 8px;
+  }
+
+  .passes-page.passes-page--system .support-section__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 28px;
+    margin-top: 12px;
+  }
+
+  .passes-page.passes-page--system .support-section__links a {
+    color: var(--accent-muted);
+    font-size: .78rem;
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .passes-page.passes-page--system .support-section__links a:hover,
+  .passes-page.passes-page--system .support-section__links a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .passes-page.passes-page--system .registration-section {
@@ -2689,6 +2765,20 @@ const moldovaNotice = {
 
     .passes-page.passes-page--system .performances-section {
       display: block;
+    }
+
+    .passes-page.passes-page--system .support-section {
+      display: block;
+      padding-block: 24px;
+    }
+
+    .passes-page.passes-page--system .support-section h2 {
+      margin-bottom: 12px;
+    }
+
+    .passes-page.passes-page--system .support-section__links {
+      flex-direction: column;
+      gap: 8px;
     }
 
     .passes-page.passes-page--system .registration-timeline {
@@ -5636,7 +5726,7 @@ const moldovaNotice = {
   .passes-page.passes-page--system .family-purchase-prices {
     display: grid;
     width: min(100%, 460px);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     border-block: 1px solid var(--line);
   }
 
@@ -5645,10 +5735,6 @@ const moldovaNotice = {
     align-content: center;
     min-width: 0;
     padding: 16px 18px;
-  }
-
-  .passes-page.passes-page--system .family-purchase-price + .family-purchase-price {
-    border-left: 1px solid var(--line);
   }
 
   .passes-page.passes-page--system .family-purchase-price > span,
@@ -5989,7 +6075,7 @@ const moldovaNotice = {
 
     .passes-page.passes-page--system .family-purchase-prices {
       width: 100%;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .passes-page.passes-page--system .family-purchase-price {
