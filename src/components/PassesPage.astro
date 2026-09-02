@@ -617,6 +617,16 @@ const moldovaNotice = {
     </div>
   </section>
 
+  <section class="registration-section section-wide" aria-labelledby="registration-title">
+    <header>
+      <h2 id="registration-title">{ui.registrationTitle}</h2>
+      <a class="passes-action passes-action--primary" href={passesShared.registrationUrl} rel="noopener" target="_blank">{copy.actions.register}</a>
+    </header>
+    <ol class="registration-timeline">
+      {ui.registrationSteps.map(([title, text]: string[], index: number) => <li><span>0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}
+    </ol>
+  </section>
+
   <section class="support-section section-grid" aria-labelledby="support-title">
     <h2 id="support-title">{ui.supportTitle}</h2>
     <div>
@@ -627,16 +637,6 @@ const moldovaNotice = {
       </nav>
       {isMoldovaAudience && <p class="support-section__host">{ui.supportHost}</p>}
     </div>
-  </section>
-
-  <section class="registration-section section-wide" aria-labelledby="registration-title">
-    <header>
-      <h2 id="registration-title">{ui.registrationTitle}</h2>
-      <a class="passes-action passes-action--primary" href={passesShared.registrationUrl} rel="noopener" target="_blank">{copy.actions.register}</a>
-    </header>
-    <ol class="registration-timeline">
-      {ui.registrationSteps.map(([title, text]: string[], index: number) => <li><span>0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></li>)}
-    </ol>
   </section>
 
   <section class="practical-section compact-section" aria-labelledby="practical-title">
