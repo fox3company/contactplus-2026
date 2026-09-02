@@ -625,7 +625,7 @@ const moldovaNotice = {
         <a href="https://www.facebook.com/share/1HnB9mB26/?mibextid=wwXIfr" rel="noopener" target="_blank">{ui.supportFacebook} <span aria-hidden="true">↗</span></a>
         <a href="https://www.instagram.com/p/DXJ9YhhgqBx/?igsi=M3NvazB1MzlkNmY0" rel="noopener" target="_blank">{ui.supportInstagram} <span aria-hidden="true">↗</span></a>
       </nav>
-      {isMoldovaAudience && <p>{ui.supportHost}</p>}
+      {isMoldovaAudience && <p class="support-section__host">{ui.supportHost}</p>}
     </div>
   </section>
 
@@ -2431,9 +2431,8 @@ const moldovaNotice = {
   .passes-page.passes-page--system .support-section {
     width: min(100%, var(--passes-decision-width));
     margin-inline: auto;
-    padding-block: 26px;
-    border-top: 1px solid color-mix(in srgb, var(--line) 48%, transparent);
-    border-bottom: 1px solid color-mix(in srgb, var(--line) 48%, transparent);
+    margin-top: clamp(24px, 3vw, 38px);
+    padding-block: 16px;
     align-items: center;
   }
 
@@ -2474,8 +2473,12 @@ const moldovaNotice = {
     text-underline-offset: 3px;
   }
 
+  .passes-page.passes-page--system .support-section__host {
+    margin-top: 14px;
+  }
+
   .passes-page.passes-page--system .registration-section {
-    margin-top: clamp(64px, 7vw, 96px);
+    margin-top: clamp(30px, 4vw, 48px);
     padding: 0;
     border: 0;
   }
@@ -2769,7 +2772,7 @@ const moldovaNotice = {
 
     .passes-page.passes-page--system .support-section {
       display: block;
-      padding-block: 24px;
+      padding-block: 18px;
     }
 
     .passes-page.passes-page--system .support-section h2 {
