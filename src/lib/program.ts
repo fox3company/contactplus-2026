@@ -101,12 +101,13 @@ export function getProgramFilterGroup(event: ProgramEvent): Exclude<ProgramFilte
 }
 
 export function getProgramFilterGroups(event: ProgramEvent): Exclude<ProgramFilterGroup, 'all'>[] {
-  const groups = new Set<Exclude<ProgramFilterGroup, 'all'>>([getProgramFilterGroup(event)]);
+  const primaryGroup = getProgramFilterGroup(event);
+  const groups = new Set<Exclude<ProgramFilterGroup, 'all'>>([primaryGroup]);
   const filters = new Set(event.data.filters || []);
 
   if (filters.has('ci')) groups.add('ci');
   if (filters.has('performance_lab')) groups.add('performance_labs');
-  if (filters.has('performance')) groups.add('performances');
+  if (filters.has('performance') && primaryGroup !== 'performance_labs') groups.add('performances');
   if (filters.has('family') || filters.has('youth')) groups.add('family_youth');
   if (filters.has('jam') || filters.has('gathering')) groups.add('jams_gatherings');
   if (filters.has('meal')) groups.add('breaks');
