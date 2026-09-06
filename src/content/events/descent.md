@@ -45,7 +45,7 @@ occurrences:
     date_label: "Sep 29"
     time_display: "19:30 — 21:30"
     sort_start: "2026-09-29T19:30:00"
-location_ref: ginta-latina
+location_ref: nod-space
 people_label: By
 people:
   - person_id: daniel-kearns
