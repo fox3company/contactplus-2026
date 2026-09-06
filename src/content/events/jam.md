@@ -44,8 +44,8 @@ occurrences:
     location_ref: nod-space
   - date: "2026-09-29"
     date_label: "Sep 29"
-    time_display: "20:00 — 23:00"
-    sort_start: "2026-09-29T20:00:00"
+    time_display: "21:30 — 00:00"
+    sort_start: "2026-09-29T21:30:00"
     location_ref: iusty-art-gallery
   - date: "2026-10-02"
     date_label: "Oct 2"
