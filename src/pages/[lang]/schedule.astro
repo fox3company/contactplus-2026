@@ -216,7 +216,16 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
       const focus = getLocalized(event.data.focus, lang);
       const locationRef = locationRefFromOccurrence || event.data.location_ref;
       const location = locationRef ? locations[locationRef] : undefined;
-      const places = getOccurrenceLocationFacts(event);
+      const places = event.data.program_line === 'jam'
+        ? (location ? [{
+          dateLabels: [dateLabel],
+          name: location.name,
+          address: location.address || '',
+          href: location.href || '',
+          dateLabel,
+          localizedDateLabel: getLocalizedDateLabel(dateLabel, lang),
+        }] : [])
+        : getOccurrenceLocationFacts(event);
       const firstPlace = places[0];
 
       return [
