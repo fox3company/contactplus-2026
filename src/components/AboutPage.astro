@@ -31,9 +31,9 @@ const performanceCopy = {
     allTickets: 'All performance tickets',
     events: [
       { date: '26 September · 18:30', title: 'The Wild One', countries: '🇵🇱 🇷🇴 🇪🇸', meta: 'Family Acro-Theatre · NOD Space', detailKey: 'the-wild-one' },
-      { date: '29 September · 19:30', title: 'Descent', countries: '🇬🇧 🇧🇬', meta: 'Daniel Kearns · NOD Space', detailKey: 'descent' },
-      { date: '30 September · 19:30', title: 'Light from the Shadow + ENSŌ', countries: '🇲🇩 🇨🇴', meta: 'Ginta Latină — Teatrul Fără Nume', detailKey: 'light-from-shadow-enso' },
-      { date: '1 October · 19:30', title: 'REFLECTIONS + LUA + IN BETWEEN', countries: '🇲🇩 🇺🇦 🇧🇬', meta: 'Ginta Latină — Teatrul Fără Nume', detailKey: 'reflections-lua-in-between' },
+      { date: '29 September · 19:30', title: 'Descent', countries: '🇬🇧 🇧🇬', meta: 'Solo Theatre Performance · NOD Space', detailKey: 'descent' },
+      { date: '30 September · 19:30', title: 'Light from the Shadow + ENSŌ', countries: '🇲🇩 🇨🇴', meta: 'Choreographic evening · Ginta Latină — Teatrul Fără Nume', detailKey: 'light-from-shadow-enso' },
+      { date: '1 October · 19:30', title: 'REFLECTIONS + LUA + IN BETWEEN', countries: '🇲🇩 🇺🇦 🇧🇬', meta: 'Choreographic evening · Ginta Latină — Teatrul Fără Nume', detailKey: 'reflections-lua-in-between' },
     ],
   },
   ro: {
@@ -43,9 +43,9 @@ const performanceCopy = {
     allTickets: 'Toate biletele la performance-uri',
     events: [
       { date: '26 septembrie · 18:30', title: 'The Wild One', countries: '🇵🇱 🇷🇴 🇪🇸', meta: 'Acro-teatru pentru familie · NOD Space', detailKey: 'the-wild-one' },
-      { date: '29 septembrie · 19:30', title: 'Coborâre', countries: '🇬🇧 🇧🇬', meta: 'Daniel Kearns · NOD Space', detailKey: 'descent' },
-      { date: '30 septembrie · 19:30', title: 'Lumina din Umbră + ENSŌ', countries: '🇲🇩 🇨🇴', meta: 'Ginta Latină — Teatrul Fără Nume', detailKey: 'light-from-shadow-enso' },
-      { date: '1 octombrie · 19:30', title: 'REFLECTIONS + LUA + IN BETWEEN', countries: '🇲🇩 🇺🇦 🇧🇬', meta: 'Ginta Latină — Teatrul Fără Nume', detailKey: 'reflections-lua-in-between' },
+      { date: '29 septembrie · 19:30', title: 'Coborâre', countries: '🇬🇧 🇧🇬', meta: 'Performance teatral solo · NOD Space', detailKey: 'descent' },
+      { date: '30 septembrie · 19:30', title: 'Lumina din Umbră + ENSŌ', countries: '🇲🇩 🇨🇴', meta: 'Seară coregrafică · Ginta Latină — Teatrul Fără Nume', detailKey: 'light-from-shadow-enso' },
+      { date: '1 octombrie · 19:30', title: 'REFLECTIONS + LUA + IN BETWEEN', countries: '🇲🇩 🇺🇦 🇧🇬', meta: 'Seară coregrafică · Ginta Latină — Teatrul Fără Nume', detailKey: 'reflections-lua-in-between' },
     ],
   },
   ru: {
@@ -55,17 +55,38 @@ const performanceCopy = {
     allTickets: 'Все билеты на перформансы',
     events: [
       { date: '26 сентября · 18:30', title: 'The Wild One', countries: '🇵🇱 🇷🇴 🇪🇸', meta: 'Семейный акро-театр · NOD Space', detailKey: 'the-wild-one' },
-      { date: '29 сентября · 19:30', title: 'Спуск', countries: '🇬🇧 🇧🇬', meta: 'Daniel Kearns · NOD Space', detailKey: 'descent' },
-      { date: '30 сентября · 19:30', title: 'Свет из тени + ENSŌ', countries: '🇲🇩 🇨🇴', meta: 'Ginta Latină — Teatrul Fără Nume', detailKey: 'light-from-shadow-enso' },
-      { date: '1 октября · 19:30', title: 'REFLECTIONS + LUA + IN BETWEEN', countries: '🇲🇩 🇺🇦 🇧🇬', meta: 'Ginta Latină — Teatrul Fără Nume', detailKey: 'reflections-lua-in-between' },
+      { date: '29 сентября · 19:30', title: 'Спуск', countries: '🇬🇧 🇧🇬', meta: 'Сольный театральный перформанс · NOD Space', detailKey: 'descent' },
+      { date: '30 сентября · 19:30', title: 'Свет из тени + ENSŌ', countries: '🇲🇩 🇨🇴', meta: 'Хореографический вечер · Ginta Latină — Teatrul Fără Nume', detailKey: 'light-from-shadow-enso' },
+      { date: '1 октября · 19:30', title: 'REFLECTIONS + LUA + IN BETWEEN', countries: '🇲🇩 🇺🇦 🇧🇬', meta: 'Хореографический вечер · Ginta Latină — Teatrul Fără Nume', detailKey: 'reflections-lua-in-between' },
     ],
   },
 }[lang];
 const events = await getCollection('events');
 const people = await getCollection('people');
 const eventDetails = buildEventDetails(events, people, lang);
+const panelCreditsLabel = {
+  en: 'Artists & program',
+  ro: 'Artiști și program',
+  ru: 'Артисты и программа',
+}[lang];
 const aboutEventDetails = {
   ...eventDetails,
+  'the-wild-one': {
+    ...eventDetails['the-wild-one'],
+    description: {
+      en: 'A family acro-theatre performance where play, imagination and shared curiosity become a way of meeting the present moment.',
+      ro: 'Un performance de acro-teatru pentru familie în care jocul, imaginația și curiozitatea împărtășită devin un mod de a întâlni momentul prezent.',
+      ru: 'Семейный акро-театральный перформанс, где игра, воображение и общее любопытство становятся способом встретиться с настоящим моментом.',
+    }[lang],
+  },
+  descent: {
+    ...eventDetails.descent,
+    description: {
+      en: 'A solo theatre performance moving through childhood wonder, tenderness, memory and the quiet territories of the subconscious.',
+      ro: 'Un performance teatral solo care trece prin mirarea copilăriei, tandrețe, memorie și teritoriile tăcute ale subconștientului.',
+      ru: 'Сольный театральный перформанс о детском удивлении, нежности, памяти и тихих территориях подсознательного.',
+    }[lang],
+  },
   'light-from-shadow-enso': {
     ...eventDetails['light-from-the-shadow'],
     title: performanceCopy.events[2].title,
@@ -74,8 +95,15 @@ const aboutEventDetails = {
       ro: 'O seară coregrafică ce reunește performance-ul multimedia Lumina din Umbră și ENSŌ, o lucrare solo de Daniel Rojasanta.',
       ru: 'Хореографический вечер, объединяющий мультимедийный перформанс «Свет из тени» и ENSŌ — сольную работу Даниэля Рохасанты.',
     }[lang],
-    people: [],
-    focus: '',
+    people: [
+      { label: panelCreditsLabel, name: 'Light from the Shadow — Voices Dance Company', country: 'Moldova', href: '' },
+      { label: panelCreditsLabel, name: 'ENSŌ — Daniel Rojasanta', country: 'Colombia', href: '' },
+    ],
+    focus: {
+      en: 'Multimedia theatre · solo performance · movement · music · visual projection',
+      ro: 'Teatru multimedia · performance solo · mișcare · muzică · proiecție vizuală',
+      ru: 'Мультимедийный театр · сольный перформанс · движение · музыка · визуальные проекции',
+    }[lang],
     fullPageHref: '',
   },
   'reflections-lua-in-between': {
@@ -86,8 +114,16 @@ const aboutEventDetails = {
       ro: 'Trei premiere coregrafice se întâlnesc într-o singură seară: REFLECTIONS din Moldova și Ucraina, LUA din Bulgaria și IN BETWEEN din Moldova.',
       ru: 'В один вечер встретятся три хореографические премьеры: REFLECTIONS из Молдовы и Украины, LUA из Болгарии и IN BETWEEN из Молдовы.',
     }[lang],
-    people: [],
-    focus: '',
+    people: [
+      { label: panelCreditsLabel, name: 'REFLECTIONS — Voices Dance Company', country: 'Moldova / Ukraine', href: '' },
+      { label: panelCreditsLabel, name: 'LUA — Petya Stoykova / DUNE Dance Company', country: 'Bulgaria', href: '' },
+      { label: panelCreditsLabel, name: 'IN BETWEEN — Fantezia Dance Theatre', country: 'Moldova', href: '' },
+    ],
+    focus: {
+      en: 'Three premieres · dance · music · poetry · solo and group performance',
+      ro: 'Trei premiere · dans · muzică · poezie · performance solo și de grup',
+      ru: 'Три премьеры · танец · музыка · поэзия · сольный и групповой перформанс',
+    }[lang],
     fullPageHref: '',
   },
 };
@@ -184,7 +220,7 @@ const organiserGroups = [
           <p class="about-performance-card__date">{event.date}</p>
           <h3>{event.title} <span class="about-performance-card__countries">{event.countries}</span></h3>
           <p>{event.meta}</p>
-          <span class="about-performance-card__ticket">{performanceCopy.details} <span aria-hidden="true">↗</span></span>
+          <span class="about-performance-card__ticket" aria-hidden="true">→</span>
         </article>
       ))}
     </div>
@@ -314,13 +350,15 @@ const organiserGroups = [
   .about-section--performances { margin-top: var(--about-space-l); }
   .about-section--performances > header { max-width: 740px; }
   .about-section--performances > header p { margin: 0; }
-  .about-performance-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(32px, 6vw, 72px); margin-top: clamp(28px, 4vw, 42px); border-top: 1px solid var(--line); }
+  .about-performance-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(32px, 6vw, 72px); margin-top: clamp(28px, 4vw, 42px); }
   .about-performance-card { min-width: 0; padding: 18px 0 20px; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .about-performance-card:nth-child(-n + 2) { border-top: 1px solid var(--line); }
   .about-performance-card__date { margin: 0 0 8px; color: var(--accent-muted) !important; font-size: .7rem !important; font-weight: 700; letter-spacing: .09em; line-height: 1.3; text-transform: uppercase; }
   .about-performance-card h3 { margin: 0 0 6px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.2rem, 1.8vw, 1.52rem); font-weight: 400; letter-spacing: 0; line-height: 1.15; text-transform: none; }
-  .about-performance-card__countries { display: inline-block; margin-left: .22em; font-family: var(--font-sans); font-size: .66em; letter-spacing: .08em; white-space: nowrap; vertical-align: .08em; }
+  .about-performance-card__countries { display: inline-block; margin-left: .2em; font-family: var(--font-sans); font-size: .54em; letter-spacing: .08em; white-space: nowrap; vertical-align: .12em; }
   .about-performance-card p:not(.about-performance-card__date) { margin: 0; font-size: .9rem; line-height: 1.4; }
-  .about-performance-card__ticket, .about-performance-all-tickets { display: inline-flex; margin-top: 12px; color: var(--accent-muted); font-size: .88rem; font-weight: 650; text-decoration: none; text-underline-offset: .24em; }
+  .about-performance-card__ticket { display: inline-flex; margin-top: 8px; color: var(--soft); font-size: 1rem; font-weight: 400; }
+  .about-performance-all-tickets { display: inline-flex; margin-top: 22px; color: var(--accent-muted); font-size: .88rem; font-weight: 650; text-decoration: none; text-underline-offset: .24em; }
   .about-performance-card:hover h3, .about-performance-card:focus-visible h3, .about-performance-all-tickets:hover, .about-performance-all-tickets:focus-visible { color: var(--accent-muted); text-decoration: underline; outline: 0; }
   .about-performance-card:focus-visible { outline: 2px solid var(--accent-muted); outline-offset: 4px; }
   .about-performance-all-tickets { margin-top: 22px; padding: 10px 13px; background: var(--accent-muted); color: var(--paper); }
