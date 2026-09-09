@@ -187,10 +187,26 @@ function getOccurrenceLocationFacts(event: ProgramEvent) {
   }));
 }
 
+function getEventDetailKey(event: ProgramEvent, date?: string, dateLabel?: string) {
+  return `${event.slug}--${date || dateLabel?.toLowerCase().replace(/\s+/g, '-') || event.slug}`;
+}
+
 const programLines = lineDefinitions
-  .map((line) => ({ ...line, events: getEventsForLine(line) }))
+  .map((line) => ({
+    ...line,
+    events: getEventsForLine(line).flatMap((event) => {
+      if (event.slug !== 'jam') return [{ event, detailKey: event.slug }];
+
+      return getProgramOccurrences([event]).map((occurrence) => ({
+        event,
+        detailKey: getEventDetailKey(event, occurrence.date, occurrence.dateLabel),
+        dateLabel: occurrence.dateLabel,
+        timeDisplay: occurrence.timeDisplay,
+      }));
+    }),
+  }))
   .filter((line) => line.events.length > 0);
-const detailEventsBySlug = new Map(programLines.flatMap((line) => line.events.map((event) => [event.slug, event])));
+const detailEventsBySlug = new Map(programLines.flatMap((line) => line.events.map(({ event }) => [event.slug, event])));
 const eventDetails = buildEventDetails([...detailEventsBySlug.values()], allPeople, lang);
 ---
 <BaseLayout lang={lang} title={`${pageTitle} · Contact+ 2026`} description={intro}>
@@ -215,7 +231,7 @@ const eventDetails = buildEventDetails([...detailEventsBySlug.values()], allPeop
           </header>
 
           <div class="program-line__events">
-            {line.events.map((event) => {
+            {line.events.map(({ event, detailKey, dateLabel, timeDisplay }) => {
               const title = getLocalized(event.data.title, lang);
               const category = getProgramCategoryLabel(getLocalized(event.data.meta?.category, lang), event.data.program_line);
               const format = getLocalized(event.data.meta?.format, lang);
@@ -225,7 +241,7 @@ const eventDetails = buildEventDetails([...detailEventsBySlug.values()], allPeop
               return (
                 <article
                   class={`program-line-card program-accent program-accent--${accentGroup} ${href ? 'program-line-card--linked' : ''}`}
-                  data-event-detail-key={event.slug}
+                  data-event-detail-key={detailKey}
                   data-event-accent={accentGroup}
                   role="button"
                   tabindex="0"
@@ -240,7 +256,7 @@ const eventDetails = buildEventDetails([...detailEventsBySlug.values()], allPeop
                     {title}
                   </h3>
                   <p class="program-line-card__schedule">
-                    {event.data.schedule.date_display} · {event.data.schedule.time_display}
+                    {dateLabel || event.data.schedule.date_display} · {timeDisplay || event.data.schedule.time_display}
                   </p>
                   <p class="program-line-card__summary">{getLocalized(event.data.summary, lang)}</p>
                 </article>

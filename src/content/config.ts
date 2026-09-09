@@ -49,6 +49,7 @@ const events = defineCollection({
       location_ref: z.string().optional(),
     })).optional(),
     location_ref: z.string().optional(),
+    ticket_url: z.string().url().optional(),
     people_label: z.string().optional(),
     people: z.array(z.object({
       person_id: z.string(),

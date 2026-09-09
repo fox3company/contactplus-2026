@@ -45,6 +45,7 @@ const dateLabel = getLocalized({ en: 'Date', ro: 'Dată', ru: 'Дата' }, lang
 const timeLabel = getLocalized({ en: 'Time', ro: 'Oră', ru: 'Время' }, lang);
 const placeLabel = getLocalized({ en: 'Place', ro: 'Loc', ru: 'Место' }, lang);
 const mediaLabel = getLocalized({ en: 'Media', ro: 'Media', ru: 'Медиа' }, lang);
+const ticketLabel = getLocalized({ en: 'Buy tickets', ro: 'Cumpără bilete', ru: 'Купить билеты' }, lang);
 const backLabel = getLocalized({
   en: 'Back',
   ro: 'Înapoi',
@@ -246,6 +247,8 @@ function getLinkedCreditParts(value: string) {
       ))}
     </dl>
 
+    {event.data.ticket_url && <a class="event-ticket-link" href={event.data.ticket_url} rel="noopener" target="_blank">{ticketLabel} <span aria-hidden="true">↗</span></a>}
+
     {mediaSrc && <MediaBlock title={title} label={mediaLabel} src={mediaSrc} type={media?.type} caption={media?.caption} />}
 
     <section class="body-copy">
@@ -428,6 +431,26 @@ function getLinkedCreditParts(value: string) {
     font-size: 0.96rem;
     font-weight: 500;
     line-height: 1.36;
+  }
+
+  .event-ticket-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px 0 0;
+    padding: 11px 14px;
+    background: var(--program-accent);
+    color: var(--paper);
+    font-size: .92rem;
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .event-ticket-link:hover,
+  .event-ticket-link:focus-visible {
+    background: var(--ink);
+    color: var(--paper);
+    outline: 0;
   }
 
   .event-date-line {

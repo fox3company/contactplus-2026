@@ -45,6 +45,7 @@ occurrences:
     time_display: "18:30 — 19:30"
     sort_start: "2026-09-26T18:30:00"
 location_ref: nod-space
+ticket_url: "https://iticket.md/ru/event/performance-the-wild-one-acro-teatru-pentru-familie-polonia-romania-spania"
 people_label: By
 people:
   - person_id: olek-wojcik
@@ -54,7 +55,7 @@ people:
     display_role: performer
     public_visibility: visible
 media:
-  hero: the-wild-one-hero-placeholder
+  hero: /media/events/the-wild-one.png
   gallery: []
 related:
   events: [little-curiosity-family-baby-6, little-curiosity-family-kids-6, family-time-discussion]

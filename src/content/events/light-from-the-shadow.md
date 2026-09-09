@@ -45,6 +45,7 @@ occurrences:
     time_display: "19:30 — 21:30"
     sort_start: "2026-09-30T19:30:00"
 location_ref: ginta-latina
+ticket_url: "https://iticket.md/ru/event/seara-coregrafica-lumina-din-umbra-moldova-enso-columbia"
 people_label: By
 people:
   - person_id: voices-dance-company
@@ -155,7 +156,7 @@ credits:
         ro: Voices Dance Company — Alexandra Soșnicova, Serghei Golovnea, Olga Braga, Arina Eremeev, Jenia Gheorghiev, David Arnaut
         ru: Voices Dance Company — Александра Сошникова, Сергей Головня, Olga Braga, Arina Eremeev, Jenia Gheorghiev, David Arnaut
 media:
-  hero: light-from-the-shadow-hero-placeholder
+  hero: /media/events/light-from-the-shadow.png
   gallery: []
 related:
   events: []

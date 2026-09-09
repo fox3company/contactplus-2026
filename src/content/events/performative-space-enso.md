@@ -44,7 +44,8 @@ occurrences:
     date_label: "Sep 30"
     time_display: "19:30 — 21:30"
     sort_start: "2026-09-30T19:30:00"
-location_ref: iusty-art-gallery
+location_ref: ginta-latina
+ticket_url: "https://iticket.md/ru/event/seara-coregrafica-lumina-din-umbra-moldova-enso-columbia"
 people_label: By
 people:
   - person_id: daniel-rojasanta

@@ -1,5 +1,8 @@
 ---
+import { getCollection } from 'astro:content';
+import EventDetailPanel from './EventDetailPanel.astro';
 import { aboutCopy, aboutMedia } from '../lib/about';
+import { buildEventDetails } from '../lib/eventDetails';
 import type { Locale } from '../lib/locales';
 
 interface Props { lang: Locale; }
@@ -19,6 +22,75 @@ const imageAlt = {
 };
 const registrationUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdkDT1NjKXxzbAg_8dqSLEDnYPstOaBZ8oE6mxqNHkLTUbBlg/viewform?usp=header';
 const vimeoPlayerUrl = 'https://player.vimeo.com/video/1211155266?title=0&byline=0&portrait=0';
+const performanceTicketsUrl = 'https://iticket.md/partner/contactplus2026';
+const performanceCopy = {
+  en: {
+    title: 'Performances & tickets',
+    intro: 'Four public events bring together family acro-theatre, a solo performance and two choreographic evenings. Tickets are available separately through iTicket.',
+    details: 'View details',
+    allTickets: 'All performance tickets',
+    events: [
+      { date: '26 September · 18:30', title: 'The Wild One', countries: '🇵🇱 🇷🇴 🇪🇸', meta: 'Family Acro-Theatre · NOD Space', detailKey: 'the-wild-one' },
+      { date: '29 September · 19:30', title: 'Descent', countries: '🇬🇧 🇧🇬', meta: 'Daniel Kearns · NOD Space', detailKey: 'descent' },
+      { date: '30 September · 19:30', title: 'Light from the Shadow + ENSŌ', countries: '🇲🇩 🇨🇴', meta: 'Ginta Latină — Teatrul Fără Nume', detailKey: 'light-from-shadow-enso' },
+      { date: '1 October · 19:30', title: 'REFLECTIONS + LUA + IN BETWEEN', countries: '🇲🇩 🇺🇦 🇧🇬', meta: 'Ginta Latină — Teatrul Fără Nume', detailKey: 'reflections-lua-in-between' },
+    ],
+  },
+  ro: {
+    title: 'Performance-uri și bilete',
+    intro: 'Patru evenimente publice reunesc acro-teatru pentru familie, un performance solo și două seri coregrafice. Biletele sunt disponibile separat prin iTicket.',
+    details: 'Vezi detaliile',
+    allTickets: 'Toate biletele la performance-uri',
+    events: [
+      { date: '26 septembrie · 18:30', title: 'The Wild One', countries: '🇵🇱 🇷🇴 🇪🇸', meta: 'Acro-teatru pentru familie · NOD Space', detailKey: 'the-wild-one' },
+      { date: '29 septembrie · 19:30', title: 'Coborâre', countries: '🇬🇧 🇧🇬', meta: 'Daniel Kearns · NOD Space', detailKey: 'descent' },
+      { date: '30 septembrie · 19:30', title: 'Lumina din Umbră + ENSŌ', countries: '🇲🇩 🇨🇴', meta: 'Ginta Latină — Teatrul Fără Nume', detailKey: 'light-from-shadow-enso' },
+      { date: '1 octombrie · 19:30', title: 'REFLECTIONS + LUA + IN BETWEEN', countries: '🇲🇩 🇺🇦 🇧🇬', meta: 'Ginta Latină — Teatrul Fără Nume', detailKey: 'reflections-lua-in-between' },
+    ],
+  },
+  ru: {
+    title: 'Перформансы и билеты',
+    intro: 'Четыре публичных события объединяют семейный акро-театр, сольный перформанс и два хореографических вечера. Билеты доступны отдельно на iTicket.',
+    details: 'Подробнее',
+    allTickets: 'Все билеты на перформансы',
+    events: [
+      { date: '26 сентября · 18:30', title: 'The Wild One', countries: '🇵🇱 🇷🇴 🇪🇸', meta: 'Семейный акро-театр · NOD Space', detailKey: 'the-wild-one' },
+      { date: '29 сентября · 19:30', title: 'Спуск', countries: '🇬🇧 🇧🇬', meta: 'Daniel Kearns · NOD Space', detailKey: 'descent' },
+      { date: '30 сентября · 19:30', title: 'Свет из тени + ENSŌ', countries: '🇲🇩 🇨🇴', meta: 'Ginta Latină — Teatrul Fără Nume', detailKey: 'light-from-shadow-enso' },
+      { date: '1 октября · 19:30', title: 'REFLECTIONS + LUA + IN BETWEEN', countries: '🇲🇩 🇺🇦 🇧🇬', meta: 'Ginta Latină — Teatrul Fără Nume', detailKey: 'reflections-lua-in-between' },
+    ],
+  },
+}[lang];
+const events = await getCollection('events');
+const people = await getCollection('people');
+const eventDetails = buildEventDetails(events, people, lang);
+const aboutEventDetails = {
+  ...eventDetails,
+  'light-from-shadow-enso': {
+    ...eventDetails['light-from-the-shadow'],
+    title: performanceCopy.events[2].title,
+    description: {
+      en: 'A choreographic evening bringing together the multimedia performance Light from the Shadow and ENSŌ, a solo work by Daniel Rojasanta.',
+      ro: 'O seară coregrafică ce reunește performance-ul multimedia Lumina din Umbră și ENSŌ, o lucrare solo de Daniel Rojasanta.',
+      ru: 'Хореографический вечер, объединяющий мультимедийный перформанс «Свет из тени» и ENSŌ — сольную работу Даниэля Рохасанты.',
+    }[lang],
+    people: [],
+    focus: '',
+    fullPageHref: '',
+  },
+  'reflections-lua-in-between': {
+    ...eventDetails.reflections,
+    title: performanceCopy.events[3].title,
+    description: {
+      en: 'Three choreographic premieres meet in one evening: REFLECTIONS from Moldova and Ukraine, LUA from Bulgaria, and IN BETWEEN from Moldova.',
+      ro: 'Trei premiere coregrafice se întâlnesc într-o singură seară: REFLECTIONS din Moldova și Ucraina, LUA din Bulgaria și IN BETWEEN din Moldova.',
+      ru: 'В один вечер встретятся три хореографические премьеры: REFLECTIONS из Молдовы и Украины, LUA из Болгарии и IN BETWEEN из Молдовы.',
+    }[lang],
+    people: [],
+    focus: '',
+    fullPageHref: '',
+  },
+};
 const organiserGroups = [
   {
     label: copy.organisers.coreGroup,
@@ -103,6 +175,22 @@ const organiserGroups = [
       </div>
     </div>
   </section>
+
+  <section class="about-section about-section--performances" aria-labelledby="about-performances">
+    <header><h2 id="about-performances">{performanceCopy.title}</h2><p class="about-section__lead">{performanceCopy.intro}</p></header>
+    <div class="about-performance-list">
+      {performanceCopy.events.map((event) => (
+        <article class="about-performance-card" data-event-detail-key={event.detailKey} data-event-accent="performances" role="button" tabindex="0" aria-label={`${performanceCopy.details}: ${event.title}`}>
+          <p class="about-performance-card__date">{event.date}</p>
+          <h3>{event.title} <span class="about-performance-card__countries">{event.countries}</span></h3>
+          <p>{event.meta}</p>
+          <span class="about-performance-card__ticket">{performanceCopy.details} <span aria-hidden="true">↗</span></span>
+        </article>
+      ))}
+    </div>
+    <a class="about-performance-all-tickets" href={performanceTicketsUrl} rel="noopener" target="_blank">{performanceCopy.allTickets} <span aria-hidden="true">↗</span></a>
+  </section>
+  <EventDetailPanel lang={lang} eventDetails={aboutEventDetails} />
 
   <section class="about-section about-section--who" aria-labelledby="about-who">
     <div class="about-who__copy"><h2 id="about-who">{copy.who.title}</h2><p>{copy.who.intro}</p><ul>{copy.who.groups.map((item: string) => <li>{item}</li>)}</ul><div class="about-who__entry"><h3>{copy.who.entry}</h3><p>{copy.who.entryText}</p></div></div>
@@ -223,6 +311,20 @@ const organiserGroups = [
   .about-festival-film__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #111; }
   .about-festival-film__media iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
   .about-festival-film .about-unfold__intro p:last-child { margin: 0; color: var(--muted); font-size: .92rem; }
+  .about-section--performances { margin-top: var(--about-space-l); }
+  .about-section--performances > header { max-width: 740px; }
+  .about-section--performances > header p { margin: 0; }
+  .about-performance-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(32px, 6vw, 72px); margin-top: clamp(28px, 4vw, 42px); border-top: 1px solid var(--line); }
+  .about-performance-card { min-width: 0; padding: 18px 0 20px; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .about-performance-card__date { margin: 0 0 8px; color: var(--accent-muted) !important; font-size: .7rem !important; font-weight: 700; letter-spacing: .09em; line-height: 1.3; text-transform: uppercase; }
+  .about-performance-card h3 { margin: 0 0 6px; color: var(--ink); font-family: var(--font-serif); font-size: clamp(1.2rem, 1.8vw, 1.52rem); font-weight: 400; letter-spacing: 0; line-height: 1.15; text-transform: none; }
+  .about-performance-card__countries { display: inline-block; margin-left: .22em; font-family: var(--font-sans); font-size: .66em; letter-spacing: .08em; white-space: nowrap; vertical-align: .08em; }
+  .about-performance-card p:not(.about-performance-card__date) { margin: 0; font-size: .9rem; line-height: 1.4; }
+  .about-performance-card__ticket, .about-performance-all-tickets { display: inline-flex; margin-top: 12px; color: var(--accent-muted); font-size: .88rem; font-weight: 650; text-decoration: none; text-underline-offset: .24em; }
+  .about-performance-card:hover h3, .about-performance-card:focus-visible h3, .about-performance-all-tickets:hover, .about-performance-all-tickets:focus-visible { color: var(--accent-muted); text-decoration: underline; outline: 0; }
+  .about-performance-card:focus-visible { outline: 2px solid var(--accent-muted); outline-offset: 4px; }
+  .about-performance-all-tickets { margin-top: 22px; padding: 10px 13px; background: var(--accent-muted); color: var(--paper); }
+  .about-performance-all-tickets:hover, .about-performance-all-tickets:focus-visible { background: var(--ink); color: var(--paper); text-decoration: none; }
   .about-section--who { display: grid; grid-template-columns: minmax(300px, .82fr) minmax(0, 1fr); gap: clamp(34px, 6vw, 86px); align-items: stretch; }
   .about-who__copy { max-width: 560px; }
   .about-who__copy > p { margin: 0 0 26px; line-height: 1.52; }
@@ -310,6 +412,7 @@ const organiserGroups = [
     .about-section--what h2, .about-section--city h2 { margin-bottom: 18px; }
     .about-section--what > .about-media--landscape { max-height: 72vh; }
     .about-why__layout { grid-template-columns: 1fr; gap: 22px; }
+    .about-performance-list { grid-template-columns: 1fr; gap: 0; }
     .about-why__copy { order: -1; }
     .about-why__copy h2 { margin-bottom: 0; }
     .about-why__copy ul { margin-top: 18px; }

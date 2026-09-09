@@ -2,6 +2,7 @@ import type { Locale } from './locales';
 
 const shared = {
   registrationUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdkDT1NjKXxzbAg_8dqSLEDnYPstOaBZ8oE6mxqNHkLTUbBlg/viewform?usp=header',
+  performanceTicketsUrl: 'https://iticket.md/partner/contactplus2026',
   eventSlugs: {
     opening: ['shared-awareness', 'arriving-into-the-touch'],
     openingIncluded: ['first-meetings-jam', 'welcoming-open-circle-jam', 'the-wild-one'],
@@ -120,7 +121,7 @@ export const passesCopy: Record<Locale, any> = {
       productsTitle: 'Choose one participation product',
       additionalLabel: 'Optional Family Pass add-on',
     },
-    performances: { title: 'Performances', text: 'Performance tickets are also available separately through the festival ticket platform. Full Festival Pass holders access the performance program through a reserved festival section. The Opening Weekend Pass includes The Wild One.', cta: 'Explore performance tickets' },
+    performances: { title: 'Performances', text: 'Tickets for public performances are available through the festival ticket platform. Full Festival Pass holders access the performance program through a reserved festival section. The Opening Weekend Pass includes The Wild One.', cta: 'Explore performance tickets' },
     registration: {
       title: 'How registration works',
       steps: [['Choose your path', 'Select the Full Festival Pass, a focused program path, Family & Youth participation or selected JAMs.'], ['Complete the registration form', 'Indicate the formats and JAMs you want to attend.'], ['Receive confirmation', 'The festival team confirms availability and sends payment instructions.'], ['Complete payment', 'A place is secured after payment is confirmed.'], ['Receive practical information', 'Final organisational information is sent before the festival.']],
@@ -244,7 +245,7 @@ export const passesCopy: Record<Locale, any> = {
       productsTitle: 'Alege un produs de participare',
       additionalLabel: 'Opțiune suplimentară pentru abonamentul de familie',
     },
-    performances: { title: 'Performance-uri', text: 'Biletele la performance-uri vor fi disponibile separat prin platforma festivalului. Deținătorii abonamentului pentru întregul festival au acces printr-o zonă rezervată. Abonamentul pentru weekendul de deschidere include Ființa sălbatică.', cta: 'Explorează biletele la performance-uri' },
+    performances: { title: 'Performance-uri', text: 'Biletele pentru performance-urile publice sunt disponibile prin platforma de bilete a festivalului. Deținătorii abonamentului pentru întregul festival au acces printr-o zonă rezervată. Abonamentul pentru weekendul de deschidere include Ființa sălbatică.', cta: 'Explorează biletele la performance-uri' },
     registration: {
       title: 'Cum funcționează înscrierea',
       steps: [['Alege traseul', 'Selectează abonamentul pentru întregul festival, un traseu concentrat, participarea în Programul pentru familii și tineri sau JAM-urile dorite.'], ['Completează formularul', 'Indică formatele și JAM-urile la care vrei să participi.'], ['Primește confirmarea', 'Echipa confirmă disponibilitatea și trimite instrucțiunile de plată.'], ['Finalizează plata', 'Locul este asigurat după confirmarea plății.'], ['Primește informațiile practice', 'Detaliile finale de organizare sunt trimise înainte de festival.']],
@@ -368,7 +369,7 @@ export const passesCopy: Record<Locale, any> = {
       productsTitle: 'Выберите один формат участия',
       additionalLabel: 'Дополнительная опция семейного абонемента',
     },
-    performances: { title: 'Перформансы', text: 'Билеты на перформансы будут доступны отдельно на билетной платформе фестиваля. Владельцы абонемента на весь фестиваль проходят в зарезервированную фестивальную зону. Абонемент на открывающий уикенд включает Дикое существо.', cta: 'Посмотреть билеты на перформансы' },
+    performances: { title: 'Перформансы', text: 'Билеты на публичные перформансы доступны на билетной платформе фестиваля. Владельцы абонемента на весь фестиваль проходят в зарезервированную фестивальную зону. Абонемент на открывающий уикенд включает Дикое существо.', cta: 'Посмотреть билеты на перформансы' },
     registration: {
       title: 'Как проходит регистрация',
       steps: [['Выберите путь', 'Выберите абонемент на весь фестиваль, отдельный программный путь, участие в программе для семей и молодёжи или нужные JAM-ы.'], ['Заполните форму', 'Укажите форматы и JAM-ы, которые хотите посетить.'], ['Получите подтверждение', 'Команда подтверждает наличие мест и отправляет инструкции по оплате.'], ['Завершите оплату', 'Место закрепляется после подтверждения оплаты.'], ['Получите практическую информацию', 'Финальные организационные детали придут до фестиваля.']],

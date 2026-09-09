@@ -46,6 +46,7 @@ occurrences:
     time_display: "19:30 — 21:30"
     sort_start: "2026-09-29T19:30:00"
 location_ref: nod-space
+ticket_url: "https://iticket.md/ru/event/descent-o-calatorie-spre-interior-marea-britanie-bulgaria"
 people_label: By
 people:
   - person_id: daniel-kearns
@@ -55,7 +56,7 @@ people:
     display_role: concept / choreography credit
     public_visibility: hidden
 media:
-  hero: descent-hero-placeholder
+  hero: /media/events/descent.png
   gallery: []
 related:
   events: []

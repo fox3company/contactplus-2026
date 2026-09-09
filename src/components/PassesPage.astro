@@ -24,6 +24,14 @@ const people = await getCollection('people');
 const eventsBySlug = new Map(events.map((event) => [event.slug, event]));
 const eventDetails = buildEventDetails(events, people, lang);
 const youthEvent = eventLink('youth-dance-class');
+const jamDetailKeys = [
+  'first-meetings-jam',
+  'welcoming-open-circle-jam',
+  'jam--2026-09-28',
+  'jam--2026-09-29',
+  'celebration-jam',
+  'farewell-jam',
+];
 
 function eventLink(slug: string) {
   const event = eventsBySlug.get(slug);
@@ -506,7 +514,7 @@ const moldovaNotice = {
           </summary>
           <ul class="event-inline-list">{copy.jams.events.map((event: string, index: number) => {
             const detail = eventLink(passesShared.eventSlugs.jams[index]);
-            return <li><PassEventCard title={event} meta={detail.meta || 'JAM'} slug={detail.slug} accent={detail.accent} viewDetailsLabel={ui.viewDetails} state="standalone" /></li>;
+            return <li><PassEventCard title={event} meta={detail.meta || 'JAM'} slug={jamDetailKeys[index] || detail.slug} accent={detail.accent} viewDetailsLabel={ui.viewDetails} state="standalone" /></li>;
           })}</ul>
         </details>
       </header>
@@ -613,7 +621,9 @@ const moldovaNotice = {
     <div>
       <p class="performances-section__desktop-copy">{copy.performances.text}</p>
       <p class="performances-section__mobile-copy">{ui.performancesShort}</p>
-      <p class="status-note">{copy.actions.soon}</p>
+      <div class="performances-section__actions">
+        <a class="passes-action passes-action--primary" href={passesShared.performanceTicketsUrl} rel="noopener" target="_blank">{copy.performances.cta} <span aria-hidden="true">↗</span></a>
+      </div>
     </div>
   </section>
 
@@ -6230,6 +6240,10 @@ const moldovaNotice = {
       font-size: .94rem;
       line-height: 1.48;
     }
+  }
+
+  .passes-page .performances-section__actions {
+    margin-top: 18px;
   }
 
 </style>

@@ -41,6 +41,10 @@ occurrences:
     time_display: "19:30 — 21:30"
     sort_start: "2026-10-01T19:30:00"
 location_ref: ginta-latina
+ticket_url: "https://iticket.md/ru/event/seara-coregrafica-reflections-moldovaucraina-lua-bulgaria-in-between-moldova"
+media:
+  hero: /media/events/reflections-lua-in-between.png
+  gallery: []
 people_label: By
 people:
   - person_id: fantezia-dance-theatre

@@ -42,6 +42,7 @@ export interface EventDetailData {
   description: string;
   focusLabel: string;
   focus: string;
+  ticketUrl: string;
   fullPageHref: string;
 }
 
@@ -112,7 +113,7 @@ export function buildEventDetails(
     });
   }
 
-  return Object.fromEntries(events.map((event) => {
+  return Object.fromEntries(events.flatMap((event) => {
     const visiblePeople = (event.data.people || [])
       .filter((person) => person.public_visibility === 'visible');
     const eventPeople = visiblePeople.map((person) => {
@@ -132,27 +133,56 @@ export function buildEventDetails(
     const places = getOccurrenceLocationFacts(event);
     const firstPlace = places[0];
 
-    return [
-      event.slug,
-      {
-        title: getLocalized(event.data.title, lang),
-        category: category || event.data.program_line,
-        format,
-        dateLines: getEventDateLines(event),
-        time: event.data.schedule.time_display,
-        place: firstPlace?.name || event.data.location_ref || '',
-        placeAddress: firstPlace?.address || '',
-        placeHref: firstPlace?.href || '',
-        places,
-        people: eventPeople,
-        description: getLocalized(event.data.body, lang)
-          || getLocalized(event.data.summary, lang),
-        focusLabel: getLocalized(event.data.focus_label, lang),
-        focus: getLocalized(event.data.focus, lang),
-        fullPageHref: isPublicDetailEvent(event)
-          ? `/${lang}/program/${event.slug}`
-          : '',
-      },
-    ];
+    const detail: EventDetailData = {
+      title: getLocalized(event.data.title, lang),
+      category: category || event.data.program_line,
+      format,
+      dateLines: getEventDateLines(event),
+      time: event.data.schedule.time_display,
+      place: firstPlace?.name || event.data.location_ref || '',
+      placeAddress: firstPlace?.address || '',
+      placeHref: firstPlace?.href || '',
+      places,
+      people: eventPeople,
+      description: getLocalized(event.data.body, lang)
+        || getLocalized(event.data.summary, lang),
+      focusLabel: getLocalized(event.data.focus_label, lang),
+      focus: getLocalized(event.data.focus, lang),
+      ticketUrl: event.data.ticket_url || '',
+      fullPageHref: isPublicDetailEvent(event)
+        ? `/${lang}/program/${event.slug}`
+        : '',
+    };
+
+    const entries: [string, EventDetailData][] = [[event.slug, detail]];
+    if (event.data.program_line !== 'jam') return entries;
+
+    getProgramOccurrences([event]).forEach((occurrence) => {
+      const locationRef = occurrence.locationRef || event.data.location_ref;
+      const location = locationRef ? locations[locationRef] : undefined;
+      const place = location ? [{
+        dateLabel: occurrence.dateLabel,
+        localizedDateLabel: getLocalizedDateLabel(occurrence.dateLabel, lang),
+        name: location.name,
+        address: location.address || '',
+        href: location.href || '',
+      }] : [];
+      const keyDate = occurrence.date || occurrence.dateLabel.toLowerCase().replace(/\s+/g, '-');
+
+      entries.push([
+        `${event.slug}--${keyDate}`,
+        {
+          ...detail,
+          dateLines: occurrence.dateLabel ? [getLocalizedDayRangeLabel(occurrence.dateLabel, lang)] : detail.dateLines,
+          time: occurrence.timeDisplay || detail.time,
+          place: place[0]?.name || locationRef || '',
+          placeAddress: place[0]?.address || '',
+          placeHref: place[0]?.href || '',
+          places: place,
+        },
+      ]);
+    });
+
+    return entries;
   }));
 }

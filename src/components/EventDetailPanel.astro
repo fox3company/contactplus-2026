@@ -15,6 +15,7 @@ const labels = {
   time: getLocalized({ en: 'Time', ro: 'Oră', ru: 'Время' }, lang),
   place: getLocalized({ en: 'Place', ro: 'Loc', ru: 'Место' }, lang),
   with: getLocalized({ en: 'With', ro: 'Cu', ru: 'С кем' }, lang),
+  tickets: getLocalized({ en: 'Buy tickets', ro: 'Cumpără bilete', ru: 'Купить билеты' }, lang),
   fullPage: getLocalized({ en: 'Full event page', ro: 'Pagina completă', ru: 'Полная страница события' }, lang),
 };
 ---
@@ -59,6 +60,7 @@ const labels = {
       <h3 data-event-detail-focus-label></h3>
       <p data-event-detail-focus></p>
     </section>
+    <a class="event-detail-ticket-link" href="#" rel="noopener" target="_blank" data-event-detail-ticket hidden>{labels.tickets} <span aria-hidden="true">↗</span></a>
     {showFullPageLink && <a class="event-detail-full-link" href="#" data-event-detail-full-page>{labels.fullPage}</a>}
   </aside>
   <script type="application/json" data-event-detail-data set:html={JSON.stringify(eventDetails)}></script>
@@ -75,6 +77,7 @@ const labels = {
     const panel = root.querySelector('[data-event-detail-panel]');
     const closeButton = root.querySelector('[data-event-detail-close]');
     const fullPageLink = root.querySelector('[data-event-detail-full-page]');
+    const ticketLink = root.querySelector('[data-event-detail-ticket]');
     let lastFocusedTrigger = null;
 
     const setText = (selector, value) => {
@@ -184,6 +187,11 @@ const labels = {
       if (fullPageLink) {
         fullPageLink.hidden = !event.fullPageHref;
         fullPageLink.setAttribute('href', event.fullPageHref || '#');
+      }
+
+      if (ticketLink) {
+        ticketLink.hidden = !event.ticketUrl;
+        ticketLink.setAttribute('href', event.ticketUrl || '#');
       }
 
       overlay.hidden = false;
@@ -441,6 +449,24 @@ const labels = {
     font-size: .82rem;
     font-weight: 600;
     text-underline-offset: .24em;
+  }
+
+  .event-detail-ticket-link {
+    align-self: flex-start;
+    margin-top: 2px;
+    padding: 10px 13px;
+    background: var(--event-accent);
+    color: var(--paper);
+    font-size: .88rem;
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .event-detail-ticket-link:hover,
+  .event-detail-ticket-link:focus-visible {
+    background: var(--ink);
+    color: var(--paper);
+    outline: 0;
   }
 
   @media (max-width: 640px) {
