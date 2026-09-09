@@ -61,7 +61,7 @@ credits:
       value:
         en: Alexandra Soșnicova, Serghei Golovnea
         ro: Alexandra Soșnicova, Serghei Golovnea
-        ru: Alexandra Soșnicova, Serghei Golovnea
+        ru: Александра Сошникова, Сергей Головня
     - label:
         en: Performers
         ro: Artiști

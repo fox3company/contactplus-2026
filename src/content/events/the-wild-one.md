@@ -59,6 +59,32 @@ media:
 related:
   events: [little-curiosity-family-baby-6, little-curiosity-family-kids-6, family-time-discussion]
   people: [olek-wojcik, laura-vlad]
+credits:
+  items:
+    - label:
+        en: Concept and performance
+        ro: Concept și interpretare
+        ru: Концепция и исполнение
+      value:
+        en: Laura Vlad, Olek Wojcik and Sol Thea
+        ro: Laura Vlad, Olek Wojcik și Sol Thea
+        ru: Лаура Влад, Олек Вуйцик и Сол Теа
+    - label:
+        en: Format
+        ro: Format
+        ru: Формат
+      value:
+        en: Family acro-theatre
+        ro: Acro-teatru pentru familie
+        ru: Семейный акро-театр
+    - label:
+        en: Duration
+        ro: Durată
+        ru: Продолжительность
+      value:
+        en: Approximately 35 minutes
+        ro: Aproximativ 35 de minute
+        ru: Около 35 минут
 ---
 
 # The Wild One

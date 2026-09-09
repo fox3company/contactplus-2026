@@ -61,7 +61,7 @@ credits:
       value:
         en: Alexandra Soșnicova, Serghei Golovnea (Voices Dance Company)
         ro: Alexandra Soșnicova, Serghei Golovnea (Voices Dance Company)
-        ru: Alexandra Soșnicova, Serghei Golovnea (Voices Dance Company)
+        ru: Александра Сошникова, Сергей Головня (Voices Dance Company)
     - label:
         en: Music, text and voice
         ro: Muzică, text și voce
@@ -69,7 +69,7 @@ credits:
       value:
         en: Stan Potoku, Iulia Panici (Via Dacă)
         ro: Stan Potoku, Iulia Panici (Via Dacă)
-        ru: Stan Potoku, Iulia Panici (Via Dacă)
+        ru: Стан Потоку, Юлия Панич (Via Dacă)
     - label:
         en: Duration
         ro: Durată

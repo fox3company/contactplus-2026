@@ -55,7 +55,7 @@ credits:
       value:
         en: Petya Stoykova / DUNE Dance Company
         ro: Petya Stoykova / DUNE Dance Company
-        ru: Petya Stoykova / DUNE Dance Company
+        ru: Петя Стойкова / DUNE Dance Company
     - label:
         en: Music
         ro: Muzică

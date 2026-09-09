@@ -90,6 +90,22 @@ credits:
         en: Dimitar Gorchakov
         ro: Dimitar Gorchakov
         ru: Dimitar Gorchakov
+    - label:
+        en: Producer
+        ro: Producător
+        ru: Продюсер
+      value:
+        en: DUNE Dance Company (Bulgaria)
+        ro: DUNE Dance Company (Bulgaria)
+        ru: DUNE Dance Company (Болгария)
+    - label:
+        en: Duration
+        ro: Durată
+        ru: Продолжительность
+      value:
+        en: Approximately 40 minutes
+        ro: Aproximativ 40 de minute
+        ru: Около 40 минут
 ---
 
 # Descent

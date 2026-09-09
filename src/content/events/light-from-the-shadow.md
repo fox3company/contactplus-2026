@@ -74,6 +74,86 @@ credits:
         en: Alexandra Soshnicova · Sergey Golovnea
         ro: Alexandra Soshnicova · Sergey Golovnea
         ru: Alexandra Soshnicova · Sergey Golovnea
+    - label:
+        en: Duration
+        ro: Durată
+        ru: Продолжительность
+      value:
+        en: Approximately 70 minutes
+        ro: Aproximativ 70 de minute
+        ru: Около 70 минут
+    - label:
+        en: Producer
+        ro: Producător
+        ru: Продюсер
+      value:
+        en: Voices Dance Company (Moldova)
+        ro: Voices Dance Company (Moldova)
+        ru: Voices Dance Company (Молдова)
+    - label:
+        en: Philosophy and texts
+        ro: Filosofie și texte
+        ru: Философия и тексты
+      value:
+        en: Alex Cozmescu
+        ro: Alex Cozmescu
+        ru: Alex Cozmescu
+    - label:
+        en: Readers
+        ro: Lecturi
+        ru: Чтецы
+      value:
+        en: Victoria Manciu, Alex Cozmescu
+        ro: Victoria Manciu, Alex Cozmescu
+        ru: Victoria Manciu, Alex Cozmescu
+    - label:
+        en: Script
+        ro: Scenariu
+        ru: Сценарий
+      value:
+        en: Marcela Nistor
+        ro: Marcela Nistor
+        ru: Marcela Nistor
+    - label:
+        en: Dramaturgy and visual concept
+        ro: Dramaturgie și concept vizual
+        ru: Драматургия и визуальная концепция
+      value:
+        en: Maria Pyatkova (Germany)
+        ro: Maria Pyatkova (Germania)
+        ru: Maria Pyatkova (Германия)
+    - label:
+        en: Visual design
+        ro: Design vizual
+        ru: Визуальный дизайн
+      value:
+        en: Vladislav Boico
+        ro: Vladislav Boico
+        ru: Vladislav Boico
+    - label:
+        en: Music concept, sound and composers
+        ro: Concept muzical, sunet și compozitori
+        ru: Музыкальная концепция, звук и композиторы
+      value:
+        en: Dmitri Burdenko, Stan Potoku (Moldova / Ukraine)
+        ro: Dmitri Burdenko, Stan Potoku (Moldova / Ucraina)
+        ru: Dmitri Burdenko, Stan Potoku (Молдова / Украина)
+    - label:
+        en: Costumes
+        ro: Costume
+        ru: Костюмы
+      value:
+        en: Tatiana Popescu
+        ro: Tatiana Popescu
+        ru: Tatiana Popescu
+    - label:
+        en: Performers
+        ro: Interpreți
+        ru: Исполнители
+      value:
+        en: Voices Dance Company — Alexandra Soșnicova, Serghei Golovnea, Olga Braga, Arina Eremeev, Jenia Gheorghiev, David Arnaut
+        ro: Voices Dance Company — Alexandra Soșnicova, Serghei Golovnea, Olga Braga, Arina Eremeev, Jenia Gheorghiev, David Arnaut
+        ru: Voices Dance Company — Александра Сошникова, Сергей Головня, Olga Braga, Arina Eremeev, Jenia Gheorghiev, David Arnaut
 media:
   hero: light-from-the-shadow-hero-placeholder
   gallery: []
