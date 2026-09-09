@@ -1,6 +1,6 @@
 ---
-visibility: public_page
-publishing_status: ready_for_review
+visibility: internal_only
+publishing_status: archived
 program_line: theatre_performance
 filters: [performance]
 title:
