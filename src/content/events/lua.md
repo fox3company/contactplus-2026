@@ -47,6 +47,9 @@ media:
   gallery: []
 people_label: By
 people:
+  - person_id: petya-stoykova
+    display_role: performer
+    public_visibility: visible
   - person_id: dune-dance-company
     display_role: company
     public_visibility: visible
@@ -77,8 +80,8 @@ credits:
         ro: 20–35 de minute
         ru: 20–35 минут
 related:
-  events: []
-  people: [dune-dance-company]
+  events: [youth-dance-class]
+  people: [petya-stoykova, dune-dance-company]
 source_confidence: confirmed
 localization_status:
   en: ready_for_review
