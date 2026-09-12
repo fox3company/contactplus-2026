@@ -109,7 +109,6 @@ const ui = {
   included: getLocalized({ en: 'Included', ro: 'Inclus', ru: 'Включено' }, lang),
   includedInPass: getLocalized({ en: 'Included in this pass', ro: 'Inclus în acest abonament', ru: 'Включено в этот абонемент' }, lang),
   alsoIncluded: getLocalized({ en: 'Also included', ro: 'Inclus și', ru: 'Также входит' }, lang),
-  ageDetails: getLocalized({ en: 'Age guide', ro: 'Ghid de vârstă', ru: 'По возрасту' }, lang),
   viewDetails: getLocalized({ en: 'View event details', ro: 'Vezi detaliile evenimentului', ru: 'Посмотреть детали события' }, lang),
   openingCta: getLocalized({ en: 'Register for the Opening Weekend Pass', ro: 'Înscrie-te pentru abonamentul de weekend de deschidere', ru: 'Зарегистрироваться на абонемент открывающего уикенда' }, lang),
   ciChooserTitle: getLocalized({ en: 'Choose your CI format', ro: 'Alege formatul de Improvizație de contact', ru: 'Выберите формат Контактной импровизации' }, lang),
@@ -580,7 +579,6 @@ const moldovaNotice = {
             return <PassEventCard title={event.title} meta={event.meta || ui.includedInPass} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="included" status={index < 2 ? ui.familyChoiceStatus : ui.included} />;
           })}
         </div>
-        <p class="family-age-note"><strong>{ui.ageDetails}.</strong> {copy.family.age}</p>
         <section class="family-purchase-summary" aria-label={copy.pricing.label}>
         <div class="family-purchase-prices">
             <div class="family-purchase-price">
