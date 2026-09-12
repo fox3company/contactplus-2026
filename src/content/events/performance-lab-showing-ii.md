@@ -50,12 +50,18 @@ people:
   - person_id: sergey-golovnea
     display_role: facilitator
     public_visibility: visible
+  - person_id: tamara-maksymenko
+    display_role: teacher
+    public_visibility: visible
+  - person_id: sergey-semichev
+    display_role: facilitator
+    public_visibility: visible
 media:
   hero: performance-lab-showing-ii-hero-placeholder
   gallery: []
 related:
   events: [choice-as-bodily-experience]
-  people: [alexandra-soshnicova, sergey-golovnea]
+  people: [alexandra-soshnicova, sergey-golovnea, tamara-maksymenko, sergey-semichev]
 ---
 
 # Choice as Bodily Experience — Performance Lab Showing
