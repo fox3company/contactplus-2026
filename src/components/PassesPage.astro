@@ -134,6 +134,8 @@ const ui = {
   hideJamDates: getLocalized({ en: 'Hide JAM dates', ro: 'Ascunde datele JAM', ru: 'Скрыть даты JAM' }, lang),
   jamCta: getLocalized({ en: 'Register for JAMs', ro: 'Înscrie-te la JAM-uri', ru: 'Записаться на JAM-ы' }, lang),
   familyChooserTitle: getLocalized({ en: 'Choose a family or youth format', ro: 'Alege un format pentru familie sau tineri', ru: 'Выберите семейный или молодёжный формат' }, lang),
+  familyChoiceNote: getLocalized({ en: 'Choose one Parent + Child class according to the child’s age.', ro: 'Alege o singură clasă Părinte + copil potrivită vârstei copilului.', ru: 'Выберите один класс «Родитель + ребёнок» по возрасту ребёнка.' }, lang),
+  familyChoiceStatus: getLocalized({ en: 'Choose one', ro: 'Alege unul', ru: 'Выберите один' }, lang),
   includedFormat: getLocalized({ en: 'Included format', ro: 'Format inclus', ru: 'Включённый формат' }, lang),
   familyPassCta: getLocalized({ en: 'Register for the Family Pass', ro: 'Înscrie-te pentru abonamentul de familie', ru: 'Зарегистрироваться на семейный абонемент' }, lang),
   youthCta: getLocalized({ en: 'Register for Youth Dance Class', ro: 'Înscrie-te la Clasa de dans pentru adolescenți', ru: 'Зарегистрироваться на Танцевальный класс для подростков' }, lang),
@@ -571,10 +573,11 @@ const moldovaNotice = {
       <article class="family-product" id="family-panel-0" role="tabpanel" aria-labelledby="family-tab-0" data-option-panel="0">
         <header><h3>{copy.family.passTitle}</h3><p>{copy.family.includes}</p></header>
         <h4>{copy.family.includedTitle}</h4>
+        <p class="family-choice-note">{ui.familyChoiceNote}</p>
         <div class="included-event-grid included-event-grid--family">
-          {passesShared.eventSlugs.family.slice(0, 4).map((slug) => {
+          {passesShared.eventSlugs.family.slice(0, 4).map((slug, index) => {
             const event = eventLink(slug);
-            return <PassEventCard title={event.title} meta={event.meta || ui.includedInPass} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="included" status={ui.included} />;
+            return <PassEventCard title={event.title} meta={event.meta || ui.includedInPass} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="included" status={index < 2 ? ui.familyChoiceStatus : ui.included} />;
           })}
         </div>
         <p class="family-age-note"><strong>{ui.ageDetails}.</strong> {copy.family.age}</p>
@@ -2398,6 +2401,15 @@ const moldovaNotice = {
     color: var(--muted);
     font-size: .76rem;
     line-height: 1.5;
+  }
+
+  .passes-page.passes-page--system .family-choice-note {
+    max-width: 820px;
+    margin: -2px 0 16px;
+    color: var(--ink);
+    font-size: .78rem;
+    font-weight: 650;
+    line-height: 1.45;
   }
 
   .passes-page.passes-page--system .family-age-note strong {

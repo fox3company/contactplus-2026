@@ -113,8 +113,8 @@ export const passesCopy: Record<Locale, any> = {
     },
     family: {
       title: 'Family & Youth Program', intro: 'Choose family participation or the complete two-day Youth Dance Class.',
-      passTitle: 'Family Pass', includedTitle: 'Included formats', includes: 'One Family Pass includes one child and one accompanying adult, one age-appropriate Little Curiosity class, The Wild One and Family Time & Discussion.',
-      age: 'Choose Little Curiosity by the child’s age: under 6 on day 1, 6+ on day 2. The accompanying adult takes part in The Wild One.',
+      passTitle: 'Family Pass', includedTitle: 'Included formats', includes: 'One Family Pass includes one child and one accompanying adult, one Parent + Child class according to the child’s age, The Wild One and Family Time & Discussion.',
+      age: 'Choose one Parent + Child class according to the child’s age: under 6 on day 1 or 6+ on day 2. The accompanying adult takes part in The Wild One.',
       additional: 'Additional child or adult from the same family', additionalText: 'Add one child or adult from the same family at the reduced price below.',
       wild: 'The Wild One will also be sold separately as a performance ticket.',
       youthTitle: 'Youth Dance Class', youthMeta: 'Complete 2-day format', youthText: 'A two-day movement format created primarily for teenagers and young adults. It is sold only as the complete two-day format.',
@@ -237,8 +237,8 @@ export const passesCopy: Record<Locale, any> = {
     },
     family: {
       title: 'Program pentru familii și tineri', intro: 'Alege participarea în familie sau formatul complet de două zile al Clasei de dans pentru adolescenți.',
-      passTitle: 'Abonament de familie', includedTitle: 'Formate incluse', includes: 'Un abonament de familie include un copil și un adult însoțitor, o clasă Little Curiosity potrivită vârstei, Ființa sălbatică și Timp de familie și discuție.',
-      age: 'Alege Little Curiosity după vârsta copilului: sub 6 ani în ziua 1, 6+ în ziua 2. Adultul însoțitor participă la Ființa sălbatică.',
+      passTitle: 'Abonament de familie', includedTitle: 'Formate incluse', includes: 'Un abonament de familie include un copil și un adult însoțitor, o clasă Părinte + copil potrivită vârstei, Ființa sălbatică și Timp de familie și discuție.',
+      age: 'Alege o singură clasă Părinte + copil potrivită vârstei copilului: sub 6 ani în ziua 1 sau 6+ în ziua 2. Adultul însoțitor participă la Ființa sălbatică.',
       additional: 'Copil sau adult suplimentar din aceeași familie', additionalText: 'Adaugă un copil sau un adult din aceeași familie la prețul redus de mai jos.',
       wild: 'Ființa sălbatică va fi vândută și separat ca bilet la performance.',
       youthTitle: 'Clasă de dans pentru adolescenți', youthMeta: 'Format complet de 2 zile', youthText: 'Un format de mișcare de două zile creat în primul rând pentru adolescenți și tineri. Se vinde doar ca format complet de două zile.',
@@ -361,8 +361,8 @@ export const passesCopy: Record<Locale, any> = {
     },
     family: {
       title: 'Программа для семей и молодёжи', intro: 'Выберите семейное участие или полный двухдневный формат Танцевального класса для подростков.',
-      passTitle: 'Семейный абонемент', includedTitle: 'Включённые форматы', includes: 'Один семейный абонемент включает одного ребёнка и одного сопровождающего взрослого, подходящий по возрасту класс Little Curiosity, Дикое существо и Семейное время и обсуждение.',
-      age: 'Выберите Little Curiosity по возрасту ребёнка: до 6 лет в день 1, 6+ в день 2. Сопровождающий взрослый участвует в Диком существе.',
+      passTitle: 'Семейный абонемент', includedTitle: 'Включённые форматы', includes: 'Один семейный абонемент включает одного ребёнка и одного сопровождающего взрослого, один класс «Родитель + ребёнок» по возрасту ребёнка, Дикое существо и Семейное время и обсуждение.',
+      age: 'Выберите один класс «Родитель + ребёнок» по возрасту ребёнка: до 6 лет в день 1 или 6+ в день 2. Сопровождающий взрослый участвует в Диком существе.',
       additional: 'Дополнительный ребёнок или взрослый из той же семьи', additionalText: 'Добавьте одного ребёнка или взрослого из той же семьи по сниженной цене ниже.',
       wild: 'Дикое существо будет также продаваться отдельно как билет на перформанс.',
       youthTitle: 'Танцевальный класс для подростков', youthMeta: 'Полный формат · 2 дня', youthText: 'Двухдневный формат движения, созданный прежде всего для подростков и молодых взрослых. Продаётся только как полный двухдневный формат.',
