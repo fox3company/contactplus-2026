@@ -234,7 +234,9 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
           title: getLocalized(event.data.title, lang),
           category: category || event.data.program_line,
           format,
-          dateLines: getEventDateLines(event),
+          dateLines: event.data.program_line === 'jam' && dateLabel
+            ? [getDayRangeLabel(dateLabel)]
+            : getEventDateLines(event),
           time: timeDisplay || event.data.schedule.time_display,
           place: firstPlace?.name || location?.name || locationRef || '',
           placeAddress: firstPlace?.address || location?.address || '',
