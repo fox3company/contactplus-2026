@@ -4,9 +4,9 @@ publishing_status: working
 program_line: family_youth
 filters: [family, youth]
 title:
-  en: "Parent + Child (<6)"
-  ro: "Părinte + copil (<6)"
-  ru: "Родитель + ребёнок (до 6 лет)"
+  en: "Little Curiosity: Parent + Child (<6)"
+  ro: "Mica curiozitate: Părinte + copil (<6)"
+  ru: "Маленькое любопытство: Родитель + ребёнок (до 6 лет)"
 meta:
   category:
     en: Family & Youth class
@@ -65,4 +65,4 @@ related:
   people: [olek-wojcik, laura-vlad]
 ---
 
-# Parent + Child (<6)
+# Little Curiosity: Parent + Child (<6)
