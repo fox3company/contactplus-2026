@@ -243,7 +243,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
           placeHref: firstPlace?.href || location?.href || '',
           places,
           people,
-          description: getLocalized(event.data.body, lang) || getLocalized(event.data.summary, lang),
+          description: getLocalized(event.data.detail_body, lang) || getLocalized(event.data.summary, lang),
           focusLabel,
           focus,
           fullPageHref: isPublicDetailEvent(event) ? `/${lang}/program/${event.slug}` : '',

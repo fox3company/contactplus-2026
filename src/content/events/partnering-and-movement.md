@@ -16,6 +16,10 @@ summary:
   en: A partnering class exploring spirals, momentum, trust and communication between two bodies.
   ro: Un curs de parteneriat care explorează spiralele, impulsul, încrederea și comunicarea dintre două corpuri.
   ru: Класс партнёрского движения, исследующий спирали, импульс, доверие и коммуникацию между двумя телами.
+detail_body:
+  en: A partnering class exploring spirals, momentum, weight and trust through guided exercises, improvisation and structured movement material.
+  ro: Un curs de parteneriat care explorează spiralele, impulsul, greutatea și încrederea prin exerciții ghidate, improvizație și material de mișcare structurat.
+  ru: Класс партнёрского движения, исследующий спирали, импульс, вес и доверие через направленные упражнения, импровизацию и структурированный двигательный материал.
 focus_label:
   en: Class focus
   ro: Focusul clasei

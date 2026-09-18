@@ -144,7 +144,7 @@ export function buildEventDetails(
       placeHref: firstPlace?.href || '',
       places,
       people: eventPeople,
-      description: getLocalized(event.data.body, lang)
+      description: getLocalized(event.data.detail_body, lang)
         || getLocalized(event.data.summary, lang),
       focusLabel: getLocalized(event.data.focus_label, lang),
       focus: getLocalized(event.data.focus, lang),

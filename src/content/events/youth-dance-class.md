@@ -16,6 +16,10 @@ summary:
   en: A contemporary dance class for young movers exploring flow, weight, momentum and deep listening through movement.
   ro: Un curs de dans contemporan pentru tineri, care explorează fluxul, greutatea, impulsul și ascultarea profundă prin mișcare.
   ru: Класс современного танца для молодых участников, исследующий поток, вес, импульс и глубокое слушание через движение.
+detail_body:
+  en: A contemporary dance class for young movers exploring gravity, weight, momentum and listening through simple movement tasks, choreography and improvisation.
+  ro: Un curs de dans contemporan pentru tineri, care explorează gravitația, greutatea, impulsul și ascultarea prin sarcini de mișcare, coregrafie și improvizație.
+  ru: Класс современного танца для молодых участников, исследующий гравитацию, вес, импульс и слушание через двигательные задачи, хореографию и импровизацию.
 focus_label:
   en: Class focus
   ro: Focusul clasei

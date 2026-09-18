@@ -58,6 +58,7 @@ const events = defineCollection({
       public_visibility: z.enum(['visible', 'hidden', 'credits_only']),
     })).optional(),
     summary: localizedText,
+    detail_body: localizedText.optional(),
     full_body: localizedText.optional(),
     focus_label: localizedText.optional(),
     focus: localizedText.optional(),
