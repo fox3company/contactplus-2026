@@ -23,7 +23,7 @@ const events = await getCollection('events');
 const people = await getCollection('people');
 const eventsBySlug = new Map(events.map((event) => [event.slug, event]));
 const eventDetails = buildEventDetails(events, people, lang);
-const youthEvent = eventLink('youth-dance-class');
+const youthEvents = ['youth-dance-class', 'partnering-and-movement'].map(eventLink);
 const jamDetailKeys = [
   'first-meetings-jam',
   'welcoming-open-circle-jam',
@@ -562,11 +562,11 @@ const moldovaNotice = {
       <div class="choice-prompt"><span>01</span><h3>{ui.familyChooserTitle}</h3></div>
       <div class="choice-tabs choice-tabs--family" role="tablist" aria-label={ui.familyChooserTitle}>
         <button type="button" role="tab" id="family-tab-0" aria-controls="family-panel-0" aria-selected="true" tabindex="0" data-option-tab="0"><strong>{copy.family.passTitle}</strong><small>€65</small></button>
-        <button type="button" role="tab" id="family-tab-1" aria-controls="family-panel-1" aria-selected="false" tabindex="-1" data-option-tab="1"><strong>{youthEvent.title}</strong><small>€50</small></button>
+        <button type="button" role="tab" id="family-tab-1" aria-controls="family-panel-1" aria-selected="false" tabindex="-1" data-option-tab="1"><strong>{copy.family.youthTitle}</strong><small>€50</small></button>
       </div>
       <select class="choice-select" data-option-select aria-label={ui.familyChooserTitle}>
         <option value="0">{copy.family.passTitle}</option>
-        <option value="1">{youthEvent.title}</option>
+        <option value="1">{copy.family.youthTitle}</option>
       </select>
       <div class="family-products">
       <article class="family-product" id="family-panel-0" role="tabpanel" aria-labelledby="family-tab-0" data-option-panel="0">
@@ -601,8 +601,8 @@ const moldovaNotice = {
       <article class="family-product" id="family-panel-1" role="tabpanel" aria-labelledby="family-tab-1" data-option-panel="1" hidden>
         <header><h3>{copy.family.youthTitle}</h3><p>{copy.family.youthText}</p></header>
         <h4>{ui.includedFormat}</h4>
-        <div class="event-choice-grid event-choice-grid--compact event-choice-grid--single">
-          <PassEventCard title={youthEvent.title} meta={copy.family.youthMeta} slug={youthEvent.slug} accent={youthEvent.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />
+        <div class="event-choice-grid event-choice-grid--compact">
+          {youthEvents.map((event) => <PassEventCard title={event.title} meta={copy.family.youthMeta} slug={event.slug} accent={event.accent} viewDetailsLabel={ui.viewDetails} state="standalone" />)}
         </div>
         <section class="family-purchase-summary" aria-label={copy.pricing.label}>
         <div class="family-purchase-prices">
