@@ -30,6 +30,8 @@ festival_events:
     relation: teacher
   - event_id: little-curiosity-family-kids-6
     relation: teacher
+  - event_id: explosive-movement
+    relation: teacher
   - event_id: risk-play-flight
     relation: teacher
   - event_id: the-wild-one
