@@ -44,11 +44,11 @@ localization_status:
   ru: ready_for_review
 schedule:
   date_display: "Sep 27"
-  time_display: "10:00 — 11:30"
+  time_display: "10:00 — 12:00"
 occurrences:
   - date: "2026-09-27"
     date_label: "Sep 27"
-    time_display: "10:00 — 11:30"
+    time_display: "10:00 — 12:00"
     sort_start: "2026-09-27T10:00:00"
 location_ref: national-choreography-college
 people_label: With
