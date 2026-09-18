@@ -43,13 +43,9 @@ localization_status:
   ro: native_edit_needed
   ru: ready_for_review
 schedule:
-  date_display: "Sep 26 — Sep 27"
+  date_display: "Sep 27"
   time_display: "10:00 — 11:30"
 occurrences:
-  - date: "2026-09-26"
-    date_label: "Sep 26"
-    time_display: "10:00 — 11:30"
-    sort_start: "2026-09-26T10:00:00"
   - date: "2026-09-27"
     date_label: "Sep 27"
     time_display: "10:00 — 11:30"
@@ -64,7 +60,7 @@ media:
   hero: youth-dance-class-hero-placeholder
   gallery: []
 related:
-  events: [little-curiosity-family-baby-6, little-curiosity-family-kids-6, family-time-discussion, lua]
+  events: [partnering-and-movement, little-curiosity-family-baby-6, little-curiosity-family-kids-6, family-time-discussion, lua]
   people: [petya-stoykova]
 ---
 
