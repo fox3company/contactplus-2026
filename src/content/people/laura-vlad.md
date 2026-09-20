@@ -42,7 +42,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/vlad.laura/"
 media:
-  portrait: laura-vlad-portrait-placeholder
+  portrait: /media/people/laura-vlad.jpg
   gallery: []
 ---
 

@@ -40,6 +40,6 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/alexandrasoshnicova/"
 media:
-  portrait: alexandra-soshnicova-portrait-placeholder
+  portrait: /media/people/alexandra-soshnicova.jpg
   gallery: []
 ---

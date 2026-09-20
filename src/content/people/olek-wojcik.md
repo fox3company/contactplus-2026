@@ -44,7 +44,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/pirateoli/"
 media:
-  portrait: olek-wojcik-portrait-placeholder
+  portrait: /media/people/olek-wojcik.png
   gallery: []
 ---
 

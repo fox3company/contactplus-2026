@@ -33,7 +33,7 @@ country_display: "Sweden / Netherlands"
 links:
   instagram: "https://www.instagram.com/lavadansproduktion/"
 media:
-  portrait: benno-voorham-portrait-placeholder
+  portrait: /media/people/benno-voorham.jpg
   gallery: []
 festival_events:
   - event_id: seeing-and-being-seen

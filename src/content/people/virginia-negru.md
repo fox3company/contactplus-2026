@@ -36,7 +36,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/virginia.negru/"
 media:
-  portrait: virginia-negru-portrait-placeholder
+  portrait: /media/people/virginia-negru.jpg
   gallery: []
 ---
 

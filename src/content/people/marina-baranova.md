@@ -36,7 +36,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/mrsmbaranova/"
 media:
-  portrait: marina-baranova-portrait-placeholder
+  portrait: /media/people/marina-baranova.jpg
   gallery: []
 ---
 

@@ -37,7 +37,7 @@ links:
   instagram: "https://www.instagram.com/makinen_mirva/"
   website: "https://www.mirvamakinen.com/"
 media:
-  portrait: mirva-makinen-portrait-placeholder
+  portrait: /media/people/mirva-makinen.jpg
   gallery: []
 ---
 

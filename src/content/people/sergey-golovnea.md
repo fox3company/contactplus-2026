@@ -40,6 +40,6 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/scotchgolovnea/"
 media:
-  portrait: sergey-golovnea-portrait-placeholder
+  portrait: /media/people/sergey-golovnea.jpg
   gallery: []
 ---

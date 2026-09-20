@@ -36,7 +36,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/yurodivy/"
 media:
-  portrait: daniel-kearns-portrait-placeholder
+  portrait: /media/people/daniel-kearns.jpg
   gallery: []
 ---
 

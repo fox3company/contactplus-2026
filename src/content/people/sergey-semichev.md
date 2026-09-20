@@ -38,7 +38,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/semichev_art/"
 media:
-  portrait: sergey-semichev-portrait-placeholder
+  portrait: /media/people/sergey-semichev.jpg
   gallery: []
 ---
 

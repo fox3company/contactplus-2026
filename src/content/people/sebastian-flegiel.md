@@ -36,7 +36,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/sebastianflegiel/"
 media:
-  portrait: sebastian-flegiel-portrait-placeholder
+  portrait: /media/people/sebastian-flegiel.jpg
   gallery: []
 ---
 

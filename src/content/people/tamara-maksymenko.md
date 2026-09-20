@@ -36,7 +36,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/tamara_maksymenko_/"
 media:
-  portrait: tamara-maksymenko-portrait-placeholder
+  portrait: /media/people/tamara-maksymenko.jpg
   gallery: []
 ---
 

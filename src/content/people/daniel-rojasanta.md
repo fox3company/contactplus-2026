@@ -38,7 +38,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/danielrojasanta/"
 media:
-  portrait: daniel-rojasanta-portrait-placeholder
+  portrait: /media/people/daniel-rojasanta.jpg
   gallery: []
 ---
 
