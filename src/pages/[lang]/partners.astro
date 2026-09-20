@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
 import { isLocale } from '../../lib/locales';
 import { partnerLogos, partnersCopy } from '../../lib/partners';
 
@@ -14,79 +15,86 @@ const copy = partnersCopy[lang];
 
 <BaseLayout lang={lang} title={`${copy.title} · Contact+ 2026`} description={copy.lead}>
   <main class="partners-page">
-    <header class="partners-hero">
-      <p class="partners-eyebrow">Contact+ 2026</p>
-      <h1>{copy.title}</h1>
-      <p class="partners-lead">{copy.lead}</p>
-    </header>
+    <PageHero title={copy.title} description={copy.lead} />
 
-    <section class="partners-section partners-section--support" aria-labelledby="support-title">
+    <section class="partners-section" aria-labelledby="support-title">
       <div class="partners-section__heading">
-        <p class="partners-index">01</p>
         <h2 id="support-title">{copy.supportTitle}</h2>
       </div>
-      <div class="partners-logos partners-logos--support">
-        {partnerLogos.support.map((logo) => (
-          <div class="partner-logo" class:list={[logo.className]}>
-            <img src={logo.src} alt={logo.name} loading="lazy" />
-          </div>
+      <div class="partners-list partners-list--support">
+        {partnerLogos.support.map((partner) => (
+          <a class:list={['partner-card', partner.className]} href={partner.href} rel="noreferrer noopener" target="_blank">
+            <div class="partner-card__mark" aria-hidden="true">
+              <img src={partner.src} alt="" loading="lazy" />
+            </div>
+            <div class="partner-card__content">
+              <h3>{partner.name[lang]}</h3>
+              <p>{partner.role[lang]}</p>
+              <span>{copy.visitSite} <span aria-hidden="true">↗</span></span>
+            </div>
+          </a>
         ))}
       </div>
     </section>
 
     <section class="partners-section" aria-labelledby="partners-title">
       <div class="partners-section__heading">
-        <p class="partners-index">02</p>
         <h2 id="partners-title">{copy.partnersTitle}</h2>
       </div>
-      <div class="partners-logos partners-logos--partners">
-        {partnerLogos.partners.map((logo) => (
-          <div class="partner-logo" class:list={[logo.className]}>
-            <img src={logo.src} alt={logo.name} loading="lazy" />
-          </div>
+      <div class="partners-list partners-list--partners">
+        {partnerLogos.partners.map((partner) => (
+          <a class:list={['partner-card', partner.className]} href={partner.href} rel="noreferrer noopener" target="_blank">
+            <div class="partner-card__mark" aria-hidden="true">
+              <img src={partner.src} alt="" loading="lazy" />
+            </div>
+            <div class="partner-card__content">
+              <h3>{partner.name[lang]}</h3>
+              <p>{partner.role[lang]}</p>
+              <span>{copy.visitSite} <span aria-hidden="true">↗</span></span>
+            </div>
+          </a>
         ))}
       </div>
     </section>
 
-    <section class="partners-closing">
-      <h2>{copy.closingTitle}</h2>
-      <p>{copy.closingText}</p>
-    </section>
   </main>
 </BaseLayout>
 
 <style>
-  .partners-page { width: min(100% - 48px, 1120px); margin: 0 auto; padding: clamp(82px, 11vw, 152px) 0 132px; color: var(--ink); }
-  .partners-hero { max-width: 800px; margin-bottom: clamp(88px, 12vw, 156px); }
-  .partners-eyebrow, .partners-index { margin: 0 0 18px; color: var(--muted); font: 600 .72rem/1.2 var(--sans); letter-spacing: .13em; text-transform: uppercase; }
-  .partners-hero h1 { margin: 0; font: 400 clamp(3.8rem, 10vw, 8.6rem)/.9 var(--serif); letter-spacing: 0; }
-  .partners-lead { max-width: 680px; margin: 34px 0 0; color: var(--muted); font: 400 clamp(1.15rem, 2vw, 1.65rem)/1.35 var(--sans); }
-  .partners-section { display: grid; grid-template-columns: minmax(220px, .8fr) 1.8fr; gap: 48px; padding: 34px 0 52px; border-top: 1px solid var(--line); }
-  .partners-section__heading h2 { max-width: 240px; margin: 0; font: 400 clamp(2rem, 4vw, 3.5rem)/.95 var(--serif); }
-  .partners-logos { display: grid; align-items: center; gap: 20px; }
-  .partners-logos--support { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .partners-logos--partners { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .partner-logo { display: grid; place-items: center; min-height: 150px; padding: 26px; background: #f4f1eb; }
-  .partner-logo img { display: block; width: 100%; height: 96px; object-fit: contain; mix-blend-mode: multiply; }
-  .partner-logo--ministry img { height: 92px; }
-  .partner-logo--bank img { height: 84px; }
-  .partner-logo--nod img, .partner-logo--artcor img { height: 76px; }
-  .partner-logo--om img, .partner-logo--letto img { height: 82px; }
-  .partners-closing { display: grid; grid-template-columns: .8fr 1.8fr; gap: 48px; margin-top: 76px; padding-top: 34px; border-top: 1px solid var(--line); }
-  .partners-closing h2 { max-width: 420px; margin: 0; font: 400 clamp(2.2rem, 4vw, 4rem)/.95 var(--serif); }
-  .partners-closing p { max-width: 620px; margin: 0; color: var(--muted); font: 400 1.05rem/1.55 var(--sans); }
-  @media (max-width: 720px) {
-    .partners-page { width: min(100% - 30px, 620px); padding-top: 54px; }
-    .partners-hero { margin-bottom: 80px; }
-    .partners-hero h1 { font-size: clamp(3.6rem, 18vw, 6rem); }
-    .partners-section, .partners-closing { display: block; }
-    .partners-section { padding: 26px 0 38px; }
-    .partners-section__heading h2 { max-width: none; }
-    .partners-logos--support { margin-top: 28px; }
-    .partners-logos--partners { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 28px; }
-    .partner-logo { min-height: 124px; padding: 18px; }
-    .partner-logo img { height: 70px; }
-    .partners-closing { margin-top: 54px; }
-    .partners-closing p { margin-top: 24px; }
+  .partners-page { width: min(100% - 48px, 1040px); margin: 0 auto; padding: 0 0 clamp(72px, 9vw, 120px); color: var(--ink); }
+  .partners-section { padding: clamp(42px, 5vw, 64px) 0 clamp(58px, 7vw, 88px); border-top: 1px solid var(--line); }
+  .partners-section__heading { margin-bottom: clamp(32px, 4vw, 46px); }
+  .partners-section__heading h2 { margin: 0; font: 400 clamp(2rem, 3vw, 2.8rem)/1.04 var(--font-serif); }
+  .partners-list { display: grid; }
+  .partners-list--support { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 7vw, 104px); }
+  .partners-list--partners { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(46px, 5vw, 70px) clamp(40px, 7vw, 104px); }
+  .partner-card { display: block; min-width: 0; color: inherit; text-decoration: none; transition: color .18s ease; }
+  .partner-card__mark { display: flex; align-items: center; justify-content: flex-start; height: 112px; margin-bottom: 20px; overflow: hidden; }
+  .partner-card__mark img { display: block; max-width: 100%; width: auto; height: 70px; object-fit: contain; object-position: left center; }
+  .partner-card--ministry .partner-card__mark img { height: 74px; }
+  .partner-card--bank .partner-card__mark img { height: 54px; }
+  .partner-card--nod .partner-card__mark img { width: 164px; height: 88px; }
+  .partner-card--artcor .partner-card__mark img { width: 210px; height: 76px; }
+  .partner-card--om .partner-card__mark img { width: 142px; height: 74px; filter: invert(1); }
+  .partner-card--letto .partner-card__mark img { width: 138px; height: 76px; mix-blend-mode: multiply; }
+  .partner-card__content { display: grid; gap: 7px; max-width: 31ch; }
+  .partner-card__content h3 { margin: 0; font: 400 clamp(1.22rem, 1.65vw, 1.48rem)/1.1 var(--font-serif); }
+  .partner-card__content p { margin: 0; color: var(--muted); font: 400 .92rem/1.45 var(--font-sans); }
+  .partner-card__content > span { margin-top: 8px; color: var(--accent); font: 650 .8rem/1.2 var(--font-sans); letter-spacing: .03em; }
+  .partner-card:hover h3, .partner-card:focus-visible h3 { color: var(--accent); }
+  .partner-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+  @media (max-width: 760px) {
+    .partners-page { width: min(100% - 30px, 620px); padding-bottom: 90px; }
+    .partners-section { padding: 38px 0 56px; }
+    .partners-section__heading { margin-bottom: 30px; }
+    .partners-list--support, .partners-list--partners { grid-template-columns: 1fr; }
+    .partners-list--support, .partners-list--partners { gap: 42px; }
+    .partner-card__mark { height: 94px; margin-bottom: 16px; }
+    .partner-card__mark img { height: 60px; }
+    .partner-card--nod .partner-card__mark img { width: 132px; height: 70px; }
+    .partner-card--bank .partner-card__mark img { height: 50px; }
+    .partner-card--artcor .partner-card__mark img { width: 174px; height: 64px; }
+    .partner-card--om .partner-card__mark img { width: 118px; height: 62px; }
+    .partner-card--letto .partner-card__mark img { width: 118px; height: 66px; }
   }
 </style>
