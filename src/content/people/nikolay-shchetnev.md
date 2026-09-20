@@ -36,7 +36,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/nikolayshchetnev/"
 media:
-  portrait: nikolay-shchetnev-portrait-placeholder
+  portrait: /media/people/nikolay-shchetnev.jpeg
   gallery: []
 ---
 

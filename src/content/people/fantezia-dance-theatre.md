@@ -28,7 +28,7 @@ localization_status:
   ro: native_edit_needed
   ru: ready_for_review
 links:
-  instagram: "https://www.instagram.com/fantezia_dance/"
+  instagram: "https://www.instagram.com/fantezia_theater/"
 media:
   portrait: /media/people/fantezia-dance-theatre.jpg
   gallery: []
