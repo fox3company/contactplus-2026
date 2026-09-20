@@ -178,11 +178,12 @@ const artistDetails = Object.fromEntries(people.map((person) => {
         <h3>{detailLabels.events}</h3>
         <ul data-artist-detail-events></ul>
       </section>
-      <nav class="detail-social" data-artist-detail-social-wrap hidden aria-label={detailLabels.links}>
-        <span>{detailLabels.links}</span>
-        <div data-artist-detail-social></div>
-      </nav>
-      <a class="detail-full-link" href="#" data-artist-detail-full-page>{detailLabels.fullPage}</a>
+      <div class="detail-actions">
+        <nav class="detail-social" data-artist-detail-social-wrap hidden aria-label={detailLabels.links}>
+          <div data-artist-detail-social></div>
+        </nav>
+        <a class="detail-full-link" href="#" data-artist-detail-full-page>{detailLabels.fullPage}</a>
+      </div>
     </aside>
   </main>
 </BaseLayout>
@@ -640,28 +641,18 @@ const artistDetails = Object.fromEntries(people.map((person) => {
   }
 
   .detail-social {
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 8px 16px;
-    margin-top: -2px;
-  }
-
-  .detail-social > span {
-    color: var(--soft);
-    font-size: 0.78rem;
-    font-weight: 500;
+    display: block;
   }
 
   .detail-social > div {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px 16px;
+    gap: 5px 16px;
   }
 
   .detail-social a {
-    color: color-mix(in srgb, var(--ink) 58%, var(--muted));
-    font-size: 0.82rem;
+    color: var(--soft);
+    font-size: 0.78rem;
     font-weight: 500;
     text-decoration: none;
   }
@@ -685,6 +676,13 @@ const artistDetails = Object.fromEntries(people.map((person) => {
     font-weight: 600;
     letter-spacing: 0.02em;
     text-decoration: none;
+  }
+
+  .detail-actions {
+    display: grid;
+    gap: 5px;
+    align-self: flex-start;
+    margin-top: -4px;
   }
 
   .detail-full-link:hover {

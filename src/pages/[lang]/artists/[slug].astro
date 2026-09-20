@@ -27,7 +27,7 @@ const profileParagraphs = [
 const country = getLocalizedCountryDisplay(person.data.country_display, lang);
 const entityLabel = getFestivalRoleLabel(person, lang);
 const socialLinks = getPersonSocialLinks(person);
-const socialLinksLabel = getLocalized({ en: 'Social links', ro: 'Linkuri sociale', ru: 'Ссылки на соцсети' }, lang);
+const socialLinksLabel = getLocalized({ en: 'Elsewhere', ro: 'În afara festivalului', ru: 'Вне фестиваля' }, lang);
 const credits = getLocalized(person.data.credits_note, lang);
 const creditsLabel = getLocalized({ en: 'Credits', ro: 'Credite', ru: 'Авторы и команда' }, lang);
 const eventsLabel = getLocalized({ en: 'Festival events', ro: 'Evenimente în festival', ru: 'События фестиваля' }, lang);
@@ -186,9 +186,11 @@ const linkedCreditParts = credits && creditTitlePattern
 
   .artist-social__label {
     color: var(--soft);
-    font-size: 0.78rem;
-    font-weight: 500;
-    line-height: 1.35;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    line-height: 1.2;
+    text-transform: uppercase;
   }
 
   .artist-social__links {
@@ -198,9 +200,9 @@ const linkedCreditParts = credits && creditTitlePattern
   }
 
   .artist-social a {
-    color: color-mix(in srgb, var(--ink) 58%, var(--muted));
-    font-size: 0.82rem;
-    font-weight: 500;
+    color: var(--soft);
+    font-size: 0.86rem;
+    font-weight: 600;
     text-decoration: none;
   }
 
