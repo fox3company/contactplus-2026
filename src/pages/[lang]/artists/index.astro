@@ -180,6 +180,7 @@ const artistDetails = Object.fromEntries(people.map((person) => {
       </section>
       <div class="detail-actions">
         <nav class="detail-social" data-artist-detail-social-wrap hidden aria-label={detailLabels.links}>
+          <span>{detailLabels.links}</span>
           <div data-artist-detail-social></div>
         </nav>
         <a class="detail-full-link" href="#" data-artist-detail-full-page>{detailLabels.fullPage}</a>
@@ -641,19 +642,29 @@ const artistDetails = Object.fromEntries(people.map((person) => {
   }
 
   .detail-social {
-    display: block;
+    display: grid;
+    gap: 8px;
+  }
+
+  .detail-social > span {
+    color: var(--soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    line-height: 1.2;
+    text-transform: uppercase;
   }
 
   .detail-social > div {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px 14px;
+    gap: 6px 18px;
   }
 
   .detail-social a {
-    color: color-mix(in srgb, var(--muted) 82%, var(--soft));
-    font-size: 0.72rem;
-    font-weight: 450;
+    color: var(--soft);
+    font-size: 0.78rem;
+    font-weight: 500;
     letter-spacing: 0;
     text-decoration: none;
   }
