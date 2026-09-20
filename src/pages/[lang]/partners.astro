@@ -61,7 +61,7 @@ const copy = partnersCopy[lang];
 </BaseLayout>
 
 <style>
-  .partners-page { width: min(100% - 48px, 1040px); margin: 0 auto; padding: 0 0 clamp(72px, 9vw, 120px); color: var(--ink); }
+  .partners-page { width: min(100% - 48px, 1040px); margin: 0 auto; padding: clamp(64px, 7vw, 104px) 0 clamp(72px, 9vw, 120px); color: var(--ink); }
   .partners-section { padding: clamp(42px, 5vw, 64px) 0 clamp(58px, 7vw, 88px); border-top: 1px solid var(--line); }
   .partners-section__heading { margin-bottom: clamp(32px, 4vw, 46px); }
   .partners-section__heading h2 { margin: 0; font: 400 clamp(2rem, 3vw, 2.8rem)/1.04 var(--font-serif); }
@@ -84,7 +84,7 @@ const copy = partnersCopy[lang];
   .partner-card:hover h3, .partner-card:focus-visible h3 { color: var(--accent); }
   .partner-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
   @media (max-width: 760px) {
-    .partners-page { width: min(100% - 30px, 620px); padding-bottom: 90px; }
+    .partners-page { width: min(100% - 30px, 620px); padding-top: 48px; padding-bottom: 90px; }
     .partners-section { padding: 38px 0 56px; }
     .partners-section__heading { margin-bottom: 30px; }
     .partners-list--support, .partners-list--partners { grid-template-columns: 1fr; }
