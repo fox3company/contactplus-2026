@@ -1,5 +1,25 @@
 import { getLocalized, type Locale } from './locales';
 
+export type PersonSocialLink = {
+  key: string;
+  label: string;
+  href: string;
+};
+
+const socialLinkLabels: Record<string, string> = {
+  instagram: 'Instagram',
+  facebook: 'Facebook',
+  youtube: 'YouTube',
+  tiktok: 'TikTok',
+  website: 'Website',
+};
+
+export function getPersonSocialLinks(person: { data: { links?: Record<string, unknown> } }): PersonSocialLink[] {
+  return Object.entries(person.data.links || {})
+    .filter(([key, href]) => socialLinkLabels[key] && typeof href === 'string' && /^https?:\/\//.test(href))
+    .map(([key, href]) => ({ key, label: socialLinkLabels[key], href: href as string }));
+}
+
 type PersonLike = {
   data: {
     entity_type: string;

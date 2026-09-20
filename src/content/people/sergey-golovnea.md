@@ -39,6 +39,7 @@ localization_status:
   ru: ready_for_review
 links:
   instagram: "https://www.instagram.com/scotchgolovnea/"
+  facebook: "https://www.facebook.com/golovnea"
 media:
   portrait: /media/people/sergey-golovnea.jpg
   gallery: []

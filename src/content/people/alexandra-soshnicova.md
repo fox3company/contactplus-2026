@@ -39,6 +39,7 @@ localization_status:
   ru: ready_for_review
 links:
   instagram: "https://www.instagram.com/alexandrasoshnicova/"
+  facebook: "https://www.facebook.com/alexandra.soshnicova"
 media:
   portrait: /media/people/alexandra-soshnicova.jpg
   gallery: []

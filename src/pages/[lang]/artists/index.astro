@@ -5,7 +5,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHero from '../../../components/PageHero.astro';
 import { isPublicPerson } from '../../../lib/content';
 import { getLocalized, getLocalizedCountryDisplay, isLocale } from '../../../lib/locales';
-import { getFestivalRelationSummary, getFestivalRoleLabel } from '../../../lib/people';
+import { getFestivalRelationSummary, getFestivalRoleLabel, getPersonSocialLinks } from '../../../lib/people';
 import { getProgramFilterGroup } from '../../../lib/program';
 
 export async function getStaticPaths() {
@@ -30,6 +30,7 @@ const artistNavLabel = getLocalized({ en: 'Teachers and artists sections', ro: '
 const detailLabels = {
   close: getLocalized({ en: 'Close', ro: 'Închide', ru: 'Закрыть' }, lang),
   events: getLocalized({ en: 'Festival events', ro: 'Evenimente în festival', ru: 'События фестиваля' }, lang),
+  links: getLocalized({ en: 'Elsewhere', ro: 'În afara festivalului', ru: 'Вне фестиваля' }, lang),
   fullPage: getLocalized({ en: 'Open full artist page', ro: 'Deschide pagina completă', ru: 'Открыть полную страницу' }, lang),
   profile: getLocalized({ en: 'Profile', ro: 'Profil', ru: 'Профиль' }, lang),
 };
@@ -128,6 +129,7 @@ const artistDetails = Object.fromEntries(people.map((person) => {
       eventCount: getPublicEventCount(person),
       relationSummary: getPublicRelationSummary(person),
       events: festivalEvents,
+      socialLinks: getPersonSocialLinks(person),
       fullPageHref: `/${lang}/artists/${person.slug}`,
       accent: getPersonGroups(person)[0],
     },
@@ -176,6 +178,10 @@ const artistDetails = Object.fromEntries(people.map((person) => {
         <h3>{detailLabels.events}</h3>
         <ul data-artist-detail-events></ul>
       </section>
+      <nav class="detail-social" data-artist-detail-social-wrap hidden aria-label={detailLabels.links}>
+        <span>{detailLabels.links}</span>
+        <div data-artist-detail-social></div>
+      </nav>
       <a class="detail-full-link" href="#" data-artist-detail-full-page>{detailLabels.fullPage}</a>
     </aside>
   </main>
@@ -191,6 +197,8 @@ const artistDetails = Object.fromEntries(people.map((person) => {
     const detailPanel = document.querySelector('[data-artist-detail-panel]');
     const detailClose = document.querySelector('[data-artist-detail-close]');
     const detailFullPage = document.querySelector('[data-artist-detail-full-page]');
+    const detailSocialWrap = document.querySelector('[data-artist-detail-social-wrap]');
+    const detailSocial = document.querySelector('[data-artist-detail-social]');
     let lastFocusedCard = null;
 
     function setText(selector, value) {
@@ -249,6 +257,19 @@ const artistDetails = Object.fromEntries(people.map((person) => {
           eventsList.append(item);
         });
         eventsWrap.hidden = !(data.events || []).length;
+      }
+
+      if (detailSocialWrap && detailSocial) {
+        detailSocial.innerHTML = '';
+        (data.socialLinks || []).forEach((social) => {
+          const link = document.createElement('a');
+          link.href = social.href;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.textContent = `${social.label} ↗`;
+          detailSocial.append(link);
+        });
+        detailSocialWrap.hidden = !(data.socialLinks || []).length;
       }
 
       if (detailFullPage) detailFullPage.href = data.fullPageHref;
@@ -616,6 +637,42 @@ const artistDetails = Object.fromEntries(people.map((person) => {
 
   .detail-events :global(.detail-event--credit span) {
     color: color-mix(in srgb, var(--program-accent, var(--artist-accent)) 34%, var(--soft));
+  }
+
+  .detail-social {
+    display: grid;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .detail-social > span {
+    color: var(--soft);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.095em;
+    text-transform: uppercase;
+  }
+
+  .detail-social > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+  }
+
+  .detail-social a {
+    color: var(--soft);
+    font-size: 0.86rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .detail-social a:hover,
+  .detail-social a:focus-visible {
+    color: var(--artist-accent);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 0.24em;
   }
 
   .detail-full-link {
