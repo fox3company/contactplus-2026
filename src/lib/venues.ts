@@ -77,6 +77,7 @@ export const venuesCopy: Record<Locale, {
   listTitle: string;
   listText: string;
   orderNote: string;
+  browseVenues: string;
   firstActivity: string;
   addressLabel: string;
   directionsAction: string;
@@ -95,6 +96,7 @@ export const venuesCopy: Record<Locale, {
     listTitle: 'Places in the festival rhythm',
     listText: 'Each venue below links to its exact location and shows the program currently scheduled there.',
     orderNote: 'Venues are listed by their first festival activity.',
+    browseVenues: 'Browse venues',
     firstActivity: 'First activity',
     addressLabel: 'Address',
     directionsAction: 'Open in Google Maps',
@@ -113,6 +115,7 @@ export const venuesCopy: Record<Locale, {
     listTitle: 'Locuri în ritmul festivalului',
     listText: 'Fiecare locație de mai jos are un link către punctul exact și arată programul planificat acolo.',
     orderNote: 'Locațiile sunt listate după prima activitate a festivalului.',
+    browseVenues: 'Explorează locațiile',
     firstActivity: 'Prima activitate',
     addressLabel: 'Adresă',
     directionsAction: 'Deschide în Google Maps',
@@ -131,6 +134,7 @@ export const venuesCopy: Record<Locale, {
     listTitle: 'Места в ритме фестиваля',
     listText: 'У каждой площадки ниже есть точная геометка и актуальная программа, которая проходит здесь.',
     orderNote: 'Площадки расположены по дате первого события фестиваля.',
+    browseVenues: 'Выбрать площадку',
     firstActivity: 'Первое событие',
     addressLabel: 'Адрес',
     directionsAction: 'Открыть в Google Maps',
