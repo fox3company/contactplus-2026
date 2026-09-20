@@ -36,7 +36,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/zitluhina/"
 media:
-  portrait: olga-zitluhina-portrait-placeholder
+  portrait: /media/people/olga-zitluhina.jpg
   gallery: []
 ---
 
