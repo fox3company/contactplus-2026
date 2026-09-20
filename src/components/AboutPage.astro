@@ -234,7 +234,7 @@ const organiserGroups = [
     <div class="about-who__media"><img src={aboutMedia.who[0]} alt="A large group sharing movement in an open space" width="2048" height="1367" loading="lazy" decoding="async" /></div>
   </section>
 
-  <section class="about-section about-section--city" aria-labelledby="about-city"><img src={aboutMedia.city} alt="People moving together outdoors in Chișinău" width="2048" height="1367" loading="lazy" decoding="async" /><div><h2 id="about-city">{copy.city.title}</h2><p class="about-section__lead">{copy.city.text}</p></div></section>
+  <section class="about-section about-section--city" aria-labelledby="about-city"><img src={aboutMedia.city} alt="People moving together outdoors in Chișinău" width="2048" height="1367" loading="lazy" decoding="async" /><div><h2 id="about-city">{copy.city.title}</h2><p class="about-section__lead">{copy.city.text}</p><a class="about-action about-city__venues-link" href={`/${lang}/venues`}>{copy.city.venues} <span aria-hidden="true">→</span></a></div></section>
 
   <section class="about-section about-section--organisers" aria-labelledby="about-organisers">
     <div class="about-organisers__layout">
@@ -378,6 +378,7 @@ const organiserGroups = [
   .about-section--city { display: grid; grid-template-columns: minmax(360px, 1.1fr) minmax(280px, .9fr); gap: clamp(34px, 8vw, 122px); align-items: start; margin-top: var(--about-space-m); padding-top: clamp(18px, 4vw, 54px); }
   .about-section--city h2 { margin-bottom: 26px; }
   .about-section--city img { aspect-ratio: 3 / 2; max-height: min(680px, 72vh); }
+  .about-city__venues-link { margin-top: 22px; }
   .about-section--organisers { margin-bottom: var(--about-space-m); padding-top: clamp(12px, 3vw, 38px); }
   .about-organisers__layout { display: grid; grid-template-columns: minmax(280px, .98fr) minmax(320px, 1.02fr); gap: clamp(34px, 6vw, 88px); align-items: stretch; }
   .about-organisers__copy { max-width: 680px; }
