@@ -30,7 +30,7 @@ const artistNavLabel = getLocalized({ en: 'Teachers and artists sections', ro: '
 const detailLabels = {
   close: getLocalized({ en: 'Close', ro: 'Închide', ru: 'Закрыть' }, lang),
   events: getLocalized({ en: 'Festival events', ro: 'Evenimente în festival', ru: 'События фестиваля' }, lang),
-  links: getLocalized({ en: 'Social links', ro: 'Linkuri sociale', ru: 'Ссылки на соцсети' }, lang),
+  links: getLocalized({ en: 'Social media', ro: 'Social media', ru: 'Социальные сети' }, lang),
   fullPage: getLocalized({ en: 'Open full artist page', ro: 'Deschide pagina completă', ru: 'Открыть полную страницу' }, lang),
   profile: getLocalized({ en: 'Profile', ro: 'Profil', ru: 'Профиль' }, lang),
 };
@@ -267,7 +267,7 @@ const artistDetails = Object.fromEntries(people.map((person) => {
           link.href = social.href;
           link.target = '_blank';
           link.rel = 'noopener noreferrer';
-          link.textContent = `${social.label} ↗`;
+          link.textContent = social.label;
           detailSocial.append(link);
         });
         detailSocialWrap.hidden = !(data.socialLinks || []).length;
@@ -647,13 +647,14 @@ const artistDetails = Object.fromEntries(people.map((person) => {
   .detail-social > div {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px 16px;
+    gap: 4px 14px;
   }
 
   .detail-social a {
-    color: var(--soft);
-    font-size: 0.78rem;
-    font-weight: 500;
+    color: color-mix(in srgb, var(--muted) 82%, var(--soft));
+    font-size: 0.72rem;
+    font-weight: 450;
+    letter-spacing: 0;
     text-decoration: none;
   }
 
