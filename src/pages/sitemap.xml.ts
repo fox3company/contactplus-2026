@@ -11,7 +11,7 @@ function url(path: string) {
 export async function GET() {
   const events = await getCollection('events', ({ data }) => data.visibility === 'public_page');
   const people = await getCollection('people', isPublicPerson);
-  const staticPages = ['about', 'program', 'schedule', 'passes', 'artists'];
+  const staticPages = ['about', 'program', 'schedule', 'passes', 'artists', 'partners'];
 
   const urls = [
     url('/'),
