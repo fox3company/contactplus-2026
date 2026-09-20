@@ -43,7 +43,7 @@ occurrences:
 location_ref: ginta-latina
 ticket_url: "https://iticket.md/ru/event/seara-coregrafica-reflections-moldovaucraina-lua-bulgaria-in-between-moldova"
 media:
-  hero: /media/events/reflections-lua-in-between.png
+  hero: /media/events/in-between-hero.jpg
   gallery: []
 people_label: By
 people:
