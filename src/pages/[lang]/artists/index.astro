@@ -661,7 +661,7 @@ const artistDetails = Object.fromEntries(people.map((person) => {
     gap: 6px 18px;
   }
 
-  .detail-social a {
+  :global(.detail-social a) {
     color: var(--soft);
     font-size: 0.78rem;
     font-weight: 500;
@@ -669,8 +669,8 @@ const artistDetails = Object.fromEntries(people.map((person) => {
     text-decoration: none;
   }
 
-  .detail-social a:hover,
-  .detail-social a:focus-visible {
+  :global(.detail-social a:hover),
+  :global(.detail-social a:focus-visible) {
     color: var(--artist-accent);
     text-decoration: underline;
     text-decoration-color: var(--line-strong);
