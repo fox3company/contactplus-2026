@@ -33,6 +33,8 @@ localization_status:
   en: ready_for_review
   ro: native_edit_needed
   ru: ready_for_review
+links:
+  instagram: "https://www.instagram.com/nikolayshchetnev/"
 media:
   portrait: nikolay-shchetnev-portrait-placeholder
   gallery: []

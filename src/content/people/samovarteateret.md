@@ -33,6 +33,9 @@ localization_status:
   en: ready_for_review
   ro: native_edit_needed
   ru: ready_for_review
+links:
+  website: "https://samovarteateret.com/en/"
+  instagram: "https://www.instagram.com/samovarteateret/?hl=nb"
 media:
   portrait: samovarteateret-portrait-placeholder
   gallery: []

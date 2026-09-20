@@ -33,7 +33,8 @@ localization_status:
   en: ready_for_review
   ro: ready_for_review
   ru: ready_for_review
-links: {}
+links:
+  instagram: "https://www.instagram.com/martinsemilsarzanovskis/"
 media:
   portrait: /media/people/martins-emils-arzanovskis.jpg
   gallery: []
