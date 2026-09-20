@@ -1,0 +1,339 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLocalized, isLocale } from '../../lib/locales';
+import { locations } from '../../lib/locations';
+import { getProgramOccurrences, isPublicDetailEvent, isPublicScheduleEvent } from '../../lib/program';
+import { getLocalizedDateLabel } from '../../lib/festivalDates';
+import { festivalMapUrl, venueDetails, venuesCopy } from '../../lib/venues';
+
+export async function getStaticPaths() {
+  return ['en', 'ro', 'ru'].map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props;
+if (!isLocale(lang)) return Astro.redirect('/en/venues');
+
+const copy = venuesCopy[lang];
+const events = await getCollection('events', isPublicScheduleEvent);
+const occurrences = getProgramOccurrences(events);
+const venues = Object.entries(locations).flatMap(([locationRef, venue]) => {
+  const details = venueDetails[locationRef];
+  if (!details) return [];
+
+  const allProgram = occurrences
+    .filter((occurrence) => occurrence.locationRef === locationRef)
+    .map((occurrence) => ({
+      slug: occurrence.event.slug,
+      title: getLocalized(occurrence.event.data.title, lang),
+      date: getLocalizedDateLabel(occurrence.dateLabel, lang),
+      time: occurrence.timeDisplay,
+      href: isPublicDetailEvent(occurrence.event)
+        ? `/${lang}/program/${occurrence.event.slug}`
+        : `/${lang}/schedule?venue=${locationRef}`,
+      sortValue: occurrence.sortStart ? Date.parse(occurrence.sortStart) : Number.MAX_SAFE_INTEGER,
+    }));
+
+  const uniqueProgram = allProgram.filter((item, index) => allProgram.findIndex((candidate) => candidate.slug === item.slug) === index);
+  const firstActivity = uniqueProgram[0];
+  return [{
+    locationRef,
+    venue,
+    details,
+    firstActivity,
+    program: uniqueProgram.slice(0, 6),
+    remainingProgramCount: uniqueProgram.length - 6,
+  }];
+}).sort((a, b) => (a.firstActivity?.sortValue || Infinity) - (b.firstActivity?.sortValue || Infinity));
+
+const mapVenues = venues.map(({ locationRef, venue, details }) => ({
+  id: locationRef,
+  name: venue.name,
+  address: venue.address || '',
+  href: venue.href,
+  anchor: `#${locationRef}`,
+  detailAction: copy.mapDetailAction,
+  coordinates: details.coordinates,
+}));
+---
+
+<BaseLayout lang={lang} title={`${copy.title} · Contact+ 2026`} description={copy.lead} noindex={true}>
+  <main class="venues-page">
+    <header class="venues-hero">
+      <div class="venues-hero__copy">
+        <h1>{copy.title}</h1>
+        <p class="venues-hero__lead">{copy.lead}</p>
+      </div>
+    </header>
+
+    <section class="venues-map" aria-labelledby="venues-map-title">
+      <div class="venues-map__copy">
+        <h2 id="venues-map-title">{copy.mapTitle}</h2>
+        <p>{copy.mapText}</p>
+        <a class="venues-action" href={festivalMapUrl} rel="noopener" target="_blank">{copy.mapAction} <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="venues-map__canvas-wrap">
+        <div class="venues-map__canvas" id="festival-venues-map" aria-label={copy.mapTitle}></div>
+        <a class="venues-map__fallback" href={festivalMapUrl} rel="noopener" target="_blank">{copy.mapFallback} <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+
+    <section class="venues-list" aria-labelledby="venues-list-title">
+      <header class="venues-list__header">
+        <h2 id="venues-list-title">{copy.listTitle}</h2>
+        <div>
+          <p>{copy.listText}</p>
+          <p class="venues-list__order-note">{copy.orderNote}</p>
+        </div>
+      </header>
+
+      <div class="venues-list__items">
+        {venues.map(({ locationRef, venue, details, firstActivity, program, remainingProgramCount }) => (
+          <article class="venue-entry" id={locationRef}>
+            <div class="venue-entry__main">
+              <h3>{venue.name}</h3>
+              <p class="venue-entry__description">{details.description[lang]}</p>
+              {venue.address && <p class="venue-entry__address"><span>{copy.addressLabel}</span>{venue.address}</p>}
+              <a class="venue-entry__map-link" href={venue.href} rel="noopener" target="_blank">{copy.directionsAction} <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="venue-entry__program">
+              <div class="venue-entry__program-head">
+                <h4>{copy.programLabel}</h4>
+                {firstActivity && <p><span>{copy.firstActivity}</span>{firstActivity.date}</p>}
+              </div>
+              {program.length > 0 ? (
+                <ul>
+                  {program.map((item) => (
+                    <li>
+                      <span>{item.date} · {item.time}</span>
+                      <a href={item.href}>{item.title}</a>
+                    </li>
+                  ))}
+                </ul>
+              ) : <p>—</p>}
+              {remainingProgramCount > 0 && <p class="venue-entry__more-program">{copy.moreProgram(remainingProgramCount)}</p>}
+              <a class="venue-entry__schedule-link" href={`/${lang}/schedule?venue=${locationRef}`}>{copy.scheduleAction} <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script type="application/json" id="venue-map-data" set:html={JSON.stringify(mapVenues)}></script>
+<script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    const mapElement = document.getElementById('festival-venues-map');
+    const dataElement = document.getElementById('venue-map-data');
+    if (!mapElement || !dataElement || !window.L) return;
+
+    const venues = JSON.parse(dataElement.textContent || '[]');
+    const map = window.L.map(mapElement, { scrollWheelZoom: false, zoomControl: true });
+    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 19,
+    }).addTo(map);
+
+    const bounds = [];
+    venues.forEach((venue) => {
+      const marker = window.L.marker(venue.coordinates).addTo(map);
+      const popup = `<strong>${venue.name}</strong><span>${venue.address}</span><a href="${venue.anchor}">${venue.detailAction}</a>`;
+      marker.bindPopup(popup);
+      bounds.push(venue.coordinates);
+    });
+
+    if (bounds.length) map.fitBounds(bounds, { padding: [34, 34], maxZoom: 14 });
+    mapElement.parentElement?.classList.add('is-map-ready');
+  });
+</script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+<style>
+  .venues-page {
+    width: min(1240px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: clamp(42px, 6vw, 84px) 0 clamp(88px, 10vw, 132px);
+  }
+
+  .venues-hero__copy { max-width: 790px; }
+  .venues-hero h1, .venues-map h2, .venues-list h2 {
+    margin: 0 0 18px;
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: clamp(2.75rem, 6vw, 5.3rem);
+    font-weight: 400;
+    line-height: .98;
+  }
+  .venues-hero__lead {
+    max-width: 680px;
+    margin: 0;
+    color: var(--muted);
+    font-size: clamp(1.08rem, 1.55vw, 1.32rem);
+    line-height: 1.52;
+  }
+  .venues-map {
+    display: grid;
+    grid-template-columns: minmax(250px, .65fr) minmax(480px, 1.35fr);
+    gap: clamp(34px, 6vw, 90px);
+    align-items: center;
+    margin-top: clamp(44px, 6vw, 78px);
+  }
+  .venues-map h2 {
+    max-width: 580px;
+    margin-bottom: 14px;
+    font-size: clamp(2rem, 3.7vw, 3.4rem);
+  }
+  .venues-map p, .venues-list__header p {
+    max-width: 620px;
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .venues-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0 22px;
+    background: var(--accent);
+    color: white;
+    font-weight: 680;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .venues-map .venues-action { margin-top: 26px; }
+  .venues-action:hover, .venues-action:focus-visible { background: var(--accent-muted); }
+  .venues-map__canvas-wrap { position: relative; min-height: 430px; }
+  .venues-map__canvas { position: absolute; inset: 0; background: var(--paper-deep); }
+  .venues-map__fallback {
+    position: absolute;
+    z-index: 2;
+    right: 16px;
+    bottom: 16px;
+    padding: 10px 12px;
+    background: var(--paper);
+    color: var(--accent-muted);
+    font-size: .76rem;
+    font-weight: 680;
+    text-decoration: none;
+  }
+  .venues-map__canvas-wrap.is-map-ready .venues-map__fallback { display: none; }
+  :global(.leaflet-control-zoom a) { color: var(--ink) !important; }
+  :global(.leaflet-popup-content-wrapper), :global(.leaflet-popup-tip) { border-radius: 0; }
+  :global(.leaflet-popup-content) { display: grid; gap: 8px; min-width: 180px; margin: 14px 16px; color: var(--ink); font-family: var(--font-sans); }
+  :global(.leaflet-popup-content strong) { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 400; }
+  :global(.leaflet-popup-content span) { color: var(--muted); font-size: .77rem; line-height: 1.35; }
+  :global(.leaflet-popup-content a) { color: var(--accent-muted); font-size: .76rem; font-weight: 680; text-decoration: none; }
+
+  .venues-list { margin-top: clamp(68px, 10vw, 132px); }
+  .venues-list__header {
+    display: grid;
+    grid-template-columns: minmax(260px, .9fr) minmax(300px, 1.1fr);
+    gap: clamp(34px, 8vw, 122px);
+    align-items: end;
+    margin-bottom: clamp(34px, 5vw, 62px);
+  }
+  .venues-list h2 { margin: 0; font-size: clamp(2.1rem, 4.3vw, 4rem); }
+  .venues-list__order-note { margin-top: 14px !important; font-size: .82rem; }
+  .venues-list__items { border-top: 1px solid var(--line); }
+
+  .venue-entry {
+    display: grid;
+    grid-template-columns: minmax(240px, .86fr) minmax(320px, 1.14fr);
+    gap: clamp(20px, 4vw, 70px);
+    padding: clamp(24px, 3.2vw, 42px) 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .venue-entry h3 {
+    margin: -4px 0 14px;
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.55rem, 2.4vw, 2.05rem);
+    font-weight: 400;
+    line-height: 1.08;
+  }
+  .venue-entry__description {
+    max-width: 390px;
+    margin: 0 0 20px;
+    color: var(--muted);
+    font-size: .94rem;
+    line-height: 1.48;
+  }
+  .venue-entry__address {
+    display: grid;
+    gap: 4px;
+    max-width: 330px;
+    margin: 0;
+    color: var(--muted);
+    font-size: .9rem;
+    line-height: 1.42;
+  }
+  .venue-entry__address span, .venue-entry__program h4, .venue-entry__program-head p span {
+    color: var(--accent-muted);
+    font-size: .7rem;
+    font-weight: 680;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .venue-entry__map-link, .venue-entry__schedule-link {
+    display: inline-flex;
+    margin-top: 18px;
+    color: var(--accent-muted);
+    font-size: .82rem;
+    font-weight: 680;
+    text-decoration: none;
+  }
+  .venue-entry__map-link:hover, .venue-entry__map-link:focus-visible,
+  .venue-entry__schedule-link:hover, .venue-entry__schedule-link:focus-visible,
+  .venue-entry__program a:hover, .venue-entry__program a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+  .venue-entry__program h4 { margin: 0 0 12px; }
+  .venue-entry__program-head {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 12px;
+  }
+  .venue-entry__program-head h4 { margin: 0; }
+  .venue-entry__program-head p {
+    display: grid;
+    gap: 4px;
+    margin: 0;
+    color: var(--muted);
+    font-size: .76rem;
+    line-height: 1.3;
+    text-align: right;
+  }
+  .venue-entry__program ul { margin: 0; padding: 0; list-style: none; }
+  .venue-entry__program li {
+    display: grid;
+    grid-template-columns: minmax(132px, .55fr) minmax(0, 1fr);
+    gap: 16px;
+    padding: 9px 0;
+    border-top: 1px solid color-mix(in srgb, var(--line) 58%, transparent);
+  }
+  .venue-entry__program li:first-child { border-top: 0; padding-top: 0; }
+  .venue-entry__program li span { color: var(--muted); font-size: .76rem; line-height: 1.4; }
+  .venue-entry__program li a, .venue-entry__program li strong { color: var(--ink); font-size: .88rem; font-weight: 600; line-height: 1.38; text-decoration: none; }
+  .venue-entry__program > p { margin: 0; color: var(--muted); }
+  .venue-entry__more-program { margin-top: 10px !important; font-size: .78rem; }
+  .venue-entry__schedule-link { margin-top: 16px; }
+
+  @media (max-width: 760px) {
+    .venues-page { width: min(100% - 30px, 620px); padding-top: 36px; }
+    .venues-hero h1 { font-size: clamp(2.8rem, 14vw, 4.15rem); }
+    .venues-map, .venues-list__header { display: block; }
+    .venues-map { margin-top: 54px; }
+    .venues-action { width: 100%; margin-top: 26px; }
+    .venues-map__canvas-wrap { min-height: 360px; margin-top: 28px; }
+    .venues-list { margin-top: 74px; }
+    .venues-list__header p { margin-top: 18px; }
+    .venue-entry { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .venue-entry__program { margin-top: 0; }
+    .venue-entry__program li { grid-template-columns: 1fr; gap: 4px; }
+    .venue-entry__program-head { align-items: end; }
+  }
+</style>

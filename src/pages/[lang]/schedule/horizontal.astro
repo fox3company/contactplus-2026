@@ -67,6 +67,8 @@ const labels = {
   jams: getLocalized({ en: 'Jams & gatherings', ro: 'Jam-uri și întâlniri', ru: 'Джемы и встречи' }, lang),
   breaks: getLocalized({ en: 'Breaks', ro: 'Pauze', ru: 'Паузы' }, lang),
   focus: getLocalized({ en: 'Focus', ro: 'Focus', ru: 'Фокус' }, lang),
+  venue: getLocalized({ en: 'Venue', ro: 'Locație', ru: 'Площадка' }, lang),
+  allVenues: getLocalized({ en: 'All venues', ro: 'Toate locațiile', ru: 'Все площадки' }, lang),
   mode: getLocalized({ en: 'Mode', ro: 'Mod', ru: 'Режим' }, lang),
   view: getLocalized({ en: 'View', ro: 'Vedere', ru: 'Вид' }, lang),
   close: getLocalized({ en: 'Close', ro: 'Închide', ru: 'Закрыть' }, lang),
@@ -245,6 +247,8 @@ const filterLabels: { key: ProgramFilterGroup; label: string }[] = [
   { key: 'jams_gatherings', label: labels.jams },
   { key: 'breaks', label: labels.breaks },
 ];
+const venueOptions = Object.entries(locations).filter(([locationRef]) => locationRef !== 'great-national-assembly-square');
+const venueFilterData = Object.fromEntries(Object.entries(locations).map(([locationRef, location]) => [locationRef, location.name]));
 
 const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
   occurrences.map(({ event, date, dateLabel, timeDisplay, locationRef }) => {
@@ -305,8 +309,19 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     <section class="horizontal-controls" aria-label={pageTitle}>
       <div class="control-row">
         <span>{labels.view}</span>
-        <a href={`/${lang}/schedule`}>{labels.vertical}</a>
-        <a class="active" href={`/${lang}/schedule/horizontal`}>{labels.horizontal}</a>
+        <a href={`/${lang}/schedule`} data-schedule-view={`/${lang}/schedule`}>{labels.vertical}</a>
+        <a class="active" href={`/${lang}/schedule/horizontal`} data-schedule-view={`/${lang}/schedule/horizontal`}>{labels.horizontal}</a>
+      </div>
+      <div class="control-row">
+        <span>{labels.venue}</span>
+        <label class="horizontal-venue-select">
+          <select data-venue-select aria-label={labels.venue}>
+            <option value="">{labels.allVenues}</option>
+            {venueOptions.map(([locationRef, location]) => (
+              <option value={locationRef}>{location.name}</option>
+            ))}
+          </select>
+        </label>
       </div>
       <div class="control-row" data-mode-controls>
         <span>{labels.mode}</span>
@@ -356,7 +371,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
                         {groupType === 'parallel' && <em>{labels.parallel}</em>}
                       </div>
                       <div class="horizontal-time-group__cards">
-                        {occurrences.map(({ event, date, dateLabel }) => {
+                        {occurrences.map(({ event, date, dateLabel, locationRef }) => {
                           const category = getProgramCategoryLabel(getLocalized(event.data.meta?.category, lang), event.data.program_line) || event.data.program_line;
                           const format = getLocalized(event.data.meta?.format, lang);
                           const title = getLocalized(event.data.title, lang);
@@ -382,6 +397,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
                               data-horizontal-card
                               data-filter-group={filterGroup}
                               data-filter-groups={filterGroups}
+                              data-location-ref={locationRef || event.data.location_ref || ''}
                               data-card-kind={event.data.visibility === 'schedule_only' ? 'schedule-only' : 'detail'}
                               data-card-note={compactNote ? 'true' : 'false'}
                               data-density={isSecondary ? 'secondary' : 'primary'}
@@ -470,6 +486,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
 </BaseLayout>
 
 <script type="application/json" id="horizontal-detail-data" set:html={JSON.stringify(eventDetails)}></script>
+<script type="application/json" id="horizontal-venue-data" set:html={JSON.stringify(venueFilterData)}></script>
 
 <script is:inline>
   window.addEventListener('DOMContentLoaded', () => {
@@ -478,6 +495,8 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     const timeGroups = [...document.querySelectorAll('[data-time-group]')];
     const filterButtons = [...document.querySelectorAll('[data-filter]')];
     const viewButtons = [...document.querySelectorAll('[data-view-mode]')];
+    const venueSelect = document.querySelector('[data-venue-select]');
+    const venueNames = JSON.parse(document.getElementById('horizontal-venue-data')?.textContent || '{}');
     const emptyMessage = document.querySelector('[data-empty-message]');
     const detailData = JSON.parse(document.getElementById('horizontal-detail-data')?.textContent || '{}');
     const detailOverlay = document.querySelector('[data-detail-overlay]');
@@ -486,7 +505,29 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     const detailFullPage = document.querySelector('[data-detail-full-page]');
     let activeViewMode = 'full_festival';
     let activeFilters = new Set(['all']);
+    const requestedVenue = new URLSearchParams(window.location.search).get('venue') || '';
+    let activeVenue = venueNames[requestedVenue] ? requestedVenue : '';
     let lastFocusedCard = null;
+
+    function getVenueHref(path) {
+      const url = new URL(path, window.location.origin);
+      if (activeVenue) url.searchParams.set('venue', activeVenue);
+      return `${url.pathname}${url.search}`;
+    }
+
+    function syncVenueControls() {
+      if (venueSelect) venueSelect.value = activeVenue;
+      document.querySelectorAll('[data-schedule-view]').forEach((link) => {
+        link.setAttribute('href', getVenueHref(link.getAttribute('data-schedule-view') || link.getAttribute('href') || window.location.pathname));
+      });
+    }
+
+    function setVenue(value) {
+      activeVenue = venueNames[value] ? value : '';
+      window.history.replaceState({}, '', getVenueHref(window.location.pathname));
+      syncVenueControls();
+      renderBoard();
+    }
 
     function setText(selector, value) {
       const element = document.querySelector(selector);
@@ -497,7 +538,8 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
       const filterGroups = (card.getAttribute('data-filter-groups') || card.getAttribute('data-filter-group') || '').split(/\s+/).filter(Boolean);
       const viewMatch = activeViewMode === 'full_festival' || card.getAttribute('data-view-classes') === 'true';
       const filterMatch = activeFilters.has('all') || filterGroups.some((filterGroup) => activeFilters.has(filterGroup));
-      return viewMatch && filterMatch;
+      const venueMatch = !activeVenue || card.getAttribute('data-location-ref') === activeVenue;
+      return viewMatch && filterMatch && venueMatch;
     }
 
     function renderBoard() {
@@ -690,6 +732,8 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
       });
     });
 
+    venueSelect?.addEventListener('change', () => setVenue(venueSelect.value));
+
     cards.forEach((card) => {
       card.addEventListener('click', () => openDetail(card.getAttribute('data-detail-key'), card));
       card.addEventListener('keydown', (event) => {
@@ -705,6 +749,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') closeDetail();
     });
+    syncVenueControls();
     renderBoard();
   });
 </script>
@@ -748,7 +793,8 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
   }
 
   .control-row a,
-  .control-row button {
+  .control-row button,
+  .horizontal-venue-select select {
     --filter-accent: var(--line-strong);
     --filter-tint: rgba(240, 235, 227, 0.58);
     min-height: 36px;
@@ -762,6 +808,11 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     line-height: 1.1;
     text-decoration: none;
     cursor: pointer;
+  }
+
+  .horizontal-venue-select select {
+    min-width: 220px;
+    appearance: auto;
   }
 
   .control-row button[data-filter] {

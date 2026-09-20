@@ -25,15 +25,15 @@ export const locations: Record<string, ProgramLocation> = {
     address: 'Stefan cel Mare si Sfant Boulevard, Chișinău, Moldova',
     href: 'https://maps.app.goo.gl/kYK425DJdp7onLR16',
   },
-  'iusty-art-gallery': {
-    name: 'Iusty Art Gallery',
-    address: 'Bogdan P.Hasdeu Street 3, Chișinău',
-    href: 'https://share.google/4BcxAfXfOnM2rHUcU',
-  },
   'ginta-latina': {
     name: 'Ginta Latină Culture and Arts Centre',
     address: 'Sfatul Țării Street 18, Chișinău',
     href: 'https://share.google/JXJYnUIymEAh4lIEC',
+  },
+  'festival-studio': {
+    name: 'Festival Studio',
+    address: 'Near Sfatul Țării Street 18, Chișinău',
+    href: 'https://www.google.com/maps/search/?api=1&query=47.027678,28.825360',
   },
   'art-studio-21': {
     name: 'Art Studio 21',

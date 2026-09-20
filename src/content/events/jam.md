@@ -46,7 +46,7 @@ occurrences:
     date_label: "Sep 29"
     time_display: "21:30 — 00:00"
     sort_start: "2026-09-29T21:30:00"
-    location_ref: iusty-art-gallery
+    location_ref: nod-space
   - date: "2026-10-02"
     date_label: "Oct 2"
     time_display: "21:00 — 00:00"

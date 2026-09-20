@@ -44,7 +44,7 @@ occurrences:
     date_label: "Sep 28"
     time_display: "19:30 — 20:00"
     sort_start: "2026-09-28T19:30:00"
-location_ref: ginta-latina
+location_ref: festival-studio
 people_label: With
 people: []
 media:

@@ -61,12 +61,12 @@ occurrences:
     date_label: "Sep 28"
     time_display: "15:30 — 18:30"
     sort_start: "2026-09-28T15:30:00"
-    location_ref: ginta-latina
+    location_ref: festival-studio
   - date: "2026-09-29"
     date_label: "Sep 29"
     time_display: "15:30 — 18:30"
     sort_start: "2026-09-29T15:30:00"
-    location_ref: ginta-latina
+    location_ref: festival-studio
   - date: "2026-10-01"
     date_label: "Oct 1"
     time_display: "15:30 — 18:30"
