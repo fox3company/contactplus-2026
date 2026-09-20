@@ -36,7 +36,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/voices.dancecompany/"
 media:
-  portrait: voices-dance-company-portrait-placeholder
+  portrait: /media/people/voices-dance-company.jpg
   gallery: []
 ---
 

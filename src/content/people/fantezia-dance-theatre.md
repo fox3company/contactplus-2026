@@ -30,7 +30,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/fantezia_dance/"
 media:
-  portrait: fantezia-dance-theatre-portrait-placeholder
+  portrait: /media/people/fantezia-dance-theatre.jpg
   gallery: []
 ---
 
