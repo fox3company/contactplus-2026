@@ -35,7 +35,7 @@ localization_status:
   ru: ready_for_review
 links: {}
 media:
-  portrait: martins-emils-arzanovskis-portrait-placeholder
+  portrait: /media/people/martins-emils-arzanovskis.jpg
   gallery: []
 ---
 

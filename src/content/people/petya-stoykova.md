@@ -38,7 +38,7 @@ localization_status:
 links:
   instagram: "https://www.instagram.com/dune_dance_company/"
 media:
-  portrait: /media/people/petya-stoykova.jpg
+  portrait: /media/people/petya-stoykova.png
   gallery: []
 ---
 

@@ -52,7 +52,7 @@ people:
     display_role: performer
     public_visibility: visible
 media:
-  hero: performative-space-enso-hero-placeholder
+  hero: /media/events/enso-hero.jpg
   gallery: []
 related:
   events: [shared-awareness]
