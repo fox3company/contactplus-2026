@@ -345,11 +345,19 @@ const mapVenues = venues.map(({ locationRef, venue, details }) => ({
     .venues-jump-nav a:hover, .venues-jump-nav a:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
     .venues-list { margin-top: 54px; }
     .venues-list__header p { margin-top: 18px; }
-    .venue-entry { grid-template-columns: minmax(0, 1fr); gap: 24px; }
-    .venue-entry__program { margin-top: 0; padding-top: 20px; border-top: 1px solid color-mix(in srgb, var(--line) 58%, transparent); }
+    .venues-list__items { display: grid; gap: 16px; border-top: 0; }
+    .venue-entry { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 24px 22px 20px; background: var(--paper-deep); border: 1px solid var(--line); border-radius: 8px; }
+    .venue-entry h3 { margin: 0 0 12px; font-size: clamp(1.7rem, 8.2vw, 2rem); }
+    .venue-entry__description { margin-bottom: 18px; }
+    .venue-entry__first-activity { display: flex; align-items: baseline; gap: 8px; margin-bottom: 14px; }
+    .venue-entry__first-activity span { flex: 0 0 auto; }
+    .venue-entry__map-link { margin-top: 10px; }
+    .venue-entry__program { margin-top: 0; padding-top: 20px; border-top: 1px solid var(--line); }
     .venue-entry__program li { grid-template-columns: 1fr; gap: 4px; }
     .venue-entry__program li:nth-child(n + 3) { display: none; }
+    .venue-entry__program li { padding: 10px 0; }
     .venue-entry__more-program--desktop { display: none; }
     .venue-entry__more-program--mobile { display: block; }
+    .venue-entry__schedule-link { margin-top: 8px; }
   }
 </style>
