@@ -44,7 +44,7 @@ export const partnerLogos: { support: Partner[]; partners: Partner[] } = {
   support: [
     {
       name: {
-        en: 'Ministry of Culture of the Republic of Moldova',
+        en: 'Ministry of Culture of RM',
         ro: 'Ministerul Culturii al Republicii Moldova',
         ru: 'Министерство культуры Республики Молдова',
       },
