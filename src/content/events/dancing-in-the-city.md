@@ -41,6 +41,7 @@ occurrences:
     date_label: "Oct 4"
     time_display: "Daytime"
     sort_start: "2026-10-04T12:00:00"
+location_ref: chisinau-city-centre
 people_label: With
 people: []
 media:

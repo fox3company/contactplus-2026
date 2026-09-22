@@ -25,6 +25,10 @@ export const locations: Record<string, ProgramLocation> = {
     address: 'Stefan cel Mare si Sfant Boulevard, Chișinău, Moldova',
     href: 'https://maps.app.goo.gl/kYK425DJdp7onLR16',
   },
+  'chisinau-city-centre': {
+    name: 'Chișinău city centre',
+    href: 'https://www.google.com/maps/search/?api=1&query=Chi%C8%99in%C4%83u%20city%20centre',
+  },
   'ginta-latina': {
     name: 'Ginta Latină Culture and Arts Centre',
     address: 'Sfatul Țării Street 18, Chișinău',
