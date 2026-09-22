@@ -20,7 +20,7 @@ export const passesShared = shared;
 export const passesCopy: Record<Locale, any> = {
   en: {
     title: 'Passes & Participation',
-    strapline: 'Movement · Contact Improvisation · Performance',
+    strapline: 'Movement · Contemporary Dance · Contact Improvisation · Performance',
     lead: 'Choose how you want to take part in Contact+.',
     heroText: 'Join the complete nine-day festival, follow a focused path through Contact Improvisation or performance, enter through the opening weekend, or take part through JAMs and the Family & Youth Program.',
     date: '26 September — 4 October 2026', place: 'Chișinău, Moldova',
@@ -144,7 +144,7 @@ export const passesCopy: Record<Locale, any> = {
   },
   ro: {
     title: 'Abonamente și participare',
-    strapline: 'Mișcare · Improvizație de contact · Performance',
+    strapline: 'Mișcare · Dans contemporan · Improvizație de contact · Performance',
     lead: 'Alege cum vrei să participi la Contact+.',
     heroText: 'Alătură-te întregului festival de nouă zile, urmează un traseu concentrat de Improvizație de contact sau performance, începe cu weekendul de deschidere ori participă prin JAM-uri și Programul pentru familii și tineri.',
     date: '26 septembrie — 4 octombrie 2026', place: 'Chișinău, Moldova',
@@ -268,7 +268,7 @@ export const passesCopy: Record<Locale, any> = {
   },
   ru: {
     title: 'Абонементы и участие',
-    strapline: 'Движение · Контактная импровизация · Перформанс',
+    strapline: 'Движение · Современный танец · Контактная импровизация · Перформанс',
     lead: 'Выберите, как вы хотите участвовать в Contact+.',
     heroText: 'Проведите на фестивале все девять дней, выберите отдельный путь в Контактной импровизации или перформансе, начните с открывающего уикенда либо присоединитесь к JAM-ам и программе для семей и молодёжи.',
     date: '26 сентября — 4 октября 2026', place: 'Кишинёв, Молдова',
