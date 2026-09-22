@@ -145,6 +145,26 @@ const labels = {
     ro: 'Arată toate evenimentele festivalului',
     ru: 'Показать все события фестиваля',
   }, lang),
+  openInMaps: getLocalized({
+    en: 'Open in Google Maps',
+    ro: 'Deschide în Google Maps',
+    ru: 'Открыть в Google Maps',
+  }, lang),
+  chooseLunchSpot: getLocalized({
+    en: 'Choose your own lunch spot',
+    ro: 'Alegeți propriul loc pentru prânz',
+    ru: 'Выберите место для обеда самостоятельно',
+  }, lang),
+  chooseDinnerSpot: getLocalized({
+    en: 'Choose your own dinner spot',
+    ro: 'Alegeți propriul loc pentru cină',
+    ru: 'Выберите место для ужина самостоятельно',
+  }, lang),
+  chooseOwnSpot: getLocalized({
+    en: 'Choose your own spot',
+    ro: 'Alegeți propriul loc',
+    ru: 'Выберите место самостоятельно',
+  }, lang),
   view: getLocalized({ en: 'View', ro: 'Vedere', ru: 'Вид' }, lang),
 };
 
@@ -362,6 +382,15 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
                     const category = getProgramCategoryLabel(getLocalized(event.data.meta?.category, lang), event.data.program_line);
                     const format = getLocalized(event.data.meta?.format, lang);
                     const summary = getLocalized(event.data.summary, lang);
+                    const locationRef = locationRefFromOccurrence || event.data.location_ref;
+                    const location = locationRef ? locations[locationRef] : undefined;
+                    const selfSelectedLocation = !location && event.data.program_line === 'meal'
+                      ? event.slug === 'lunch-break'
+                        ? labels.chooseLunchSpot
+                        : event.slug === 'dinner-break'
+                          ? labels.chooseDinnerSpot
+                          : labels.chooseOwnSpot
+                      : undefined;
                     const group = getProgramFilterGroup(event);
                     const groups = getProgramFilterGroups(event).join(' ');
                     const detailKey = getEventDetailKey(event.slug, date, dateLabel);
@@ -370,6 +399,8 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
                       category,
                       format,
                       summary,
+                      location?.name,
+                      selfSelectedLocation,
                       event.data.people?.map((person) => person.person_id).join(' '),
                     ].filter(Boolean).join(' ');
 
@@ -383,7 +414,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
                         data-view-classes={isVisibleInProgramView(event, 'classes_performances') ? 'true' : 'false'}
                         data-search={searchText.toLowerCase()}
                         data-detail-key={detailKey}
-                        data-location-ref={locationRefFromOccurrence || event.data.location_ref || ''}
+                        data-location-ref={locationRef || ''}
                         role="button"
                         tabindex="0"
                         aria-label={`${labels.openDetails}: ${title}`}
@@ -395,7 +426,30 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
                             {format && <span class="program-meta__format">{format}</span>}
                           </p>
                           <h3>{title}</h3>
-                          <p>{summary}</p>
+                          {location?.name ? (
+                            <a
+                              class="event-venue event-venue--link"
+                              data-location-link
+                              href={location.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              aria-label={`${location.name} — ${labels.openInMaps}`}
+                            >
+                              <svg class="event-venue__icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M20 10c0 5.5-8 12-8 12S4 15.5 4 10a8 8 0 1 1 16 0Z"></path>
+                                <circle cx="12" cy="10" r="2.5"></circle>
+                              </svg>
+                              <span>{location.name}</span>
+                            </a>
+                          ) : selfSelectedLocation && (
+                            <p class="event-venue event-venue--choice">
+                              <svg class="event-venue__icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M20 10c0 5.5-8 12-8 12S4 15.5 4 10a8 8 0 1 1 16 0Z"></path>
+                                <circle cx="12" cy="10" r="2.5"></circle>
+                              </svg>
+                              <span>{selfSelectedLocation}</span>
+                            </p>
+                          )}
                         </div>
                       </article>
                     );
@@ -758,8 +812,12 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
     venueSelect?.addEventListener('change', () => setVenue(venueSelect.value));
 
     cards.forEach((card) => {
-      card.addEventListener('click', () => openDetail(card.getAttribute('data-detail-key'), card));
+      card.addEventListener('click', (event) => {
+        if (event.target.closest('[data-location-link]')) return;
+        openDetail(card.getAttribute('data-detail-key'), card);
+      });
       card.addEventListener('keydown', (event) => {
+        if (event.target.closest('[data-location-link]')) return;
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           openDetail(card.getAttribute('data-detail-key'), card);
@@ -1226,12 +1284,47 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
     color: var(--accent-muted);
   }
 
-  .event-body p:not(.program-meta) {
+  .event-venue {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     max-width: 650px;
-    margin-bottom: 0;
+    margin: 0;
     color: var(--muted);
-    font-size: 0.98rem;
-    line-height: 1.55;
+    font-size: 0.84rem;
+    font-weight: 500;
+    line-height: 1.42;
+  }
+
+  .event-venue--link {
+    text-decoration: none;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  .event-venue--link:hover {
+    color: var(--accent-muted);
+    text-decoration: underline;
+  }
+
+  .event-venue--link:focus-visible {
+    outline: 1px solid var(--line-strong);
+    outline-offset: 3px;
+  }
+
+  .event-venue--choice {
+    color: color-mix(in srgb, var(--muted) 82%, var(--soft));
+  }
+
+  .event-venue__icon {
+    width: 0.9rem;
+    height: 0.9rem;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
   }
 
   .empty-message {
@@ -1690,10 +1783,10 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
       margin-bottom: 9px;
     }
 
-    .has-parallel .event-body p:not(.program-meta) {
+    .has-parallel .event-venue {
       color: color-mix(in srgb, var(--muted) 88%, var(--soft));
-      font-size: 0.94rem;
-      line-height: 1.48;
+      font-size: 0.82rem;
+      line-height: 1.42;
     }
 
     .parallel-label {
