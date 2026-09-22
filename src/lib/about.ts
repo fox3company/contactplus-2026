@@ -14,7 +14,7 @@ const media = {
 export const aboutCopy: Record<Locale, any> = {
   en: {
     title: 'About Contact+', strapline: 'Movement · Contemporary Dance · Contact Improvisation · Performance',
-    lead: 'An international festival of Movement, Contemporary Dance, Contact Improvisation, Performance and shared practice in Chișinău.',
+    lead: 'An international festival of Movement, Contemporary Dance, Contact Improvisation and Performance in Chișinău.',
     date: '26 September — 4 October 2026', place: 'Chișinău, Moldova',
     what: { title: 'What is Contact+', text: 'Contact+ brings together Movement practice, Contemporary Dance, Contact Improvisation, Performance and the living social space around them. It is more than a sequence of classes or shows: people arrive, practise, watch, talk, dance and make time together.' },
     why: { title: 'Why people come', items: ['To deepen a Movement or Contact Improvisation practice.', 'To explore where CI meets Performance and composition.', 'To take part in laboratories, performances, JAMs and gatherings.', 'To meet an international Movement community in Chișinău.'] },
@@ -35,7 +35,7 @@ export const aboutCopy: Record<Locale, any> = {
   },
   ro: {
     title: 'Despre Contact+', strapline: 'Mișcare · Dans contemporan · Improvizație de contact · Performance',
-    lead: 'Un festival internațional de mișcare, dans contemporan, Improvizație de contact, performance și practică împărtășită la Chișinău.',
+    lead: 'Un festival internațional de mișcare, dans contemporan, Improvizație de contact și performance la Chișinău.',
     date: '26 septembrie — 4 octombrie 2026', place: 'Chișinău, Moldova',
     what: { title: 'Ce este Contact+?', text: 'Contact+ aduce împreună practica mișcării, dansul contemporan, Improvizația de contact, performance-ul și spațiul social viu din jurul lor. Este mai mult decât o succesiune de clase sau spectacole: oamenii sosesc, practică, privesc, vorbesc, dansează și își fac timp unii pentru alții.' },
     why: { title: 'De ce vin oamenii', items: ['Pentru a aprofunda practica mișcării sau a Improvizației de contact.', 'Pentru a explora întâlnirea dintre Improvizația de contact, performance și compoziție.', 'Pentru a participa la laboratoare, performance-uri, JAM-uri și întâlniri.', 'Pentru a întâlni o comunitate internațională de mișcare în Chișinău.'] },
@@ -56,7 +56,7 @@ export const aboutCopy: Record<Locale, any> = {
   },
   ru: {
     title: 'О фестивале Contact+', strapline: 'Движение · Современный танец · Контактная импровизация · Перформанс',
-    lead: 'Международный фестиваль движения, современного танца, Контактной импровизации, перформанса и совместной практики в Кишинёве.',
+    lead: 'Международный фестиваль движения, современного танца, Контактной импровизации и перформанса в Кишинёве.',
     date: '26 сентября — 4 октября 2026', place: 'Кишинёв, Молдова',
     what: { title: 'Что такое Contact+?', text: 'Contact+ объединяет практики движения, современный танец, Контактную импровизацию, перформанс и живое социальное пространство вокруг них. Это больше, чем череда классов или показов: люди приезжают, практикуют, смотрят, разговаривают, танцуют и проводят время вместе.' },
     why: { title: 'Зачем приезжают', items: ['Углубить практику движения или Контактной импровизации.', 'Исследовать встречу Контактной импровизации, перформанса и композиции.', 'Участвовать в лабораториях, перформансах, JAM и встречах.', 'Встретить международное сообщество движения в Кишинёве.'] },
