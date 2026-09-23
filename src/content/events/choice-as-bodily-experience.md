@@ -63,16 +63,16 @@ occurrences:
 location_ref: nod-space
 people_label: With
 people:
-  - person_id: alexandra-soshnicova
-    display_role: facilitator
-    public_visibility: visible
-  - person_id: sergey-golovnea
-    display_role: facilitator
-    public_visibility: visible
   - person_id: tamara-maksymenko
     display_role: teacher
     public_visibility: visible
   - person_id: sergey-semichev
+    display_role: facilitator
+    public_visibility: visible
+  - person_id: alexandra-soshnicova
+    display_role: facilitator
+    public_visibility: visible
+  - person_id: sergey-golovnea
     display_role: facilitator
     public_visibility: visible
 media:

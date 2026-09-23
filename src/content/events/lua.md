@@ -34,12 +34,12 @@ focus:
 schedule:
   date_display: "Oct 1"
   time_display: "19:30 — 21:30"
-  sort_start: "2026-10-01T19:30:00"
+  sort_start: "2026-10-01T19:30:01"
 occurrences:
   - date: "2026-10-01"
     date_label: "Oct 1"
     time_display: "19:30 — 21:30"
-    sort_start: "2026-10-01T19:30:00"
+    sort_start: "2026-10-01T19:30:01"
 location_ref: ginta-latina
 ticket_url: "https://iticket.md/ru/event/seara-coregrafica-reflections-moldovaucraina-lua-bulgaria-in-between-moldova"
 media:

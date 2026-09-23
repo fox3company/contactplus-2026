@@ -4,9 +4,9 @@ publishing_status: ready_for_review
 program_line: theatre_performance
 filters: [performance]
 title:
-  en: REFLECTIONS
-  ro: REFLECTIONS
-  ru: REFLECTIONS
+  en: Reflections
+  ro: Reflections
+  ru: Reflections
 meta:
   category:
     en: Choreographic Performance
@@ -92,4 +92,4 @@ localization_status:
   ru: ready_for_review
 ---
 
-# REFLECTIONS
+# Reflections

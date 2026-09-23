@@ -4,9 +4,9 @@ publishing_status: ready_for_review
 program_line: theatre_performance
 filters: [performance]
 title:
-  en: IN BETWEEN
-  ro: IN BETWEEN
-  ru: IN BETWEEN
+  en: In Between
+  ro: In Between
+  ru: In Between
 meta:
   category:
     en: Choreographic Performance
@@ -34,12 +34,12 @@ focus:
 schedule:
   date_display: "Oct 1"
   time_display: "19:30 — 21:30"
-  sort_start: "2026-10-01T19:30:00"
+  sort_start: "2026-10-01T19:30:02"
 occurrences:
   - date: "2026-10-01"
     date_label: "Oct 1"
     time_display: "19:30 — 21:30"
-    sort_start: "2026-10-01T19:30:00"
+    sort_start: "2026-10-01T19:30:02"
 location_ref: ginta-latina
 ticket_url: "https://iticket.md/ru/event/seara-coregrafica-reflections-moldovaucraina-lua-bulgaria-in-between-moldova"
 media:
@@ -92,4 +92,4 @@ localization_status:
   ru: ready_for_review
 ---
 
-# IN BETWEEN
+# In Between

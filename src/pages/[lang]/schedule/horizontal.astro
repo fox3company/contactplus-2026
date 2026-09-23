@@ -35,7 +35,7 @@ if (!isLocale(lang)) {
 const allEvents = filterProgramEvents(await getCollection('events'), {
   viewMode: 'full_festival',
   includeScheduleOnly: true,
-});
+}).filter((event) => !['lunch-break', 'dinner-break'].includes(event.slug));
 const dayGroups = groupProgramEventsByDay(allEvents);
 const allPeople = await getCollection('people');
 const peopleById = new Map(allPeople.map((person) => [person.data.id || person.slug, person]));
@@ -65,7 +65,6 @@ const labels = {
   family: getLocalized({ en: 'Family & Youth', ro: 'Familie și copii', ru: 'Семья и дети' }, lang),
   performances: getLocalized({ en: 'Perf', ro: 'Perf', ru: 'Перформансы' }, lang),
   jams: getLocalized({ en: 'Jams & gatherings', ro: 'Jam-uri și întâlniri', ru: 'Джемы и встречи' }, lang),
-  breaks: getLocalized({ en: 'Breaks', ro: 'Pauze', ru: 'Паузы' }, lang),
   focus: getLocalized({ en: 'Focus', ro: 'Focus', ru: 'Фокус' }, lang),
   venue: getLocalized({ en: 'Venue', ro: 'Locație', ru: 'Площадка' }, lang),
   allVenues: getLocalized({ en: 'All venues', ro: 'Toate locațiile', ru: 'Все площадки' }, lang),
@@ -88,21 +87,6 @@ const labels = {
     en: 'Open in Google Maps',
     ro: 'Deschide în Google Maps',
     ru: 'Открыть в Google Maps',
-  }, lang),
-  chooseLunchSpot: getLocalized({
-    en: 'Choose your own lunch spot',
-    ro: 'Alegeți propriul loc pentru prânz',
-    ru: 'Выберите место для обеда самостоятельно',
-  }, lang),
-  chooseDinnerSpot: getLocalized({
-    en: 'Choose your own dinner spot',
-    ro: 'Alegeți propriul loc pentru cină',
-    ru: 'Выберите место для ужина самостоятельно',
-  }, lang),
-  chooseOwnSpot: getLocalized({
-    en: 'Choose your own spot',
-    ro: 'Alegeți propriul loc',
-    ru: 'Выберите место самостоятельно',
   }, lang),
   festivalContext: getLocalized({
     en: 'Sep 26 — Oct 4 · Chișinău',
@@ -265,7 +249,6 @@ const filterLabels: { key: ProgramFilterGroup; label: string }[] = [
   { key: 'family_youth', label: labels.family },
   { key: 'performances', label: labels.performances },
   { key: 'jams_gatherings', label: labels.jams },
-  { key: 'breaks', label: labels.breaks },
 ];
 const venueOptions = Object.entries(locations).filter(([locationRef]) => locationRef !== 'great-national-assembly-square');
 const venueFilterData = Object.fromEntries(Object.entries(locations).map(([locationRef, location]) => [locationRef, location.name]));
@@ -409,16 +392,9 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
                             country: formatPersonCountry(person.person_id),
                           }));
                           const hiddenPeopleCount = Math.max(0, visiblePeople.length - cardPeople.length);
-                          const isSecondary = filterGroup === 'breaks' || filterGroup === 'org';
+                          const isSecondary = filterGroup === 'org';
                           const cardLocationRef = locationRef || event.data.location_ref;
                           const location = cardLocationRef ? locations[cardLocationRef] : undefined;
-                          const selfSelectedLocation = !location && event.data.program_line === 'meal'
-                            ? event.slug === 'lunch-break'
-                              ? labels.chooseLunchSpot
-                              : event.slug === 'dinner-break'
-                                ? labels.chooseDinnerSpot
-                                : labels.chooseOwnSpot
-                            : undefined;
 
                           return (
                             <article
@@ -457,7 +433,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
                                 </span>
                               )}
                               {!cardPeople.length && compactNote && <p class="horizontal-card__summary">{compactNote}</p>}
-                              {location?.name ? (
+                              {location?.name && (
                                 <a
                                   class="horizontal-card__venue"
                                   data-location-link
@@ -472,14 +448,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
                                   </svg>
                                   <span>{location.name}</span>
                                 </a>
-                              ) : selfSelectedLocation && (
-                                <p class="horizontal-card__venue horizontal-card__venue--choice">
-                                  <svg class="horizontal-card__venue-icon" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M20 10c0 5.5-8 12-8 12S4 15.5 4 10a8 8 0 1 1 16 0Z"></path>
-                                    <circle cx="12" cy="10" r="2.5"></circle>
-                                  </svg>
-                                  <span>{selfSelectedLocation}</span>
-                                </p>
                               )}
                             </article>
                           );
@@ -912,11 +880,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     --filter-tint: rgba(115, 110, 150, 0.25);
   }
 
-  .control-row button[data-filter="breaks"] {
-    --filter-accent: #9f917d;
-    --filter-tint: rgba(159, 145, 125, 0.27);
-  }
-
   .control-row a:hover,
   .control-row button:hover,
   .control-row .active {
@@ -1199,11 +1162,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     --card-tint: rgba(115, 110, 150, 0.22);
   }
 
-  .horizontal-card--breaks {
-    --card-accent: #9f917d;
-    --card-tint: rgba(159, 145, 125, 0.22);
-  }
-
   .horizontal-card--org {
     --card-accent: #958876;
     --card-tint: rgba(149, 136, 118, 0.18);
@@ -1358,11 +1316,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     outline-offset: 3px;
   }
 
-  .horizontal-card__venue--choice {
-    color: var(--muted);
-    opacity: 0.58;
-  }
-
   .horizontal-card__venue-icon {
     width: 0.68rem;
     height: 0.68rem;
@@ -1431,11 +1384,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
   .detail-panel[data-accent="jams_gatherings"] {
     --program-accent: #736e96;
     --program-tint: rgba(115, 110, 150, 0.2);
-  }
-
-  .detail-panel[data-accent="breaks"] {
-    --program-accent: #9f917d;
-    --program-tint: rgba(159, 145, 125, 0.18);
   }
 
   .detail-panel .program-meta__category {
