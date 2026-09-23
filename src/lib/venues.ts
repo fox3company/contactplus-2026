@@ -107,7 +107,7 @@ export const venuesCopy: Record<Locale, {
         text: 'The main places for classes, laboratories, gatherings and the shared festival rhythm.',
       },
       performances: {
-        title: 'Performance venues',
+        title: 'Cultural and performance spaces',
         text: 'Theatre and cultural venues for Contact+\'s public performance evenings.',
       },
       oneOff: {
@@ -140,7 +140,7 @@ export const venuesCopy: Record<Locale, {
         text: 'Principalele locuri pentru clase, laboratoare, întâlniri și ritmul comun al festivalului.',
       },
       performances: {
-        title: 'Spații pentru performance',
+        title: 'Spații culturale și pentru performance',
         text: 'Teatre și spații culturale pentru serile publice de performance Contact+.',
       },
       oneOff: {
@@ -173,7 +173,7 @@ export const venuesCopy: Record<Locale, {
         text: 'Главные места для классов, лабораторий, встреч и общего ритма фестиваля.',
       },
       performances: {
-        title: 'Площадки для перформансов',
+        title: 'Культурные и перформативные пространства',
         text: 'Театральные и культурные площадки для открытой перформанс-программы Contact+.',
       },
       oneOff: {
