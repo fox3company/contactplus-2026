@@ -77,6 +77,11 @@ export const venuesCopy: Record<Locale, {
   listTitle: string;
   listText: string;
   orderNote: string;
+  groups: {
+    core: { title: string; text: string };
+    performances: { title: string; text: string };
+    oneOff: { title: string; text: string };
+  };
   browseVenues: string;
   firstActivity: string;
   addressLabel: string;
@@ -95,7 +100,21 @@ export const venuesCopy: Record<Locale, {
     mapDetailAction: 'View venue details',
     listTitle: 'Places in the festival rhythm',
     listText: 'Each venue below links to its exact location and shows the program currently scheduled there.',
-    orderNote: 'Venues are listed by their first festival activity.',
+    orderNote: 'Venues are grouped by their role in the festival program.',
+    groups: {
+      core: {
+        title: 'Core festival spaces',
+        text: 'The main places for classes, laboratories, gatherings and the shared festival rhythm.',
+      },
+      performances: {
+        title: 'Performance venues',
+        text: 'Theatre and cultural venues for Contact+\'s public performance evenings.',
+      },
+      oneOff: {
+        title: 'Single-event locations',
+        text: 'Locations used for one specific event in the festival program.',
+      },
+    },
     browseVenues: 'Browse venues',
     firstActivity: 'First activity',
     addressLabel: 'Address',
@@ -114,7 +133,21 @@ export const venuesCopy: Record<Locale, {
     mapDetailAction: 'Vezi detaliile locației',
     listTitle: 'Locuri în ritmul festivalului',
     listText: 'Fiecare locație de mai jos are un link către punctul exact și arată programul planificat acolo.',
-    orderNote: 'Locațiile sunt listate după prima activitate a festivalului.',
+    orderNote: 'Locațiile sunt grupate după rolul lor în programul festivalului.',
+    groups: {
+      core: {
+        title: 'Spațiile centrale ale festivalului',
+        text: 'Principalele locuri pentru clase, laboratoare, întâlniri și ritmul comun al festivalului.',
+      },
+      performances: {
+        title: 'Spații pentru performance',
+        text: 'Teatre și spații culturale pentru serile publice de performance Contact+.',
+      },
+      oneOff: {
+        title: 'Locații cu un singur eveniment',
+        text: 'Locații folosite pentru un singur eveniment din programul festivalului.',
+      },
+    },
     browseVenues: 'Explorează locațiile',
     firstActivity: 'Prima activitate',
     addressLabel: 'Adresă',
@@ -133,7 +166,21 @@ export const venuesCopy: Record<Locale, {
     mapDetailAction: 'Открыть информацию о площадке',
     listTitle: 'Места в ритме фестиваля',
     listText: 'У каждой площадки ниже есть точная геометка и актуальная программа, которая проходит здесь.',
-    orderNote: 'Площадки расположены по дате первого события фестиваля.',
+    orderNote: 'Площадки сгруппированы по их роли в программе фестиваля.',
+    groups: {
+      core: {
+        title: 'Основные пространства фестиваля',
+        text: 'Главные места для классов, лабораторий, встреч и общего ритма фестиваля.',
+      },
+      performances: {
+        title: 'Площадки для перформансов',
+        text: 'Театральные и культурные площадки для открытой перформанс-программы Contact+.',
+      },
+      oneOff: {
+        title: 'Площадки с одним событием',
+        text: 'Локации, которые используются для одного конкретного события фестивальной программы.',
+      },
+    },
     browseVenues: 'Выбрать площадку',
     firstActivity: 'Первое событие',
     addressLabel: 'Адрес',

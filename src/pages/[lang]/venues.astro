@@ -56,6 +56,27 @@ const mapVenues = venues.map(({ locationRef, venue, details }) => ({
   detailAction: copy.mapDetailAction,
   coordinates: details.coordinates,
 }));
+
+const venueGroups = [
+  {
+    key: 'core',
+    ...copy.groups.core,
+    refs: ['nod-space', 'festival-studio', 'national-choreography-college'],
+  },
+  {
+    key: 'performances',
+    ...copy.groups.performances,
+    refs: ['ginta-latina', 'artcor-creative-hub'],
+  },
+  {
+    key: 'one-off',
+    ...copy.groups.oneOff,
+    refs: ['art-studio-21', 'great-national-assembly-square'],
+  },
+].map((group) => ({
+  ...group,
+  venues: group.refs.flatMap((locationRef) => venues.filter((venue) => venue.locationRef === locationRef)),
+}));
 ---
 
 <BaseLayout lang={lang} title={`${copy.title} · Contact+ 2026`} description={copy.lead} noindex={true}>
@@ -80,7 +101,7 @@ const mapVenues = venues.map(({ locationRef, venue, details }) => ({
     </section>
 
     <nav class="venues-jump-nav" aria-label={copy.browseVenues}>
-      {venues.map(({ locationRef, venue }) => <a href={`#${locationRef}`}>{venue.name}</a>)}
+      {venueGroups.map((group) => <a href={`#venue-group-${group.key}`}>{group.title}</a>)}
     </nav>
 
     <section class="venues-list" aria-labelledby="venues-list-title">
@@ -91,37 +112,51 @@ const mapVenues = venues.map(({ locationRef, venue, details }) => ({
         </div>
       </header>
 
-      <div class="venues-list__items">
-        {venues.map(({ locationRef, venue, details, program, remainingProgramCount, mobileRemainingProgramCount }) => (
-          <article class="venue-entry" id={locationRef}>
-            <div class="venue-entry__main">
-              <h3>{venue.name}</h3>
-              <p class="venue-entry__description">{details.description[lang]}</p>
-              <div class="venue-entry__location">
-                {venue.address && <a class="venue-entry__address" href={venue.href} rel="noopener" target="_blank"><span>{copy.addressLabel}</span><span class="venue-entry__address-value">{venue.address} <span aria-hidden="true">↗</span></span></a>}
+      <div class="venues-groups">
+        {venueGroups.map((group, groupIndex) => (
+          <section class="venue-group" id={`venue-group-${group.key}`} aria-labelledby={`venue-group-title-${group.key}`}>
+            <header class="venue-group__header">
+              <span class="venue-group__index" aria-hidden="true">{String(groupIndex + 1).padStart(2, '0')}</span>
+              <div>
+                <h3 id={`venue-group-title-${group.key}`}>{group.title}</h3>
+                <p>{group.text}</p>
               </div>
+            </header>
+
+            <div class="venues-list__items">
+              {group.venues.map(({ locationRef, venue, details, program, remainingProgramCount, mobileRemainingProgramCount }) => (
+                <article class="venue-entry" id={locationRef}>
+                  <div class="venue-entry__main">
+                    <h3>{venue.name}</h3>
+                    <p class="venue-entry__description">{details.description[lang]}</p>
+                    <div class="venue-entry__location">
+                      {venue.address && <a class="venue-entry__address" href={venue.href} rel="noopener" target="_blank"><span>{copy.addressLabel}</span><span class="venue-entry__address-value">{venue.address} <span aria-hidden="true">↗</span></span></a>}
+                    </div>
+                  </div>
+                  <div class="venue-entry__program">
+                    <div class="venue-entry__program-head">
+                      <h4>{copy.programLabel}</h4>
+                    </div>
+                    {program.length > 0 ? (
+                      <ul>
+                        {program.map((item) => (
+                          <li>
+                            <span>{item.date} · {item.time}</span>
+                            <a href={item.href}>{item.title}</a>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : <p>—</p>}
+                    <div class="venue-entry__program-actions">
+                      {remainingProgramCount > 0 && <p class="venue-entry__more-program venue-entry__more-program--desktop">{copy.moreProgram(remainingProgramCount)}</p>}
+                      {mobileRemainingProgramCount > 0 && <p class="venue-entry__more-program venue-entry__more-program--mobile">{copy.moreProgram(mobileRemainingProgramCount)}</p>}
+                      <a class="venue-entry__schedule-link" href={`/${lang}/schedule?venue=${locationRef}`}>{copy.scheduleAction} <span aria-hidden="true">→</span></a>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
-            <div class="venue-entry__program">
-              <div class="venue-entry__program-head">
-                <h4>{copy.programLabel}</h4>
-              </div>
-              {program.length > 0 ? (
-                <ul>
-                  {program.map((item) => (
-                    <li>
-                      <span>{item.date} · {item.time}</span>
-                      <a href={item.href}>{item.title}</a>
-                    </li>
-                  ))}
-                </ul>
-              ) : <p>—</p>}
-              <div class="venue-entry__program-actions">
-                {remainingProgramCount > 0 && <p class="venue-entry__more-program venue-entry__more-program--desktop">{copy.moreProgram(remainingProgramCount)}</p>}
-                {mobileRemainingProgramCount > 0 && <p class="venue-entry__more-program venue-entry__more-program--mobile">{copy.moreProgram(mobileRemainingProgramCount)}</p>}
-                <a class="venue-entry__schedule-link" href={`/${lang}/schedule?venue=${locationRef}`}>{copy.scheduleAction} <span aria-hidden="true">→</span></a>
-              </div>
-            </div>
-          </article>
+          </section>
         ))}
       </div>
     </section>
@@ -245,7 +280,37 @@ const mapVenues = venues.map(({ locationRef, venue, details }) => ({
     margin-bottom: clamp(34px, 5vw, 62px);
   }
   .venues-list h2 { margin: 0; font-size: clamp(2.1rem, 4.3vw, 4rem); }
-  .venues-list__items { border-top: 1px solid var(--line); }
+  .venues-groups { display: grid; gap: clamp(66px, 9vw, 118px); }
+  .venue-group__header {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 18px;
+    align-items: start;
+    margin-bottom: 26px;
+  }
+  .venue-group__index {
+    padding-top: 5px;
+    color: var(--accent-muted);
+    font-size: .72rem;
+    font-weight: 680;
+    letter-spacing: .1em;
+  }
+  .venue-group__header h3 {
+    margin: 0 0 8px;
+    color: var(--ink);
+    font-family: var(--font-serif);
+    font-size: clamp(1.8rem, 3vw, 2.7rem);
+    font-weight: 400;
+    line-height: 1.04;
+  }
+  .venue-group__header p {
+    max-width: 610px;
+    margin: 0;
+    color: var(--muted);
+    font-size: .94rem;
+    line-height: 1.5;
+  }
+  .venue-group .venues-list__items { border-top: 1px solid var(--line); }
 
   .venue-entry {
     display: grid;
@@ -337,7 +402,12 @@ const mapVenues = venues.map(({ locationRef, venue, details }) => ({
     .venues-jump-nav a:hover, .venues-jump-nav a:focus-visible { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
     .venues-list { margin-top: 54px; }
     .venues-list__header p { margin-top: 18px; }
-    .venues-list__items { display: grid; gap: 16px; border-top: 0; }
+    .venues-groups { gap: 58px; }
+    .venue-group__header { grid-template-columns: 28px minmax(0, 1fr); gap: 12px; margin-bottom: 18px; }
+    .venue-group__index { padding-top: 3px; font-size: .66rem; }
+    .venue-group__header h3 { font-size: clamp(1.65rem, 8vw, 2.15rem); }
+    .venue-group__header p { font-size: .88rem; }
+    .venue-group .venues-list__items { display: grid; gap: 16px; border-top: 0; }
     .venue-entry { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 22px 20px 18px; background: var(--paper-deep); border: 1px solid var(--line); border-radius: 8px; }
     .venue-entry h3 { margin: 0 0 10px; font-size: clamp(1.7rem, 8.2vw, 2rem); }
     .venue-entry__description { margin-bottom: 16px; }
