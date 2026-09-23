@@ -124,6 +124,7 @@ const labels = {
     ro: 'Deschide detalii',
     ru: 'Открыть подробности',
   }, lang),
+  more: getLocalized({ en: 'more', ro: 'în plus', ru: 'ещё' }, lang),
   close: getLocalized({ en: 'Close', ro: 'Închide', ru: 'Закрыть' }, lang),
   date: getLocalized({ en: 'Date', ro: 'Dată', ru: 'Дата' }, lang),
   time: getLocalized({ en: 'Time', ro: 'Oră', ru: 'Время' }, lang),
@@ -173,6 +174,10 @@ const venueOptions = Object.entries(locations).filter(([locationRef]) => locatio
 
 function formatPersonName(personId: string) {
   return peopleById.get(personId)?.data.name || personId.split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+}
+
+function formatPersonCountry(personId: string) {
+  return getLocalizedCountryDisplay(peopleById.get(personId)?.data.country_display, lang);
 }
 
 function getPersonLabel(person: { public_label?: Partial<Record<typeof lang, string>> }, eventPeopleLabel?: string) {
@@ -394,6 +399,15 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
                     const group = getProgramFilterGroup(event);
                     const groups = getProgramFilterGroups(event).join(' ');
                     const detailKey = getEventDetailKey(event.slug, date, dateLabel);
+                    const visiblePeople = (event.data.people || []).filter((person) => person.public_visibility === 'visible');
+                    const compactPeople = event.slug === 'choice-as-bodily-experience'
+                      ? visiblePeople.filter((person) => !['alexandra-soshnicova', 'sergey-golovnea'].includes(person.person_id)).slice(0, 2)
+                      : visiblePeople.slice(0, 2);
+                    const cardPeople = compactPeople.map((person) => ({
+                      name: formatPersonName(person.person_id),
+                      country: formatPersonCountry(person.person_id),
+                    }));
+                    const hiddenPeopleCount = Math.max(0, visiblePeople.length - cardPeople.length);
                     const searchText = [
                       title,
                       category,
@@ -426,6 +440,21 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
                             {format && <span class="program-meta__format">{format}</span>}
                           </p>
                           <h3>{title}</h3>
+                          {cardPeople.length > 0 && (
+                            <span class="schedule-card__people" aria-label={cardPeople.map((person) => person.name).join(', ')}>
+                              {cardPeople.map((person) => (
+                                <span class="schedule-card__person">
+                                  <span>{person.name}</span>
+                                  {person.country && <small>{person.country}</small>}
+                                </span>
+                              ))}
+                              {hiddenPeopleCount > 0 && (
+                                <span class="schedule-card__person schedule-card__person--more">
+                                  +{hiddenPeopleCount} {labels.more}
+                                </span>
+                              )}
+                            </span>
+                          )}
                           {location?.name ? (
                             <a
                               class="event-venue event-venue--link"
@@ -1233,7 +1262,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
 
   .schedule-card {
     min-width: 0;
-    padding: 18px 18px 18px 16px;
+    padding: 18px 18px 14px 16px;
     border-left: 2px solid color-mix(in srgb, var(--program-accent) 72%, var(--line-strong));
     border-radius: 0;
     background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 34%, transparent), rgba(255, 255, 255, 0) 72%);
@@ -1255,7 +1284,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
   }
 
   .has-parallel .schedule-card {
-    padding: 17px 16px 18px 16px;
+    padding: 17px 16px 14px 16px;
     border-left: 2px solid color-mix(in srgb, var(--program-accent) 72%, var(--line-strong));
     border-radius: 0;
     background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 30%, transparent), rgba(255, 255, 255, 0) 78%);
@@ -1273,15 +1302,50 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
   }
 
   .event-body h3 {
-    margin: 0 0 8px;
+    margin: 0 0 5px;
     font-family: var(--font-serif);
-    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-size: clamp(1.14rem, 1.6vw, 1.5rem);
     font-weight: 400;
-    line-height: 1.15;
+    line-height: 1.16;
   }
 
   .schedule-card:hover .event-body h3 {
     color: var(--accent-muted);
+  }
+
+  .schedule-card__people {
+    display: grid;
+    gap: 2px;
+    margin: 0 0 7px;
+    color: color-mix(in srgb, var(--muted) 88%, var(--ink));
+    font-size: 0.78rem;
+    line-height: 1.3;
+  }
+
+  .schedule-card__person {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    min-width: 0;
+  }
+
+  .schedule-card__person > span {
+    overflow-wrap: anywhere;
+  }
+
+  .schedule-card__person small {
+    color: var(--soft);
+    font-size: inherit;
+    font-weight: 400;
+  }
+
+  .schedule-card__person small::before {
+    content: ' · ';
+  }
+
+  .schedule-card__person--more {
+    color: var(--soft);
+    font-size: 0.74rem;
   }
 
   .event-venue {
@@ -1755,21 +1819,25 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
 
     .time-group {
       grid-template-columns: 1fr;
-      gap: 14px;
-      padding: 23px 0;
+      gap: 10px;
+      padding: 18px 0;
+    }
+
+    .time-events {
+      gap: 12px;
     }
 
     .time-events.has-parallel {
       grid-template-columns: 1fr;
-      gap: 14px;
-      padding: 10px 0;
+      gap: 10px;
+      padding: 7px 0;
       border: 0;
       border-radius: 12px;
       background: linear-gradient(90deg, rgba(251, 250, 247, 0.62), rgba(251, 250, 247, 0.16) 86%);
     }
 
     .has-parallel .schedule-card {
-      padding: 17px 14px 18px 16px;
+      padding: 12px 12px 8px 14px;
       border-left: 2px solid color-mix(in srgb, var(--program-accent) 72%, var(--line-strong));
       border-radius: 0;
       background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 28%, transparent), rgba(255, 255, 255, 0) 78%);
@@ -1780,13 +1848,39 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
     }
 
     .has-parallel .event-body h3 {
-      margin-bottom: 9px;
+      margin-bottom: 5px;
+    }
+
+    .schedule-card {
+      padding: 12px 12px 8px 14px;
+    }
+
+    .event-body h3 {
+      margin-bottom: 4px;
+      font-size: clamp(1.02rem, 4.35vw, 1.15rem);
+      line-height: 1.2;
+    }
+
+    .schedule-card__people {
+      gap: 1px;
+      margin-bottom: 5px;
+      font-size: 0.75rem;
+      line-height: 1.28;
+    }
+
+    .schedule-card__person--more {
+      font-size: 0.72rem;
     }
 
     .has-parallel .event-venue {
       color: color-mix(in srgb, var(--muted) 88%, var(--soft));
-      font-size: 0.82rem;
-      line-height: 1.42;
+      font-size: 0.76rem;
+      line-height: 1.32;
+    }
+
+    .event-venue {
+      font-size: 0.76rem;
+      line-height: 1.32;
     }
 
     .parallel-label {
