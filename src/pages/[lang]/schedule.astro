@@ -1181,7 +1181,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
     display: grid;
     grid-template-columns: minmax(92px, 130px) 1fr;
     gap: clamp(16px, 3vw, 30px);
-    padding: 24px 0;
+    padding: 20px 0;
     border-bottom: 1px solid rgba(222, 214, 203, 0.52);
   }
 
@@ -1202,13 +1202,13 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
 
   .time-events {
     display: grid;
-    gap: 18px;
+    gap: 14px;
   }
 
   .time-events.has-parallel {
     grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 16px;
-    padding: 10px 0;
+    gap: 12px;
+    padding: 8px 0;
     border: 0;
     border-radius: 12px;
     background: linear-gradient(90deg, rgba(251, 250, 247, 0.58), rgba(251, 250, 247, 0.18) 82%);
@@ -1231,10 +1231,10 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
 
   .schedule-card {
     min-width: 0;
-    padding: 18px 18px 14px 16px;
-    border-left: 2px solid color-mix(in srgb, var(--program-accent) 72%, var(--line-strong));
+    padding: 17px 18px 16px 17px;
+    border-left: 1px solid color-mix(in srgb, var(--program-accent) 72%, var(--line-strong));
     border-radius: 0;
-    background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 34%, transparent), rgba(255, 255, 255, 0) 72%);
+    background: color-mix(in srgb, var(--program-tint) 12%, var(--paper));
     cursor: pointer;
     transition:
       background-color 160ms ease,
@@ -1243,20 +1243,13 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
   }
 
   .schedule-card:hover {
-    background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 54%, transparent), rgba(255, 255, 255, 0.22) 76%);
-    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.28);
+    background: color-mix(in srgb, var(--program-tint) 19%, var(--paper));
+    box-shadow: 0 5px 16px rgba(47, 39, 33, 0.06);
   }
 
   .schedule-card:focus-visible {
     outline: 1px solid var(--line-strong);
     outline-offset: 8px;
-  }
-
-  .has-parallel .schedule-card {
-    padding: 17px 16px 14px 16px;
-    border-left: 2px solid color-mix(in srgb, var(--program-accent) 72%, var(--line-strong));
-    border-radius: 0;
-    background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 30%, transparent), rgba(255, 255, 255, 0) 78%);
   }
 
   .time-column span {
@@ -1270,10 +1263,29 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
     max-width: 740px;
   }
 
+  .schedule-card .program-meta {
+    align-items: baseline;
+    gap: 7px;
+    margin: 0;
+    color: var(--soft);
+    font-size: 0.76rem;
+    line-height: 1.25;
+  }
+
+  .schedule-card .program-meta__category {
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.065em;
+  }
+
+  .schedule-card .program-meta__divider {
+    width: 10px;
+  }
+
   .event-body h3 {
-    margin: 0 0 5px;
+    margin: 7px 0 0;
     font-family: var(--font-serif);
-    font-size: clamp(1.14rem, 1.6vw, 1.5rem);
+    font-size: clamp(1.1rem, 1.5vw, 1.42rem);
     font-weight: 400;
     line-height: 1.16;
   }
@@ -1285,7 +1297,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
   .schedule-card__people {
     display: grid;
     gap: 2px;
-    margin: 0 0 7px;
+    margin: 6px 0 0;
     color: color-mix(in srgb, var(--muted) 88%, var(--ink));
     font-size: 0.78rem;
     line-height: 1.3;
@@ -1313,6 +1325,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
   }
 
   .schedule-card__person--more {
+    margin-top: 1px;
     color: var(--soft);
     font-size: 0.74rem;
   }
@@ -1322,7 +1335,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
     align-items: center;
     gap: 6px;
     max-width: 650px;
-    margin: 0;
+    margin-top: 10px;
     color: var(--muted);
     font-size: 0.84rem;
     font-weight: 500;
@@ -1780,50 +1793,57 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
     .time-group {
       grid-template-columns: 1fr;
       gap: 10px;
-      padding: 18px 0;
+      padding: 16px 0;
     }
 
     .time-events {
-      gap: 12px;
+      gap: 10px;
     }
 
     .time-events.has-parallel {
       grid-template-columns: 1fr;
       gap: 10px;
-      padding: 7px 0;
+      padding: 6px 0;
       border: 0;
       border-radius: 12px;
       background: linear-gradient(90deg, rgba(251, 250, 247, 0.62), rgba(251, 250, 247, 0.16) 86%);
     }
 
     .has-parallel .schedule-card {
-      padding: 12px 12px 8px 14px;
-      border-left: 2px solid color-mix(in srgb, var(--program-accent) 72%, var(--line-strong));
-      border-radius: 0;
-      background: linear-gradient(90deg, color-mix(in srgb, var(--program-tint) 28%, transparent), rgba(255, 255, 255, 0) 78%);
-    }
-
-    .has-parallel .schedule-card:last-child {
-      border-bottom: 0;
+      padding: 13px 14px 12px 15px;
     }
 
     .has-parallel .event-body h3 {
-      margin-bottom: 5px;
+      margin-top: 7px;
     }
 
     .schedule-card {
-      padding: 12px 12px 8px 14px;
+      padding: 13px 14px 12px 15px;
     }
 
     .event-body h3 {
-      margin-bottom: 4px;
-      font-size: clamp(1.02rem, 4.35vw, 1.15rem);
+      margin-top: 7px;
+      font-size: clamp(1rem, 4.15vw, 1.12rem);
       line-height: 1.2;
+    }
+
+    .schedule-card .program-meta {
+      gap: 6px;
+      font-size: 0.72rem;
+    }
+
+    .schedule-card .program-meta__category {
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+    }
+
+    .schedule-card .program-meta__divider {
+      width: 8px;
     }
 
     .schedule-card__people {
       gap: 1px;
-      margin-bottom: 5px;
+      margin-top: 5px;
       font-size: 0.75rem;
       line-height: 1.28;
     }
@@ -1839,6 +1859,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
     }
 
     .event-venue {
+      margin-top: 9px;
       font-size: 0.76rem;
       line-height: 1.32;
     }
