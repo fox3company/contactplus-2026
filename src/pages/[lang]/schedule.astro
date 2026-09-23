@@ -19,7 +19,6 @@ import {
   getProgramOccurrences,
   groupProgramEventsByDay,
   isPublicDetailEvent,
-  isVisibleInProgramView,
 } from '../../lib/program';
 
 export async function getStaticPaths() {
@@ -72,12 +71,6 @@ const intro = getLocalized({
 const labels = {
   vertical: getLocalized({ en: 'Vertical', ro: 'Vertical', ru: 'Вертикально' }, lang),
   horizontal: getLocalized({ en: 'Horizontal', ro: 'Orizontal', ru: 'Горизонтально' }, lang),
-  full: getLocalized({ en: 'Full festival', ro: 'Festival complet', ru: 'Весь фестиваль' }, lang),
-  classes: getLocalized({
-    en: 'Classes & performances only',
-    ro: 'Doar clase și performance-uri',
-    ru: 'Только классы и перформансы',
-  }, lang),
   all: getLocalized({ en: 'All', ro: 'Toate', ru: 'Все' }, lang),
   ci: getLocalized({ en: 'CI', ro: 'Improvizație de contact', ru: 'КИ' }, lang),
   performanceLabs: getLocalized({
@@ -99,7 +92,6 @@ const labels = {
     ru: 'Событие, артист, класс...',
   }, lang),
   view: getLocalized({ en: 'View', ro: 'Vedere', ru: 'Вид' }, lang),
-  mode: getLocalized({ en: 'Mode', ro: 'Mod', ru: 'Режим' }, lang),
   filters: getLocalized({ en: 'Focus', ro: 'Focus', ru: 'Фокус' }, lang),
   venue: getLocalized({ en: 'Venue', ro: 'Locație', ru: 'Площадка' }, lang),
   allVenues: getLocalized({ en: 'All venues', ro: 'Toate locațiile', ru: 'Все площадки' }, lang),
@@ -320,14 +312,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
             </nav>
           </div>
 
-          <div class="tool-group">
-            <span class="tool-label">{labels.mode}</span>
-            <div class="control-group" aria-label="View mode">
-              <button class="control-pill active" type="button" data-mode-button="full_festival">{labels.full}</button>
-              <button class="control-pill" type="button" data-mode-button="classes_performances">{labels.classes}</button>
-            </div>
-          </div>
-
           <div class="tool-group tool-group--wide">
             <span class="tool-label">{labels.filters}</span>
             <div class="control-group filters" aria-label="Filters">
@@ -402,7 +386,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
                         data-filter-group={group}
                         data-filter-groups={groups}
                         data-program-accent={group}
-                        data-view-classes={isVisibleInProgramView(event, 'classes_performances') ? 'true' : 'false'}
                         data-search={searchText.toLowerCase()}
                         data-detail-key={detailKey}
                         data-location-ref={locationRef || ''}
@@ -509,7 +492,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
 
 <script is:inline>
   window.addEventListener('DOMContentLoaded', () => {
-    const modeButtons = [...document.querySelectorAll('[data-mode-button]')];
     const filterButtons = [...document.querySelectorAll('[data-filter-button]')];
     const cards = [...document.querySelectorAll('[data-event-card]')];
     const timeGroups = [...document.querySelectorAll('[data-time-group]')];
@@ -528,7 +510,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
     const detailClose = document.querySelector('[data-detail-close]');
     const detailFullPage = document.querySelector('[data-detail-full-page]');
     let lastFocusedCard = null;
-    let activeMode = 'full_festival';
     const activeFilters = new Set();
     let activeSearch = '';
     const requestedVenue = new URLSearchParams(window.location.search).get('venue') || '';
@@ -561,12 +542,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
       renderSchedule();
     }
 
-    function setActive(buttons, attr, value) {
-      buttons.forEach((button) => {
-        button.classList.toggle('active', button.getAttribute(attr) === value);
-      });
-    }
-
     function syncFilterButtons() {
       const hasSpecificFilters = activeFilters.size > 0;
 
@@ -582,12 +557,11 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
       let visibleCount = 0;
 
       cards.forEach((card) => {
-        const modeMatch = activeMode === 'full_festival' || card.getAttribute('data-view-classes') === 'true';
         const filterGroups = (card.getAttribute('data-filter-groups') || card.getAttribute('data-filter-group') || '').split(/\s+/).filter(Boolean);
         const filterMatch = activeFilters.size === 0 || filterGroups.some((filterGroup) => activeFilters.has(filterGroup));
         const searchMatch = !activeSearch || (card.getAttribute('data-search') || '').includes(activeSearch);
         const venueMatch = !activeVenue || card.getAttribute('data-location-ref') === activeVenue;
-        const visible = modeMatch && filterMatch && searchMatch && venueMatch;
+        const visible = filterMatch && searchMatch && venueMatch;
         card.hidden = !visible;
         if (visible) visibleCount += 1;
       });
@@ -610,7 +584,7 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
         item.hidden = Boolean(target?.hidden);
       });
 
-      const hasActiveControls = activeMode !== 'full_festival' || activeFilters.size > 0 || Boolean(activeSearch) || Boolean(activeVenue);
+      const hasActiveControls = activeFilters.size > 0 || Boolean(activeSearch) || Boolean(activeVenue);
       daysList?.classList.toggle('is-filtered', hasActiveControls);
 
       if (emptyMessage) emptyMessage.hidden = visibleCount > 0;
@@ -776,14 +750,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ timeGroups }) => (
       document.documentElement.classList.remove('event-detail-open');
       lastFocusedCard?.focus?.();
     }
-
-    modeButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        activeMode = button.getAttribute('data-mode-button') || 'full_festival';
-        setActive(modeButtons, 'data-mode-button', activeMode);
-        renderSchedule();
-      });
-    });
 
     filterButtons.forEach((button) => {
       button.addEventListener('click', () => {

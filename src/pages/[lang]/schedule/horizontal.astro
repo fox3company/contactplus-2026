@@ -19,7 +19,6 @@ import {
   getProgramOccurrences,
   groupProgramEventsByDay,
   isPublicDetailEvent,
-  isVisibleInProgramView,
   type ProgramFilterGroup,
 } from '../../../lib/program';
 
@@ -57,8 +56,6 @@ const intro = getLocalized({
 const labels = {
   vertical: getLocalized({ en: 'Vertical', ro: 'Vertical', ru: 'Вертикально' }, lang),
   horizontal: getLocalized({ en: 'Horizontal', ro: 'Orizontal', ru: 'Горизонтально' }, lang),
-  full: getLocalized({ en: 'Full festival', ro: 'Festival complet', ru: 'Весь фестиваль' }, lang),
-  classes: getLocalized({ en: 'Classes & performances only', ro: 'Doar clase și performance-uri', ru: 'Только классы и перформансы' }, lang),
   all: getLocalized({ en: 'All', ro: 'Toate', ru: 'Все' }, lang),
   ci: getLocalized({ en: 'CI', ro: 'Improvizație de contact', ru: 'КИ' }, lang),
   performanceLabs: getLocalized({ en: 'Perf Labs', ro: 'Perf Labs', ru: 'Перформанс-лабы' }, lang),
@@ -68,7 +65,6 @@ const labels = {
   focus: getLocalized({ en: 'Focus', ro: 'Focus', ru: 'Фокус' }, lang),
   venue: getLocalized({ en: 'Venue', ro: 'Locație', ru: 'Площадка' }, lang),
   allVenues: getLocalized({ en: 'All venues', ro: 'Toate locațiile', ru: 'Все площадки' }, lang),
-  mode: getLocalized({ en: 'Mode', ro: 'Mod', ru: 'Режим' }, lang),
   view: getLocalized({ en: 'View', ro: 'Vedere', ru: 'Вид' }, lang),
   close: getLocalized({ en: 'Close', ro: 'Închide', ru: 'Закрыть' }, lang),
   date: getLocalized({ en: 'Date', ro: 'Dată', ru: 'Дата' }, lang),
@@ -324,12 +320,8 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
               <option value={locationRef}>{location.name}</option>
             ))}
           </select>
+          <span class="horizontal-venue-select__chevron" aria-hidden="true"></span>
         </label>
-      </div>
-      <div class="control-row" data-mode-controls>
-        <span>{labels.mode}</span>
-        <button class="active" type="button" data-view-mode="full_festival">{labels.full}</button>
-        <button type="button" data-view-mode="classes_performances">{labels.classes}</button>
       </div>
       <div class="control-row" data-filter-controls>
         <span>{labels.focus}</span>
@@ -406,7 +398,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
                               data-card-kind={event.data.visibility === 'schedule_only' ? 'schedule-only' : 'detail'}
                               data-card-note={compactNote ? 'true' : 'false'}
                               data-density={isSecondary ? 'secondary' : 'primary'}
-                              data-view-classes={isVisibleInProgramView(event, 'classes_performances') ? 'true' : 'false'}
                               data-detail-key={detailKey}
                               role="button"
                               tabindex="0"
@@ -515,7 +506,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     const cells = [...document.querySelectorAll('[data-grid-cell]')];
     const timeGroups = [...document.querySelectorAll('[data-time-group]')];
     const filterButtons = [...document.querySelectorAll('[data-filter]')];
-    const viewButtons = [...document.querySelectorAll('[data-view-mode]')];
     const venueSelect = document.querySelector('[data-venue-select]');
     const venueNames = JSON.parse(document.getElementById('horizontal-venue-data')?.textContent || '{}');
     const emptyMessage = document.querySelector('[data-empty-message]');
@@ -524,7 +514,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     const detailPanel = document.querySelector('[data-detail-panel]');
     const detailClose = document.querySelector('[data-detail-close]');
     const detailFullPage = document.querySelector('[data-detail-full-page]');
-    let activeViewMode = 'full_festival';
     let activeFilters = new Set(['all']);
     const requestedVenue = new URLSearchParams(window.location.search).get('venue') || '';
     let activeVenue = venueNames[requestedVenue] ? requestedVenue : '';
@@ -557,10 +546,9 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
 
     function passesFilters(card) {
       const filterGroups = (card.getAttribute('data-filter-groups') || card.getAttribute('data-filter-group') || '').split(/\s+/).filter(Boolean);
-      const viewMatch = activeViewMode === 'full_festival' || card.getAttribute('data-view-classes') === 'true';
       const filterMatch = activeFilters.has('all') || filterGroups.some((filterGroup) => activeFilters.has(filterGroup));
       const venueMatch = !activeVenue || card.getAttribute('data-location-ref') === activeVenue;
-      return viewMatch && filterMatch && venueMatch;
+      return filterMatch && venueMatch;
     }
 
     function renderBoard() {
@@ -581,9 +569,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
       filterButtons.forEach((button) => {
         const filter = button.getAttribute('data-filter');
         button.classList.toggle('active', activeFilters.has(filter));
-      });
-      viewButtons.forEach((button) => {
-        button.classList.toggle('active', button.getAttribute('data-view-mode') === activeViewMode);
       });
       if (emptyMessage) emptyMessage.hidden = visibleCount > 0;
     }
@@ -746,13 +731,6 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
       });
     });
 
-    viewButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        activeViewMode = button.getAttribute('data-view-mode') || 'full_festival';
-        renderBoard();
-      });
-    });
-
     venueSelect?.addEventListener('change', () => setVenue(venueSelect.value));
 
     cards.forEach((card) => {
@@ -835,9 +813,34 @@ const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
     cursor: pointer;
   }
 
+  .control-row a {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
   .horizontal-venue-select select {
     min-width: 220px;
-    appearance: auto;
+    padding-right: 42px;
+    appearance: none;
+  }
+
+  .horizontal-venue-select {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .horizontal-venue-select__chevron {
+    position: absolute;
+    top: 50%;
+    right: 19px;
+    width: 7px;
+    height: 7px;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    color: var(--soft);
+    pointer-events: none;
+    transform: translateY(-65%) rotate(45deg);
   }
 
   .control-row button[data-filter] {
