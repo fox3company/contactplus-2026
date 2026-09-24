@@ -55,7 +55,7 @@ occurrences:
     date_label: "Sep 27"
     time_display: "12:00 — 14:30"
     sort_start: "2026-09-27T12:00:00"
-location_ref: national-choreography-college
+location_ref: festival-studio
 people_label: With
 people:
   - person_id: virginia-negru

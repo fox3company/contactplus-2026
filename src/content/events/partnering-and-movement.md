@@ -54,7 +54,7 @@ occurrences:
     date_label: "Sep 26"
     time_display: "10:00 — 12:00"
     sort_start: "2026-09-26T10:00:00"
-location_ref: national-choreography-college
+location_ref: nod-space
 people_label: With
 people:
   - person_id: martins-emils-arzanovskis

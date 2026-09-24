@@ -48,13 +48,13 @@ occurrences:
     date_label: "Sep 26"
     time_display: "12:00 — 14:30"
     sort_start: "2026-09-26T12:00:00"
-    location_ref: national-choreography-college
+    location_ref: nod-space
   - date: "2026-09-27"
     date_label: "Sep 27"
     time_display: "12:00 — 14:30"
     sort_start: "2026-09-27T12:00:00"
     location_ref: nod-space
-location_ref: national-choreography-college
+location_ref: nod-space
 people_label: With
 people:
   - person_id: daniel-rojasanta
