@@ -246,8 +246,12 @@ const filterLabels: { key: ProgramFilterGroup; label: string }[] = [
   { key: 'performances', label: labels.performances },
   { key: 'jams_gatherings', label: labels.jams },
 ];
-const venueOptions = Object.entries(locations).filter(([locationRef]) => locationRef !== 'great-national-assembly-square');
-const venueFilterData = Object.fromEntries(Object.entries(locations).map(([locationRef, location]) => [locationRef, location.name]));
+const excludedVenueFilterRefs = new Set([
+  'great-national-assembly-square',
+  'chisinau-city-centre',
+]);
+const venueOptions = Object.entries(locations).filter(([locationRef]) => !excludedVenueFilterRefs.has(locationRef));
+const venueFilterData = Object.fromEntries(venueOptions.map(([locationRef, location]) => [locationRef, location.name]));
 
 const eventDetails = Object.fromEntries(dayGroups.flatMap(({ occurrences }) => (
   occurrences.map(({ event, date, dateLabel, timeDisplay, locationRef }) => {

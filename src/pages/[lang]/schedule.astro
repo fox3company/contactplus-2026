@@ -146,8 +146,12 @@ const labels = {
   view: getLocalized({ en: 'View', ro: 'Vedere', ru: 'Вид' }, lang),
 };
 
-const venueFilterData = Object.fromEntries(Object.entries(locations).map(([locationRef, location]) => [locationRef, location.name]));
-const venueOptions = Object.entries(locations).filter(([locationRef]) => locationRef !== 'great-national-assembly-square');
+const excludedVenueFilterRefs = new Set([
+  'great-national-assembly-square',
+  'chisinau-city-centre',
+]);
+const venueOptions = Object.entries(locations).filter(([locationRef]) => !excludedVenueFilterRefs.has(locationRef));
+const venueFilterData = Object.fromEntries(venueOptions.map(([locationRef, location]) => [locationRef, location.name]));
 
 function formatPersonName(personId: string) {
   return peopleById.get(personId)?.data.name || personId.split('-').map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
