@@ -5,12 +5,12 @@ const shared = {
   performanceTicketsUrl: 'https://iticket.md/partner/contactplus2026',
   eventSlugs: {
     opening: ['shared-awareness', 'arriving-into-the-touch'],
-    openingIncluded: ['first-meetings-jam', 'welcoming-open-circle-jam', 'the-wild-one'],
+    openingIncluded: ['first-meetings-jam', 'welcoming-open-circle-jam', 'opening-jam-part-1', 'contact-improvisation-performance-discussion', 'opening-jam-part-2', 'the-wild-one'],
     ciMain: ['ci-as-artsport', 'dynamic-flying'],
     ciSecond: ['risk-play-flight'],
     labsMain: ['choice-as-bodily-experience', 'touching-stories'],
     labsSecond: ['seeing-and-being-seen'],
-    jams: ['first-meetings-jam', 'welcoming-open-circle-jam', 'jam', 'jam', 'celebration-jam', 'farewell-jam'],
+    jams: ['first-meetings-jam', 'opening-jam-part-1', 'jam', 'jam', 'celebration-jam', 'farewell-jam'],
     family: ['little-curiosity-family-baby-6', 'little-curiosity-family-kids-6', 'the-wild-one', 'family-time-discussion', 'youth-dance-class'],
   },
 };
@@ -57,13 +57,13 @@ export const passesCopy: Record<Locale, any> = {
     opening: {
       title: 'Opening Weekend Pass', text: 'Begin Contact+ through two connected days of practice and the festival’s opening events.',
       choose: 'Choose exactly one of two parallel two-day formats:', meta: '2-day intensive',
-      after: 'Then join First Meetings JAM, Welcoming Open Circle & JAM and The Wild One. The Wild One is available to Opening Weekend participants who wish to attend it.',
+      after: 'Then join First Meetings JAM, the opening circle, opening JAM, discussion and The Wild One. The Wild One is available to Opening Weekend participants who wish to attend it.',
       unavailable: 'Sharing Presence and Arriving into the Touch are available through this pass and are not currently sold separately.',
       cta: 'Choose your opening format',
       packageTitle: 'Your Opening Weekend Pass includes',
       chooseTitle: 'Choose one intensive',
       includedTitle: 'Included with either choice',
-      includedText: 'Your Opening Weekend Pass includes one of the two parallel intensives above plus all three events below.',
+      includedText: 'Your Opening Weekend Pass includes one of the two parallel intensives above plus the opening events below.',
       selectionNote: 'Indicate your chosen intensive in the registration form.',
     },
     ci: {
@@ -181,13 +181,13 @@ export const passesCopy: Record<Locale, any> = {
     opening: {
       title: 'Abonament pentru weekendul de deschidere', text: 'Începe Contact+ prin două zile legate de practică și evenimentele de deschidere.',
       choose: 'Alege exact unul dintre cele două formate paralele de două zile:', meta: 'Intensiv de 2 zile',
-      after: 'Apoi participă la JAM-ul primelor întâlniri, Cercul de bun-venit și JAM și Ființa sălbatică. Participanții la weekendul de deschidere pot alege să vină la Ființa sălbatică.',
+      after: 'Apoi participă la JAM-ul primelor întâlniri, cercul de deschidere, JAM-ul de deschidere, discuție și Ființa sălbatică. Participanții la weekendul de deschidere pot alege să vină la Ființa sălbatică.',
       unavailable: 'Prezență împărtășită și Sosirea în atingere sunt disponibile prin acest abonament și nu se vând separat în prezent.',
       cta: 'Alege formatul de deschidere',
       packageTitle: 'Abonamentul pentru weekendul de deschidere include',
       chooseTitle: 'Alege un intensiv',
       includedTitle: 'Inclus indiferent de alegere',
-      includedText: 'Abonamentul pentru weekendul de deschidere include unul dintre cele două intensive paralele de mai sus și toate cele trei evenimente de mai jos.',
+      includedText: 'Abonamentul pentru weekendul de deschidere include unul dintre cele două intensive paralele de mai sus și evenimentele de deschidere de mai jos.',
       selectionNote: 'Indică intensivul ales în formularul de înscriere.',
     },
     ci: {
@@ -305,13 +305,13 @@ export const passesCopy: Record<Locale, any> = {
     opening: {
       title: 'Абонемент на открывающий уикенд', text: 'Начните Contact+ с двух связанных дней практики и открывающих событий фестиваля.',
       choose: 'Выберите ровно один из двух параллельных двухдневных форматов:', meta: 'Интенсив · 2 дня',
-      after: 'Затем присоединитесь к JAM первых встреч, Открывающему кругу и JAM и Дикому существу. Участники открывающего уикенда могут выбрать посещение Дикого существа.',
+      after: 'Затем присоединитесь к JAM первых встреч, открывающему кругу, открывающему JAM, дискуссии и Дикому существу. Участники открывающего уикенда могут выбрать посещение Дикого существа.',
       unavailable: 'Совместное присутствие и Приход в прикосновение доступны только в рамках этого абонемента и сейчас не продаются отдельно.',
       cta: 'Выбрать открывающий формат',
       packageTitle: 'В абонемент на открывающий уикенд входит',
       chooseTitle: 'Выберите один интенсив',
       includedTitle: 'Входит при любом выборе',
-      includedText: 'Абонемент на открывающий уикенд включает один из двух параллельных интенсивов выше и все три события ниже.',
+      includedText: 'Абонемент на открывающий уикенд включает один из двух параллельных интенсивов выше и открывающие события ниже.',
       selectionNote: 'Укажите выбранный интенсив в регистрационной форме.',
     },
     ci: {

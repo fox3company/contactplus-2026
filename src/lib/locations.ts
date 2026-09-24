@@ -10,11 +10,6 @@ export const locations: Record<string, ProgramLocation> = {
     address: '31 August 1989 St 137, Chișinău',
     href: 'https://share.google/fBRQE6NZZYeCE9Mr4',
   },
-  'national-choreography-college': {
-    name: 'National Choreography College',
-    address: 'Mihai Eminescu Street 31, Chișinău',
-    href: 'https://share.google/zf83FcBnb8eVAUbna',
-  },
   'nod-space': {
     name: 'NOD Space',
     address: 'Bulevardul Ștefan cel Mare și Sfînt Street 134, Chișinău',

@@ -67,7 +67,7 @@ occurrences:
     date_label: "Oct 4"
     time_display: "10:00 — 11:30"
     sort_start: "2026-10-04T10:00:00"
-location_ref: national-choreography-college
+location_ref: festival-studio
 people_label: With
 people:
   - person_id: olek-wojcik

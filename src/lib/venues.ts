@@ -16,14 +16,6 @@ export const venueDetails: Record<string, VenueDetails> = {
       ru: 'Креативный хаб в историческом центре, где проходят встречи и практики фестиваля.',
     },
   },
-  'national-choreography-college': {
-    coordinates: [47.0191062, 28.8322478],
-    description: {
-      en: 'A dance-education venue with studio space for the festival’s intensive practice program.',
-      ro: 'O locație de educație coregrafică, cu spații de studio pentru programul intensiv de practică al festivalului.',
-      ru: 'Учебное хореографическое пространство со студиями для интенсивной практической программы фестиваля.',
-    },
-  },
   'nod-space': {
     coordinates: [47.0233115, 28.8350163],
     description: {

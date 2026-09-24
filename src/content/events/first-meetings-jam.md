@@ -35,11 +35,11 @@ localization_status:
   ru: ready_for_review
 schedule:
   date_display: "Sep 26"
-  time_display: "19:30 — 22:30"
+  time_display: "19:30 — 22:00"
 occurrences:
   - date: "2026-09-26"
     date_label: "Sep 26"
-    time_display: "19:30 — 22:30"
+    time_display: "19:30 — 22:00"
     sort_start: "2026-09-26T19:30:00"
 location_ref: nod-space
 people_label: With

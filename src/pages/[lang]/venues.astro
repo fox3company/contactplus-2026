@@ -48,7 +48,6 @@ const venues = Object.entries(locations).flatMap(([locationRef, venue]) => {
 }).sort((a, b) => (a.firstActivity?.sortValue || Infinity) - (b.firstActivity?.sortValue || Infinity));
 
 const hiddenVenueRefs = new Set([
-  'national-choreography-college',
   'art-studio-21',
 ]);
 
