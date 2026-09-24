@@ -149,6 +149,8 @@ const labels = {
 const excludedVenueFilterRefs = new Set([
   'great-national-assembly-square',
   'chisinau-city-centre',
+  'national-choreography-college',
+  'art-studio-21',
 ]);
 const venueOptions = Object.entries(locations).filter(([locationRef]) => !excludedVenueFilterRefs.has(locationRef));
 const venueFilterData = Object.fromEntries(venueOptions.map(([locationRef, location]) => [locationRef, location.name]));

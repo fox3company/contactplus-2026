@@ -44,7 +44,7 @@ occurrences:
     date_label: "Sep 27"
     time_display: "11:30 — 13:00"
     sort_start: "2026-09-27T11:30:00"
-location_ref: national-choreography-college
+location_ref: festival-studio
 people_label: With
 people:
   - person_id: laura-vlad

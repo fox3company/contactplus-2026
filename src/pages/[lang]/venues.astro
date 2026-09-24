@@ -47,21 +47,28 @@ const venues = Object.entries(locations).flatMap(([locationRef, venue]) => {
   }];
 }).sort((a, b) => (a.firstActivity?.sortValue || Infinity) - (b.firstActivity?.sortValue || Infinity));
 
-const mapVenues = venues.map(({ locationRef, venue, details }) => ({
-  id: locationRef,
-  name: venue.name,
-  address: venue.address || '',
-  href: venue.href,
-  anchor: `#${locationRef}`,
-  detailAction: copy.mapDetailAction,
-  coordinates: details.coordinates,
-}));
+const hiddenVenueRefs = new Set([
+  'national-choreography-college',
+  'art-studio-21',
+]);
+
+const mapVenues = venues
+  .filter(({ locationRef }) => !hiddenVenueRefs.has(locationRef))
+  .map(({ locationRef, venue, details }) => ({
+    id: locationRef,
+    name: venue.name,
+    address: venue.address || '',
+    href: venue.href,
+    anchor: `#${locationRef}`,
+    detailAction: copy.mapDetailAction,
+    coordinates: details.coordinates,
+  }));
 
 const venueGroups = [
   {
     key: 'core',
     ...copy.groups.core,
-    refs: ['nod-space', 'festival-studio', 'national-choreography-college'],
+    refs: ['nod-space', 'festival-studio'],
   },
   {
     key: 'performances',
@@ -71,7 +78,7 @@ const venueGroups = [
   {
     key: 'one-off',
     ...copy.groups.oneOff,
-    refs: ['art-studio-21', 'great-national-assembly-square'],
+    refs: ['great-national-assembly-square'],
   },
 ].map((group) => ({
   ...group,
