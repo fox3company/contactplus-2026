@@ -41,7 +41,7 @@ occurrences:
     date_label: "Sep 26"
     time_display: "10:00 — 14:00"
     sort_start: "2026-09-26T10:00:00"
-location_ref: nod-space
+location_ref: festival-studio
 people_label: With
 people: []
 media:
