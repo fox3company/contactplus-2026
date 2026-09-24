@@ -4,9 +4,9 @@ publishing_status: ready_for_review
 program_line: film_presentation
 filters: [performance]
 title:
-  en: Outside/Inside (Norway) & The Sea (Sweden)
-  ro: Exterior/Interior (Norvegia) și The Sea (Suedia)
-  ru: Снаружи/Внутри (Норвегия) и The Sea (Швеция)
+  en: Outside/Inside (Norway)
+  ro: Exterior/Interior (Norvegia)
+  ru: Снаружи/Внутри (Норвегия)
 meta:
   category:
     en: Film / Presentation
@@ -17,42 +17,21 @@ meta:
     ro: Discuție
     ru: Обсуждение
 summary:
-  en: >-
-    Two film presentations: Samovarteateret’s Outside/Inside and Douglas Rosenberg’s The Sea,
-    followed by a conversation with Samovarteateret artist Nikolay Shchetnev.
-  ro: >-
-    Două prezentări de film: Exterior/Interior de Samovarteateret și The Sea de Douglas Rosenberg,
-    urmate de o conversație cu artistul Samovarteateret Nikolay Shchetnev.
-  ru: >-
-    Две кинопрезентации: «Снаружи/Внутри» Samovarteateret и The Sea Дугласа Розенберга,
-    после которых состоится разговор с артистом Samovarteateret Nikolay Shchetnev.
+  en: A film / presentation of Samovarteateret’s Outside/Inside, an interdisciplinary work on how outer tensions enter inner life, followed by a conversation with Samovarteateret artist Nikolay Shchetnev.
+  ro: Film / prezentare a lucrării Exterior/Interior de Samovarteateret, o lucrare interdisciplinară despre felul în care tensiunile exterioare pătrund în viața interioară, urmată de o conversație cu artistul Samovarteateret Nikolay Shchetnev.
+  ru: Фильм / презентация работы Samovarteateret «Снаружи/Внутри» о том, как внешние напряжения проникают во внутреннюю жизнь, с последующим разговором с артистом Samovarteateret Nikolay Shchetnev.
 focus_label:
   en: Screening frame
   ro: Cadru de proiecție
   ru: Рамка показа
 focus:
-  en: Dance film · improvised music · theatre · intimacy · memory · discussion
-  ro: Film de dans · muzică improvizată · teatru · intimitate · memorie · discuție
-  ru: Танцевальный фильм · импровизационная музыка · театр · близость · память · обсуждение
+  en: Improvised music · dance · theatre · video · inner / outer tension · discussion
+  ro: Muzică improvizată · dans · teatru · video · tensiune interior / exterior · discuție
+  ru: Импровизационная музыка · танец · театр · видео · напряжение внешнего / внутреннего · обсуждение
 body:
-  en: |-
-    Outside/Inside moves between improvised music, dance, theatre, scenographic storytelling and video. The work considers how tensions from the outside world enter inner life, moving through identity, memory and destabilized conditions.
-
-    The Sea is a black-and-white dance film by Douglas Rosenberg, made on the Swedish island of Fårö. Through movement and the Baltic landscape, it traces ageing, solitude, intimacy and camaraderie among men in later life.
-
-    Together, the two films open a conversation about performance language, memory, the body and the worlds that shape it, with Samovarteateret artist Nikolay Shchetnev.
-  ro: |-
-    Exterior/Interior se mișcă între muzică improvizată, dans, teatru, narațiune scenografică și video. Lucrarea privește felul în care tensiunile lumii exterioare pătrund în viața interioară, trecând prin identitate, memorie și condiții destabilizate.
-
-    The Sea este un film de dans alb-negru de Douglas Rosenberg, realizat pe insula suedeză Fårö. Prin mișcare și peisajul Mării Baltice, filmul urmărește îmbătrânirea, singurătatea, intimitatea și camaraderia bărbaților aflați în a doua parte a vieții.
-
-    Împreună, cele două filme deschid o conversație despre limbajul performativ, memorie, corp și lumile care îl modelează, alături de artistul Samovarteateret Nikolay Shchetnev.
-  ru: |-
-    «Снаружи/Внутри» соединяет импровизационную музыку, танец, театр, сценографическое повествование и видео. Работа рассматривает, как напряжения внешнего мира проникают во внутреннюю жизнь, проходя через идентичность, память и нестабильные условия.
-
-    The Sea - чёрно-белый танцевальный фильм Дугласа Розенберга, снятый на шведском острове Фарё. Через движение и пейзаж Балтийского моря он исследует старение, одиночество, близость и товарищество мужчин в позднем возрасте.
-
-    Вместе эти два фильма открывают разговор о языке перформанса, памяти, теле и мирах, которые его формируют, с артистом Samovarteateret Nikolay Shchetnev.
+  en: Outside/Inside moves between improvised music, dance, theatre, scenographic storytelling and video. At Contact+, the work is presented as a film / presentation, opening a conversation about identity, memory, destabilized conditions and the performance language of the piece with Samovarteateret artist Nikolay Shchetnev.
+  ro: Exterior/Interior se mișcă între muzică improvizată, dans, teatru, narațiune scenografică și video. La Contact+, lucrarea este prezentată ca film / prezentare și deschide o conversație despre identitate, memorie, condiții destabilizate și limbajul performativ al piesei împreună cu artistul Samovarteateret Nikolay Shchetnev.
+  ru: «Снаружи/Внутри» соединяет импровизационную музыку, танец, театр, сценографическое повествование и видео. В Contact+ работа представлена как фильм и презентация и открывает разговор с артистом Samovarteateret Nikolay Shchetnev об идентичности, памяти, нестабильных условиях и перформативном языке работы.
 source_confidence: confirmed
 localization_status:
   en: ready_for_review
@@ -86,7 +65,7 @@ media:
   hero: outside-inside-hero-placeholder
   gallery: []
 related:
-  events: [seeing-and-being-seen]
+  events: [seeing-and-being-seen, the-sea-sweden]
   people: [samovarteateret, nikolay-shchetnev, benno-voorham]
 credits:
   full_source:
