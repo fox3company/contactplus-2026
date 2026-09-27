@@ -41,7 +41,7 @@ occurrences:
     date_label: "Sep 28"
     time_display: "20:00 — 23:00"
     sort_start: "2026-09-28T20:00:00"
-    location_ref: nod-space
+    location_ref: festival-studio
   - date: "2026-09-29"
     date_label: "Sep 29"
     time_display: "21:30 — 00:00"

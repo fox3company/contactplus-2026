@@ -4,9 +4,9 @@ publishing_status: ready_for_review
 program_line: ci
 filters: [ci]
 title:
-  en: Dynamic Flying
-  ro: Zbor dinamic
-  ru: Динамический полёт
+  en: CI Intensive
+  ro: Intensiv de Improvizație de contact
+  ru: Интенсив по контактной импровизации
 meta:
   category:
     en: CI Intensive
@@ -17,25 +17,17 @@ meta:
     ro: 3 zile
     ru: 3 дня
 summary:
-  en: A three-day Contact Improvisation intensive on lifts, momentum and the shared timing that makes flight possible.
-  ro: Un intensiv de trei zile de improvizație de contact despre ridicări, impuls și timing-ul comun care face zborul posibil.
-  ru: Трёхдневный интенсив по контактной импровизации о подъёмах, импульсе и общем тайминге, который делает полёт возможным.
-focus_label:
-  en: Practice focus
-  ro: Focus practic
-  ru: Фокус практики
-focus:
-  en: Lifts · momentum · timing · counterbalance · safe landings
-  ro: Ridicări · impuls · timing · contrapondere · aterizări sigure
-  ru: Подъёмы · импульс · тайминг · контрбаланс · безопасные приземления
+  en: A three-day Contact Improvisation intensive led by Petya Stoykova.
+  ro: Un intensiv de trei zile de improvizație de contact susținut de Petya Stoykova.
+  ru: Трёхдневный интенсив по контактной импровизации под руководством Пети Стойковой.
 body:
   en: >-
-    Dynamic Flying works with the energetic side of Contact Improvisation: moving through weight, redirecting force and finding lift without losing listening. The class approaches flying as something shared, shaped by timing, trust and clear landings.
+    A three-day Contact Improvisation intensive led by Petya Stoykova, forming part of the festival's core practice program.
   ro: >-
-    Zbor dinamic lucrează cu partea energetică a improvizației de contact: trecerea prin greutate, redirecționarea forței și găsirea ridicării fără a pierde ascultarea. Clasa privește zborul ca pe ceva împărtășit, construit din timing, încredere și aterizări clare.
+    Un intensiv de trei zile de improvizație de contact susținut de Petya Stoykova, parte din programul central de practică al festivalului.
   ru: >-
-    Динамический полёт работает с энергичной стороной контактной импровизации: переходом через вес, перенаправлением силы и возможностью находить подъём, не теряя слушания. Полёт здесь рассматривается как совместное событие, возникающее из тайминга, доверия и ясного возвращения на пол.
-source_confidence: confirmed
+    Трёхдневный интенсив по контактной импровизации под руководством Пети Стойковой, входящий в основную практическую программу фестиваля.
+source_confidence: working
 localization_status:
   en: ready_for_review
   ro: native_edit_needed
@@ -59,7 +51,7 @@ occurrences:
 location_ref: festival-studio
 people_label: With
 people:
-  - person_id: mirva-makinen
+  - person_id: petya-stoykova
     display_role: teacher
     public_visibility: visible
 media:
@@ -67,10 +59,10 @@ media:
   gallery: []
 related:
   events: []
-  people: [mirva-makinen]
+  people: [petya-stoykova]
 ---
 
-# Dynamic Flying
+# CI Intensive
 
 ## EN
 
@@ -78,24 +70,16 @@ related:
 CI 3-day intensive
 
 **Title**  
-Dynamic Flying
+CI Intensive
 
 **With**  
-Mirva Mäkinen · Finland
+Petya Stoykova · Bulgaria
 
 **Short description**  
-A three-day Contact Improvisation intensive focused on lifts, momentum and shared flight. Through timing, counterbalance and responsive partnering, the work looks for clear pathways into and out of the air.
-
-**Practice focus**  
-Lifts · momentum · timing · counterbalance · safe landings
+A three-day Contact Improvisation intensive led by Petya Stoykova.
 
 **Page body**  
-Dynamic Flying works with the energetic side of Contact Improvisation: moving through weight, redirecting force and finding lift without losing listening. The class approaches flying as a shared event, shaped by timing, trust and the ability to land with clarity.
-
-The intensive is best suited for movers with some previous experience in Contact Improvisation or partner work.
-
-**Media notes**  
-Recommended media: workshop photo, flying / lift image, short movement video.
+A three-day Contact Improvisation intensive led by Petya Stoykova, forming part of the festival's core practice program.
 
 ## RO
 
@@ -103,24 +87,16 @@ Recommended media: workshop photo, flying / lift image, short movement video.
 Intensiv de Improvizație de contact de 3 zile
 
 **Titlu**  
-Zbor dinamic
+Intensiv de Improvizație de contact
 
 **Cu**  
-Mirva Mäkinen · Finlanda
+Petya Stoykova · Bulgaria
 
 **Descriere scurtă**  
-Un intensiv de trei zile de improvizație de contact dedicat ridicărilor, impulsului și zborului împărtășit. Prin timing, contrapondere și ascultare în parteneriat, clasa caută trasee clare și sigure spre aer și înapoi spre sol.
-
-**Focus practic**  
-Ridicări · impuls · timing · contrapondere · aterizări sigure
+Un intensiv de trei zile de improvizație de contact susținut de Petya Stoykova.
 
 **Text de pagină**  
-Zbor dinamic lucrează cu partea energetică a improvizației de contact: trecerea prin greutate, redirecționarea forței și găsirea senzației de zbor fără a pierde ascultarea. Clasa privește zborul ca pe un eveniment împărtășit, susținut de timing, încredere și capacitatea de a reveni clar la sol.
-
-Intensivul este potrivit mai ales pentru persoane cu o experiență anterioară în improvizație de contact sau în lucrul cu partenerul.
-
-**Note media**  
-Media recomandată: fotografie de atelier, imagine cu ridicare / zbor, video scurt de mișcare.
+Un intensiv de trei zile de improvizație de contact susținut de Petya Stoykova, parte din programul central de practică al festivalului.
 
 ## RU
 
@@ -128,21 +104,13 @@ Media recomandată: fotografie de atelier, imagine cu ridicare / zbor, video scu
 CI 3-day intensive
 
 **Название**  
-Динамический полёт
+Интенсив по контактной импровизации
 
 **С кем**  
-Mirva Mäkinen · Finland
+Petya Stoykova · Bulgaria
 
 **Короткое описание**  
-Трёхдневный интенсив по контактной импровизации о подъёмах, импульсе и совместном полёте. Через тайминг, контрбаланс и внимательное партнёрство класс ищет ясные и безопасные пути в воздух и обратно к полу.
-
-**Practice focus**  
-Подъёмы · импульс · тайминг · контрбаланс · безопасные приземления
+Трёхдневный интенсив по контактной импровизации под руководством Пети Стойковой.
 
 **Текст страницы**  
-Динамический полёт работает с энергичной стороной контактной импровизации: переходом через вес, перенаправлением силы и возможностью находить подъём, не теряя слушания. Полёт здесь рассматривается как совместное событие, которое возникает из тайминга, доверия и способности ясно возвращаться к полу.
-
-Интенсив больше всего подойдёт участникам с некоторым опытом контактной импровизации или партнёрской работы.
-
-**Media notes**  
-Рекомендуемые материалы: фото с класса, изображение подъёма / полёта, короткое видео движения.
+Трёхдневный интенсив по контактной импровизации под руководством Пети Стойковой, входящий в основную практическую программу фестиваля.

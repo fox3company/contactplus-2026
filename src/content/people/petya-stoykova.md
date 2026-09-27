@@ -26,6 +26,8 @@ extended_profile:
 
     Она изучала балетную режиссуру в New Bulgarian University в Софии и продолжила обучение в международных танцевальных программах и мастерских. Наряду с работой в DUNE, она преподаёт современный танец в Бургасе и была приглашённой преподавательницей международных проектов в Болгарии, Молдове и Украине. Её хореография была отмечена премией Margarita Arnaudova за хореографию.
 festival_events:
+  - event_id: dynamic-flying
+    relation: teacher
   - event_id: youth-dance-class
     relation: teacher
   - event_id: lua
