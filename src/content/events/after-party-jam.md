@@ -41,7 +41,7 @@ occurrences:
     date_label: "Oct 1"
     time_display: "21:30 — 00:00"
     sort_start: "2026-10-01T21:30:00"
-location_ref: artcor-creative-hub
+location_ref: nod-space
 people_label: With
 people: []
 media:
