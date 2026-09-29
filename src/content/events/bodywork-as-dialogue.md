@@ -44,7 +44,7 @@ occurrences:
     date_label: "Sep 30"
     time_display: "15:30 — 18:30"
     sort_start: "2026-09-30T15:30:00"
-location_ref: festival-studio
+location_ref: nod-space
 people_label: With
 people:
   - person_id: sergey-semichev
