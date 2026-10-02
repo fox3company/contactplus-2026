@@ -4,30 +4,30 @@ publishing_status: working
 program_line: jam
 filters: [jam]
 title:
-  en: Ecstatic Dance & Celebration JAM
-  ro: Dans ecstatic și JAM de celebrare
-  ru: Экстатик-дэнс и праздничный JAM
+  en: Celebration JAM
+  ro: JAM de celebrare
+  ru: Праздничный JAM
 meta:
   category:
     en: JAM
     ro: JAM
     ru: JAM
 summary:
-  en: An ecstatic dance and celebratory final JAM for the main festival days.
-  ro: Un dans ecstatic și un JAM final de celebrare pentru zilele principale ale festivalului.
-  ru: Экстатик-дэнс и праздничный финальный JAM основных фестивальных дней.
+  en: A celebratory final JAM for the main festival days.
+  ro: Un JAM final de celebrare pentru zilele principale ale festivalului.
+  ru: Праздничный финальный JAM основных фестивальных дней.
 focus_label:
   en: Jam frame
   ro: Cadru JAM
   ru: Рамка JAM
 focus:
-  en: Ecstatic dance · celebration · final main JAM · integration
-  ro: Dans ecstatic · celebrare · JAM final principal · integrare
-  ru: Экстатик-дэнс · празднование · финальный основной JAM · интеграция
+  en: Celebration · final main JAM · integration
+  ro: Celebrare · JAM final principal · integrare
+  ru: Празднование · финальный основной JAM · интеграция
 body:
-  en: It brings the week’s intensity, fatigue, pleasure and connection into an ecstatic shared dance and final JAM.
-  ro: Reunește intensitatea, oboseala, plăcerea și conexiunea săptămânii într-un dans ecstatic comun și un JAM final.
-  ru: Он собирает интенсивность недели, усталость, радость и связь в общий экстатик-дэнс и финальный JAM.
+  en: It brings the week’s intensity, fatigue, pleasure and connection into a shared final JAM.
+  ro: Reunește intensitatea, oboseala, plăcerea și conexiunea săptămânii într-un JAM final comun.
+  ru: Он собирает интенсивность недели, усталость, радость и связь в общий финальный JAM.
 source_confidence: working
 localization_status:
   en: ready_for_review
@@ -52,4 +52,4 @@ related:
   people: []
 ---
 
-# Ecstatic Dance & Celebration JAM
+# Celebration JAM
