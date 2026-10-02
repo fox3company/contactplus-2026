@@ -57,7 +57,7 @@ occurrences:
     date_label: "Oct 3"
     time_display: "10:00 — 13:30"
     sort_start: "2026-10-03T10:00:00"
-location_ref: nod-space
+location_ref: festival-studio
 people_label: With
 people:
   - person_id: marina-baranova

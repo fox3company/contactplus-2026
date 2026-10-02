@@ -57,17 +57,17 @@ localization_status:
   ru: ready_for_review
 schedule:
   date_display: "Oct 3 — Oct 4"
-  time_display: "10:00 — 11:30"
+  time_display: "11:00 — 12:30"
 occurrences:
   - date: "2026-10-03"
     date_label: "Oct 3"
-    time_display: "10:00 — 11:30"
+    time_display: "11:00 — 12:30"
     sort_start: "2026-10-03T10:00:00"
   - date: "2026-10-04"
     date_label: "Oct 4"
-    time_display: "10:00 — 11:30"
+    time_display: "11:00 — 12:30"
     sort_start: "2026-10-04T10:00:00"
-location_ref: festival-studio
+location_ref: nod-space
 people_label: With
 people:
   - person_id: olek-wojcik
