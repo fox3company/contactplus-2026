@@ -34,13 +34,13 @@ localization_status:
   ro: native_edit_needed
   ru: ready_for_review
 schedule:
-  date_display: "Oct 4"
-  time_display: "Daytime"
+  date_display: "Oct 3"
+  time_display: "20:30 — 21:00"
 occurrences:
-  - date: "2026-10-04"
-    date_label: "Oct 4"
-    time_display: "Daytime"
-    sort_start: "2026-10-04T12:03:00"
+  - date: "2026-10-03"
+    date_label: "Oct 3"
+    time_display: "20:30 — 21:00"
+    sort_start: "2026-10-03T20:30:00"
 location_ref: nod-space
 people_label: With
 people: []

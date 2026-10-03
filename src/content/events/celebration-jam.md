@@ -4,26 +4,26 @@ publishing_status: working
 program_line: jam
 filters: [jam]
 title:
-  en: Celebration JAM
-  ro: JAM de celebrare
-  ru: Праздничный JAM
+  en: JAM
+  ro: JAM
+  ru: JAM
 meta:
   category:
     en: JAM
     ro: JAM
     ru: JAM
 summary:
-  en: A celebratory final JAM for the main festival days.
-  ro: Un JAM final de celebrare pentru zilele principale ale festivalului.
-  ru: Праздничный финальный JAM основных фестивальных дней.
+  en: A final JAM for the main festival days.
+  ro: Un JAM final pentru zilele principale ale festivalului.
+  ru: Финальный JAM основных фестивальных дней.
 focus_label:
   en: Jam frame
   ro: Cadru JAM
   ru: Рамка JAM
 focus:
-  en: Celebration · final main JAM · integration
-  ro: Celebrare · JAM final principal · integrare
-  ru: Празднование · финальный основной JAM · интеграция
+  en: Final main JAM · integration
+  ro: JAM final principal · integrare
+  ru: Финальный основной JAM · интеграция
 body:
   en: It brings the week’s intensity, fatigue, pleasure and connection into a shared final JAM.
   ro: Reunește intensitatea, oboseala, plăcerea și conexiunea săptămânii într-un JAM final comun.
@@ -35,12 +35,12 @@ localization_status:
   ru: ready_for_review
 schedule:
   date_display: "Oct 3"
-  time_display: "20:00 — 23:00"
+  time_display: "21:00 — 23:00"
 occurrences:
   - date: "2026-10-03"
     date_label: "Oct 3"
-    time_display: "20:00 — 23:00"
-    sort_start: "2026-10-03T20:00:00"
+    time_display: "21:00 — 23:00"
+    sort_start: "2026-10-03T21:00:00"
 location_ref: nod-space
 people_label: With
 people: []
@@ -52,4 +52,4 @@ related:
   people: []
 ---
 
-# Celebration JAM
+# JAM

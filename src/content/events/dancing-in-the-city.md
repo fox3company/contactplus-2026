@@ -35,12 +35,12 @@ localization_status:
   ru: ready_for_review
 schedule:
   date_display: "Oct 4"
-  time_display: "Daytime"
+  time_display: "Following the meeting"
 occurrences:
   - date: "2026-10-04"
     date_label: "Oct 4"
-    time_display: "Daytime"
-    sort_start: "2026-10-04T12:00:00"
+    time_display: "Following the meeting"
+    sort_start: "2026-10-04T15:31:00"
 location_ref: chisinau-city-centre
 people_label: With
 people: []

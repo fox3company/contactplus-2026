@@ -62,11 +62,11 @@ occurrences:
   - date: "2026-10-03"
     date_label: "Oct 3"
     time_display: "11:00 — 12:30"
-    sort_start: "2026-10-03T10:00:00"
+    sort_start: "2026-10-03T11:00:00"
   - date: "2026-10-04"
     date_label: "Oct 4"
     time_display: "11:00 — 12:30"
-    sort_start: "2026-10-04T10:00:00"
+    sort_start: "2026-10-04T11:00:00"
 location_ref: nod-space
 people_label: With
 people:

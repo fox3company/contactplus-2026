@@ -26,8 +26,8 @@ localization_status:
   ro: native_edit_needed
   ru: ready_for_review
 schedule:
-  date_display: "Sep 26 — Oct 3"
-  time_display: "13:30 — 15:30"
+  date_display: "Sep 26 — Oct 4"
+  time_display: "varies"
 occurrences:
   - date: "2026-09-26"
     date_label: "Sep 26"
@@ -61,6 +61,10 @@ occurrences:
     date_label: "Oct 3"
     time_display: "13:30 — 15:30"
     sort_start: "2026-10-03T13:30:00"
+  - date: "2026-10-04"
+    date_label: "Oct 4"
+    time_display: "14:00"
+    sort_start: "2026-10-04T14:00:00"
 people_label: With
 people: []
 media:

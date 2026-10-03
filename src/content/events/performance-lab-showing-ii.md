@@ -35,12 +35,12 @@ localization_status:
   ru: ready_for_review
 schedule:
   date_display: "Oct 3"
-  time_display: "18:30 — 19:30"
+  time_display: "19:30 — 20:30"
 occurrences:
   - date: "2026-10-03"
     date_label: "Oct 3"
-    time_display: "18:30 — 19:30"
-    sort_start: "2026-10-03T18:30:00"
+    time_display: "19:30 — 20:30"
+    sort_start: "2026-10-03T19:30:00"
 location_ref: nod-space
 people_label: With
 people:
