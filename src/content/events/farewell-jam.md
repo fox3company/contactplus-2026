@@ -4,30 +4,30 @@ publishing_status: working
 program_line: jam
 filters: [jam]
 title:
-  en: Farewell JAM
-  ro: JAM de rămas-bun
-  ru: Прощальный JAM
+  en: Celebration JAM
+  ro: JAM de celebrare
+  ru: Праздничный JAM
 meta:
   category:
     en: JAM
     ro: JAM
     ru: JAM
 summary:
-  en: A final open dancing space to gather what the festival has opened.
-  ro: Un ultim spațiu deschis de dans pentru a aduna ceea ce festivalul a deschis.
-  ru: Последнее открытое пространство танца, чтобы собрать то, что открыл фестиваль.
+  en: A celebratory open dancing space for the closing day.
+  ro: Un spațiu deschis de dans și celebrare pentru ziua de închidere.
+  ru: Открытое пространство танца и празднования в заключительный день.
 focus_label:
   en: Jam frame
   ro: Cadru JAM
   ru: Рамка JAM
 focus:
-  en: Integration · farewell · open dancing
-  ro: Integrare · rămas-bun · dans deschis
-  ru: Интеграция · прощание · открытый танец
+  en: Celebration · integration · open dancing
+  ro: Celebrare · integrare · dans deschis
+  ru: Празднование · интеграция · открытый танец
 body:
-  en: A gentle farewell through movement, touch and shared presence.
-  ro: Un rămas-bun blând prin mișcare, atingere și prezență comună.
-  ru: Мягкое прощание через движение, прикосновение и общее присутствие.
+  en: A shared celebration through movement, touch and presence.
+  ro: O celebrare comună prin mișcare, atingere și prezență.
+  ru: Общее празднование через движение, прикосновение и присутствие.
 source_confidence: working
 localization_status:
   en: ready_for_review
@@ -52,4 +52,4 @@ related:
   people: []
 ---
 
-# Farewell JAM
+# Celebration JAM
